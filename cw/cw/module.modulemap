@@ -1,0 +1,6 @@
+framework module cw {
+	umbrella header "cw.hpp"
+	
+	export *
+	module * { export * }
+}

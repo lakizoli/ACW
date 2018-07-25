@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:cw/cw.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:adb/adb.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:acwios/acwios.xcodeproj">
+   </FileRef>
+</Workspace>

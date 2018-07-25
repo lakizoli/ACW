@@ -1,0 +1,6 @@
+framework module adb {
+	umbrella header "adb.hpp"
+	
+	export *
+	module * { export * }
+}
