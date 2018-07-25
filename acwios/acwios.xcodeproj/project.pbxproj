@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FDCD521921084C860081FE4D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCD521821084C860081FE4D /* AppDelegate.m */; };
-		FDCD521C21084C860081FE4D /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCD521B21084C860081FE4D /* ViewController.m */; };
+		FDCD521921084C860081FE4D /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = FDCD521821084C860081FE4D /* AppDelegate.mm */; };
+		FDCD521C21084C860081FE4D /* MainViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = FDCD521B21084C860081FE4D /* MainViewController.mm */; };
 		FDCD521F21084C860081FE4D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FDCD521D21084C860081FE4D /* Main.storyboard */; };
 		FDCD522121084C880081FE4D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FDCD522021084C880081FE4D /* Assets.xcassets */; };
 		FDCD522421084C880081FE4D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FDCD522221084C880081FE4D /* LaunchScreen.storyboard */; };
@@ -17,6 +17,7 @@
 		FDCD5278210855B90081FE4D /* cw.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FDCD5275210855AC0081FE4D /* cw.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FDCD5279210855B90081FE4D /* adb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FDCD5273210855AC0081FE4D /* adb.framework */; };
 		FDCD527A210855B90081FE4D /* adb.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FDCD5273210855AC0081FE4D /* adb.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		FDCD52802108682C0081FE4D /* AnkiDownloadViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = FDCD527F2108682C0081FE4D /* AnkiDownloadViewController.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -37,9 +38,9 @@
 /* Begin PBXFileReference section */
 		FDCD521421084C860081FE4D /* acwios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = acwios.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDCD521721084C860081FE4D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		FDCD521821084C860081FE4D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		FDCD521A21084C860081FE4D /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		FDCD521B21084C860081FE4D /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		FDCD521821084C860081FE4D /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
+		FDCD521A21084C860081FE4D /* MainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		FDCD521B21084C860081FE4D /* MainViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = MainViewController.mm; sourceTree = "<group>"; };
 		FDCD521E21084C860081FE4D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FDCD522021084C880081FE4D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FDCD522321084C880081FE4D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -47,6 +48,8 @@
 		FDCD522621084C880081FE4D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		FDCD5273210855AC0081FE4D /* adb.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = adb.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDCD5275210855AC0081FE4D /* cw.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = cw.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FDCD527E2108682C0081FE4D /* AnkiDownloadViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnkiDownloadViewController.h; sourceTree = "<group>"; };
+		FDCD527F2108682C0081FE4D /* AnkiDownloadViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AnkiDownloadViewController.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,9 +86,11 @@
 			isa = PBXGroup;
 			children = (
 				FDCD521721084C860081FE4D /* AppDelegate.h */,
-				FDCD521821084C860081FE4D /* AppDelegate.m */,
-				FDCD521A21084C860081FE4D /* ViewController.h */,
-				FDCD521B21084C860081FE4D /* ViewController.m */,
+				FDCD521821084C860081FE4D /* AppDelegate.mm */,
+				FDCD521A21084C860081FE4D /* MainViewController.h */,
+				FDCD521B21084C860081FE4D /* MainViewController.mm */,
+				FDCD527E2108682C0081FE4D /* AnkiDownloadViewController.h */,
+				FDCD527F2108682C0081FE4D /* AnkiDownloadViewController.mm */,
 				FDCD521D21084C860081FE4D /* Main.storyboard */,
 				FDCD522021084C880081FE4D /* Assets.xcassets */,
 				FDCD522221084C880081FE4D /* LaunchScreen.storyboard */,
@@ -175,9 +180,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FDCD521C21084C860081FE4D /* ViewController.m in Sources */,
+				FDCD521C21084C860081FE4D /* MainViewController.mm in Sources */,
+				FDCD52802108682C0081FE4D /* AnkiDownloadViewController.mm in Sources */,
 				FDCD522721084C880081FE4D /* main.m in Sources */,
-				FDCD521921084C860081FE4D /* AppDelegate.m in Sources */,
+				FDCD521921084C860081FE4D /* AppDelegate.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

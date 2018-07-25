@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  AnkiDownloadViewController.h
 //  acwios
 //
 //  Created by Laki, Zoltan on 2018. 07. 25..
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface AnkiDownloadViewController : UIViewController
 
 @end
-
