@@ -18,6 +18,7 @@
 		FDCD5279210855B90081FE4D /* adb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FDCD5273210855AC0081FE4D /* adb.framework */; };
 		FDCD527A210855B90081FE4D /* adb.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FDCD5273210855AC0081FE4D /* adb.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FDCD52802108682C0081FE4D /* AnkiDownloadViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = FDCD527F2108682C0081FE4D /* AnkiDownloadViewController.mm */; };
+		FDCD52862109A6030081FE4D /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FDCD52852109A6030081FE4D /* WebKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -50,6 +51,7 @@
 		FDCD5275210855AC0081FE4D /* cw.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = cw.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDCD527E2108682C0081FE4D /* AnkiDownloadViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnkiDownloadViewController.h; sourceTree = "<group>"; };
 		FDCD527F2108682C0081FE4D /* AnkiDownloadViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AnkiDownloadViewController.mm; sourceTree = "<group>"; };
+		FDCD52852109A6030081FE4D /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FDCD52862109A6030081FE4D /* WebKit.framework in Frameworks */,
 				FDCD5279210855B90081FE4D /* adb.framework in Frameworks */,
 				FDCD5277210855B90081FE4D /* cw.framework in Frameworks */,
 			);
@@ -103,6 +106,7 @@
 		FDCD5272210855AC0081FE4D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FDCD52852109A6030081FE4D /* WebKit.framework */,
 				FDCD5273210855AC0081FE4D /* adb.framework */,
 				FDCD5275210855AC0081FE4D /* cw.framework */,
 			);

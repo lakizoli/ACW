@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <WebKit/WebKit.h>
 
-@interface AnkiDownloadViewController : UIViewController
+@interface AnkiDownloadViewController : UIViewController<WKNavigationDelegate>
 
 @end

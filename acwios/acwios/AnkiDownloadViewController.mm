@@ -10,13 +10,23 @@
 
 @interface AnkiDownloadViewController ()
 
+@property (weak, nonatomic) IBOutlet WKWebView *webView;
+@property (weak, nonatomic) IBOutlet UIView *progressContainerView;
+
 @end
 
 @implementation AnkiDownloadViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+	
+	//Init web view
+	[[self webView] setNavigationDelegate:self];
+	
+    //Browse anki sheets site
+	NSURL* url = [NSURL URLWithString:@"https://ankiweb.net/shared/decks/"];
+	NSURLRequest* req = [NSURLRequest requestWithURL:url];
+	[[self webView] loadRequest:req];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -24,14 +34,40 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
+#pragma mark - Event handlers
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (IBAction)backButtonPressed:(id)sender {
+	[self dismissViewControllerAnimated:YES completion:nil];
 }
-*/
+
+#pragma mark - Web navigation
+
+- (void)webView:(WKWebView *)webView
+decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction
+decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
+{
+	//Catch package download
+	bool requestHandled = false;
+	if (navigationAction.navigationType == WKNavigationTypeFormSubmitted ||
+		navigationAction.navigationType == WKNavigationTypeFormResubmitted)
+	{
+		NSString* urlContent = [[[navigationAction request] URL] absoluteString];
+		if ([urlContent localizedCaseInsensitiveContainsString:@"download"] == YES &&
+			[urlContent localizedCaseInsensitiveContainsString:@"?"] == YES)
+		{
+			[[self progressContainerView] setHidden:NO];
+			
+			NSLog (@"navigating to url: %@", [[navigationAction request] URL]);
+			//NSLog (@"navigation action: %@", navigationAction);
+			
+			decisionHandler (WKNavigationActionPolicyCancel);
+			requestHandled = true;
+		}
+	}
+	
+	if (!requestHandled) {
+		decisionHandler (WKNavigationActionPolicyAllow);
+	}
+}
 
 @end
