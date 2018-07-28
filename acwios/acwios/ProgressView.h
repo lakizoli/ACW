@@ -18,4 +18,6 @@
 @property (nonatomic) IBInspectable NSString *buttonLabel;
 @property (nonatomic) IBInspectable float progressValue;
 
+@property (nonatomic) void (^onButtonPressed) (void);
+
 @end

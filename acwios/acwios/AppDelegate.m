@@ -16,6 +16,10 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+#if TARGET_IPHONE_SIMULATOR
+	NSLog (@"Simulator : %@", NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask, YES)[0]);
+#endif
+	
 	// Override point for customization after application launch.
 	return YES;
 }

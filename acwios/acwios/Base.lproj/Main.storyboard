@@ -101,6 +101,9 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h5Q-r8-kon" userLabel="Button">
                                         <rect key="frame" x="118" y="81" width="64" height="30"/>
                                         <state key="normal" title="&lt;button&gt;"/>
+                                        <connections>
+                                            <action selector="buttonPressed:" destination="6OM-z7-1Pn" eventType="touchUpInside" id="kW8-ny-EiL"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>

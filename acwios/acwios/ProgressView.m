@@ -104,7 +104,13 @@ IB_DESIGNABLE
     }
 }
 
-#pragma mark - Events
+#pragma mark - Event handlers
+
+- (IBAction)buttonPressed:(id)sender {
+	if (_onButtonPressed) {
+		_onButtonPressed ();
+	}
+}
 
 
 @end

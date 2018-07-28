@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F0C91BA4210C690000B06070 /* ProgressView.mm in Sources */ = {isa = PBXBuildFile; fileRef = F0C91BA3210C690000B06070 /* ProgressView.mm */; };
-		FDCD521921084C860081FE4D /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = FDCD521821084C860081FE4D /* AppDelegate.mm */; };
-		FDCD521C21084C860081FE4D /* MainViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = FDCD521B21084C860081FE4D /* MainViewController.mm */; };
+		F092DB1F210CA5AA006B4DC6 /* Downloader.m in Sources */ = {isa = PBXBuildFile; fileRef = F092DB1E210CA5AA006B4DC6 /* Downloader.m */; };
+		F0C91BA4210C690000B06070 /* ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = F0C91BA3210C690000B06070 /* ProgressView.m */; };
+		FDCD521921084C860081FE4D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCD521821084C860081FE4D /* AppDelegate.m */; };
+		FDCD521C21084C860081FE4D /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCD521B21084C860081FE4D /* MainViewController.m */; };
 		FDCD521F21084C860081FE4D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FDCD521D21084C860081FE4D /* Main.storyboard */; };
 		FDCD522121084C880081FE4D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FDCD522021084C880081FE4D /* Assets.xcassets */; };
 		FDCD522421084C880081FE4D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FDCD522221084C880081FE4D /* LaunchScreen.storyboard */; };
@@ -18,7 +19,7 @@
 		FDCD5278210855B90081FE4D /* cw.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FDCD5275210855AC0081FE4D /* cw.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FDCD5279210855B90081FE4D /* adb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FDCD5273210855AC0081FE4D /* adb.framework */; };
 		FDCD527A210855B90081FE4D /* adb.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FDCD5273210855AC0081FE4D /* adb.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		FDCD52802108682C0081FE4D /* AnkiDownloadViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = FDCD527F2108682C0081FE4D /* AnkiDownloadViewController.mm */; };
+		FDCD52802108682C0081FE4D /* AnkiDownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCD527F2108682C0081FE4D /* AnkiDownloadViewController.m */; };
 		FDCD52862109A6030081FE4D /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FDCD52852109A6030081FE4D /* WebKit.framework */; };
 /* End PBXBuildFile section */
 
@@ -38,13 +39,15 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F092DB1D210CA5AA006B4DC6 /* Downloader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Downloader.h; sourceTree = "<group>"; };
+		F092DB1E210CA5AA006B4DC6 /* Downloader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Downloader.m; sourceTree = "<group>"; };
 		F0C91BA2210C690000B06070 /* ProgressView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProgressView.h; sourceTree = "<group>"; };
-		F0C91BA3210C690000B06070 /* ProgressView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ProgressView.mm; sourceTree = "<group>"; };
+		F0C91BA3210C690000B06070 /* ProgressView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProgressView.m; sourceTree = "<group>"; };
 		FDCD521421084C860081FE4D /* acwios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = acwios.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDCD521721084C860081FE4D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		FDCD521821084C860081FE4D /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
+		FDCD521821084C860081FE4D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		FDCD521A21084C860081FE4D /* MainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
-		FDCD521B21084C860081FE4D /* MainViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = MainViewController.mm; sourceTree = "<group>"; };
+		FDCD521B21084C860081FE4D /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		FDCD521E21084C860081FE4D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FDCD522021084C880081FE4D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FDCD522321084C880081FE4D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -53,7 +56,7 @@
 		FDCD5273210855AC0081FE4D /* adb.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = adb.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDCD5275210855AC0081FE4D /* cw.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = cw.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDCD527E2108682C0081FE4D /* AnkiDownloadViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnkiDownloadViewController.h; sourceTree = "<group>"; };
-		FDCD527F2108682C0081FE4D /* AnkiDownloadViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AnkiDownloadViewController.mm; sourceTree = "<group>"; };
+		FDCD527F2108682C0081FE4D /* AnkiDownloadViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AnkiDownloadViewController.m; sourceTree = "<group>"; };
 		FDCD52852109A6030081FE4D /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -91,19 +94,21 @@
 		FDCD521621084C860081FE4D /* acwios */ = {
 			isa = PBXGroup;
 			children = (
-				FDCD521721084C860081FE4D /* AppDelegate.h */,
-				FDCD521821084C860081FE4D /* AppDelegate.mm */,
-				FDCD521A21084C860081FE4D /* MainViewController.h */,
-				FDCD521B21084C860081FE4D /* MainViewController.mm */,
-				FDCD527E2108682C0081FE4D /* AnkiDownloadViewController.h */,
-				FDCD527F2108682C0081FE4D /* AnkiDownloadViewController.mm */,
-				F0C91BA2210C690000B06070 /* ProgressView.h */,
-				F0C91BA3210C690000B06070 /* ProgressView.mm */,
 				FDCD521D21084C860081FE4D /* Main.storyboard */,
 				FDCD522021084C880081FE4D /* Assets.xcassets */,
 				FDCD522221084C880081FE4D /* LaunchScreen.storyboard */,
 				FDCD522521084C880081FE4D /* Info.plist */,
 				FDCD522621084C880081FE4D /* main.m */,
+				FDCD521721084C860081FE4D /* AppDelegate.h */,
+				FDCD521821084C860081FE4D /* AppDelegate.m */,
+				FDCD521A21084C860081FE4D /* MainViewController.h */,
+				FDCD521B21084C860081FE4D /* MainViewController.m */,
+				FDCD527E2108682C0081FE4D /* AnkiDownloadViewController.h */,
+				FDCD527F2108682C0081FE4D /* AnkiDownloadViewController.m */,
+				F0C91BA2210C690000B06070 /* ProgressView.h */,
+				F0C91BA3210C690000B06070 /* ProgressView.m */,
+				F092DB1D210CA5AA006B4DC6 /* Downloader.h */,
+				F092DB1E210CA5AA006B4DC6 /* Downloader.m */,
 			);
 			path = acwios;
 			sourceTree = "<group>";
@@ -189,11 +194,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FDCD521C21084C860081FE4D /* MainViewController.mm in Sources */,
-				F0C91BA4210C690000B06070 /* ProgressView.mm in Sources */,
-				FDCD52802108682C0081FE4D /* AnkiDownloadViewController.mm in Sources */,
+				FDCD521C21084C860081FE4D /* MainViewController.m in Sources */,
+				F0C91BA4210C690000B06070 /* ProgressView.m in Sources */,
+				F092DB1F210CA5AA006B4DC6 /* Downloader.m in Sources */,
+				FDCD52802108682C0081FE4D /* AnkiDownloadViewController.m in Sources */,
 				FDCD522721084C880081FE4D /* main.m in Sources */,
-				FDCD521921084C860081FE4D /* AppDelegate.mm in Sources */,
+				FDCD521921084C860081FE4D /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
