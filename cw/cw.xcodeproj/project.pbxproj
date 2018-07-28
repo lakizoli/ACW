@@ -93,7 +93,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0940;
-				ORGANIZATIONNAME = "Immortal Games";
+				ORGANIZATIONNAME = ZApp;
 				TargetAttributes = {
 					FDCD52662108556B0081FE4D = {
 						CreatedOnToolsVersion = 9.4.1;

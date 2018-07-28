@@ -86,14 +86,53 @@
                                     <wkPreferences key="preferences"/>
                                 </wkWebViewConfiguration>
                             </wkWebView>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6OM-z7-1Pn">
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6OM-z7-1Pn" customClass="ProgressView">
                                 <rect key="frame" x="37.5" y="269.5" width="300" height="128"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&lt;progress&gt;" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bSR-CA-Z5W">
+                                        <rect key="frame" x="106" y="21.5" width="89" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="pd1-SS-eqE">
+                                        <rect key="frame" x="15" y="63" width="270" height="2"/>
+                                    </progressView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h5Q-r8-kon" userLabel="Button">
+                                        <rect key="frame" x="118" y="81" width="64" height="30"/>
+                                        <state key="normal" title="&lt;button&gt;"/>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="300" id="38D-YZ-rfb"/>
+                                    <constraint firstAttribute="bottom" secondItem="h5Q-r8-kon" secondAttribute="centerY" multiplier="4:3" id="4v1-oe-OuA"/>
+                                    <constraint firstAttribute="bottom" secondItem="pd1-SS-eqE" secondAttribute="centerY" multiplier="4:2" id="JmQ-c8-B4U"/>
+                                    <constraint firstAttribute="trailing" secondItem="pd1-SS-eqE" secondAttribute="trailing" constant="15" id="Oa4-U0-91R"/>
+                                    <constraint firstAttribute="bottom" secondItem="bSR-CA-Z5W" secondAttribute="centerY" multiplier="4:1" id="W4R-01-zdK"/>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="600" id="XSh-Gc-hNN"/>
+                                    <constraint firstItem="pd1-SS-eqE" firstAttribute="leading" secondItem="6OM-z7-1Pn" secondAttribute="leading" constant="15" id="Ysi-xb-AJI"/>
+                                    <constraint firstItem="bSR-CA-Z5W" firstAttribute="centerX" secondItem="6OM-z7-1Pn" secondAttribute="centerX" id="dHC-a2-0k8"/>
                                     <constraint firstAttribute="height" constant="128" id="h6m-Aw-Wv1"/>
+                                    <constraint firstItem="pd1-SS-eqE" firstAttribute="centerX" secondItem="bSR-CA-Z5W" secondAttribute="centerX" id="p9j-5N-dbs"/>
+                                    <constraint firstItem="h5Q-r8-kon" firstAttribute="centerX" secondItem="bSR-CA-Z5W" secondAttribute="centerX" id="wGr-WU-KWY"/>
                                 </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <integer key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                        <integer key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                        <color key="value" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <outlet property="button" destination="h5Q-r8-kon" id="VDQ-ch-TMY"/>
+                                    <outlet property="progressLabel" destination="bSR-CA-Z5W" id="IdM-gx-xcJ"/>
+                                    <outlet property="progressView" destination="pd1-SS-eqE" id="4nK-7e-dlQ"/>
+                                </connections>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -113,13 +152,13 @@
                         <viewLayoutGuide key="safeArea" id="s5g-5g-7Vf"/>
                     </view>
                     <connections>
-                        <outlet property="progressContainerView" destination="6OM-z7-1Pn" id="emq-s3-Ntq"/>
+                        <outlet property="progressView" destination="6OM-z7-1Pn" id="8gX-0v-Q4S"/>
                         <outlet property="webView" destination="Isi-1n-eoC" id="537-mz-8rQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nzB-Ot-Z2L" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="986.95652173913049" y="-178.53260869565219"/>
+            <point key="canvasLocation" x="986.39999999999998" y="-178.56071964017991"/>
         </scene>
     </scenes>
     <resources>

@@ -3,15 +3,16 @@
 //  acwios
 //
 //  Created by Laki, Zoltan on 2018. 07. 25..
-//  Copyright © 2018. Immortal Games. All rights reserved.
+//  Copyright © 2018. ZApp. All rights reserved.
 //
 
 #import "AnkiDownloadViewController.h"
+#import "ProgressView.h"
 
 @interface AnkiDownloadViewController ()
 
 @property (weak, nonatomic) IBOutlet WKWebView *webView;
-@property (weak, nonatomic) IBOutlet UIView *progressContainerView;
+@property (weak, nonatomic) IBOutlet ProgressView *progressView;
 
 @end
 
@@ -55,7 +56,10 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
 		if ([urlContent localizedCaseInsensitiveContainsString:@"download"] == YES &&
 			[urlContent localizedCaseInsensitiveContainsString:@"?"] == YES)
 		{
-			[[self progressContainerView] setHidden:NO];
+			[_progressView setButtonLabel:@"Cancel"];
+			[_progressView setLabelContent:@"Downloading package..."];
+			[_progressView setProgressValue:0];
+			[_progressView setHidden:NO];
 			
 			NSLog (@"navigating to url: %@", [[navigationAction request] URL]);
 			//NSLog (@"navigation action: %@", navigationAction);

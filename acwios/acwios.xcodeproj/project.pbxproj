@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F0C91BA4210C690000B06070 /* ProgressView.mm in Sources */ = {isa = PBXBuildFile; fileRef = F0C91BA3210C690000B06070 /* ProgressView.mm */; };
 		FDCD521921084C860081FE4D /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = FDCD521821084C860081FE4D /* AppDelegate.mm */; };
 		FDCD521C21084C860081FE4D /* MainViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = FDCD521B21084C860081FE4D /* MainViewController.mm */; };
 		FDCD521F21084C860081FE4D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FDCD521D21084C860081FE4D /* Main.storyboard */; };
@@ -37,6 +38,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F0C91BA2210C690000B06070 /* ProgressView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProgressView.h; sourceTree = "<group>"; };
+		F0C91BA3210C690000B06070 /* ProgressView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ProgressView.mm; sourceTree = "<group>"; };
 		FDCD521421084C860081FE4D /* acwios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = acwios.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDCD521721084C860081FE4D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FDCD521821084C860081FE4D /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
@@ -94,6 +97,8 @@
 				FDCD521B21084C860081FE4D /* MainViewController.mm */,
 				FDCD527E2108682C0081FE4D /* AnkiDownloadViewController.h */,
 				FDCD527F2108682C0081FE4D /* AnkiDownloadViewController.mm */,
+				F0C91BA2210C690000B06070 /* ProgressView.h */,
+				F0C91BA3210C690000B06070 /* ProgressView.mm */,
 				FDCD521D21084C860081FE4D /* Main.storyboard */,
 				FDCD522021084C880081FE4D /* Assets.xcassets */,
 				FDCD522221084C880081FE4D /* LaunchScreen.storyboard */,
@@ -141,7 +146,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0940;
-				ORGANIZATIONNAME = "Immortal Games";
+				ORGANIZATIONNAME = ZApp;
 				TargetAttributes = {
 					FDCD521321084C860081FE4D = {
 						CreatedOnToolsVersion = 9.4.1;
@@ -185,6 +190,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FDCD521C21084C860081FE4D /* MainViewController.mm in Sources */,
+				F0C91BA4210C690000B06070 /* ProgressView.mm in Sources */,
 				FDCD52802108682C0081FE4D /* AnkiDownloadViewController.mm in Sources */,
 				FDCD522721084C880081FE4D /* main.m in Sources */,
 				FDCD521921084C860081FE4D /* AppDelegate.mm in Sources */,
