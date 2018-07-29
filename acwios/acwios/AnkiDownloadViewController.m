@@ -65,11 +65,11 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
 				_downloader = [Downloader downloadFile:url progressHandler:^(uint64_t pos, uint64_t size) {
 					dispatch_async (dispatch_get_main_queue (), ^{
 						NSString *progress = [Downloader createDataProgressLabel:pos size:size];
-						NSString *label = [NSString stringWithFormat:@"Downloading (%@)...", progress];
+						NSString *label = [NSString stringWithFormat:@"%@", progress];
 						[self->_progressView setLabelContent:label];
 						
 						if (size > 0) {
-							float percent = pos / size;
+							float percent = (float)pos / (float)size;
 							[self->_progressView setProgressValue:percent];
 						}
 					});

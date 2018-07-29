@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		F092DB1F210CA5AA006B4DC6 /* Downloader.m in Sources */ = {isa = PBXBuildFile; fileRef = F092DB1E210CA5AA006B4DC6 /* Downloader.m */; };
+		F09B2053210D67B400398B2E /* ChoosePackageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F09B2052210D67B400398B2E /* ChoosePackageViewController.m */; };
+		F09B2056210D742B00398B2E /* SubscriptionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F09B2055210D742B00398B2E /* SubscriptionManager.m */; };
+		F09B2059210D7C9200398B2E /* PackageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F09B2058210D7C9200398B2E /* PackageManager.m */; };
+		F09B205C210D7D3B00398B2E /* Package.m in Sources */ = {isa = PBXBuildFile; fileRef = F09B205B210D7D3B00398B2E /* Package.m */; };
 		F0C91BA4210C690000B06070 /* ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = F0C91BA3210C690000B06070 /* ProgressView.m */; };
 		FDCD521921084C860081FE4D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCD521821084C860081FE4D /* AppDelegate.m */; };
 		FDCD521C21084C860081FE4D /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCD521B21084C860081FE4D /* MainViewController.m */; };
@@ -41,6 +45,14 @@
 /* Begin PBXFileReference section */
 		F092DB1D210CA5AA006B4DC6 /* Downloader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Downloader.h; sourceTree = "<group>"; };
 		F092DB1E210CA5AA006B4DC6 /* Downloader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Downloader.m; sourceTree = "<group>"; };
+		F09B2051210D67B400398B2E /* ChoosePackageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChoosePackageViewController.h; sourceTree = "<group>"; };
+		F09B2052210D67B400398B2E /* ChoosePackageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChoosePackageViewController.m; sourceTree = "<group>"; };
+		F09B2054210D742B00398B2E /* SubscriptionManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SubscriptionManager.h; sourceTree = "<group>"; };
+		F09B2055210D742B00398B2E /* SubscriptionManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SubscriptionManager.m; sourceTree = "<group>"; };
+		F09B2057210D7C9200398B2E /* PackageManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PackageManager.h; sourceTree = "<group>"; };
+		F09B2058210D7C9200398B2E /* PackageManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PackageManager.m; sourceTree = "<group>"; };
+		F09B205A210D7D3B00398B2E /* Package.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Package.h; sourceTree = "<group>"; };
+		F09B205B210D7D3B00398B2E /* Package.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Package.m; sourceTree = "<group>"; };
 		F0C91BA2210C690000B06070 /* ProgressView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProgressView.h; sourceTree = "<group>"; };
 		F0C91BA3210C690000B06070 /* ProgressView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProgressView.m; sourceTree = "<group>"; };
 		FDCD521421084C860081FE4D /* acwios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = acwios.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -105,10 +117,18 @@
 				FDCD521B21084C860081FE4D /* MainViewController.m */,
 				FDCD527E2108682C0081FE4D /* AnkiDownloadViewController.h */,
 				FDCD527F2108682C0081FE4D /* AnkiDownloadViewController.m */,
+				F09B2051210D67B400398B2E /* ChoosePackageViewController.h */,
+				F09B2052210D67B400398B2E /* ChoosePackageViewController.m */,
 				F0C91BA2210C690000B06070 /* ProgressView.h */,
 				F0C91BA3210C690000B06070 /* ProgressView.m */,
 				F092DB1D210CA5AA006B4DC6 /* Downloader.h */,
 				F092DB1E210CA5AA006B4DC6 /* Downloader.m */,
+				F09B2054210D742B00398B2E /* SubscriptionManager.h */,
+				F09B2055210D742B00398B2E /* SubscriptionManager.m */,
+				F09B205A210D7D3B00398B2E /* Package.h */,
+				F09B205B210D7D3B00398B2E /* Package.m */,
+				F09B2057210D7C9200398B2E /* PackageManager.h */,
+				F09B2058210D7C9200398B2E /* PackageManager.m */,
 			);
 			path = acwios;
 			sourceTree = "<group>";
@@ -194,12 +214,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F09B2056210D742B00398B2E /* SubscriptionManager.m in Sources */,
 				FDCD521C21084C860081FE4D /* MainViewController.m in Sources */,
+				F09B205C210D7D3B00398B2E /* Package.m in Sources */,
 				F0C91BA4210C690000B06070 /* ProgressView.m in Sources */,
 				F092DB1F210CA5AA006B4DC6 /* Downloader.m in Sources */,
 				FDCD52802108682C0081FE4D /* AnkiDownloadViewController.m in Sources */,
+				F09B2053210D67B400398B2E /* ChoosePackageViewController.m in Sources */,
 				FDCD522721084C880081FE4D /* main.m in Sources */,
 				FDCD521921084C860081FE4D /* AppDelegate.m in Sources */,
+				F09B2059210D7C9200398B2E /* PackageManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

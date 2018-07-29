@@ -1,5 +1,5 @@
 //
-//  Downloader.mm
+//  Downloader.m
 //  acwios
 //
 //  Created by Laki Zoltán on 2018. 07. 28..
@@ -83,7 +83,7 @@
 		sizeAmount = size;
 	}
 	
-	return [NSString stringWithFormat:@"%.2f%@/%.2f%@", posAmount, posItem, sizeAmount, sizeItem];
+	return [NSString stringWithFormat:@"%.2f%@ / %.2f%@", posAmount, posItem, sizeAmount, sizeItem];
 }
 
 -(void)cancel {
