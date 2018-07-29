@@ -10,7 +10,7 @@
 		F092DB1F210CA5AA006B4DC6 /* Downloader.m in Sources */ = {isa = PBXBuildFile; fileRef = F092DB1E210CA5AA006B4DC6 /* Downloader.m */; };
 		F09B2053210D67B400398B2E /* ChoosePackageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F09B2052210D67B400398B2E /* ChoosePackageViewController.m */; };
 		F09B2056210D742B00398B2E /* SubscriptionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F09B2055210D742B00398B2E /* SubscriptionManager.m */; };
-		F09B2059210D7C9200398B2E /* PackageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F09B2058210D7C9200398B2E /* PackageManager.m */; };
+		F09B2059210D7C9200398B2E /* PackageManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = F09B2058210D7C9200398B2E /* PackageManager.mm */; };
 		F09B205C210D7D3B00398B2E /* Package.m in Sources */ = {isa = PBXBuildFile; fileRef = F09B205B210D7D3B00398B2E /* Package.m */; };
 		F0C91BA4210C690000B06070 /* ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = F0C91BA3210C690000B06070 /* ProgressView.m */; };
 		FDCD521921084C860081FE4D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCD521821084C860081FE4D /* AppDelegate.m */; };
@@ -50,7 +50,7 @@
 		F09B2054210D742B00398B2E /* SubscriptionManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SubscriptionManager.h; sourceTree = "<group>"; };
 		F09B2055210D742B00398B2E /* SubscriptionManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SubscriptionManager.m; sourceTree = "<group>"; };
 		F09B2057210D7C9200398B2E /* PackageManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PackageManager.h; sourceTree = "<group>"; };
-		F09B2058210D7C9200398B2E /* PackageManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PackageManager.m; sourceTree = "<group>"; };
+		F09B2058210D7C9200398B2E /* PackageManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PackageManager.mm; sourceTree = "<group>"; };
 		F09B205A210D7D3B00398B2E /* Package.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Package.h; sourceTree = "<group>"; };
 		F09B205B210D7D3B00398B2E /* Package.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Package.m; sourceTree = "<group>"; };
 		F0C91BA2210C690000B06070 /* ProgressView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProgressView.h; sourceTree = "<group>"; };
@@ -128,7 +128,7 @@
 				F09B205A210D7D3B00398B2E /* Package.h */,
 				F09B205B210D7D3B00398B2E /* Package.m */,
 				F09B2057210D7C9200398B2E /* PackageManager.h */,
-				F09B2058210D7C9200398B2E /* PackageManager.m */,
+				F09B2058210D7C9200398B2E /* PackageManager.mm */,
 			);
 			path = acwios;
 			sourceTree = "<group>";
@@ -223,7 +223,7 @@
 				F09B2053210D67B400398B2E /* ChoosePackageViewController.m in Sources */,
 				FDCD522721084C880081FE4D /* main.m in Sources */,
 				FDCD521921084C860081FE4D /* AppDelegate.m in Sources */,
-				F09B2059210D7C9200398B2E /* PackageManager.m in Sources */,
+				F09B2059210D7C9200398B2E /* PackageManager.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -365,6 +365,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = H772F9T3GZ;
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../adb/adb",
+					"$(PROJECT_DIR)/../cw/cw",
+				);
 				INFOPLIST_FILE = acwios/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -382,6 +386,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = H772F9T3GZ;
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../adb/adb",
+					"$(PROJECT_DIR)/../cw/cw",
+				);
 				INFOPLIST_FILE = acwios/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

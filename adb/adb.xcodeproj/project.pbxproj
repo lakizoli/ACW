@@ -7,10 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F09B2155210DADF700F26BFA /* BasicDatabase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F09B2153210DADF700F26BFA /* BasicDatabase.cpp */; };
+		F09B2156210DADF700F26BFA /* BasicDatabase.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F09B2154210DADF700F26BFA /* BasicDatabase.hpp */; };
+		F09B219E210DB64A00F26BFA /* libminizip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F09B219D210DB64A00F26BFA /* libminizip.a */; };
 		FDCD5257210855490081FE4D /* adb.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FDCD5255210855490081FE4D /* adb.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F09B2153210DADF700F26BFA /* BasicDatabase.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BasicDatabase.cpp; sourceTree = "<group>"; };
+		F09B2154210DADF700F26BFA /* BasicDatabase.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BasicDatabase.hpp; sourceTree = "<group>"; };
+		F09B2157210DAEC500F26BFA /* prefix.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = prefix.hpp; sourceTree = "<group>"; };
+		F09B219D210DB64A00F26BFA /* libminizip.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libminizip.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDCD5252210855490081FE4D /* adb.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = adb.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDCD5255210855490081FE4D /* adb.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = adb.hpp; sourceTree = "<group>"; };
 		FDCD5256210855490081FE4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -22,17 +29,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F09B219E210DB64A00F26BFA /* libminizip.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F09B219C210DB64A00F26BFA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F09B219D210DB64A00F26BFA /* libminizip.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		FDCD5248210855480081FE4D = {
 			isa = PBXGroup;
 			children = (
 				FDCD5254210855490081FE4D /* adb */,
 				FDCD5253210855490081FE4D /* Products */,
+				F09B219C210DB64A00F26BFA /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -50,6 +67,9 @@
 				FDCD527D210856710081FE4D /* module.modulemap */,
 				FDCD5255210855490081FE4D /* adb.hpp */,
 				FDCD5256210855490081FE4D /* Info.plist */,
+				F09B2157210DAEC500F26BFA /* prefix.hpp */,
+				F09B2153210DADF700F26BFA /* BasicDatabase.cpp */,
+				F09B2154210DADF700F26BFA /* BasicDatabase.hpp */,
 			);
 			path = adb;
 			sourceTree = "<group>";
@@ -61,6 +81,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F09B2156210DADF700F26BFA /* BasicDatabase.hpp in Headers */,
 				FDCD5257210855490081FE4D /* adb.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -132,6 +153,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F09B2155210DADF700F26BFA /* BasicDatabase.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -180,6 +202,8 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = adb/prefix.hpp;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -190,6 +214,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../minizip/minizip";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				MODULEMAP_FILE = "$(PROJECT_DIR)/adb/module.modulemap";
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -240,12 +265,15 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = adb/prefix.hpp;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../minizip/minizip";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				MODULEMAP_FILE = "$(PROJECT_DIR)/adb/module.modulemap";
 				MTL_ENABLE_DEBUG_INFO = NO;
