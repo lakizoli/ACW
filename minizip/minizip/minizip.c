@@ -94,9 +94,9 @@ uLong filetime(f, tmzip, dt)
   return ret;
 }
 #else
-#ifdef unix || __APPLE__
+#if defined (unix) || defined (__APPLE__)
 uLong filetime(f, tmzip, dt)
-    char *f;               /* name of file to get info on */
+    const char *f;         /* name of file to get info on */
     tm_zip *tmzip;         /* return value: access, modific. and creation times */
     uLong *dt;             /* dostime */
 {
@@ -108,7 +108,7 @@ uLong filetime(f, tmzip, dt)
   if (strcmp(f,"-")!=0)
   {
     char name[MAXFILENAME+1];
-    int len = strlen(f);
+    int len = (int) strlen(f);
     if (len > MAXFILENAME)
       len = MAXFILENAME;
 
@@ -208,7 +208,7 @@ int getFileCrc(const char* filenameinzip,void*buf,unsigned long size_buf,unsigne
             }
 
             if (size_read>0)
-                calculate_crc = crc32(calculate_crc,buf,size_read);
+                calculate_crc = crc32(calculate_crc,buf,(uInt) size_read);
             total_read += size_read;
 
         } while ((err == ZIP_OK) && (size_read>0));
@@ -229,7 +229,7 @@ int isLargeFile(const char* filename)
 
   if(pFile != NULL)
   {
-    int n = FSEEKO_FUNC(pFile, 0, SEEK_END);
+    //int n = FSEEKO_FUNC(pFile, 0, SEEK_END);
     pos = FTELLO_FUNC(pFile);
 
                 printf("File : %s is %lld bytes\n", filename, pos);
@@ -395,7 +395,7 @@ int main(argc,argv)
                    ((argv[i][1]>='0') || (argv[i][1]<='9'))) &&
                   (strlen(argv[i]) == 2)))
             {
-                FILE * fin;
+                FILE * fin = NULL;
                 int size_read;
                 const char* filenameinzip = argv[i];
                 const char *savefilenameinzip;

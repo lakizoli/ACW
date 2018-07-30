@@ -11,6 +11,7 @@
 		F09B2156210DADF700F26BFA /* BasicDatabase.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F09B2154210DADF700F26BFA /* BasicDatabase.hpp */; };
 		F09B219E210DB64A00F26BFA /* libminizip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F09B219D210DB64A00F26BFA /* libminizip.a */; };
 		FDCD5257210855490081FE4D /* adb.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FDCD5255210855490081FE4D /* adb.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		FDCD52AB210F0DBE0081FE4D /* libsqlite3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FDCD52AA210F0DBE0081FE4D /* libsqlite3.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		FDCD5255210855490081FE4D /* adb.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = adb.hpp; sourceTree = "<group>"; };
 		FDCD5256210855490081FE4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FDCD527D210856710081FE4D /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		FDCD52AA210F0DBE0081FE4D /* libsqlite3.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libsqlite3.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +31,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FDCD52AB210F0DBE0081FE4D /* libsqlite3.a in Frameworks */,
 				F09B219E210DB64A00F26BFA /* libminizip.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -39,6 +42,7 @@
 		F09B219C210DB64A00F26BFA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FDCD52AA210F0DBE0081FE4D /* libsqlite3.a */,
 				F09B219D210DB64A00F26BFA /* libminizip.a */,
 			);
 			name = Frameworks;
@@ -214,7 +218,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../minizip/minizip";
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../minizip/minizip",
+					"$(PROJECT_DIR)/../sqlite3/sqlite3",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				MODULEMAP_FILE = "$(PROJECT_DIR)/adb/module.modulemap";
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -273,7 +280,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../minizip/minizip";
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../minizip/minizip",
+					"$(PROJECT_DIR)/../sqlite3/sqlite3",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				MODULEMAP_FILE = "$(PROJECT_DIR)/adb/module.modulemap";
 				MTL_ENABLE_DEBUG_INFO = NO;

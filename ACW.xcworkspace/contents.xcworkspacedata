@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:sqlite3/sqlite3.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:minizip/minizip.xcodeproj">
    </FileRef>
    <FileRef
