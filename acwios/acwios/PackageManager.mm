@@ -108,7 +108,7 @@
 	}
 }
 
--(std::vector<std::shared_ptr<BasicDatabase>>) preparePackages:(NSURL*)dbDir {
+-(std::vector<std::shared_ptr<BasicDatabase>>) readBasicPackageInfos:(NSURL*)dbDir {
 	NSFileManager *fileManager = [NSFileManager defaultManager];
 	NSDirectoryEnumerationOptions options = NSDirectoryEnumerationSkipsSubdirectoryDescendants |
 		NSDirectoryEnumerationSkipsPackageDescendants |
@@ -140,15 +140,21 @@
 	[self movePackagesFromDocToDB:docDir dbDir:dbDir];
 	
 	//Prepare packages in database
-	std::vector<std::shared_ptr<BasicDatabase>> basicDatabases = [self preparePackages:dbDir];
+	std::vector<std::shared_ptr<BasicDatabase>> basicDatabases = [self readBasicPackageInfos:dbDir];
 	
 	//Extract package's level1 informations
-	//...
+	NSMutableArray<Package*>* result = [NSMutableArray<Package*> new];
+	for (std::shared_ptr<BasicDatabase> db : basicDatabases) {
+		Package* pack = [[Package alloc] init];
+		
+		[pack setDeckID:db->GetDeckID ()];
+		[pack setName:[NSString stringWithUTF8String:db->GetPackageName ().c_str ()]];
+		[pack setPath:[NSURL fileURLWithPath:[NSString stringWithUTF8String:db->GetPath ().c_str ()]]];
+		
+		[result addObject:pack];
+	}
 	
-	//Read packages from database
-	//...
-	
-	return nil;
+	return result;
 }
 
 @end

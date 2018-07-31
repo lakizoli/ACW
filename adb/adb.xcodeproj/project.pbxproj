@@ -12,6 +12,11 @@
 		F09B219E210DB64A00F26BFA /* libminizip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F09B219D210DB64A00F26BFA /* libminizip.a */; };
 		FDCD5257210855490081FE4D /* adb.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FDCD5255210855490081FE4D /* adb.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		FDCD52AB210F0DBE0081FE4D /* libsqlite3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FDCD52AA210F0DBE0081FE4D /* libsqlite3.a */; };
+		FDCD52B121104A6C0081FE4D /* JsonImpl.mm in Sources */ = {isa = PBXBuildFile; fileRef = FDCD52AC21104A6B0081FE4D /* JsonImpl.mm */; };
+		FDCD52B221104A6C0081FE4D /* JsonArray.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FDCD52AD21104A6C0081FE4D /* JsonArray.hpp */; };
+		FDCD52B321104A6C0081FE4D /* JsonDataType.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FDCD52AE21104A6C0081FE4D /* JsonDataType.hpp */; };
+		FDCD52B421104A6C0081FE4D /* JsonImpl.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FDCD52AF21104A6C0081FE4D /* JsonImpl.hpp */; };
+		FDCD52B521104A6C0081FE4D /* JsonObject.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FDCD52B021104A6C0081FE4D /* JsonObject.hpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +29,11 @@
 		FDCD5256210855490081FE4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FDCD527D210856710081FE4D /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		FDCD52AA210F0DBE0081FE4D /* libsqlite3.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libsqlite3.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		FDCD52AC21104A6B0081FE4D /* JsonImpl.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JsonImpl.mm; sourceTree = "<group>"; };
+		FDCD52AD21104A6C0081FE4D /* JsonArray.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = JsonArray.hpp; sourceTree = "<group>"; };
+		FDCD52AE21104A6C0081FE4D /* JsonDataType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = JsonDataType.hpp; sourceTree = "<group>"; };
+		FDCD52AF21104A6C0081FE4D /* JsonImpl.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = JsonImpl.hpp; sourceTree = "<group>"; };
+		FDCD52B021104A6C0081FE4D /* JsonObject.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = JsonObject.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +78,7 @@
 		FDCD5254210855490081FE4D /* adb */ = {
 			isa = PBXGroup;
 			children = (
+				FDCD52B621104A710081FE4D /* json */,
 				FDCD527D210856710081FE4D /* module.modulemap */,
 				FDCD5255210855490081FE4D /* adb.hpp */,
 				FDCD5256210855490081FE4D /* Info.plist */,
@@ -78,6 +89,18 @@
 			path = adb;
 			sourceTree = "<group>";
 		};
+		FDCD52B621104A710081FE4D /* json */ = {
+			isa = PBXGroup;
+			children = (
+				FDCD52AD21104A6C0081FE4D /* JsonArray.hpp */,
+				FDCD52AE21104A6C0081FE4D /* JsonDataType.hpp */,
+				FDCD52AF21104A6C0081FE4D /* JsonImpl.hpp */,
+				FDCD52AC21104A6B0081FE4D /* JsonImpl.mm */,
+				FDCD52B021104A6C0081FE4D /* JsonObject.hpp */,
+			);
+			name = json;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -85,8 +108,12 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FDCD52B421104A6C0081FE4D /* JsonImpl.hpp in Headers */,
 				F09B2156210DADF700F26BFA /* BasicDatabase.hpp in Headers */,
 				FDCD5257210855490081FE4D /* adb.hpp in Headers */,
+				FDCD52B521104A6C0081FE4D /* JsonObject.hpp in Headers */,
+				FDCD52B321104A6C0081FE4D /* JsonDataType.hpp in Headers */,
+				FDCD52B221104A6C0081FE4D /* JsonArray.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -158,6 +185,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F09B2155210DADF700F26BFA /* BasicDatabase.cpp in Sources */,
+				FDCD52B121104A6C0081FE4D /* JsonImpl.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

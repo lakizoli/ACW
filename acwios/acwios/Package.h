@@ -10,6 +10,7 @@
 
 @interface Package : NSObject
 
+@property (assign) NSUInteger deckID;
 @property (strong) NSString *name;
 @property (strong) NSURL *path;
 

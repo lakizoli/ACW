@@ -62,7 +62,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	if (section == 0) {
-		return 1;
+		return [_packages count];
 	}
 	return 0;
 }
@@ -70,9 +70,23 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PackageCell" forIndexPath:indexPath];
 	if (cell) {
-		[cell.textLabel setTextColor:[UIColor colorWithRed:1 green:0 blue:0 alpha:1]];
-		[cell.textLabel setText:@"juhu red"];
-		[cell setAccessoryType:UITableViewCellAccessoryNone];
+		Package* pack = [_packages objectAtIndex:indexPath.row];
+		if (pack) {
+			BOOL packEnabled = indexPath.row < 1 || _isSubscribed;
+			if (packEnabled) { //Enabled
+				[cell.textLabel setTextColor:[UIColor blackColor]];
+			} else { //Disabled
+				[cell.textLabel setTextColor:[UIColor colorWithRed:1 green:0 blue:0 alpha:1]];
+			}
+			
+			[cell.textLabel setText:[pack name]];
+			
+			if (packEnabled) {
+				[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+			} else {
+				[cell setAccessoryType:UITableViewCellAccessoryNone];
+			}
+		}
 	}
 	return cell;
 }

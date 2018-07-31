@@ -8,12 +8,14 @@
 
 #include "prefix.hpp"
 #include "BasicDatabase.hpp"
+#include "JsonObject.hpp"
 #include <unzip.h>
 #include <unistd.h>
 #include <sqlite3.h>
 
 BasicDatabase::BasicDatabase (const std::string& path) :
-	_path (path)
+	_path (path),
+	_deckID (0)
 {
 }
 
@@ -98,12 +100,13 @@ bool BasicDatabase::ReadOneColumn (sqlite3* db, const std::string& cmd, uint32_t
 	
 	int32_t rc = 0;
 	while ((rc = sqlite3_step (db_stmt)) == SQLITE_ROW) {
+		int32_t valueLen = sqlite3_column_bytes (db_stmt, col);
 		const char* val = (const char*) sqlite3_column_text (db_stmt, col);
 		if (val == nullptr) {
 			break;
 		}
 		
-		if (!callback (std::string (val))) {
+		if (!callback (std::string (val, valueLen))) {
 			break;
 		}
 	}
@@ -111,7 +114,7 @@ bool BasicDatabase::ReadOneColumn (sqlite3* db, const std::string& cmd, uint32_t
 	return true;
 }
 
-bool BasicDatabase::ReadPackageName () const {
+bool BasicDatabase::ReadBasicPackageInfo () {
 	//Open database
 	std::string collectionPath = _path + "/collection.anki2";
 	sqlite3 *db = nullptr;
@@ -125,12 +128,46 @@ bool BasicDatabase::ReadPackageName () const {
 		~AutoCloseDB () { sqlite3_close (db); }
 	} autoCloseDB (db);
 	
-	//Select col table
-	if (!ReadOneColumn (db, "SELECT decks FROM col LIMIT 1", 0, [] (const std::string& val) -> bool {
+	//Select first deck id from cards table
+	uint64_t deckID = 0;
+	if (!ReadOneColumn (db, "SELECT did FROM cards GROUP BY did LIMIT 1", 0, [&deckID] (const std::string& val) -> bool {
+		deckID = std::stoull (val);
+		return false; //break;
+	})) {
+		return false;
+	}
+	
+	_deckID = deckID;
+	if (_deckID <= 0) {
+		return false;
+	}
+	
+	//Select decks from col table
+	std::shared_ptr<JsonObject> jsonDeck;
+	if (!ReadOneColumn (db, "SELECT decks FROM col LIMIT 1", 0, [deckID, &jsonDeck] (const std::string& val) -> bool {
+		std::string deckKey = std::to_string (deckID);
+		std::shared_ptr<JsonObject> json = JsonObject::Parse (val);
+		if (json != nullptr && json->HasObject (deckKey)) {
+			jsonDeck = json->GetObject (deckKey);
+		}
 		
 		return false; //break
 	})) {
 		return false;
+	}
+	
+	if (jsonDeck == nullptr) {
+		return false;
+	}
+	
+	if (jsonDeck->HasString ("name")) {
+		_packageName = jsonDeck->GetString ("name");
+		std::string::size_type pos = _packageName.rfind ("::");
+		if (pos != std::string::npos && pos < _packageName.length () - 2) {
+			_packageName = _packageName.substr (pos + 2);
+		}
+	} else {
+		_packageName = "<empty>";
 	}
 	
 	return true;
@@ -145,10 +182,9 @@ std::shared_ptr<BasicDatabase> BasicDatabase::Create (const std::string& path) {
 	}
 	
 	//Read package name from database
-	if (!result->ReadPackageName ()) {
+	if (!result->ReadBasicPackageInfo ()) {
 		return nullptr;
 	}
-	//...
 	
-	return nullptr;
+	return result;
 }
