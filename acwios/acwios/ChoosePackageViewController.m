@@ -9,6 +9,7 @@
 #import "ChoosePackageViewController.h"
 #import "SubscriptionManager.h"
 #import "PackageManager.h"
+#import "CWConfiguratorViewController.h"
 
 @interface ChoosePackageViewController ()
 
@@ -20,6 +21,7 @@
 @implementation ChoosePackageViewController {
 	BOOL _isSubscribed;
 	NSArray<Package*>* _packages;
+	Package *_choosenPackage;
 }
 
 - (void)viewDidLoad {
@@ -52,6 +54,29 @@
 	UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Subscribe" message:@"Let's take some subscription..." preferredStyle:UIAlertControllerStyleAlert];
 	
 	[self presentViewController:alert animated:YES completion:nil];
+}
+
+#pragma mark - Navigation
+
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
+	if ([sender isKindOfClass:[UITableViewCell class]]) {
+		UITableViewCell* cell = (UITableViewCell*)sender;
+		NSIndexPath* indexPath = [_packageTable indexPathForCell:cell];
+		BOOL packEnabled = indexPath.row < 1 || _isSubscribed;
+		if (packEnabled) {
+			_choosenPackage = [_packages objectAtIndex:indexPath.row];
+			return YES;
+		}
+	}
+	
+	return NO;
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+	if ([segue.destinationViewController isKindOfClass:[CWConfiguratorViewController class]] && _choosenPackage) {
+		CWConfiguratorViewController *configView = (CWConfiguratorViewController*) segue.destinationViewController;
+		configView.package = _choosenPackage;
+	}
 }
 
 #pragma mark - Package Table

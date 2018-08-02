@@ -25,6 +25,7 @@
 		FDCD527A210855B90081FE4D /* adb.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FDCD5273210855AC0081FE4D /* adb.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FDCD52802108682C0081FE4D /* AnkiDownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCD527F2108682C0081FE4D /* AnkiDownloadViewController.m */; };
 		FDCD52862109A6030081FE4D /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FDCD52852109A6030081FE4D /* WebKit.framework */; };
+		FDCD52B92112DB070081FE4D /* CWConfiguratorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCD52B82112DB070081FE4D /* CWConfiguratorViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -70,6 +71,8 @@
 		FDCD527E2108682C0081FE4D /* AnkiDownloadViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnkiDownloadViewController.h; sourceTree = "<group>"; };
 		FDCD527F2108682C0081FE4D /* AnkiDownloadViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AnkiDownloadViewController.m; sourceTree = "<group>"; };
 		FDCD52852109A6030081FE4D /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		FDCD52B72112DB070081FE4D /* CWConfiguratorViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CWConfiguratorViewController.h; sourceTree = "<group>"; };
+		FDCD52B82112DB070081FE4D /* CWConfiguratorViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CWConfiguratorViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +122,8 @@
 				FDCD527F2108682C0081FE4D /* AnkiDownloadViewController.m */,
 				F09B2051210D67B400398B2E /* ChoosePackageViewController.h */,
 				F09B2052210D67B400398B2E /* ChoosePackageViewController.m */,
+				FDCD52B72112DB070081FE4D /* CWConfiguratorViewController.h */,
+				FDCD52B82112DB070081FE4D /* CWConfiguratorViewController.m */,
 				F0C91BA2210C690000B06070 /* ProgressView.h */,
 				F0C91BA3210C690000B06070 /* ProgressView.m */,
 				F092DB1D210CA5AA006B4DC6 /* Downloader.h */,
@@ -218,6 +223,7 @@
 				FDCD521C21084C860081FE4D /* MainViewController.m in Sources */,
 				F09B205C210D7D3B00398B2E /* Package.m in Sources */,
 				F0C91BA4210C690000B06070 /* ProgressView.m in Sources */,
+				FDCD52B92112DB070081FE4D /* CWConfiguratorViewController.m in Sources */,
 				F092DB1F210CA5AA006B4DC6 /* Downloader.m in Sources */,
 				FDCD52802108682C0081FE4D /* AnkiDownloadViewController.m in Sources */,
 				F09B2053210D67B400398B2E /* ChoosePackageViewController.m in Sources */,
