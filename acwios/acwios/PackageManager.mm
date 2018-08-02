@@ -108,7 +108,7 @@
 	}
 }
 
--(std::vector<std::shared_ptr<BasicDatabase>>) readBasicPackageInfos:(NSURL*)dbDir {
+-(std::vector<std::shared_ptr<BasicInfo>>) readBasicPackageInfos:(NSURL*)dbDir {
 	NSFileManager *fileManager = [NSFileManager defaultManager];
 	NSDirectoryEnumerationOptions options = NSDirectoryEnumerationSkipsSubdirectoryDescendants |
 		NSDirectoryEnumerationSkipsPackageDescendants |
@@ -118,13 +118,13 @@
 																	 options:options
 																errorHandler:nil];
 	
-	std::vector<std::shared_ptr<BasicDatabase>> result;
+	std::vector<std::shared_ptr<BasicInfo>> result;
 	for (NSURL *dirURL in enumerator) {
 		NSNumber *isDir = nil;
 		if ([dirURL getResourceValue:&isDir forKey:NSURLIsDirectoryKey error:nil] == YES && [isDir boolValue]) {
-			std::shared_ptr<BasicDatabase> basicDatabase = BasicDatabase::Create ([[dirURL path] UTF8String]);
-			if (basicDatabase) {
-				result.push_back (basicDatabase);
+			std::shared_ptr<BasicInfo> basicInfo = BasicInfo::Create ([[dirURL path] UTF8String]);
+			if (basicInfo) {
+				result.push_back (basicInfo);
 			}
 		}
 	}
@@ -140,11 +140,11 @@
 	[self movePackagesFromDocToDB:docDir dbDir:dbDir];
 	
 	//Prepare packages in database
-	std::vector<std::shared_ptr<BasicDatabase>> basicDatabases = [self readBasicPackageInfos:dbDir];
+	std::vector<std::shared_ptr<BasicInfo>> basicInfos = [self readBasicPackageInfos:dbDir];
 	
 	//Extract package's level1 informations
 	NSMutableArray<Package*>* result = [NSMutableArray<Package*> new];
-	for (std::shared_ptr<BasicDatabase> db : basicDatabases) {
+	for (std::shared_ptr<BasicInfo> db : basicInfos) {
 		Package* pack = [[Package alloc] init];
 		
 		[pack setDeckID:db->GetDeckID ()];
@@ -152,6 +152,22 @@
 		[pack setPath:[NSURL fileURLWithPath:[NSString stringWithUTF8String:db->GetPath ().c_str ()]]];
 		
 		[result addObject:pack];
+	}
+	
+	return result;
+}
+
+#pragma mark - Collecting saved crosswords of package
+
+//...
+
+#pragma mark - Collecting cards of package
+
+-(NSArray<Card*>*)collectCardsOfPackage:(Package*)package {
+	//Read card list
+	NSMutableArray<Card*>* result = [NSMutableArray<Card*> new];
+	std::shared_ptr<CardList> cardList = CardList::Create ([[[package path] path] UTF8String], [package deckID]);
+	if (cardList) {
 	}
 	
 	return result;

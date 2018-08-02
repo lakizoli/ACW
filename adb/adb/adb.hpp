@@ -7,4 +7,5 @@
 //
 
 #include "prefix.hpp"
-#include "BasicDatabase.hpp"
+#include "BasicInfo.hpp"
+#include "CardList.hpp"

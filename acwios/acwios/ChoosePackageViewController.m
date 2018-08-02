@@ -24,6 +24,18 @@
 	Package *_choosenPackage;
 }
 
+#pragma mark - Implementation
+
+-(void) showSubscription {
+	//TODO: implement subscribtion process in SubScriptionManager...
+	
+	UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Subscribe" message:@"Let's take some subscription..." preferredStyle:UIAlertControllerStyleAlert];
+	
+	[self presentViewController:alert animated:YES completion:nil];
+}
+
+#pragma mark - Events
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
@@ -49,11 +61,7 @@
 }
 
 - (IBAction)subscribeButtonPressed:(id)sender {
-	//TODO: implement subscribtion process in SubScriptionManager...
-	
-	UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Subscribe" message:@"Let's take some subscription..." preferredStyle:UIAlertControllerStyleAlert];
-	
-	[self presentViewController:alert animated:YES completion:nil];
+	[self showSubscription];
 }
 
 #pragma mark - Navigation
@@ -66,6 +74,8 @@
 		if (packEnabled) {
 			_choosenPackage = [_packages objectAtIndex:indexPath.row];
 			return YES;
+		} else { //Choose a not allowed package
+			[self showSubscription];
 		}
 	}
 	

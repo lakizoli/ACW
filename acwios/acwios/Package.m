@@ -10,4 +10,12 @@
 
 @implementation Package
 
+-(id) init {
+	self = [super init];
+	if (self) {
+		_deckID = 0;
+	}
+	return self;
+}
+
 @end

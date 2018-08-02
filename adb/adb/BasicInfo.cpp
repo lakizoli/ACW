@@ -1,5 +1,5 @@
 //
-//  BasicDatabase.cpp
+//  BasicInfo.cpp
 //  adb
 //
 //  Created by Laki Zoltán on 2018. 07. 29..
@@ -7,24 +7,24 @@
 //
 
 #include "prefix.hpp"
-#include "BasicDatabase.hpp"
+#include "BasicInfo.hpp"
 #include "JsonObject.hpp"
 #include <unzip.h>
 #include <unistd.h>
 #include <sqlite3.h>
 
-BasicDatabase::BasicDatabase (const std::string& path) :
+BasicInfo::BasicInfo (const std::string& path) :
 	_path (path),
 	_deckID (0)
 {
 }
 
-bool BasicDatabase::ExistsFileInDatabase (const std::string& fileName) const {
+bool BasicInfo::ExistsFileInDatabase (const std::string& fileName) const {
 	std::string filePath = _path + "/" + fileName;
 	return access (filePath.c_str (), R_OK) == 0;
 }
 
-bool BasicDatabase::UnpackFileToDatabase (const std::string& fileName) const {
+bool BasicInfo::UnpackFileToDatabase (const std::string& fileName) const {
 	//Check file existance
 	if (ExistsFileInDatabase (fileName)) {
 		return true; //The file already exists, so have nothing to do...
@@ -86,7 +86,7 @@ bool BasicDatabase::UnpackFileToDatabase (const std::string& fileName) const {
 	return true;
 }
 
-bool BasicDatabase::ReadOneColumn (sqlite3* db, const std::string& cmd, uint32_t col, std::function<bool (const std::string& val)> callback) {
+bool BasicInfo::ReadOneColumn (sqlite3* db, const std::string& cmd, uint32_t col, std::function<bool (const std::string& val)> callback) {
 	sqlite3_stmt *db_stmt = nullptr;
 	if (sqlite3_prepare (db, cmd.c_str (), (int) cmd.size (), &db_stmt, nullptr) != SQLITE_OK) {
 		return false;
@@ -114,7 +114,7 @@ bool BasicDatabase::ReadOneColumn (sqlite3* db, const std::string& cmd, uint32_t
 	return true;
 }
 
-bool BasicDatabase::ReadBasicPackageInfo () {
+bool BasicInfo::ReadBasicPackageInfo () {
 	//Open database
 	std::string collectionPath = _path + "/collection.anki2";
 	sqlite3 *db = nullptr;
@@ -173,8 +173,8 @@ bool BasicDatabase::ReadBasicPackageInfo () {
 	return true;
 }
 
-std::shared_ptr<BasicDatabase> BasicDatabase::Create (const std::string& path) {
-	std::shared_ptr<BasicDatabase> result (new BasicDatabase (path));
+std::shared_ptr<BasicInfo> BasicInfo::Create (const std::string& path) {
+	std::shared_ptr<BasicInfo> result (new BasicInfo (path));
 	
 	//Unzip Anki's sqlite db from packge
 	if (!result->UnpackFileToDatabase ("collection.anki2")) {

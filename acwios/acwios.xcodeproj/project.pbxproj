@@ -26,6 +26,7 @@
 		FDCD52802108682C0081FE4D /* AnkiDownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCD527F2108682C0081FE4D /* AnkiDownloadViewController.m */; };
 		FDCD52862109A6030081FE4D /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FDCD52852109A6030081FE4D /* WebKit.framework */; };
 		FDCD52B92112DB070081FE4D /* CWConfiguratorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCD52B82112DB070081FE4D /* CWConfiguratorViewController.m */; };
+		FDCD52C02112EEB00081FE4D /* Card.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCD52BF2112EEB00081FE4D /* Card.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -73,6 +74,8 @@
 		FDCD52852109A6030081FE4D /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		FDCD52B72112DB070081FE4D /* CWConfiguratorViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CWConfiguratorViewController.h; sourceTree = "<group>"; };
 		FDCD52B82112DB070081FE4D /* CWConfiguratorViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CWConfiguratorViewController.m; sourceTree = "<group>"; };
+		FDCD52BE2112EEB00081FE4D /* Card.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Card.h; sourceTree = "<group>"; };
+		FDCD52BF2112EEB00081FE4D /* Card.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Card.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +135,8 @@
 				F09B2055210D742B00398B2E /* SubscriptionManager.m */,
 				F09B205A210D7D3B00398B2E /* Package.h */,
 				F09B205B210D7D3B00398B2E /* Package.m */,
+				FDCD52BE2112EEB00081FE4D /* Card.h */,
+				FDCD52BF2112EEB00081FE4D /* Card.m */,
 				F09B2057210D7C9200398B2E /* PackageManager.h */,
 				F09B2058210D7C9200398B2E /* PackageManager.mm */,
 			);
@@ -230,6 +235,7 @@
 				FDCD522721084C880081FE4D /* main.m in Sources */,
 				FDCD521921084C860081FE4D /* AppDelegate.m in Sources */,
 				F09B2059210D7C9200398B2E /* PackageManager.mm in Sources */,
+				FDCD52C02112EEB00081FE4D /* Card.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

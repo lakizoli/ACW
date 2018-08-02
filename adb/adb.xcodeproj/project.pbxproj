@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F09B2155210DADF700F26BFA /* BasicDatabase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F09B2153210DADF700F26BFA /* BasicDatabase.cpp */; };
-		F09B2156210DADF700F26BFA /* BasicDatabase.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F09B2154210DADF700F26BFA /* BasicDatabase.hpp */; };
+		F09B2155210DADF700F26BFA /* BasicInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F09B2153210DADF700F26BFA /* BasicInfo.cpp */; };
+		F09B2156210DADF700F26BFA /* BasicInfo.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F09B2154210DADF700F26BFA /* BasicInfo.hpp */; };
 		F09B219E210DB64A00F26BFA /* libminizip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F09B219D210DB64A00F26BFA /* libminizip.a */; };
 		FDCD5257210855490081FE4D /* adb.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FDCD5255210855490081FE4D /* adb.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		FDCD52AB210F0DBE0081FE4D /* libsqlite3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FDCD52AA210F0DBE0081FE4D /* libsqlite3.a */; };
@@ -17,11 +17,13 @@
 		FDCD52B321104A6C0081FE4D /* JsonDataType.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FDCD52AE21104A6C0081FE4D /* JsonDataType.hpp */; };
 		FDCD52B421104A6C0081FE4D /* JsonImpl.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FDCD52AF21104A6C0081FE4D /* JsonImpl.hpp */; };
 		FDCD52B521104A6C0081FE4D /* JsonObject.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FDCD52B021104A6C0081FE4D /* JsonObject.hpp */; };
+		FDCD52BC2112EE510081FE4D /* CardList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDCD52BA2112EE510081FE4D /* CardList.cpp */; };
+		FDCD52BD2112EE510081FE4D /* CardList.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FDCD52BB2112EE510081FE4D /* CardList.hpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		F09B2153210DADF700F26BFA /* BasicDatabase.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BasicDatabase.cpp; sourceTree = "<group>"; };
-		F09B2154210DADF700F26BFA /* BasicDatabase.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BasicDatabase.hpp; sourceTree = "<group>"; };
+		F09B2153210DADF700F26BFA /* BasicInfo.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BasicInfo.cpp; sourceTree = "<group>"; };
+		F09B2154210DADF700F26BFA /* BasicInfo.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BasicInfo.hpp; sourceTree = "<group>"; };
 		F09B2157210DAEC500F26BFA /* prefix.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = prefix.hpp; sourceTree = "<group>"; };
 		F09B219D210DB64A00F26BFA /* libminizip.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libminizip.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDCD5252210855490081FE4D /* adb.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = adb.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -34,6 +36,8 @@
 		FDCD52AE21104A6C0081FE4D /* JsonDataType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = JsonDataType.hpp; sourceTree = "<group>"; };
 		FDCD52AF21104A6C0081FE4D /* JsonImpl.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = JsonImpl.hpp; sourceTree = "<group>"; };
 		FDCD52B021104A6C0081FE4D /* JsonObject.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = JsonObject.hpp; sourceTree = "<group>"; };
+		FDCD52BA2112EE510081FE4D /* CardList.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CardList.cpp; sourceTree = "<group>"; };
+		FDCD52BB2112EE510081FE4D /* CardList.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CardList.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,8 +87,10 @@
 				FDCD5255210855490081FE4D /* adb.hpp */,
 				FDCD5256210855490081FE4D /* Info.plist */,
 				F09B2157210DAEC500F26BFA /* prefix.hpp */,
-				F09B2153210DADF700F26BFA /* BasicDatabase.cpp */,
-				F09B2154210DADF700F26BFA /* BasicDatabase.hpp */,
+				F09B2153210DADF700F26BFA /* BasicInfo.cpp */,
+				F09B2154210DADF700F26BFA /* BasicInfo.hpp */,
+				FDCD52BA2112EE510081FE4D /* CardList.cpp */,
+				FDCD52BB2112EE510081FE4D /* CardList.hpp */,
 			);
 			path = adb;
 			sourceTree = "<group>";
@@ -108,8 +114,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FDCD52BD2112EE510081FE4D /* CardList.hpp in Headers */,
 				FDCD52B421104A6C0081FE4D /* JsonImpl.hpp in Headers */,
-				F09B2156210DADF700F26BFA /* BasicDatabase.hpp in Headers */,
+				F09B2156210DADF700F26BFA /* BasicInfo.hpp in Headers */,
 				FDCD5257210855490081FE4D /* adb.hpp in Headers */,
 				FDCD52B521104A6C0081FE4D /* JsonObject.hpp in Headers */,
 				FDCD52B321104A6C0081FE4D /* JsonDataType.hpp in Headers */,
@@ -184,7 +191,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F09B2155210DADF700F26BFA /* BasicDatabase.cpp in Sources */,
+				F09B2155210DADF700F26BFA /* BasicInfo.cpp in Sources */,
+				FDCD52BC2112EE510081FE4D /* CardList.cpp in Sources */,
 				FDCD52B121104A6C0081FE4D /* JsonImpl.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

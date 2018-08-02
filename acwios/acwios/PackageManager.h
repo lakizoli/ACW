@@ -8,11 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import "Package.h"
+#import "Card.h"
 
 @interface PackageManager : NSObject
 
 +(PackageManager*) sharedInstance;
 
 -(NSArray<Package*>*)collectPackages;
+-(NSArray<Card*>*)collectCardsOfPackage:(Package*)package;
 
 @end
