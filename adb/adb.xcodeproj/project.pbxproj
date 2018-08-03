@@ -19,6 +19,8 @@
 		FDCD52B521104A6C0081FE4D /* JsonObject.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FDCD52B021104A6C0081FE4D /* JsonObject.hpp */; };
 		FDCD52BC2112EE510081FE4D /* CardList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDCD52BA2112EE510081FE4D /* CardList.cpp */; };
 		FDCD52BD2112EE510081FE4D /* CardList.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FDCD52BB2112EE510081FE4D /* CardList.hpp */; };
+		FDCD52C6211432750081FE4D /* DBHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDCD52C4211432750081FE4D /* DBHandler.cpp */; };
+		FDCD52C7211432750081FE4D /* DBHandler.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FDCD52C5211432750081FE4D /* DBHandler.hpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +40,8 @@
 		FDCD52B021104A6C0081FE4D /* JsonObject.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = JsonObject.hpp; sourceTree = "<group>"; };
 		FDCD52BA2112EE510081FE4D /* CardList.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CardList.cpp; sourceTree = "<group>"; };
 		FDCD52BB2112EE510081FE4D /* CardList.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CardList.hpp; sourceTree = "<group>"; };
+		FDCD52C4211432750081FE4D /* DBHandler.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DBHandler.cpp; sourceTree = "<group>"; };
+		FDCD52C5211432750081FE4D /* DBHandler.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DBHandler.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +91,8 @@
 				FDCD5255210855490081FE4D /* adb.hpp */,
 				FDCD5256210855490081FE4D /* Info.plist */,
 				F09B2157210DAEC500F26BFA /* prefix.hpp */,
+				FDCD52C4211432750081FE4D /* DBHandler.cpp */,
+				FDCD52C5211432750081FE4D /* DBHandler.hpp */,
 				F09B2153210DADF700F26BFA /* BasicInfo.cpp */,
 				F09B2154210DADF700F26BFA /* BasicInfo.hpp */,
 				FDCD52BA2112EE510081FE4D /* CardList.cpp */,
@@ -121,6 +127,7 @@
 				FDCD52B521104A6C0081FE4D /* JsonObject.hpp in Headers */,
 				FDCD52B321104A6C0081FE4D /* JsonDataType.hpp in Headers */,
 				FDCD52B221104A6C0081FE4D /* JsonArray.hpp in Headers */,
+				FDCD52C7211432750081FE4D /* DBHandler.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -193,6 +200,7 @@
 			files = (
 				F09B2155210DADF700F26BFA /* BasicInfo.cpp in Sources */,
 				FDCD52BC2112EE510081FE4D /* CardList.cpp in Sources */,
+				FDCD52C6211432750081FE4D /* DBHandler.cpp in Sources */,
 				FDCD52B121104A6C0081FE4D /* JsonImpl.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -9,11 +9,14 @@
 #ifndef CardList_hpp
 #define CardList_hpp
 
-class CardList {
+#include "DBHandler.hpp"
+
+class CardList : public DBHandler {
 	std::string _path;
 	uint64_t _deckID;
 
 	CardList (const std::string& path, uint64_t deckID);
+	bool Read ();
 	
 public:
 	static std::shared_ptr<CardList> Create (const std::string& path, uint64_t deckID);

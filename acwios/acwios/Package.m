@@ -8,12 +8,27 @@
 
 #import "Package.h"
 
-@implementation Package
+@implementation Card
+@end
+
+@implementation Deck
 
 -(id) init {
 	self = [super init];
 	if (self) {
 		_deckID = 0;
+	}
+	return self;
+}
+
+@end
+
+@implementation Package
+
+-(id) init {
+	self = [super init];
+	if (self) {
+		_decks = [NSMutableArray<Deck*> new];
 	}
 	return self;
 }

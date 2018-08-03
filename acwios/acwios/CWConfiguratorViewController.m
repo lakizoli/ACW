@@ -8,6 +8,7 @@
 
 #import "CWConfiguratorViewController.h"
 #import "ChoosePackageViewController.h"
+#import "CWGeneratorViewController.h"
 #import "SubscriptionManager.h"
 #import "PackageManager.h"
 
@@ -60,10 +61,18 @@
 #pragma mark - Navigation
 
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
-	return YES;
+	if ([identifier compare:@"ShowGenerateView"] == NSOrderedSame) {
+		return YES;
+	}
+	
+	return NO;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+	if ([segue.identifier compare:@"ShowGenerateView"] == NSOrderedSame) {
+		CWGeneratorViewController* viewController = (CWGeneratorViewController*) segue.destinationViewController;
+		[viewController setPackage:_package];
+	}
 }
 
 #pragma mark - Package Table
@@ -74,6 +83,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	if (section == 0) {
+		//TODO: implement cell count ...
 //		return [_packages count];
 	}
 	return 0;
@@ -82,6 +92,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CWCell" forIndexPath:indexPath];
 	if (cell) {
+		//TODO: implement cell fill ...
 //		Package* pack = [_packages objectAtIndex:indexPath.row];
 //		if (pack) {
 //			BOOL packEnabled = indexPath.row < 1 || _isSubscribed;

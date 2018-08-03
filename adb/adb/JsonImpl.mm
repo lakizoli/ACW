@@ -421,12 +421,12 @@ void JsonObjectImpl::IterateProperties (function<bool (const string& key, const 
 					type = JsonDataType::Double;
 					jsonValue = [[(NSNumber*)obj stringValue] UTF8String];
 				}
-			} else if ([obj isKindOfClass:[NSMutableArray class]]) {
+			} else if ([obj isKindOfClass:[NSMutableDictionary class]]) {
 				type = JsonDataType::Object;
 				
 				NSMutableDictionary* val = (NSMutableDictionary*)obj;
 				jsonValue = JsonObjectImpl ((__bridge void*)val).ToString ();
-			} else if ([obj isKindOfClass:[NSMutableDictionary class]]) {
+			} else if ([obj isKindOfClass:[NSMutableArray class]]) {
 				type = JsonDataType::Array;
 				
 				NSMutableArray* val = (NSMutableArray*)obj;
@@ -796,12 +796,12 @@ void JsonArrayImpl::IterateItems (function<bool (const string& value, int32_t id
 					type = JsonDataType::Double;
 					jsonValue = [[(NSNumber*)obj stringValue] UTF8String];
 				}
-			} else if ([obj isKindOfClass:[NSMutableArray class]]) {
+			} else if ([obj isKindOfClass:[NSMutableDictionary class]]) {
 				type = JsonDataType::Object;
 				
 				NSMutableDictionary* val = (NSMutableDictionary*)obj;
 				jsonValue = JsonObjectImpl ((__bridge void*)val).ToString ();
-			} else if ([obj isKindOfClass:[NSMutableDictionary class]]) {
+			} else if ([obj isKindOfClass:[NSMutableArray class]]) {
 				type = JsonDataType::Array;
 				
 				NSMutableArray* val = (NSMutableArray*)obj;

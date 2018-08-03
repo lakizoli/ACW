@@ -8,10 +8,20 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Package : NSObject
+@interface Card : NSObject
+@end
+
+@interface Deck : NSObject
 
 @property (assign) NSUInteger deckID;
 @property (strong) NSString *name;
+
+@end
+
+@interface Package : NSObject
+
 @property (strong) NSURL *path;
+@property (strong) NSString *name;
+@property (strong) NSMutableArray<Deck*> *decks;
 
 @end

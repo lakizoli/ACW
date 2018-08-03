@@ -143,13 +143,20 @@
 	std::vector<std::shared_ptr<BasicInfo>> basicInfos = [self readBasicPackageInfos:dbDir];
 	
 	//Extract package's level1 informations
-	NSMutableArray<Package*>* result = [NSMutableArray<Package*> new];
+	NSMutableArray<Package*> *result = [NSMutableArray<Package*> new];
 	for (std::shared_ptr<BasicInfo> db : basicInfos) {
-		Package* pack = [[Package alloc] init];
-		
-		[pack setDeckID:db->GetDeckID ()];
-		[pack setName:[NSString stringWithUTF8String:db->GetPackageName ().c_str ()]];
+		Package *pack = [[Package alloc] init];
 		[pack setPath:[NSURL fileURLWithPath:[NSString stringWithUTF8String:db->GetPath ().c_str ()]]];
+		[pack setName:[NSString stringWithUTF8String:db->GetPackageName ().c_str ()]];
+
+		for (auto& it : db->GetDecks ()) {
+			Deck *deck = [[Deck alloc] init];
+			
+			[deck setDeckID:it.first];
+			[deck setName:[NSString stringWithUTF8String:it.second->name.c_str ()]];
+			
+			[[pack decks] addObject:deck];
+		}
 		
 		[result addObject:pack];
 	}
@@ -165,10 +172,10 @@
 
 -(NSArray<Card*>*)collectCardsOfPackage:(Package*)package {
 	//Read card list
-	NSMutableArray<Card*>* result = [NSMutableArray<Card*> new];
-	std::shared_ptr<CardList> cardList = CardList::Create ([[[package path] path] UTF8String], [package deckID]);
-	if (cardList) {
-	}
+	NSMutableArray<Card*> *result = [NSMutableArray<Card*> new];
+//	std::shared_ptr<CardList> cardList = CardList::Create ([[[package path] path] UTF8String], [package deckID]);
+//	if (cardList) {
+//	}
 	
 	return result;
 }

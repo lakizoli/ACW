@@ -9,18 +9,21 @@
 #ifndef BasicInfo_hpp
 #define BasicInfo_hpp
 
-struct sqlite3;
+#include "DBHandler.hpp"
 
-class BasicInfo {
+class BasicInfo : public DBHandler {
+	struct Deck {
+		uint64_t id = 0;
+		std::string name;
+	};
+	
+private:
 	std::string _path;
-	uint64_t _deckID;
 	std::string _packageName;
+	std::set<uint64_t> _deckIDs;
+	std::map<uint64_t, std::shared_ptr<Deck>> _decks;
 	
 	BasicInfo (const std::string& path);
-	
-	bool ExistsFileInDatabase (const std::string& fileName) const;
-	bool UnpackFileToDatabase (const std::string& fileName) const;
-	static bool ReadOneColumn (sqlite3* db, const std::string& cmd, uint32_t col, std::function<bool (const std::string& val)> callback);
 	bool ReadBasicPackageInfo ();
 
 public:
@@ -28,8 +31,9 @@ public:
 	
 public:
 	const std::string& GetPath () const { return _path; }
-	uint64_t GetDeckID () const { return _deckID; }
 	const std::string& GetPackageName () const { return _packageName; }
+	const std::set<uint64_t> GetDeckIDs () const { return _deckIDs; }
+	const std::map<uint64_t, std::shared_ptr<Deck>>& GetDecks () const { return _decks; }
 };
 
 #endif /* BasicInfo_hpp */

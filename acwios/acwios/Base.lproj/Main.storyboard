@@ -292,7 +292,7 @@
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="1qT-4d-Rwo">
                                             <connections>
-                                                <segue destination="Fr7-zT-vyu" kind="show" id="O3i-to-2Op"/>
+                                                <segue destination="Fr7-zT-vyu" kind="show" identifier="ShowGenerateView" id="O3i-to-2Op"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
@@ -380,10 +380,10 @@
             </objects>
             <point key="canvasLocation" x="1863" y="500"/>
         </scene>
-        <!--View Controller-->
+        <!--Generator View Controller-->
         <scene sceneID="Zcu-RR-tsr">
             <objects>
-                <viewController id="Fr7-zT-vyu" sceneMemberID="viewController">
+                <viewController id="Fr7-zT-vyu" customClass="CWGeneratorViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MgG-sD-S1T">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -393,7 +393,11 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <items>
                                     <navigationItem title="Generate crossword" id="Zgm-B1-TJs">
-                                        <barButtonItem key="leftBarButtonItem" title="Back" image="arrow-back" id="sDo-2q-RFX"/>
+                                        <barButtonItem key="leftBarButtonItem" title="Back" image="arrow-back" id="sDo-2q-RFX">
+                                            <connections>
+                                                <action selector="backButtorPressed:" destination="Fr7-zT-vyu" id="F0X-64-BYZ"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>

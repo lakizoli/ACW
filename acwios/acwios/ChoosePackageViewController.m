@@ -70,7 +70,7 @@
 	if ([sender isKindOfClass:[UITableViewCell class]]) {
 		UITableViewCell* cell = (UITableViewCell*)sender;
 		NSIndexPath* indexPath = [_packageTable indexPathForCell:cell];
-		BOOL packEnabled = indexPath.row < 1 || _isSubscribed;
+		BOOL packEnabled = indexPath.section < 1 || _isSubscribed;
 		if (packEnabled) {
 			_choosenPackage = [_packages objectAtIndex:indexPath.row];
 			return YES;
@@ -92,29 +92,43 @@
 #pragma mark - Package Table
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	return 1;
+	return [_packages count];
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+	if (section >= 0 && section < [_packages count]) {
+		Package* package = [_packages objectAtIndex:section];
+		return [NSString stringWithFormat:@"Package: %@", [package name]];
+	}
+	
+	return @"";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	if (section == 0) {
-		return [_packages count];
+	if (section >= 0 && section < [_packages count]) {
+		Package* package = [_packages objectAtIndex:section];
+		return [[package decks] count];
 	}
+	
 	return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PackageCell" forIndexPath:indexPath];
-	if (cell) {
-		Package* pack = [_packages objectAtIndex:indexPath.row];
-		if (pack) {
-			BOOL packEnabled = indexPath.row < 1 || _isSubscribed;
-			if (packEnabled) { //Enabled
-				[cell.textLabel setTextColor:[UIColor blackColor]];
-			} else { //Disabled
-				[cell.textLabel setTextColor:[UIColor colorWithRed:1 green:0 blue:0 alpha:1]];
-			}
-			
-			[cell.textLabel setText:[pack name]];
+	if (cell && indexPath.section >= 0 && indexPath.section < [_packages count]) {
+		Package* pack = [_packages objectAtIndex:indexPath.section];
+		
+		BOOL packEnabled = indexPath.section < 1 || _isSubscribed;
+		if (packEnabled) { //Enabled
+			[cell.textLabel setTextColor:[UIColor blackColor]];
+		} else { //Disabled
+			[cell.textLabel setTextColor:[UIColor colorWithRed:1 green:0 blue:0 alpha:1]];
+		}
+		
+		NSArray<Deck*> *decks = [pack decks];
+		if (indexPath.row >= 0 && indexPath.row < [decks count]) {
+			Deck *deck = [decks objectAtIndex:indexPath.row];
+			[cell.textLabel setText:[deck name]];
 			
 			if (packEnabled) {
 				[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];

@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "Package.h"
-#import "Card.h"
 
 @interface PackageManager : NSObject
 
