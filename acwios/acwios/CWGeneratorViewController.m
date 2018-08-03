@@ -21,7 +21,7 @@
     // Do any additional setup after loading the view.
 	//TODO: ... handle subscribe check for generation ...
 	
-	NSArray<Card*>* collectedCards = [[PackageManager sharedInstance] collectCardsOfPackage:_package];
+	NSArray<Card*>* collectedCards = [[PackageManager sharedInstance] collectCardsOfDeck:_deck];
 	//TODO: ... load all cards available in package ...
 }
 

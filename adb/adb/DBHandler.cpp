@@ -125,3 +125,37 @@ bool DBHandler::ReadOneColumn (SQLiteDB& db, const std::string& cmd, uint32_t co
 	
 	return true;
 }
+
+bool DBHandler::ReadColumns (SQLiteDB& db, const std::string& cmd, uint32_t colCount, std::function<bool (const std::vector<std::string>& values)> callback) {
+	sqlite3_stmt *db_stmt = nullptr;
+	if (sqlite3_prepare (db.db, cmd.c_str (), (int) cmd.size (), &db_stmt, nullptr) != SQLITE_OK) {
+		return false;
+	}
+	
+	struct AutoFinalize {
+		sqlite3_stmt *db_stmt;
+		AutoFinalize (sqlite3_stmt *db_stmt) : db_stmt (db_stmt) {}
+		~AutoFinalize () { sqlite3_finalize (db_stmt); }
+	} autoFinalize (db_stmt);
+	
+	int32_t rc = 0;
+	while ((rc = sqlite3_step (db_stmt)) == SQLITE_ROW) {
+		std::vector<std::string> cols (colCount);
+		
+		for (uint32_t i = 0; i < colCount; ++i) {
+			int32_t valueLen = sqlite3_column_bytes (db_stmt, i);
+			const char* val = (const char*) sqlite3_column_text (db_stmt, i);
+			if (val == nullptr) {
+				break;
+			}
+			
+			cols[i] = std::string (val, valueLen);
+		}
+		
+		if (!callback (cols)) {
+			break;
+		}
+	}
+	
+	return true;
+}

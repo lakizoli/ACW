@@ -71,7 +71,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 	if ([segue.identifier compare:@"ShowGenerateView"] == NSOrderedSame) {
 		CWGeneratorViewController* viewController = (CWGeneratorViewController*) segue.destinationViewController;
-		[viewController setPackage:_package];
+		[viewController setDeck:_deck];
 	}
 }
 

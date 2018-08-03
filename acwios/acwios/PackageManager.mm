@@ -152,6 +152,7 @@
 		for (auto& it : db->GetDecks ()) {
 			Deck *deck = [[Deck alloc] init];
 			
+			[deck setPackage:pack];
 			[deck setDeckID:it.first];
 			[deck setName:[NSString stringWithUTF8String:it.second->name.c_str ()]];
 			
@@ -170,12 +171,12 @@
 
 #pragma mark - Collecting cards of package
 
--(NSArray<Card*>*)collectCardsOfPackage:(Package*)package {
+-(NSArray<Card*>*)collectCardsOfDeck:(Deck*)deck {
 	//Read card list
 	NSMutableArray<Card*> *result = [NSMutableArray<Card*> new];
-//	std::shared_ptr<CardList> cardList = CardList::Create ([[[package path] path] UTF8String], [package deckID]);
-//	if (cardList) {
-//	}
+	std::shared_ptr<CardList> cardList = CardList::Create ([[[[deck package] path] path] UTF8String], [deck deckID]);
+	if (cardList) {
+	}
 	
 	return result;
 }

@@ -21,7 +21,7 @@
 @implementation ChoosePackageViewController {
 	BOOL _isSubscribed;
 	NSArray<Package*>* _packages;
-	Package *_choosenPackage;
+	Deck *_choosenDeck;
 }
 
 #pragma mark - Implementation
@@ -67,13 +67,19 @@
 #pragma mark - Navigation
 
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
-	if ([sender isKindOfClass:[UITableViewCell class]]) {
-		UITableViewCell* cell = (UITableViewCell*)sender;
+	if ([identifier compare:@"ShowConfiguratorView"] == NSOrderedSame && [sender isKindOfClass:[UITableViewCell class]]) {
+		UITableViewCell* cell = (UITableViewCell*) sender;
 		NSIndexPath* indexPath = [_packageTable indexPathForCell:cell];
 		BOOL packEnabled = indexPath.section < 1 || _isSubscribed;
 		if (packEnabled) {
-			_choosenPackage = [_packages objectAtIndex:indexPath.row];
-			return YES;
+			if (indexPath.section >= 0 && indexPath.section < [_packages count]) {
+				Package* choosenPackage = [_packages objectAtIndex:indexPath.section];
+				NSArray<Deck*> *decks = [choosenPackage decks];
+				if (indexPath.row >= 0 && indexPath.row < [decks count]) {
+					_choosenDeck = [decks objectAtIndex:indexPath.row];
+					return YES;
+				}
+			}
 		} else { //Choose a not allowed package
 			[self showSubscription];
 		}
@@ -83,9 +89,12 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-	if ([segue.destinationViewController isKindOfClass:[CWConfiguratorViewController class]] && _choosenPackage) {
+	if ([segue.identifier compare:@"ShowConfiguratorView"] == NSOrderedSame &&
+		[segue.destinationViewController isKindOfClass:[CWConfiguratorViewController class]] &&
+		_choosenDeck)
+	{
 		CWConfiguratorViewController *configView = (CWConfiguratorViewController*) segue.destinationViewController;
-		configView.package = _choosenPackage;
+		[configView setDeck: _choosenDeck];
 	}
 }
 

@@ -12,6 +12,7 @@
 #include "DBHandler.hpp"
 
 class BasicInfo : public DBHandler {
+public:
 	struct Deck {
 		uint64_t id = 0;
 		std::string name;

@@ -11,6 +11,6 @@
 
 @interface CWConfiguratorViewController : UIViewController
 
-@property (nonatomic) Package *package;
+@property (nonatomic) Deck *deck;
 
 @end

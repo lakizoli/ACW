@@ -29,6 +29,7 @@ protected:
 	};
 	
 	static bool ReadOneColumn (SQLiteDB& db, const std::string& cmd, uint32_t col, std::function<bool (const std::string& val)> callback);
+	static bool ReadColumns (SQLiteDB& db, const std::string& cmd, uint32_t colCount, std::function<bool (const std::vector<std::string>& values)> callback);
 };
 
 #endif /* DBHandler_hpp */

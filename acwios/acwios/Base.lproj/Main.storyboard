@@ -201,7 +201,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="8Gq-Af-vIq" kind="show" identifier="" id="7Us-3c-7z2"/>
+                                            <segue destination="8Gq-Af-vIq" kind="show" identifier="ShowConfiguratorView" id="7Us-3c-7z2"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

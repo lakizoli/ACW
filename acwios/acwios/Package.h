@@ -8,11 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+@class Package;
+@class Deck;
+
 @interface Card : NSObject
 @end
 
 @interface Deck : NSObject
 
+@property (weak) Package *package;
 @property (assign) NSUInteger deckID;
 @property (strong) NSString *name;
 
