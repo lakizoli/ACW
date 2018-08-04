@@ -107,7 +107,18 @@ bool CardList::Read () {
 			" ON notes.id = cards.nid"
 			" WHERE did = " + std::to_string (_deckID);
 		if (!ReadColumns (db, sql, 4, [&] (const std::vector<std::string>& colValues) -> bool {
-			//...
+			std::shared_ptr<Card> card (std::make_shared<Card> ());
+			card->cardID =  std::stoull (colValues[0]);
+			card->noteID = std::stoull (colValues[1]);
+			
+			std::istringstream fieldStream (colValues[2]);
+			for (std::string item; std::getline (fieldStream, item, (char) 0x1F);) {
+				card->fields.push_back (item);
+			}
+			
+			card->solutionField = colValues[3];
+			
+			_cards.emplace (card->cardID, card);
 			return true; //continue
 		})) {
 			return false;
