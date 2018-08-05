@@ -21,6 +21,17 @@
 
 @implementation CWGeneratorViewController {
 	BOOL _isSubscribed;
+	GeneratorInfo *_generatorInfo;
+}
+
+#pragma mark - Implementation
+
+-(void) showSubscription {
+	//TODO: implement subscribtion process in SubScriptionManager...
+	
+	UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Subscribe" message:@"Let's take some subscription..." preferredStyle:UIAlertControllerStyleAlert];
+	
+	[self presentViewController:alert animated:YES completion:nil];
 }
 
 #pragma mark - Events
@@ -35,8 +46,7 @@
 	_isSubscribed = [[SubscriptionManager sharedInstance] isSubscribed];
 	//TODO: ... handle subscribe check for generation ...
 	
-	NSArray<Card*>* collectedCards = [[PackageManager sharedInstance] collectCardsOfDeck:_deck];
-	//TODO: ... load all cards available in package ...
+	_generatorInfo = [[PackageManager sharedInstance] collectGeneratorInfo:_deck];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -74,7 +84,11 @@
 		NSInteger givenSize = [[textField text] integerValue];
 		
 		if (givenSize > maxSize) { //Show alert for user
-			//TODO: show subscription or size alert depending on _isSubscribed...
+			if (!_isSubscribed) {
+				[self showSubscription];
+			}
+			
+			[textField setText:[NSString stringWithFormat:@"%li", maxSize]];
 		} else if (givenSize < 5) {
 			[textField setText:@"5"];
 		}
@@ -93,5 +107,47 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+#pragma mark - Picker view datasource
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+	if (pickerView == _pickerQuestion || pickerView == _pickerSolution) {
+		return 1;
+	}
+	
+	return 0;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+	if (pickerView == _pickerQuestion) {
+		return [[_generatorInfo fields] count];
+	} else if (pickerView == _pickerSolution) {
+		return [[_generatorInfo fields] count];
+	}
+
+	return 0;
+}
+
+#pragma mark - Picker view delegate
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+	if (pickerView == _pickerQuestion) {
+		return [[[_generatorInfo fields] objectAtIndex:row] name];
+	} else if (pickerView == _pickerSolution) {
+		return [[[_generatorInfo fields] objectAtIndex:row] name];
+	}
+
+	return nil;
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+	if (pickerView == _pickerQuestion) {
+		//TODO: ... show example in header upon select ...
+		//TODO: ... handle select of picker view ...
+	} else if (pickerView == _pickerSolution) {
+		//TODO: ... show example in header upon select ...
+		//TODO: ... handle select of picker view ...
+	}
+}
 
 @end

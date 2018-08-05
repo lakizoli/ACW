@@ -70,7 +70,7 @@
 	if ([identifier compare:@"ShowConfiguratorView"] == NSOrderedSame && [sender isKindOfClass:[UITableViewCell class]]) {
 		UITableViewCell* cell = (UITableViewCell*) sender;
 		NSIndexPath* indexPath = [_packageTable indexPathForCell:cell];
-		BOOL packEnabled = indexPath.section < 1 || _isSubscribed;
+		BOOL packEnabled = (indexPath.section < 1 && indexPath.row < 1) || _isSubscribed;
 		if (packEnabled) {
 			if (indexPath.section >= 0 && indexPath.section < [_packages count]) {
 				Package* choosenPackage = [_packages objectAtIndex:indexPath.section];
@@ -127,7 +127,7 @@
 	if (cell && indexPath.section >= 0 && indexPath.section < [_packages count]) {
 		Package* pack = [_packages objectAtIndex:indexPath.section];
 		
-		BOOL packEnabled = indexPath.section < 1 || _isSubscribed;
+		BOOL packEnabled = (indexPath.section < 1 && indexPath.row < 1) || _isSubscribed;
 		if (packEnabled) { //Enabled
 			[cell.textLabel setTextColor:[UIColor blackColor]];
 		} else { //Disabled

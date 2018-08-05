@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Package.h"
 
-@interface CWGeneratorViewController : UIViewController<UITextFieldDelegate>
+@interface CWGeneratorViewController : UIViewController<UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
 
 @property (nonatomic) Deck *deck;
 

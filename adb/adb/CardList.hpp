@@ -21,6 +21,7 @@ public:
 	struct Card {
 		uint64_t cardID = 0;
 		uint64_t noteID = 0;
+		uint64_t modelID = 0;
 		std::vector<std::string> fields;
 		std::string solutionField;
 	};

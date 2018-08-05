@@ -193,7 +193,7 @@
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="PackageCell" id="VPb-0i-jnJ">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="PackageCell" id="VPb-0i-jnJ">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="VPb-0i-jnJ" id="g1g-EO-nIt">
@@ -302,7 +302,7 @@
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="CWCell" id="iGu-cw-f0W">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="CWCell" id="iGu-cw-f0W">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="iGu-cw-f0W" id="bM0-eq-oFQ">
@@ -530,6 +530,10 @@
                                                     </label>
                                                     <pickerView contentMode="scaleToFill" verticalHuggingPriority="249" translatesAutoresizingMaskIntoConstraints="NO" id="YN9-1Q-FU6">
                                                         <rect key="frame" x="0.0" y="30" width="365" height="189.5"/>
+                                                        <connections>
+                                                            <outlet property="dataSource" destination="Fr7-zT-vyu" id="nFJ-Oa-SbE"/>
+                                                            <outlet property="delegate" destination="Fr7-zT-vyu" id="KG2-c8-czz"/>
+                                                        </connections>
                                                     </pickerView>
                                                 </subviews>
                                             </stackView>
@@ -547,6 +551,10 @@
                                                     </label>
                                                     <pickerView contentMode="scaleToFill" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="YJE-t3-YOS">
                                                         <rect key="frame" x="0.0" y="30" width="365" height="189.5"/>
+                                                        <connections>
+                                                            <outlet property="dataSource" destination="Fr7-zT-vyu" id="jQ7-SR-kVA"/>
+                                                            <outlet property="delegate" destination="Fr7-zT-vyu" id="wjS-Q7-lmj"/>
+                                                        </connections>
                                                     </pickerView>
                                                 </subviews>
                                             </stackView>

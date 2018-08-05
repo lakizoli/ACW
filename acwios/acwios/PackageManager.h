@@ -14,6 +14,6 @@
 +(PackageManager*) sharedInstance;
 
 -(NSArray<Package*>*)collectPackages;
--(NSArray<Card*>*)collectCardsOfDeck:(Deck*)deck;
+-(GeneratorInfo*)collectGeneratorInfo:(Deck*)deck;
 
 @end

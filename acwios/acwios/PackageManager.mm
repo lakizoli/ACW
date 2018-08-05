@@ -169,16 +169,41 @@
 
 //...
 
-#pragma mark - Collecting cards of package
+#pragma mark - Collecting generation info
 
--(NSArray<Card*>*)collectCardsOfDeck:(Deck*)deck {
-	//Read card list
-	NSMutableArray<Card*> *result = [NSMutableArray<Card*> new];
+-(GeneratorInfo*)collectGeneratorInfo:(Deck*)deck {
+	GeneratorInfo *info = [[GeneratorInfo alloc] init];
+	[info setDeck:deck];
+	
 	std::shared_ptr<CardList> cardList = CardList::Create ([[[[deck package] path] path] UTF8String], [deck deckID]);
 	if (cardList) {
+		for (auto it : cardList->GetFields ()) {
+			Field *field = [[Field alloc] init];
+			
+			[field setName:[NSString stringWithUTF8String:it.second->name.c_str ()]];
+			[field setIdx:it.second->idx];
+			
+			[[info fields] addObject:field];
+		}
+		
+		for (auto it : cardList->GetCards ()) {
+			Card *card = [[Card alloc] init];
+			
+			[card setCardID:it.second->cardID];
+			[card setNoteID:it.second->noteID];
+			[card setModelID:it.second->modelID];
+			
+			for (const std::string& fieldValue : it.second->fields) {
+				[[card fieldValues] addObject:[NSString stringWithUTF8String:fieldValue.c_str ()]];
+			}
+			
+			[card setSolutionFieldValue:[NSString stringWithUTF8String:it.second->solutionField.c_str ()]];
+			
+			[[info cards] addObject:card];
+		}
 	}
 	
-	return result;
+	return info;
 }
 
 @end
