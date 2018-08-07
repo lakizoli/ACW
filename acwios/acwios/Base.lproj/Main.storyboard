@@ -411,8 +411,34 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="fLW-I2-GIc">
                                 <rect key="frame" x="5" y="64" width="365" height="539"/>
                                 <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UWl-ZJ-rIh">
+                                        <rect key="frame" x="0.0" y="0.0" width="365" height="30"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MpM-TW-3TR">
+                                                <rect key="frame" x="0.0" y="0.0" width="60" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="60" id="z1e-dx-HuV"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name of the generated crossword" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kUs-Ip-HI4">
+                                                <rect key="frame" x="60" y="0.0" width="305" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="30" id="XVm-rz-yZr"/>
+                                                </constraints>
+                                                <nil key="textColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                                <connections>
+                                                    <outlet property="delegate" destination="Fr7-zT-vyu" id="95A-1g-Vyk"/>
+                                                </connections>
+                                            </textField>
+                                        </subviews>
+                                    </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="kAH-kg-5AQ">
-                                        <rect key="frame" x="0.0" y="0.0" width="365" height="95"/>
+                                        <rect key="frame" x="0.0" y="35" width="365" height="95"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Size considerations:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dXb-zE-8nc">
                                                 <rect key="frame" x="0.0" y="0.0" width="365" height="30"/>
@@ -514,22 +540,27 @@
                                         </variation>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="GMf-P2-rr5">
-                                        <rect key="frame" x="0.0" y="100" width="365" height="439"/>
+                                        <rect key="frame" x="0.0" y="135" width="365" height="404"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Ro3-BD-efi">
-                                                <rect key="frame" x="0.0" y="0.0" width="365" height="219.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="365" height="202"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Question field:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gm4-Go-CpH">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gm4-Go-CpH">
                                                         <rect key="frame" x="0.0" y="0.0" width="365" height="30"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="30" id="xpd-w2-zCh"/>
                                                         </constraints>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                        <nil key="textColor"/>
+                                                        <attributedString key="attributedText">
+                                                            <fragment content="Question field:">
+                                                                <attributes>
+                                                                    <font key="NSFont" metaFont="system" size="17"/>
+                                                                </attributes>
+                                                            </fragment>
+                                                        </attributedString>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <pickerView contentMode="scaleToFill" verticalHuggingPriority="249" translatesAutoresizingMaskIntoConstraints="NO" id="YN9-1Q-FU6">
-                                                        <rect key="frame" x="0.0" y="30" width="365" height="189.5"/>
+                                                        <rect key="frame" x="0.0" y="30" width="365" height="172"/>
                                                         <connections>
                                                             <outlet property="dataSource" destination="Fr7-zT-vyu" id="nFJ-Oa-SbE"/>
                                                             <outlet property="delegate" destination="Fr7-zT-vyu" id="KG2-c8-czz"/>
@@ -538,19 +569,24 @@
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Mi8-hW-1SP">
-                                                <rect key="frame" x="0.0" y="219.5" width="365" height="219.5"/>
+                                                <rect key="frame" x="0.0" y="202" width="365" height="202"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Solution field:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hTH-ca-2WW">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hTH-ca-2WW">
                                                         <rect key="frame" x="0.0" y="0.0" width="365" height="30"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="30" id="m3D-Db-NMQ"/>
                                                         </constraints>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                        <nil key="textColor"/>
+                                                        <attributedString key="attributedText">
+                                                            <fragment content="Solution field:">
+                                                                <attributes>
+                                                                    <font key="NSFont" metaFont="system" size="17"/>
+                                                                </attributes>
+                                                            </fragment>
+                                                        </attributedString>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <pickerView contentMode="scaleToFill" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="YJE-t3-YOS">
-                                                        <rect key="frame" x="0.0" y="30" width="365" height="189.5"/>
+                                                        <rect key="frame" x="0.0" y="30" width="365" height="172"/>
                                                         <connections>
                                                             <outlet property="dataSource" destination="Fr7-zT-vyu" id="jQ7-SR-kVA"/>
                                                             <outlet property="delegate" destination="Fr7-zT-vyu" id="wjS-Q7-lmj"/>
@@ -606,10 +642,13 @@
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="labelQuestion" destination="Gm4-Go-CpH" id="pbC-0r-v6s"/>
+                        <outlet property="labelSolution" destination="hTH-ca-2WW" id="Arr-Gp-TC6"/>
                         <outlet property="pickerQuestion" destination="YN9-1Q-FU6" id="g0p-6J-nrt"/>
                         <outlet property="pickerSolution" destination="YJE-t3-YOS" id="r29-vD-aLd"/>
+                        <outlet property="textCrosswordName" destination="kUs-Ip-HI4" id="NV3-BT-D5L"/>
                         <outlet property="textHeight" destination="coG-7v-Hca" id="sfk-XP-RdX"/>
-                        <outlet property="textWidth" destination="xFc-uH-ElI" id="4c9-u1-fZQ"/>
+                        <outlet property="textWidth" destination="xFc-uH-ElI" id="Enl-qB-bbG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kgW-G7-8h9" userLabel="First Responder" sceneMemberID="firstResponder"/>

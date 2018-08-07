@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		FDCD526C2108556B0081FE4D /* cw.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FDCD526A2108556B0081FE4D /* cw.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		FDCD52CA21199BE10081FE4D /* Crossword.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDCD52C821199BE10081FE4D /* Crossword.cpp */; };
+		FDCD52CB21199BE10081FE4D /* Crossword.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FDCD52C921199BE10081FE4D /* Crossword.hpp */; };
+		FDCD52CD21199C1F0081FE4D /* prefix.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FDCD52CC21199C1F0081FE4D /* prefix.hpp */; };
+		FDCD52D021199C770081FE4D /* Generator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDCD52CE21199C770081FE4D /* Generator.cpp */; };
+		FDCD52D121199C770081FE4D /* Generator.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FDCD52CF21199C770081FE4D /* Generator.hpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -15,6 +20,11 @@
 		FDCD526A2108556B0081FE4D /* cw.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = cw.hpp; sourceTree = "<group>"; };
 		FDCD526B2108556B0081FE4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FDCD527C2108565D0081FE4D /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		FDCD52C821199BE10081FE4D /* Crossword.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Crossword.cpp; sourceTree = "<group>"; };
+		FDCD52C921199BE10081FE4D /* Crossword.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Crossword.hpp; sourceTree = "<group>"; };
+		FDCD52CC21199C1F0081FE4D /* prefix.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = prefix.hpp; sourceTree = "<group>"; };
+		FDCD52CE21199C770081FE4D /* Generator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Generator.cpp; sourceTree = "<group>"; };
+		FDCD52CF21199C770081FE4D /* Generator.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Generator.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,6 +60,11 @@
 				FDCD527C2108565D0081FE4D /* module.modulemap */,
 				FDCD526A2108556B0081FE4D /* cw.hpp */,
 				FDCD526B2108556B0081FE4D /* Info.plist */,
+				FDCD52CC21199C1F0081FE4D /* prefix.hpp */,
+				FDCD52C821199BE10081FE4D /* Crossword.cpp */,
+				FDCD52C921199BE10081FE4D /* Crossword.hpp */,
+				FDCD52CE21199C770081FE4D /* Generator.cpp */,
+				FDCD52CF21199C770081FE4D /* Generator.hpp */,
 			);
 			path = cw;
 			sourceTree = "<group>";
@@ -62,6 +77,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				FDCD526C2108556B0081FE4D /* cw.hpp in Headers */,
+				FDCD52CD21199C1F0081FE4D /* prefix.hpp in Headers */,
+				FDCD52D121199C770081FE4D /* Generator.hpp in Headers */,
+				FDCD52CB21199BE10081FE4D /* Crossword.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -132,6 +150,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FDCD52CA21199BE10081FE4D /* Crossword.cpp in Sources */,
+				FDCD52D021199C770081FE4D /* Generator.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -180,6 +200,8 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = cw/prefix.hpp;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -240,6 +262,8 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = cw/prefix.hpp;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;

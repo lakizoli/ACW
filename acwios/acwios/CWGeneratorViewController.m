@@ -12,9 +12,12 @@
 
 @interface CWGeneratorViewController ()
 
+@property (weak, nonatomic) IBOutlet UITextField *textCrosswordName;
 @property (weak, nonatomic) IBOutlet UITextField *textWidth;
 @property (weak, nonatomic) IBOutlet UITextField *textHeight;
+@property (weak, nonatomic) IBOutlet UILabel *labelQuestion;
 @property (weak, nonatomic) IBOutlet UIPickerView *pickerQuestion;
+@property (weak, nonatomic) IBOutlet UILabel *labelSolution;
 @property (weak, nonatomic) IBOutlet UIPickerView *pickerSolution;
 
 @end
@@ -22,6 +25,12 @@
 @implementation CWGeneratorViewController {
 	BOOL _isSubscribed;
 	GeneratorInfo *_generatorInfo;
+	
+	NSString *_crosswordName;
+	NSUInteger _width;
+	NSUInteger _height;
+	NSUInteger _questionFieldIndex;
+	NSUInteger _solutionFieldIndex;
 }
 
 #pragma mark - Implementation
@@ -34,19 +43,84 @@
 	[self presentViewController:alert animated:YES completion:nil];
 }
 
+-(void) showNameAlert {
+	UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Name error" message:@"You have to give a name for the generated crossword!" preferredStyle:UIAlertControllerStyleAlert];
+	
+	UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+														  handler:^(UIAlertAction * action) {}];
+	
+	[alert addAction:defaultAction];
+	[self presentViewController:alert animated:YES completion:nil];
+}
+
+-(NSString*) getFieldValue:(NSUInteger)row {
+	NSString *fieldValue = nil;
+	
+	NSArray<Field*> *fields = [_generatorInfo fields];
+	if (row < [fields count]) {
+		Field *field = [fields objectAtIndex:row];
+		NSArray<Card*> *cards = [_generatorInfo cards];
+		
+		if ([cards count] > 0) {
+			Card *card = [cards objectAtIndex:0];
+			if ([field idx] < [[card fieldValues] count]) {
+				fieldValue = [[card fieldValues] objectAtIndex:[field idx]];
+			}
+		}
+	}
+	
+	return fieldValue;
+}
+
+-(void) updatePickerLabel:(UILabel*)label withText:(NSString*)text andExample:(NSString*)exampleContent {
+	if (exampleContent == nil) {
+		[label setText:text];
+		return;
+	}
+	
+	NSString *example = [NSString stringWithFormat:@"(e.g.: \"%@\")", exampleContent];
+	NSString *content = [NSString stringWithFormat:@"%@ %@", text, example];
+	NSDictionary *attribs = @{ NSForegroundColorAttributeName: label.textColor,
+							   NSFontAttributeName: label.font };
+	NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc] initWithString:content attributes:attribs];
+	
+	UIColor *grayColor = [UIColor grayColor];
+	NSRange grayTextRange = [content rangeOfString:example];
+	UIFont *italicFont = [UIFont italicSystemFontOfSize: label.font.pointSize];
+	[attributedText setAttributes:@{ NSForegroundColorAttributeName:grayColor,
+									 NSFontAttributeName: italicFont }
+							range:grayTextRange];
+	
+	[label setAttributedText:attributedText];
+}
+
 #pragma mark - Events
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
     // Do any additional setup after loading the view.
-//	[_textWidth setText:@"5"];
-//	[_textHeight setText:@"5"];
-
 	_isSubscribed = [[SubscriptionManager sharedInstance] isSubscribed];
-	//TODO: ... handle subscribe check for generation ...
-	
 	_generatorInfo = [[PackageManager sharedInstance] collectGeneratorInfo:_deck];
+	
+	_crosswordName = [_deck name];
+	_width = 5;
+	_height = 5;
+	
+	_questionFieldIndex = 0;
+	_solutionFieldIndex = 0;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+	[_textCrosswordName setText:_crosswordName];
+	[_textWidth setText:[NSString stringWithFormat:@"%lu", _width]];
+	[_textHeight setText:[NSString stringWithFormat:@"%lu", _height]];
+	
+	NSString *fieldValue = [self getFieldValue:_questionFieldIndex];
+	[self updatePickerLabel:_labelQuestion withText:@"Question field:" andExample:fieldValue];
+	
+	fieldValue = [self getFieldValue:_solutionFieldIndex];
+	[self updatePickerLabel:_labelSolution withText:@"Solution field:" andExample:fieldValue];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -57,56 +131,55 @@
 - (IBAction)backButtorPressed:(id)sender {
 	[self dismissViewControllerAnimated:YES completion:nil];
 }
+
 - (IBAction)doneButtonPressed:(id)sender {
 	//TODO: generate crossword with given settings (have to consider subscribe also!)...
 	
 	[self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-	if (textField == _textWidth || textField == _textHeight) {
-		NSCharacterSet *numbersOnly = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
-		NSCharacterSet *characterSetFromTextField = [NSCharacterSet characterSetWithCharactersInString:string];
-		if ([numbersOnly isSupersetOfSet:characterSetFromTextField] && textField.text.length < 2) { //Allow max: 99 in size fields
-			return YES;
-		}
-		
-		return NO;
-	}
-	
-	//Other text fields
-	return YES;
-}
-
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
 	if (textField == _textWidth || textField == _textHeight) {
 		NSInteger maxSize = _isSubscribed ? 99 : 10;
 		NSInteger givenSize = [[textField text] integerValue];
-		
+
 		if (givenSize > maxSize) { //Show alert for user
 			if (!_isSubscribed) {
 				[self showSubscription];
 			}
-			
+
 			[textField setText:[NSString stringWithFormat:@"%li", maxSize]];
-		} else if (givenSize < 5) {
+			
+			if (textField == _textWidth) {
+				_width = (NSUInteger) maxSize;
+			} else if (textField == _textHeight) {
+				_height = (NSUInteger) maxSize;
+			}
+		} else if (givenSize < 5) { //Minimal size is 5
 			[textField setText:@"5"];
+			
+			if (textField == _textWidth) {
+				_width = 5;
+			} else if (textField == _textHeight) {
+				_height = 5;
+			}
+		} else { //Allowed size given
+			if (textField == _textWidth) {
+				_width = (NSUInteger) givenSize;
+			} else if (textField == _textHeight) {
+				_height = (NSUInteger) givenSize;
+			}
 		}
+	} else if (textField == _textCrosswordName) {
+		if ([[textField text] length] <= 0) {
+			[self showNameAlert];
+		}
+		
+		_crosswordName = [textField text];
 	}
-	
-	//Other text fields
+
 	return YES;
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 #pragma mark - Picker view datasource
 
@@ -142,11 +215,13 @@
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
 	if (pickerView == _pickerQuestion) {
-		//TODO: ... show example in header upon select ...
-		//TODO: ... handle select of picker view ...
+		NSString *fieldValue = [self getFieldValue:row];
+		[self updatePickerLabel:_labelQuestion withText:@"Question field:" andExample:fieldValue];
+		_questionFieldIndex = row;
 	} else if (pickerView == _pickerSolution) {
-		//TODO: ... show example in header upon select ...
-		//TODO: ... handle select of picker view ...
+		NSString *fieldValue = [self getFieldValue:row];
+		[self updatePickerLabel:_labelSolution withText:@"Solution field:" andExample:fieldValue];
+		_solutionFieldIndex = row;
 	}
 }
 
