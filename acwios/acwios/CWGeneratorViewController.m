@@ -133,6 +133,8 @@
 }
 
 - (IBAction)doneButtonPressed:(id)sender {
+	//TODO: collect choosen cardlist to generate crossword from
+	//TODO: implement progress view of generation
 	//TODO: generate crossword with given settings (have to consider subscribe also!)...
 	
 	[self dismissViewControllerAnimated:YES completion:nil];
