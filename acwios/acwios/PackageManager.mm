@@ -278,7 +278,41 @@
 		return;
 	}
 	
-	//TODO: implement generation...
+	if ([[info decks] count] < 1) {
+		return;
+	}
+	
+	NSString *packagePath = [[[[[info decks] objectAtIndex:0] package] path] path];
+	
+	__block std::set<uint64_t> deckIDs;
+	[[info decks] enumerateObjectsUsingBlock:^(Deck * _Nonnull deck, NSUInteger idx, BOOL * _Nonnull stop) {
+		deckIDs.insert ([deck deckID]);
+	}];
+	
+	__block std::vector<std::string> questionFieldValues;
+	__block std::vector<std::string> solutionFieldValues;
+	[[info cards] enumerateObjectsUsingBlock:^(Card * _Nonnull card, NSUInteger idx, BOOL * _Nonnull stop) {
+		NSString *val = [[card fieldValues] objectAtIndex:[info questionFieldIndex]];
+		questionFieldValues.push_back ([val UTF8String]);
+		
+		val = [[card fieldValues] objectAtIndex:[info solutionFieldIndex]];
+		solutionFieldValues.push_back ([val UTF8String]);
+	}];
+	
+	//TODO: generate from field values directly...
+	
+	if (questionFieldValues.size() > 0) {
+	}
+	
+//	std::shared_ptr<DeckSet> deckSet = DeckSet::Create ([packagePath UTF8String],
+//														deckIDs,
+//														std::set<uint64_t> {},
+//														[info questionFieldIndex],
+//														[info solutionFieldIndex]);
+//
+//	if (deckSet == nullptr) {
+//		return;
+//	}
 }
 
 @end
