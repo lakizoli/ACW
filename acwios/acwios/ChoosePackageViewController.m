@@ -9,10 +9,11 @@
 #import "ChoosePackageViewController.h"
 #import "SubscriptionManager.h"
 #import "PackageManager.h"
-#import "CWConfiguratorViewController.h"
+#import "CWGeneratorViewController.h"
 
 @interface ChoosePackageViewController ()
 
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *configureButton;
 @property (weak, nonatomic) IBOutlet UIView *subscribeView;
 @property (weak, nonatomic) IBOutlet UITableView *packageTable;
 
@@ -21,7 +22,7 @@
 @implementation ChoosePackageViewController {
 	BOOL _isSubscribed;
 	NSArray<Package*>* _packages;
-	Deck *_choosenDeck;
+	NSArray<Deck*> *_choosenDecks;
 }
 
 #pragma mark - Implementation
@@ -41,7 +42,9 @@
 	
     // Do any additional setup after loading the view.
 	_isSubscribed = [[SubscriptionManager sharedInstance] isSubscribed];
-	[[self subscribeView] setHidden:_isSubscribed];
+	[_subscribeView setHidden:_isSubscribed];
+	
+	[_configureButton setEnabled:NO];
 	
 	NSArray<Package*>* collectedPackages = [[PackageManager sharedInstance] collectPackages];
 	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name"
@@ -67,21 +70,33 @@
 #pragma mark - Navigation
 
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
-	if ([identifier compare:@"ShowConfiguratorView"] == NSOrderedSame && [sender isKindOfClass:[UITableViewCell class]]) {
-		UITableViewCell* cell = (UITableViewCell*) sender;
-		NSIndexPath* indexPath = [_packageTable indexPathForCell:cell];
-		BOOL packEnabled = (indexPath.section < 1 && indexPath.row < 1) || _isSubscribed;
-		if (packEnabled) {
-			if (indexPath.section >= 0 && indexPath.section < [_packages count]) {
-				Package* choosenPackage = [_packages objectAtIndex:indexPath.section];
-				NSArray<Deck*> *decks = [choosenPackage decks];
-				if (indexPath.row >= 0 && indexPath.row < [decks count]) {
-					_choosenDeck = [decks objectAtIndex:indexPath.row];
-					return YES;
-				}
+	if ([identifier compare:@"ShowGenerateView"] == NSOrderedSame && [sender isKindOfClass:[UIBarButtonItem class]]) {
+		NSArray<NSIndexPath*> *selectedRows = [_packageTable indexPathsForSelectedRows];
+
+		__block BOOL showSubscriptionAlert = NO;
+		__block NSMutableArray<Deck*> *selectedDecks = [NSMutableArray<Deck*> new];
+		[selectedRows enumerateObjectsUsingBlock:^(NSIndexPath * _Nonnull indexPath, NSUInteger idx, BOOL * _Nonnull stop) {
+			BOOL packEnabled = (indexPath.section < 1 && indexPath.row < 1) || self->_isSubscribed;
+			if (!packEnabled) {
+				showSubscriptionAlert = YES;
+				*stop = YES;
 			}
-		} else { //Choose a not allowed package
+			
+			Package *choosenPackage = [self->_packages objectAtIndex:indexPath.section];
+			NSArray<Deck*> *decks = [choosenPackage decks];
+			if (indexPath.row >= 0 && indexPath.row < [decks count]) {
+				[selectedDecks addObject:[decks objectAtIndex:indexPath.row]];
+			}
+		}];
+		
+		if (showSubscriptionAlert) {
 			[self showSubscription];
+		} else if ([selectedDecks count] <= 0) {
+			//... Cannot happen because of disabling configure button
+			return NO;
+		} else { //We have a valid deck set
+			self->_choosenDecks = selectedDecks;
+			return YES;
 		}
 	}
 	
@@ -89,12 +104,12 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-	if ([segue.identifier compare:@"ShowConfiguratorView"] == NSOrderedSame &&
-		[segue.destinationViewController isKindOfClass:[CWConfiguratorViewController class]] &&
-		_choosenDeck)
+	if ([segue.identifier compare:@"ShowGenerateView"] == NSOrderedSame &&
+		[segue.destinationViewController isKindOfClass:[CWGeneratorViewController class]] &&
+		[_choosenDecks count] > 0)
 	{
-		CWConfiguratorViewController *configView = (CWConfiguratorViewController*) segue.destinationViewController;
-		[configView setDeck: _choosenDeck];
+		CWGeneratorViewController *genView = (CWGeneratorViewController*) segue.destinationViewController;
+		[genView setDecks: _choosenDecks];
 	}
 }
 
@@ -138,15 +153,30 @@
 		if (indexPath.row >= 0 && indexPath.row < [decks count]) {
 			Deck *deck = [decks objectAtIndex:indexPath.row];
 			[cell.textLabel setText:[deck name]];
-			
-			if (packEnabled) {
-				[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-			} else {
-				[cell setAccessoryType:UITableViewCellAccessoryNone];
-			}
 		}
 	}
 	return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
+	NSArray<NSIndexPath*> *selectedRows = [tableView indexPathsForSelectedRows];
+	if ([selectedRows count] <= 0) {
+		[_configureButton setEnabled:NO];
+	}
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	NSArray<NSIndexPath*> *selectedRows = [tableView indexPathsForSelectedRows];
+	
+	if ([selectedRows count] > 0) {
+		[_configureButton setEnabled:YES];
+	}
+	
+	[selectedRows enumerateObjectsUsingBlock:^(NSIndexPath * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		if (indexPath.section != obj.section) {
+			[tableView deselectRowAtIndexPath:obj animated:YES];
+		}
+	}];
 }
 
 @end

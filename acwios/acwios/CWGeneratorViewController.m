@@ -101,9 +101,13 @@
 	
     // Do any additional setup after loading the view.
 	_isSubscribed = [[SubscriptionManager sharedInstance] isSubscribed];
-	_generatorInfo = [[PackageManager sharedInstance] collectGeneratorInfo:_deck];
+	_generatorInfo = [[PackageManager sharedInstance] collectGeneratorInfo:_decks];
 	
-	_crosswordName = [_deck name];
+	if ([[_generatorInfo decks] count] > 0) {
+		Deck* firstDeck = [[_generatorInfo decks] objectAtIndex:0];
+		_crosswordName = [firstDeck name];
+	}
+	
 	_width = 5;
 	_height = 5;
 	
@@ -133,6 +137,16 @@
 }
 
 - (IBAction)doneButtonPressed:(id)sender {
+	//Fill info with configuration values
+	[_generatorInfo setCrosswordName: _crosswordName];
+	[_generatorInfo setWidth: _width];
+	[_generatorInfo setHeight: _height];
+	[_generatorInfo setQuestionFieldIndex: _questionFieldIndex];
+	[_generatorInfo setSolutionFieldIndex: _solutionFieldIndex];
+	
+	//Generate crossword
+	[[PackageManager sharedInstance] generateWithInfo:_generatorInfo];
+	
 	//TODO: collect choosen cardlist to generate crossword from
 	//TODO: implement progress view of generation
 	//TODO: generate crossword with given settings (have to consider subscribe also!)...

@@ -38,7 +38,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                 <state key="normal" title="Play Crossword"/>
                                 <connections>
-                                    <segue destination="zRY-u3-jNH" kind="show" id="X0d-1V-hqc"/>
+                                    <segue destination="8Gq-Af-vIq" kind="show" id="3dm-Y5-C1e"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -177,10 +177,15 @@
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IBp-Un-jvg">
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                 <items>
-                                    <navigationItem title="Choose package" id="eiV-wP-otF">
+                                    <navigationItem title="Choose package's decks" id="eiV-wP-otF">
                                         <barButtonItem key="leftBarButtonItem" title="Back" image="arrow-back" id="N59-dM-Zp8">
                                             <connections>
                                                 <action selector="backButtonPressed:" destination="zRY-u3-jNH" id="mba-qn-vc5"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="Configure" id="iok-E7-h1f">
+                                            <connections>
+                                                <segue destination="Fr7-zT-vyu" kind="show" identifier="ShowGenerateView" id="1gA-zV-NWP"/>
                                             </connections>
                                         </barButtonItem>
                                         <connections>
@@ -189,20 +194,17 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="byk-7i-6Pg">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsMultipleSelection="YES" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="byk-7i-6Pg">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="PackageCell" id="VPb-0i-jnJ">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PackageCell" id="VPb-0i-jnJ">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="VPb-0i-jnJ" id="g1g-EO-nIt">
-                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="8Gq-Af-vIq" kind="show" identifier="ShowConfiguratorView" id="7Us-3c-7z2"/>
-                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -219,7 +221,7 @@
                                             <constraint firstAttribute="width" relation="lessThanOrEqual" constant="359" id="3yx-jK-y2G"/>
                                         </constraints>
                                         <attributedString key="attributedText">
-                                            <fragment content="You can use only one package without a subscription. Choose the button below to take it...">
+                                            <fragment content="You can use only the first deck from the first package without a subscription. Choose the button below to take it...">
                                                 <attributes>
                                                     <font key="NSFont" size="19" name=".AppleSystemUIFont"/>
                                                     <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
@@ -265,13 +267,14 @@
                         <viewLayoutGuide key="safeArea" id="MTF-hU-uoR"/>
                     </view>
                     <connections>
+                        <outlet property="configureButton" destination="iok-E7-h1f" id="d4s-sP-4XI"/>
                         <outlet property="packageTable" destination="byk-7i-6Pg" id="uHC-UU-BmU"/>
                         <outlet property="subscribeView" destination="ift-Ha-q0S" id="OeI-be-8ur"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NRc-fC-bMa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="984.79999999999995" y="499.70014992503752"/>
+            <point key="canvasLocation" x="1862" y="510"/>
         </scene>
         <!--Configurator View Controller-->
         <scene sceneID="k0S-uK-wfP">
@@ -292,7 +295,7 @@
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="1qT-4d-Rwo">
                                             <connections>
-                                                <segue destination="Fr7-zT-vyu" kind="show" identifier="ShowGenerateView" id="O3i-to-2Op"/>
+                                                <segue destination="zRY-u3-jNH" kind="show" id="haY-u7-5gD"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
@@ -325,7 +328,7 @@
                                             <constraint firstAttribute="width" relation="lessThanOrEqual" constant="359" id="Piv-bX-ub9"/>
                                         </constraints>
                                         <attributedString key="attributedText">
-                                            <fragment content="You can use only one crossword without a subscription. Choose the button below to take it...">
+                                            <fragment content="You can use only the first crossword without a subscription. Choose the button below to take it...">
                                                 <attributes>
                                                     <font key="NSFont" size="19" name=".AppleSystemUIFont"/>
                                                     <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
@@ -378,7 +381,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SG7-Ji-uOH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1863" y="500"/>
+            <point key="canvasLocation" x="986" y="510"/>
         </scene>
         <!--Generator View Controller-->
         <scene sceneID="Zcu-RR-tsr">

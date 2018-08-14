@@ -32,9 +32,17 @@
 
 @interface GeneratorInfo : NSObject
 
-@property (weak) Deck *deck;
+//Database properties
+@property (strong) NSMutableArray<Deck*> *decks;
 @property (strong) NSMutableArray<Card*> *cards;
 @property (strong) NSMutableArray<Field*> *fields;
+
+//Configured properties
+@property (strong) NSString *crosswordName;
+@property (assign) NSUInteger width;
+@property (assign) NSUInteger height;
+@property (assign) NSUInteger questionFieldIndex;
+@property (assign) NSUInteger solutionFieldIndex;
 
 @end
 

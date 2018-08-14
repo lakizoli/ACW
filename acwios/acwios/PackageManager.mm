@@ -171,19 +171,83 @@
 
 #pragma mark - Collecting generation info
 
--(GeneratorInfo*)collectGeneratorInfo:(Deck*)deck {
-	GeneratorInfo *info = [[GeneratorInfo alloc] init];
-	[info setDeck:deck];
+-(GeneratorInfo*)collectGeneratorInfo:(NSArray<Deck*>*)decks {
+	if ([decks count] < 1) {
+		return nil;
+	}
 	
-	std::shared_ptr<CardList> cardList = CardList::Create ([[[[deck package] path] path] UTF8String], [deck deckID]);
-	if (cardList) {
-		for (auto it : cardList->GetFields ()) {
-			Field *field = [[Field alloc] init];
+	//Collect most decks with same modelID (all of them have to be the same, but not guaranteed!)
+	__block NSURL *packagePath;
+	__block std::vector<std::shared_ptr<CardList>> cardListsOfDecks;
+	__block std::map<uint64_t, std::set<uint64_t>> deckIndicesByModelID;
+	[decks enumerateObjectsUsingBlock:^(Deck * _Nonnull deck, NSUInteger idx, BOOL * _Nonnull stop) {
+		if (packagePath == nil) {
+			packagePath = [[deck package] path];
+		}
+		
+		std::shared_ptr<CardList> cardList = CardList::Create ([[[[deck package] path] path] UTF8String], [deck deckID]);
+		cardListsOfDecks.push_back (cardList);
+		if (cardList) {
+			const std::map<uint64_t, std::shared_ptr<CardList::Card>>& cards = cardList->GetCards ();
+			if (cards.size () > 0) {
+				uint64_t modelID = cards.begin ()->second->modelID;
+				auto it = deckIndicesByModelID.find (modelID);
+				if (it == deckIndicesByModelID.end ()) {
+					deckIndicesByModelID.emplace (modelID, std::set<uint64_t> { (uint64_t) idx });
+				} else {
+					it->second.insert ((uint64_t) idx);
+				}
+			}
+		}
+	}];
+	
+	if (deckIndicesByModelID.size () <= 0 || cardListsOfDecks.size () != [decks count]) {
+		return nil;
+	}
+	
+	BOOL foundOneModelID = NO;
+	uint64_t maxCount = 0;
+	uint64_t choosenModelID = 0;
+	for (auto it : deckIndicesByModelID) {
+		if (it.second.size () > maxCount) {
+			choosenModelID = it.first;
+			maxCount = it.second.size ();
+			foundOneModelID = YES;
+		}
+	}
+	
+	if (!foundOneModelID) {
+		return nil;
+	}
+
+	//Collect generator info
+	GeneratorInfo *info = [[GeneratorInfo alloc] init];
+	
+	auto itDeckIndices = deckIndicesByModelID.find (choosenModelID);
+	if (itDeckIndices == deckIndicesByModelID.end ()) {
+		return nil;
+	}
+	
+	BOOL isFirstDeck = YES;
+	for (uint64_t deckIdx : itDeckIndices->second) {
+		std::shared_ptr<CardList> cardList = cardListsOfDecks[deckIdx];
+		if (cardList == nullptr) {
+			continue;
+		}
+		
+		[[info decks] addObject:[decks objectAtIndex:deckIdx]];
+		
+		if (isFirstDeck) { //Collect fields from first deck only
+			isFirstDeck = NO;
 			
-			[field setName:[NSString stringWithUTF8String:it.second->name.c_str ()]];
-			[field setIdx:it.second->idx];
-			
-			[[info fields] addObject:field];
+			for (auto it : cardList->GetFields ()) {
+				Field *field = [[Field alloc] init];
+				
+				[field setName:[NSString stringWithUTF8String:it.second->name.c_str ()]];
+				[field setIdx:it.second->idx];
+				
+				[[info fields] addObject:field];
+			}
 		}
 		
 		for (auto it : cardList->GetCards ()) {
@@ -201,9 +265,20 @@
 			
 			[[info cards] addObject:card];
 		}
+
 	}
 	
 	return info;
+}
+
+#pragma mark - Generate crossword based on info
+
+-(void) generateWithInfo:(GeneratorInfo*)info {
+	if (info == nil) {
+		return;
+	}
+	
+	//TODO: implement generation...
 }
 
 @end

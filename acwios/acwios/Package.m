@@ -40,6 +40,7 @@
 -(id) init {
 	self = [super init];
 	if (self) {
+		_decks = [NSMutableArray<Deck*> new];
 		_cards = [NSMutableArray<Card*> new];
 		_fields = [NSMutableArray<Field*> new];
 	}

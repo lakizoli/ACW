@@ -14,6 +14,7 @@
 +(PackageManager*) sharedInstance;
 
 -(NSArray<Package*>*)collectPackages;
--(GeneratorInfo*)collectGeneratorInfo:(Deck*)deck;
+-(GeneratorInfo*)collectGeneratorInfo:(NSArray<Deck*>*)decks;
+-(void)generateWithInfo:(GeneratorInfo*)info;
 
 @end

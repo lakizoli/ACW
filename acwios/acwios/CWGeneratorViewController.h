@@ -11,6 +11,6 @@
 
 @interface CWGeneratorViewController : UIViewController<UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
 
-@property (nonatomic) Deck *deck;
+@property (nonatomic) NSArray<Deck*> *decks;
 
 @end
