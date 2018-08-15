@@ -6,14 +6,12 @@
 //  Copyright © 2018. ZApp. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
-//! Project version number for cw.
-FOUNDATION_EXPORT double cwVersionNumber;
-
-//! Project version string for cw.
-FOUNDATION_EXPORT const unsigned char cwVersionString[];
-
-// In this header, you should import all the public headers of your framework using statements like #import <cw/PublicHeader.h>
-
-
+#include "prefix.hpp"
+#include "QueryWords.hpp"
+#include "WordBank.hpp"
+#include "CellFlags.hpp"
+#include "QuestionInfo.hpp"
+#include "Cell.hpp"
+#include "Grid.hpp"
+#include "Crossword.hpp"
+#include "Generator.hpp"

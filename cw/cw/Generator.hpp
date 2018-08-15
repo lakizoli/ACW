@@ -10,19 +10,28 @@
 #define Generator_hpp
 
 class Crossword;
+class WordBank;
+class QueryWords;
 
 class Generator {
+	std::string _path;
 	std::string _name;
 	uint32_t _width = 0;
 	uint32_t _height = 0;
-	uint32_t _questionIndex = 0;
-	uint32_t _solutionIndex = 0;
+	std::shared_ptr<QueryWords> _questions;
+	std::shared_ptr<WordBank> _answers;
 	
-	Generator ();
+//Implementation
+	Generator () = default;
 	
+//Construction
 public:
-	static std::shared_ptr<Generator> Create (const std::string& name, uint32_t width, uint32_t height, uint32_t questionIndex, uint32_t solutionIndex);
+	static std::shared_ptr<Generator> Create (const std::string& path, const std::string& name,
+											  uint32_t width, uint32_t height,
+											  std::shared_ptr<QueryWords> questions, std::shared_ptr<QueryWords> answers);
 	
+//Interface
+public:
 	std::shared_ptr<Crossword> Generate () const;
 };
 

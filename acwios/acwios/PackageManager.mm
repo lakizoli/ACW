@@ -8,6 +8,7 @@
 
 #import "PackageManager.h"
 #include "adb.hpp"
+#include "cw.hpp"
 
 @implementation PackageManager
 
@@ -273,13 +274,13 @@
 
 #pragma mark - Generate crossword based on info
 
--(void) generateWithInfo:(GeneratorInfo*)info {
+-(BOOL) generateWithInfo:(GeneratorInfo*)info {
 	if (info == nil) {
-		return;
+		return NO;
 	}
 	
 	if ([[info decks] count] < 1) {
-		return;
+		return NO;
 	}
 	
 	NSString *packagePath = [[[[[info decks] objectAtIndex:0] package] path] path];
@@ -295,24 +296,39 @@
 		NSString *val = [[card fieldValues] objectAtIndex:[info questionFieldIndex]];
 		questionFieldValues.push_back ([val UTF8String]);
 		
-		val = [[card fieldValues] objectAtIndex:[info solutionFieldIndex]];
+		val = [[[card fieldValues] objectAtIndex:[info solutionFieldIndex]] lowercaseString];
 		solutionFieldValues.push_back ([val UTF8String]);
 	}];
 	
-	//TODO: generate from field values directly...
-	
-	if (questionFieldValues.size() > 0) {
+	if (questionFieldValues.size () <= 0 || solutionFieldValues.size () <= 0 || questionFieldValues.size () != solutionFieldValues.size ()) {
+		return NO;
 	}
 	
-//	std::shared_ptr<DeckSet> deckSet = DeckSet::Create ([packagePath UTF8String],
-//														deckIDs,
-//														std::set<uint64_t> {},
-//														[info questionFieldIndex],
-//														[info solutionFieldIndex]);
-//
-//	if (deckSet == nullptr) {
-//		return;
-//	}
+	struct Query : public QueryWords {
+		std::vector<std::string>& _words;
+		
+		virtual uint32_t GetCount () const override final { return (uint32_t) _words.size (); }
+		virtual std::string GetWord (uint32_t idx) const override final { return _words[idx]; }
+		virtual void Clear () override final { _words.clear (); }
+		Query (std::vector<std::string>& words) : _words (words) {}
+	};
+	
+	std::shared_ptr<Generator> gen = Generator::Create ([packagePath UTF8String],
+														[[info crosswordName] UTF8String],
+														(uint32_t) [info width],
+														(uint32_t) [info height],
+														std::make_shared<Query> (questionFieldValues),
+														std::make_shared<Query> (solutionFieldValues));
+	if (gen == nullptr) {
+		return NO;
+	}
+	
+	std::shared_ptr<Crossword> cw = gen->Generate ();
+	if (cw == nullptr) {
+		return NO;
+	}
+	
+	return YES;
 }
 
 @end

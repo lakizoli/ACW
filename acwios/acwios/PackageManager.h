@@ -15,6 +15,6 @@
 
 -(NSArray<Package*>*)collectPackages;
 -(GeneratorInfo*)collectGeneratorInfo:(NSArray<Deck*>*)decks;
--(void)generateWithInfo:(GeneratorInfo*)info;
+-(BOOL)generateWithInfo:(GeneratorInfo*)info;
 
 @end

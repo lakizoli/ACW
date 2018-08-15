@@ -13,6 +13,14 @@
 		FDCD52CD21199C1F0081FE4D /* prefix.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FDCD52CC21199C1F0081FE4D /* prefix.hpp */; };
 		FDCD52D021199C770081FE4D /* Generator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDCD52CE21199C770081FE4D /* Generator.cpp */; };
 		FDCD52D121199C770081FE4D /* Generator.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FDCD52CF21199C770081FE4D /* Generator.hpp */; };
+		FDDC83E52123FD73008C3B18 /* Grid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDDC83E32123FD73008C3B18 /* Grid.cpp */; };
+		FDDC83E62123FD73008C3B18 /* Grid.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FDDC83E42123FD73008C3B18 /* Grid.hpp */; };
+		FDDC83E92123FD80008C3B18 /* Cell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDDC83E72123FD80008C3B18 /* Cell.cpp */; };
+		FDDC83EA2123FD80008C3B18 /* Cell.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FDDC83E82123FD80008C3B18 /* Cell.hpp */; };
+		FDDC83ED212402DA008C3B18 /* QuestionInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDDC83EB212402DA008C3B18 /* QuestionInfo.cpp */; };
+		FDDC83EE212402DA008C3B18 /* QuestionInfo.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FDDC83EC212402DA008C3B18 /* QuestionInfo.hpp */; };
+		FDDC83F221240C8A008C3B18 /* WordBank.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDDC83F021240C8A008C3B18 /* WordBank.cpp */; };
+		FDDC83F321240C8A008C3B18 /* WordBank.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FDDC83F121240C8A008C3B18 /* WordBank.hpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +33,16 @@
 		FDCD52CC21199C1F0081FE4D /* prefix.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = prefix.hpp; sourceTree = "<group>"; };
 		FDCD52CE21199C770081FE4D /* Generator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Generator.cpp; sourceTree = "<group>"; };
 		FDCD52CF21199C770081FE4D /* Generator.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Generator.hpp; sourceTree = "<group>"; };
+		FDDC83E32123FD73008C3B18 /* Grid.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Grid.cpp; sourceTree = "<group>"; };
+		FDDC83E42123FD73008C3B18 /* Grid.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Grid.hpp; sourceTree = "<group>"; };
+		FDDC83E72123FD80008C3B18 /* Cell.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Cell.cpp; sourceTree = "<group>"; };
+		FDDC83E82123FD80008C3B18 /* Cell.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Cell.hpp; sourceTree = "<group>"; };
+		FDDC83EB212402DA008C3B18 /* QuestionInfo.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = QuestionInfo.cpp; sourceTree = "<group>"; };
+		FDDC83EC212402DA008C3B18 /* QuestionInfo.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = QuestionInfo.hpp; sourceTree = "<group>"; };
+		FDDC83EF21240ABB008C3B18 /* CellFlags.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CellFlags.hpp; sourceTree = "<group>"; };
+		FDDC83F021240C8A008C3B18 /* WordBank.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = WordBank.cpp; sourceTree = "<group>"; };
+		FDDC83F121240C8A008C3B18 /* WordBank.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = WordBank.hpp; sourceTree = "<group>"; };
+		FDDC83F421240DC5008C3B18 /* QueryWords.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = QueryWords.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +83,16 @@
 				FDCD52C921199BE10081FE4D /* Crossword.hpp */,
 				FDCD52CE21199C770081FE4D /* Generator.cpp */,
 				FDCD52CF21199C770081FE4D /* Generator.hpp */,
+				FDDC83E32123FD73008C3B18 /* Grid.cpp */,
+				FDDC83E42123FD73008C3B18 /* Grid.hpp */,
+				FDDC83E72123FD80008C3B18 /* Cell.cpp */,
+				FDDC83E82123FD80008C3B18 /* Cell.hpp */,
+				FDDC83EF21240ABB008C3B18 /* CellFlags.hpp */,
+				FDDC83F421240DC5008C3B18 /* QueryWords.hpp */,
+				FDDC83EB212402DA008C3B18 /* QuestionInfo.cpp */,
+				FDDC83EC212402DA008C3B18 /* QuestionInfo.hpp */,
+				FDDC83F021240C8A008C3B18 /* WordBank.cpp */,
+				FDDC83F121240C8A008C3B18 /* WordBank.hpp */,
 			);
 			path = cw;
 			sourceTree = "<group>";
@@ -78,8 +106,12 @@
 			files = (
 				FDCD526C2108556B0081FE4D /* cw.hpp in Headers */,
 				FDCD52CD21199C1F0081FE4D /* prefix.hpp in Headers */,
+				FDDC83F321240C8A008C3B18 /* WordBank.hpp in Headers */,
 				FDCD52D121199C770081FE4D /* Generator.hpp in Headers */,
 				FDCD52CB21199BE10081FE4D /* Crossword.hpp in Headers */,
+				FDDC83EA2123FD80008C3B18 /* Cell.hpp in Headers */,
+				FDDC83EE212402DA008C3B18 /* QuestionInfo.hpp in Headers */,
+				FDDC83E62123FD73008C3B18 /* Grid.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -150,6 +182,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FDDC83E52123FD73008C3B18 /* Grid.cpp in Sources */,
+				FDDC83E92123FD80008C3B18 /* Cell.cpp in Sources */,
+				FDDC83ED212402DA008C3B18 /* QuestionInfo.cpp in Sources */,
+				FDDC83F221240C8A008C3B18 /* WordBank.cpp in Sources */,
 				FDCD52CA21199BE10081FE4D /* Crossword.cpp in Sources */,
 				FDCD52D021199C770081FE4D /* Generator.cpp in Sources */,
 			);
