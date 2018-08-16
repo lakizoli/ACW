@@ -315,8 +315,8 @@
 	
 	std::shared_ptr<Generator> gen = Generator::Create ([packagePath UTF8String],
 														[[info crosswordName] UTF8String],
-														(uint32_t) [info width],
-														(uint32_t) [info height],
+														(uint32_t) 20, // [info width],
+														(uint32_t) 20, //[info height],
 														std::make_shared<Query> (questionFieldValues),
 														std::make_shared<Query> (solutionFieldValues));
 	if (gen == nullptr) {

@@ -34,10 +34,20 @@ public:
 public:
 	uint32_t GetRow () const { return _row; }
 	uint32_t GetCol () const { return _col; }
+	
 	CellFlags GetFlags () const { return _flags; }
+	bool IsEmpty () const { return (_flags & CellFlags::HasSomeValue) == CellFlags::Empty; }
+	bool IsFlagSet (CellFlags flag) const { return (_flags & flag) == flag; }
+	
 	uint8_t GetValue () const { return _value; }
 	uint32_t GetValueRefCount () const { return _valueRefCount; }
+	
 	std::shared_ptr<QuestionInfo> GetQuestionInfo () const { return _questionInfo; }
+	
+//Generation interface
+public:
+	void ConfigureAsEmptyQuestion ();
+	void SetValue (uint8_t value);
 };
 
 #endif /* Cell_hpp */

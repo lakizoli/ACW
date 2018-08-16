@@ -10,5 +10,9 @@
 #include "QuestionInfo.hpp"
 
 std::shared_ptr<QuestionInfo> QuestionInfo::Create () {
-	return nullptr;
+	std::shared_ptr<QuestionInfo> questionInfo (new QuestionInfo ());
+	
+	//TODO: ...
+	
+	return questionInfo;
 }

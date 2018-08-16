@@ -38,10 +38,4 @@ inline CellFlags operator & (CellFlags lhs, CellFlags rhs) {
 	return (CellFlags) (static_cast<T> (lhs) & static_cast<T> (rhs));
 }
 
-inline CellFlags& operator &= (CellFlags& lhs, CellFlags rhs) {
-	using T = std::underlying_type_t<CellFlags>;
-	lhs = (CellFlags) (static_cast<T> (lhs) & static_cast<T> (rhs));
-	return lhs;
-}
-
 #endif /* CellFlags_hpp */

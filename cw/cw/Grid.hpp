@@ -9,7 +9,7 @@
 #ifndef Grid_hpp
 #define Grid_hpp
 
-class Cell;
+#include "cw.hpp"
 
 class Grid {
 	uint32_t _width = 0;
@@ -19,7 +19,9 @@ class Grid {
 //Implementation
 	Grid () = default;
 	uint32_t CellIndex (uint32_t row, uint32_t col) const { return col * _height + row; }
+	bool IsCellFlagSet (uint32_t row, uint32_t col, CellFlags flag) const;
 	bool IsEmpty (uint32_t row, uint32_t col) const;
+	std::shared_ptr<Cell> GetQuestionCellForPos (uint32_t row, uint32_t col) const;
 	
 //Construction
 public:
@@ -31,9 +33,12 @@ public:
 	uint32_t GetHeight () const { return _height; }
 	std::shared_ptr<Cell> GetCell (uint32_t row, uint32_t col) const { return _cells[CellIndex (row, col)]; }
 	
+	void Dump () const;
+	
 //Generation interface
 public:
 	bool AllCellsAreFilled () const;
+	void AdvanceToTheNextAvailablePos (uint32_t& row, uint32_t& col);
 	
 	struct FindQuestionResult {
 		std::shared_ptr<Cell> _questionCell;
@@ -44,6 +49,8 @@ public:
 	
 	FindQuestionResult FindHorizontalQuestionForPos (uint32_t row, uint32_t col) const;
 	FindQuestionResult FindVerticalQuestionForPos (uint32_t row, uint32_t col) const;
+	
+	bool SetCellToFreeQuestionCell (uint32_t row, uint32_t col);
 };
 
 #endif /* Grid_hpp */

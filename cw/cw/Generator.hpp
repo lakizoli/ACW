@@ -12,6 +12,7 @@
 class Crossword;
 class WordBank;
 class QueryWords;
+class Cell;
 
 class Generator {
 	std::string _path;
@@ -23,6 +24,15 @@ class Generator {
 	
 //Implementation
 	Generator () = default;
+	
+	struct InsertWordRes {
+		bool inserted = false;
+		bool questionAdded = false;
+		uint32_t insertedWordLen = 0;
+		uint32_t insertedWordIndex = 0;
+	};
+	
+	InsertWordRes InsertWordIntoCells (const std::vector<std::shared_ptr<Cell>>& cells, std::set<std::string>& usedWords) const;
 	
 //Construction
 public:

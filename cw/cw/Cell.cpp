@@ -17,3 +17,14 @@ std::shared_ptr<Cell> Cell::Create (uint32_t row, uint32_t col) {
 	
 	return cell;
 }
+
+void Cell::ConfigureAsEmptyQuestion () {
+	_questionInfo = QuestionInfo::Create ();
+	_flags |= CellFlags::Question;
+}
+
+void Cell::SetValue (uint8_t value) {
+	_flags |= CellFlags::Value;
+	_value = value;
+	++_valueRefCount;
+}

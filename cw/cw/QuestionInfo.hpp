@@ -20,8 +20,8 @@ public:
 	
 //Interface
 public:
-	//TODO: implement QuestionInfo handling
-	uint32_t GetQuestionCount () const { return 0; }
+	//TODO: implement QuestionInfo handling (max 2 question in a place!)
+	bool HasAvailableQuestionPlace () const { return true; }
 };
 
 #endif /* QuestionInfo_hpp */
