@@ -11,7 +11,7 @@
 
 struct QueryWords : public std::enable_shared_from_this<QueryWords> {
 	virtual uint32_t GetCount () const = 0;
-	virtual std::string GetWord (uint32_t idx) const = 0;
+	virtual const std::string& GetWord (uint32_t idx) const = 0;
 	virtual void Clear () = 0;
 };
 

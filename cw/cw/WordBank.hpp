@@ -23,9 +23,10 @@ class WordBank {
 	};
 	
 	struct WordList {
-		std::map<WordKey, std::vector<uint32_t>> _indices; ///< The word indices assigned to their keys.
+		std::map<uint32_t, std::vector<uint32_t>> _indices; ///< The word indices assigned to their importance.
 		
-		void AddWord (uint32_t index, uint32_t length, const std::string& word);
+		static uint32_t IntersectionCount (const std::string& w1, const std::string& w2);
+		void AddWord (uint32_t index, uint32_t length, const std::string& word, std::shared_ptr<QueryWords> allWords);
 	};
 	
 public:
@@ -51,8 +52,8 @@ public:
 	bool ContainsLength (uint32_t len) const;
 	
 	void EnumerateWords (uint32_t len, EnumWords callback) const;
-	void EnumerateWords (uint32_t len, uint8_t firstLetter, EnumWords callback) const;
-	void EnumerateWords (uint32_t len, uint8_t firstLetter, uint8_t secondLetter, EnumWords callback) const;
+//	void EnumerateWords (uint32_t len, uint8_t firstLetter, EnumWords callback) const;
+//	void EnumerateWords (uint32_t len, uint8_t firstLetter, uint8_t secondLetter, EnumWords callback) const;
 };
 
 #endif /* WordBank_hpp */

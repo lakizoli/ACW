@@ -29,6 +29,7 @@
 -(BOOL) isSubscribed {
 	//TODO: do the subscription check...
 	return NO;
+	//return YES;
 }
 
 @end

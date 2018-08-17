@@ -10,6 +10,48 @@
 #include "adb.hpp"
 #include "cw.hpp"
 
+#pragma mark - FirstContentXmlParserDelegate
+
+@interface FirstContentXmlParserDelegate : NSObject<NSXMLParserDelegate>
+
+@property (assign) BOOL firstElementEnded;
+@property (strong) NSString *firstValue;
+
+@end
+
+@implementation FirstContentXmlParserDelegate
+
+-(id)init {
+	self = [super init];
+	if (self) {
+		_firstElementEnded = NO;
+	}
+	return self;
+}
+
+- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary<NSString *,NSString *> *)attributeDict
+{
+}
+
+- (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string {
+	if (!_firstElementEnded) {
+		if (_firstValue == nil) {
+			_firstValue = string;
+		} else {
+			_firstValue = [_firstValue stringByAppendingString:string];
+		}
+	}
+}
+
+- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName
+{
+	_firstElementEnded = YES;
+}
+
+@end
+
+#pragma mark - PackageManager
+
 @implementation PackageManager
 
 -(id)init {
@@ -274,6 +316,47 @@
 
 #pragma mark - Generate crossword based on info
 
+-(NSString*) trimSolutionField:(NSString*)solutionField {
+	__block NSString *field = [solutionField stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+	
+	//Try to detect HTML content
+	if ([field hasPrefix:@"<"]) {
+		FirstContentXmlParserDelegate *xmlDel = [[FirstContentXmlParserDelegate alloc] init];
+		NSXMLParser *xml = [[NSXMLParser alloc] initWithData:[field dataUsingEncoding:NSUTF8StringEncoding]];
+		[xml setDelegate:xmlDel];
+		if ([xml parse]) {
+			field = [xmlDel firstValue];
+		} else {
+			return nil;
+		}
+	}
+	
+	//Split word out from garbage
+	NSArray<NSString*> *splitArr = @[@" ", @"&nbsp;", @";", @"<br", @"/>", @"\r", @"\n", @",", @"(", @")", @"[", @"]", @"{", @"}"];
+	[splitArr enumerateObjectsUsingBlock:^(NSString*  _Nonnull splitStr, NSUInteger idx, BOOL * _Nonnull stop) {
+		NSString *trimmed = [field stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+		NSArray<NSString*> *items = [trimmed componentsSeparatedByString:splitStr];
+		if ([items count] > 0) {
+			if ([items count] > 1) { //Test german content
+				NSString *prefix = [items objectAtIndex:0];
+				if ([prefix isEqualToString:@"der"] || [prefix isEqualToString:@"die"] || [prefix isEqualToString:@"das"] ||
+					[prefix isEqualToString:@"den"] || [prefix isEqualToString:@"dem"] || [prefix isEqualToString:@"des"])
+				{
+					field = [prefix stringByAppendingString:[items objectAtIndex:1]];
+					return;
+				}
+			}
+			
+			field = [items objectAtIndex:0];
+		} else {
+			field = trimmed;
+		}
+	}];
+	
+	//NSLog (@"%@ -> %@", solutionField, field);
+	return field;
+}
+
 -(BOOL) generateWithInfo:(GeneratorInfo*)info {
 	if (info == nil) {
 		return NO;
@@ -293,11 +376,15 @@
 	__block std::vector<std::string> questionFieldValues;
 	__block std::vector<std::string> solutionFieldValues;
 	[[info cards] enumerateObjectsUsingBlock:^(Card * _Nonnull card, NSUInteger idx, BOOL * _Nonnull stop) {
-		NSString *val = [[card fieldValues] objectAtIndex:[info questionFieldIndex]];
-		questionFieldValues.push_back ([val UTF8String]);
-		
-		val = [[[card fieldValues] objectAtIndex:[info solutionFieldIndex]] lowercaseString];
+		NSString *val = [[[card fieldValues] objectAtIndex:[info solutionFieldIndex]] lowercaseString];
+		val = [self trimSolutionField:val];
+		if ([val length] <= 0) {
+			return;
+		}
 		solutionFieldValues.push_back ([val UTF8String]);
+
+		val = [[card fieldValues] objectAtIndex:[info questionFieldIndex]];
+		questionFieldValues.push_back ([val UTF8String]);
 	}];
 	
 	if (questionFieldValues.size () <= 0 || solutionFieldValues.size () <= 0 || questionFieldValues.size () != solutionFieldValues.size ()) {
@@ -308,15 +395,15 @@
 		std::vector<std::string>& _words;
 		
 		virtual uint32_t GetCount () const override final { return (uint32_t) _words.size (); }
-		virtual std::string GetWord (uint32_t idx) const override final { return _words[idx]; }
+		virtual const std::string& GetWord (uint32_t idx) const override final { return _words[idx]; }
 		virtual void Clear () override final { _words.clear (); }
 		Query (std::vector<std::string>& words) : _words (words) {}
 	};
 	
 	std::shared_ptr<Generator> gen = Generator::Create ([packagePath UTF8String],
 														[[info crosswordName] UTF8String],
-														(uint32_t) 20, // [info width],
-														(uint32_t) 20, //[info height],
+														(uint32_t) [info width],
+														(uint32_t) [info height],
 														std::make_shared<Query> (questionFieldValues),
 														std::make_shared<Query> (solutionFieldValues));
 	if (gen == nullptr) {

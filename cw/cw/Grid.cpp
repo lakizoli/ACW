@@ -124,10 +124,27 @@ bool Grid::AllCellsAreFilled () const {
 
 void Grid::AdvanceToTheNextAvailablePos (uint32_t& row, uint32_t& col) {
 	while (row < _height && col < _width && !IsEmpty (row, col)) {
-		++col;
-		if (col >= _width) {
+		if (col == 0) { //First col
+			col = row + 1;
+			if (col >= _width) { //After last col
+				row = col - _width + 1;
+				col = _width - 1;
+			} else {
+				row = 0;
+			}
+		} else {
 			++row;
-			col = 0;
+			if (row >= _height) { //After last row
+				col = col + row;
+				if (col >= _width) { //After last col
+					row = col - _width + 1;
+					col = _width - 1;
+				} else {
+					row = 0;
+				}
+			} else {
+				--col;
+			}
 		}
 	}
 }

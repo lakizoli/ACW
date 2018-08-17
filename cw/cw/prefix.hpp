@@ -23,5 +23,6 @@
 #include <functional>
 #include <cctype>
 #include <memory>
+#include <thread>
 
 #endif /* prefix_hpp */

@@ -102,15 +102,21 @@ std::shared_ptr<Crossword> Generator::Generate () const {
 		return nullptr;
 	}
 
-	//Generate scandinavian crossword
+	//Generate swedish (arrow) crossword
 	std::shared_ptr<Grid> grid = cw->GetGrid ();
-	uint32_t lastRow, row = 0; //The current free cell's row index
-	uint32_t lastCol, col = 0; //The current free cell's col index
+	uint32_t lastRow, row = 1; //The current free cell's row index
+	uint32_t lastCol, col = 1; //The current free cell's col index
 	std::set<std::string> usedWords; //The list of already used words
+	
+	for (uint32_t col = 0; col < _width; ++col) {
+		grid->SetCellToFreeQuestionCell (0, col);
+	}
+	
+	for (uint32_t row = 0; row < _height; ++row) {
+		grid->SetCellToFreeQuestionCell (row, 0);
+	}
+	
 	while (!grid->AllCellsAreFilled ()) {
-		grid->Dump ();
-		printf ("\n");
-		
 		lastCol = col;
 		lastRow = row;
 		
@@ -159,6 +165,9 @@ std::shared_ptr<Crossword> Generator::Generate () const {
 		}
 	}
 	
+	grid->Dump ();
+	printf ("\n");
+
 	//TODO: provide progress callbacks...
 	
 	return cw;

@@ -10,14 +10,40 @@
 #include "WordBank.hpp"
 #include "QueryWords.hpp"
 
-void WordBank::WordList::AddWord (uint32_t index, uint32_t length, const std::string& word) {
-	uint8_t ch0 = length < 1 ? 0 : word[0];
-	uint8_t ch1 = length < 2 ? 0 : word[1];
-	WordKey key { ch0, ch1 };
+uint32_t WordBank::WordList::IntersectionCount (const std::string& w1, const std::string& w2) {
+	uint32_t count = 0;
+
+	for (uint8_t ch1 : w1) {
+		for (uint8_t ch2 : w2) {
+			if (ch1 == ch2) {
+				++count;
+			}
+		}
+	}
 	
-	auto it = _indices.find (key);
+	return count;
+}
+
+void WordBank::WordList::AddWord (uint32_t index, uint32_t length, const std::string& word, std::shared_ptr<QueryWords> allWords) {
+	uint32_t sumIntersectionCount = 0;
+	for (uint32_t i = 0, iEnd = allWords->GetCount (); i < iEnd; ++i) {
+		if (i == index) {
+			continue;
+		}
+		
+		const std::string& checkWord = allWords->GetWord (i);
+		if (checkWord == word) {
+			continue;
+		}
+		
+		sumIntersectionCount += IntersectionCount (word, checkWord);
+	}
+	
+	uint32_t importance = 0xFFFFFFFF - sumIntersectionCount; //The words with more intersection have to be former in the map!
+	
+	auto it = _indices.find (importance);
 	if (it == _indices.end ()) {
-		_indices.emplace (key, std::vector<uint32_t> { index });
+		_indices.emplace (importance, std::vector<uint32_t> { index });
 	} else {
 		it->second.push_back (index);
 	}
@@ -48,10 +74,10 @@ std::shared_ptr<WordBank> WordBank::Create (std::shared_ptr<QueryWords> words) {
 		auto itLen = bank->_search.find (len);
 		if (itLen == bank->_search.end ()) { //New length found
 			std::shared_ptr<WordList> wordList (std::make_shared<WordList> ());
-			wordList->AddWord (i, len, word);
+			wordList->AddWord (i, len, word, words);
 			bank->_search.emplace (len, wordList);
 		} else { //This length is found already
-			itLen->second->AddWord (i, len, word);
+			itLen->second->AddWord (i, len, word, words);
 		}
 	}
 	
@@ -87,34 +113,34 @@ void WordBank::EnumerateWords (uint32_t len, EnumWords callback) const {
 	}
 }
 
-void WordBank::EnumerateWords (uint32_t len, uint8_t firstLetter, EnumWords callback) const {
-	auto it = _search.find (len);
-	if (it != _search.end ()) {
-		std::shared_ptr<WordList> wordList = it->second;
-		
-		WordKey startKey { firstLetter, 0 };
-		
-		WordKey endKey;
-		endKey.firstLetter = firstLetter + 1;
-		
-		for (auto itIndices = wordList->_indices.lower_bound (startKey); itIndices != wordList->_indices.upper_bound (endKey); ++itIndices) {
-			if (!EnumerateWordsOfIndices (itIndices->second, callback)) {
-				return; //break enumeration
-			}
-		}
-	}
-}
-
-void WordBank::EnumerateWords (uint32_t len, uint8_t firstLetter, uint8_t secondLetter, EnumWords callback) const {
-	auto it = _search.find (len);
-	if (it != _search.end ()) {
-		std::shared_ptr<WordList> wordList = it->second;
-		
-		auto itIndices = wordList->_indices.find (WordKey { firstLetter, secondLetter });
-		if (itIndices != wordList->_indices.end ()) {
-			if (!EnumerateWordsOfIndices (itIndices->second, callback)) {
-				return; //break enumeration
-			}
-		}
-	}
-}
+//void WordBank::EnumerateWords (uint32_t len, uint8_t firstLetter, EnumWords callback) const {
+//	auto it = _search.find (len);
+//	if (it != _search.end ()) {
+//		std::shared_ptr<WordList> wordList = it->second;
+//		
+//		WordKey startKey { firstLetter, 0 };
+//		
+//		WordKey endKey;
+//		endKey.firstLetter = firstLetter + 1;
+//		
+//		for (auto itIndices = wordList->_indices.lower_bound (startKey); itIndices != wordList->_indices.upper_bound (endKey); ++itIndices) {
+//			if (!EnumerateWordsOfIndices (itIndices->second, callback)) {
+//				return; //break enumeration
+//			}
+//		}
+//	}
+//}
+//
+//void WordBank::EnumerateWords (uint32_t len, uint8_t firstLetter, uint8_t secondLetter, EnumWords callback) const {
+//	auto it = _search.find (len);
+//	if (it != _search.end ()) {
+//		std::shared_ptr<WordList> wordList = it->second;
+//		
+//		auto itIndices = wordList->_indices.find (WordKey { firstLetter, secondLetter });
+//		if (itIndices != wordList->_indices.end ()) {
+//			if (!EnumerateWordsOfIndices (itIndices->second, callback)) {
+//				return; //break enumeration
+//			}
+//		}
+//	}
+//}
