@@ -14,6 +14,7 @@
 +(PackageManager*) sharedInstance;
 
 -(NSArray<Package*>*)collectPackages;
+-(NSDictionary<NSString*, NSArray<SavedCrossword*>*>*)collectSavedCrosswords;
 -(GeneratorInfo*)collectGeneratorInfo:(NSArray<Deck*>*)decks;
 -(BOOL)generateWithInfo:(GeneratorInfo*)info;
 

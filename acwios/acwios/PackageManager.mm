@@ -210,7 +210,75 @@
 
 #pragma mark - Collecting saved crosswords of package
 
-//...
+-(NSArray<SavedCrossword*>*)collectSavedCrosswordsOfPackage:(NSString*)packageName packageDir:(NSURL*)packageDir {
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	NSDirectoryEnumerationOptions options = NSDirectoryEnumerationSkipsSubdirectoryDescendants |
+		NSDirectoryEnumerationSkipsPackageDescendants |
+		NSDirectoryEnumerationSkipsHiddenFiles;
+	NSDirectoryEnumerator<NSURL*> *enumerator = [fileManager enumeratorAtURL:packageDir
+												  includingPropertiesForKeys:@[NSURLIsDirectoryKey, NSURLNameKey]
+																	 options:options
+																errorHandler:nil];
+	
+	NSMutableArray<SavedCrossword*>* arr = [NSMutableArray<SavedCrossword*> new];
+	for (NSURL *child in enumerator) {
+		NSNumber *isDirectory = nil;
+		NSString *fileName = nil;
+		if ([child getResourceValue:&isDirectory forKey:NSURLIsDirectoryKey error:NULL] == YES && [isDirectory boolValue] == NO &&
+			[child getResourceValue:&fileName forKey:NSURLNameKey error:NULL] == YES && [fileName hasSuffix:@".cw"])
+		{
+//			NSLog (@"child: %@", child);
+//			NSLog (@"file name: %@", fileName);
+			
+			std::shared_ptr<Crossword> loadedCW = Crossword::Load ([[child path] UTF8String]);
+			if (loadedCW != nullptr) {
+				SavedCrossword* cw = [[SavedCrossword alloc] init];
+				[cw setPath:child];
+				[cw setPackageName:packageName];
+				[cw setName:[NSString stringWithUTF8String:loadedCW->GetName ().c_str ()]];
+				
+				std::shared_ptr<Grid> grid = loadedCW->GetGrid ();
+				[cw setWidth:grid->GetWidth ()];
+				[cw setHeight:grid->GetHeight ()];
+				[cw setWordCount:(uint32_t) loadedCW->GetUsedWords ().size ()];
+			
+				[arr addObject:cw];
+			}
+		}
+	}
+	
+	return arr;
+}
+
+-(NSDictionary<NSString*, NSArray<SavedCrossword*>*>*)collectSavedCrosswords {
+	NSURL *dbDir = [self databasePath];
+	
+	//Enumerate packages in database and collect crosswords from it
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	NSDirectoryEnumerationOptions options = NSDirectoryEnumerationSkipsSubdirectoryDescendants |
+		NSDirectoryEnumerationSkipsPackageDescendants |
+		NSDirectoryEnumerationSkipsHiddenFiles;
+	NSDirectoryEnumerator<NSURL*> *enumerator = [fileManager enumeratorAtURL:dbDir
+												  includingPropertiesForKeys:@[NSURLIsDirectoryKey, NSURLNameKey]
+																	 options:options
+																errorHandler:nil];
+	
+	NSMutableDictionary<NSString*, NSArray<SavedCrossword*>*> *res = [NSMutableDictionary<NSString*, NSArray<SavedCrossword*>*> new];
+	for (NSURL *child in enumerator) {
+		NSNumber *isDirectory = nil;
+		if ([child getResourceValue:&isDirectory forKey:NSURLIsDirectoryKey error:NULL] == YES && [isDirectory boolValue]) {
+			NSString *packageName = nil;
+			if ([child getResourceValue:&packageName forKey:NSURLNameKey error:NULL] == YES) {
+				NSArray<SavedCrossword*> *packageCrosswords = [self collectSavedCrosswordsOfPackage:packageName packageDir:child];
+				if ([packageCrosswords count] > 0) {
+					[res setObject:packageCrosswords forKey:packageName];
+				}
+			}
+		}
+	}
+	
+	return res;
+}
 
 #pragma mark - Collecting generation info
 
@@ -218,6 +286,8 @@
 	if ([decks count] < 1) {
 		return nil;
 	}
+	
+	//TODO: ... filter available question and solution fields for the easyly usable into the picker ...
 	
 	//Collect most decks with same modelID (all of them have to be the same, but not guaranteed!)
 	__block NSURL *packagePath;

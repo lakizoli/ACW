@@ -61,3 +61,15 @@
 @property (strong) NSMutableArray<Deck*> *decks;
 
 @end
+
+@interface SavedCrossword : NSObject
+
+@property (strong) NSURL *path;
+@property (strong) NSString *packageName;
+@property (strong) NSString *name;
+
+@property (assign) uint32_t width;
+@property (assign) uint32_t height;
+@property (assign) uint32_t wordCount;
+
+@end

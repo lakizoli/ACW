@@ -28,6 +28,7 @@ public:
 	
 //Interface
 public:
+	const std::string& GetName () const { return _name; }
 	std::shared_ptr<Grid> GetGrid () const { return _grid; }
 	
 	const std::set<std::string>& GetUsedWords () const { return _usedWords; }

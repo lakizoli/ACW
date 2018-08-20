@@ -21,6 +21,7 @@
 
 @implementation CWConfiguratorViewController {
 	BOOL _isSubscribed;
+	NSDictionary<NSString*, NSArray<SavedCrossword*>*> *_savedCrosswords;
 }
 
 #pragma mark - Implementation
@@ -42,7 +43,7 @@
 	_isSubscribed = [[SubscriptionManager sharedInstance] isSubscribed];
 	[[self subscribeView] setHidden:_isSubscribed];
 	
-	//TODO: load all before generated crossword...
+	_savedCrosswords = [[PackageManager sharedInstance] collectSavedCrosswords];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -61,53 +62,77 @@
 #pragma mark - Navigation
 
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
-	if ([identifier compare:@"ShowGenerateView"] == NSOrderedSame) {
+	if ([identifier compare:@"ShowCrosswordView"] == NSOrderedSame) {
+		NSIndexPath *selectedRow = [_crosswordTable indexPathForSelectedRow];
+		
+		BOOL cwEnabled = ([selectedRow section] < 1 && [selectedRow row] < 1) || self->_isSubscribed;
+		if (!cwEnabled) {
+			[self showSubscription];
+		} else {
+			return YES;
+		}
+	} else if ([identifier compare:@"ShowPackageChooserView"] == NSOrderedSame) {
 		return YES;
 	}
 	
 	return NO;
 }
 
-//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-//	if ([segue.identifier compare:@"ShowGenerateView"] == NSOrderedSame) {
-//	}
-//}
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+	if ([segue.identifier compare:@"ShowCrosswordView"] == NSOrderedSame) {
+		//TODO: fill data on destination...
+	}
+}
 
 #pragma mark - Package Table
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	return 1;
+	return [_savedCrosswords count];
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+	if (section >= 0 && section < [_savedCrosswords count]) {
+		NSString *packageName = [[_savedCrosswords allKeys] objectAtIndex:section];
+		return [NSString stringWithFormat:@"Package: %@", packageName];
+	}
+	
+	return @"";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	if (section == 0) {
-		//TODO: implement cell count ...
-//		return [_packages count];
+	if (section >= 0 && section < [_savedCrosswords count]) {
+		NSString *packageName = [[_savedCrosswords allKeys] objectAtIndex:section];
+		NSArray<SavedCrossword*> *cws = [_savedCrosswords objectForKey:packageName];
+		return [cws count];
 	}
+	
 	return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CWCell" forIndexPath:indexPath];
-	if (cell) {
-		//TODO: implement cell fill ...
-//		Package* pack = [_packages objectAtIndex:indexPath.row];
-//		if (pack) {
-//			BOOL packEnabled = indexPath.row < 1 || _isSubscribed;
-//			if (packEnabled) { //Enabled
-//				[cell.textLabel setTextColor:[UIColor blackColor]];
-//			} else { //Disabled
-//				[cell.textLabel setTextColor:[UIColor colorWithRed:1 green:0 blue:0 alpha:1]];
-//			}
-//
-//			[cell.textLabel setText:[pack name]];
-//
-//			if (packEnabled) {
-//				[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-//			} else {
-//				[cell setAccessoryType:UITableViewCellAccessoryNone];
-//			}
-//		}
+	if (cell && indexPath.section >= 0 && indexPath.section < [_savedCrosswords count]) {
+		NSString *packageName = [[_savedCrosswords allKeys] objectAtIndex:indexPath.section];
+		NSArray<SavedCrossword*> *cws = [_savedCrosswords objectForKey:packageName];
+		
+		SavedCrossword *cw = [cws objectAtIndex:indexPath.row];
+		if (cw) {
+			BOOL cwEnabled = indexPath.row < 1 || _isSubscribed;
+			if (cwEnabled) { //Enabled
+				[cell.textLabel setTextColor:[UIColor blackColor]];
+			} else { //Disabled
+				[cell.textLabel setTextColor:[UIColor colorWithRed:1 green:0 blue:0 alpha:1]];
+			}
+
+			NSString *label = [NSString stringWithFormat:@"[%dx%d] (%d words) - %@", [cw width], [cw height], [cw wordCount], [cw name]];
+			[cell.textLabel setText:label];
+
+			if (cwEnabled) {
+				[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+			} else {
+				[cell setAccessoryType:UITableViewCellAccessoryNone];
+			}
+		}
 	}
 	return cell;
 }

@@ -72,3 +72,17 @@
 }
 
 @end
+
+@implementation SavedCrossword
+
+-(id) init {
+	self = [super init];
+	if (self) {
+		_width = 0;
+		_height = 0;
+		_wordCount = 0;
+	}
+	return self;
+}
+
+@end

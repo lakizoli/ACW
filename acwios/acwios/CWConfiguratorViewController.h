@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "Package.h"
 
-@interface CWConfiguratorViewController : UIViewController
+@interface CWConfiguratorViewController : UIViewController<UITableViewDelegate>
 
 @end
