@@ -16,9 +16,6 @@
 Generator::InsertWordRes Generator::InsertWordIntoCells (const std::vector<std::shared_ptr<Cell>>& cells, std::set<std::string>& usedWords) const {
 	InsertWordRes res;
 	
-	//TODO: ignore already used words...
-	//TODO: use first letter, and second letter if available...
-	
 	uint32_t minLen = (uint32_t) cells.size ();
 	while (minLen > 0 && cells[minLen-1]->IsEmpty ()) {
 		--minLen;
@@ -79,6 +76,28 @@ Generator::InsertWordRes Generator::InsertWordIntoCells (const std::vector<std::
 	return res;
 }
 
+void Generator::ConfigureQuestionInCell (std::shared_ptr<Cell> questionCell,
+										 std::shared_ptr<Cell> firstLetterCell,
+										 uint32_t questionIndex) const
+{
+	std::shared_ptr<QuestionInfo> qInfo = questionCell->GetQuestionInfo ();
+	const std::string& word = _questions->GetWord (questionIndex);
+	
+	uint32_t questionRow = questionCell->GetRow ();
+	uint32_t questionCol = questionCell->GetCol ();
+	uint32_t firstLetterRow = firstLetterCell->GetRow ();
+	uint32_t firstLetterCol = firstLetterCell->GetCol ();
+	if (firstLetterRow > questionRow) { //First letter is below the question
+		qInfo->AddQuestion (QuestionInfo::Direction::BottomRight, questionIndex, word);
+	} else if (firstLetterRow < questionRow) { //First letter is above the question
+		qInfo->AddQuestion (QuestionInfo::Direction::TopRight, questionIndex, word);
+	} else if (firstLetterCol < questionCol) { //First letter is on the left side of question
+		qInfo->AddQuestion (QuestionInfo::Direction::LeftDown, questionIndex, word);
+	} else if (firstLetterCol > questionCol) { //First letter is on the right side of question
+		qInfo->AddQuestion (QuestionInfo::Direction::RightDown, questionIndex, word);
+	}
+}
+
 std::shared_ptr<Generator> Generator::Create (const std::string& path, const std::string& name, uint32_t width, uint32_t height,
 											  std::shared_ptr<QueryWords> questions, std::shared_ptr<QueryWords> answers)
 {
@@ -106,13 +125,13 @@ std::shared_ptr<Crossword> Generator::Generate () const {
 	std::shared_ptr<Grid> grid = cw->GetGrid ();
 	uint32_t lastRow, row = 1; //The current free cell's row index
 	uint32_t lastCol, col = 1; //The current free cell's col index
-	std::set<std::string> usedWords; //The list of already used words
+	std::set<std::string>& usedWords = cw->GetUsedWords (); //The used words in crossword
 	
-	for (uint32_t col = 0; col < _width; ++col) {
+	for (uint32_t col = 0; col < _width; col += 2) {
 		grid->SetCellToFreeQuestionCell (0, col);
 	}
 	
-	for (uint32_t row = 0; row < _height; ++row) {
+	for (uint32_t row = 0; row < _height; row += 2) {
 		grid->SetCellToFreeQuestionCell (row, 0);
 	}
 	
@@ -143,14 +162,15 @@ std::shared_ptr<Crossword> Generator::Generate () const {
 		//...(one direction rolled back at once!)
 		//...(if we don't have available words at all, then we have to use the best filled state during generation history and exit!)
 		//-> if we found valid words, then we have to insert them into the grid and questions, and have to jump to the next available position
-		InsertWordRes hWord = InsertWordIntoCells (hQ._cellsAvailable, usedWords);
-		InsertWordRes vWord = InsertWordIntoCells (vQ._cellsAvailable, usedWords);
-//		if (!hWord.inserted || !vWord.inserted) {
-//			//TODO: ... rollback until we have another variation, or exit with best state, when all variations tried ...
-//			return nullptr;
-//		}
-
-		//TODO: ... configure question ...
+		InsertWordRes hWord = InsertWordIntoCells (hQ.cellsAvailable, usedWords);
+		if (hWord.inserted) {
+			ConfigureQuestionInCell (hQ.questionCell, hQ.cellsAvailable[0], hWord.insertedWordIndex);
+		}
+		
+		InsertWordRes vWord = InsertWordIntoCells (vQ.cellsAvailable, usedWords);
+		if (vWord.inserted) {
+			ConfigureQuestionInCell (vQ.questionCell, vQ.cellsAvailable[0], vWord.insertedWordIndex);
+		}
 
 		//Advance to the next available position
 		grid->AdvanceToTheNextAvailablePos (row, col);
@@ -165,10 +185,8 @@ std::shared_ptr<Crossword> Generator::Generate () const {
 		}
 	}
 	
-	grid->Dump ();
-	printf ("\n");
+//	grid->Dump ();
+//	printf ("\n");
 
-	//TODO: provide progress callbacks...
-	
 	return cw;
 }

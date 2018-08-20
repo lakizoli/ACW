@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F0BA0903212AA30100A7F154 /* BinarySerializer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F0BA0902212AA30100A7F154 /* BinarySerializer.hpp */; };
 		FDCD526C2108556B0081FE4D /* cw.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FDCD526A2108556B0081FE4D /* cw.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		FDCD52CA21199BE10081FE4D /* Crossword.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDCD52C821199BE10081FE4D /* Crossword.cpp */; };
 		FDCD52CB21199BE10081FE4D /* Crossword.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FDCD52C921199BE10081FE4D /* Crossword.hpp */; };
@@ -24,6 +25,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F0BA0902212AA30100A7F154 /* BinarySerializer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BinarySerializer.hpp; sourceTree = "<group>"; };
 		FDCD52672108556B0081FE4D /* cw.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = cw.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDCD526A2108556B0081FE4D /* cw.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = cw.hpp; sourceTree = "<group>"; };
 		FDCD526B2108556B0081FE4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 				FDDC83EC212402DA008C3B18 /* QuestionInfo.hpp */,
 				FDDC83F021240C8A008C3B18 /* WordBank.cpp */,
 				FDDC83F121240C8A008C3B18 /* WordBank.hpp */,
+				F0BA0902212AA30100A7F154 /* BinarySerializer.hpp */,
 			);
 			path = cw;
 			sourceTree = "<group>";
@@ -106,6 +109,7 @@
 			files = (
 				FDCD526C2108556B0081FE4D /* cw.hpp in Headers */,
 				FDCD52CD21199C1F0081FE4D /* prefix.hpp in Headers */,
+				F0BA0903212AA30100A7F154 /* BinarySerializer.hpp in Headers */,
 				FDDC83F321240C8A008C3B18 /* WordBank.hpp in Headers */,
 				FDCD52D121199C770081FE4D /* Generator.hpp in Headers */,
 				FDCD52CB21199BE10081FE4D /* Crossword.hpp in Headers */,

@@ -9,7 +9,29 @@
 #ifndef QuestionInfo_hpp
 #define QuestionInfo_hpp
 
+class BinaryReader;
+class BinaryWriter;
+
 class QuestionInfo {
+//Declaration
+public:
+	enum class Direction : uint32_t {
+		None,
+		LeftDown,
+		TopRight,
+		RightDown,
+		BottomRight
+	};
+	
+	struct Question {
+		Direction dir = Direction::None;
+		uint32_t questionIndex = 0;
+		std::string question;
+	};
+	
+//Data
+private:
+	std::vector<Question> _questions;
 	
 //Implementation
 	QuestionInfo () = default;
@@ -18,10 +40,15 @@ class QuestionInfo {
 public:
 	static std::shared_ptr<QuestionInfo> Create ();
 	
+	static std::shared_ptr<QuestionInfo> Deserialize (const BinaryReader& reader);
+	void Serialize (BinaryWriter& writer);
+
 //Interface
 public:
-	//TODO: implement QuestionInfo handling (max 2 question in a place!)
-	bool HasAvailableQuestionPlace () const { return true; }
+	//Max 2 question in a place!
+	bool HasAvailableQuestionPlace () const { return _questions.size () < 2; }
+	
+	void AddQuestion (Direction dir, uint32_t questionIndex, const std::string& question);
 };
 
 #endif /* QuestionInfo_hpp */

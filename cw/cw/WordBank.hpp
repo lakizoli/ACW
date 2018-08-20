@@ -13,15 +13,6 @@ class QueryWords;
 
 class WordBank {
 //Definitions
-	struct WordKey {
-		uint8_t firstLetter = 0;
-		uint8_t secondLetter = 0;
-		
-		bool operator < (const WordKey& chk) const {
-			return firstLetter < chk.firstLetter || (firstLetter == chk.firstLetter && secondLetter < chk.secondLetter);
-		}
-	};
-	
 	struct WordList {
 		std::map<uint32_t, std::vector<uint32_t>> _indices; ///< The word indices assigned to their importance.
 		
@@ -52,8 +43,6 @@ public:
 	bool ContainsLength (uint32_t len) const;
 	
 	void EnumerateWords (uint32_t len, EnumWords callback) const;
-//	void EnumerateWords (uint32_t len, uint8_t firstLetter, EnumWords callback) const;
-//	void EnumerateWords (uint32_t len, uint8_t firstLetter, uint8_t secondLetter, EnumWords callback) const;
 };
 
 #endif /* WordBank_hpp */

@@ -366,7 +366,8 @@
 		return NO;
 	}
 	
-	NSString *packagePath = [[[[[info decks] objectAtIndex:0] package] path] path];
+	NSURL *packageUrl = [[[[info decks] objectAtIndex:0] package] path];
+	NSString *packagePath = [packageUrl path];
 	
 	__block std::set<uint64_t> deckIDs;
 	[[info decks] enumerateObjectsUsingBlock:^(Deck * _Nonnull deck, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -415,6 +416,12 @@
 		return NO;
 	}
 	
+	NSString *fileName = [[[NSUUID UUID] UUIDString] stringByAppendingString:@".cw"];
+	NSURL *fileUrl = [packageUrl URLByAppendingPathComponent:fileName];
+	if (!cw->Save ([[fileUrl path] UTF8String])) {
+		return NO;
+	}
+
 	return YES;
 }
 

@@ -11,6 +11,8 @@
 
 #include "CellFlags.hpp"
 
+class BinaryReader;
+class BinaryWriter;
 class QuestionInfo;
 
 class Cell {
@@ -30,6 +32,9 @@ class Cell {
 public:
 	static std::shared_ptr<Cell> Create (uint32_t row, uint32_t col);
 	
+	static std::shared_ptr<Cell> Deserialize (const BinaryReader& reader);
+	void Serialize (BinaryWriter& writer);
+
 //Interface
 public:
 	uint32_t GetRow () const { return _row; }

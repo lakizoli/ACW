@@ -112,35 +112,3 @@ void WordBank::EnumerateWords (uint32_t len, EnumWords callback) const {
 		}
 	}
 }
-
-//void WordBank::EnumerateWords (uint32_t len, uint8_t firstLetter, EnumWords callback) const {
-//	auto it = _search.find (len);
-//	if (it != _search.end ()) {
-//		std::shared_ptr<WordList> wordList = it->second;
-//		
-//		WordKey startKey { firstLetter, 0 };
-//		
-//		WordKey endKey;
-//		endKey.firstLetter = firstLetter + 1;
-//		
-//		for (auto itIndices = wordList->_indices.lower_bound (startKey); itIndices != wordList->_indices.upper_bound (endKey); ++itIndices) {
-//			if (!EnumerateWordsOfIndices (itIndices->second, callback)) {
-//				return; //break enumeration
-//			}
-//		}
-//	}
-//}
-//
-//void WordBank::EnumerateWords (uint32_t len, uint8_t firstLetter, uint8_t secondLetter, EnumWords callback) const {
-//	auto it = _search.find (len);
-//	if (it != _search.end ()) {
-//		std::shared_ptr<WordList> wordList = it->second;
-//		
-//		auto itIndices = wordList->_indices.find (WordKey { firstLetter, secondLetter });
-//		if (itIndices != wordList->_indices.end ()) {
-//			if (!EnumerateWordsOfIndices (itIndices->second, callback)) {
-//				return; //break enumeration
-//			}
-//		}
-//	}
-//}

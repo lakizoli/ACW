@@ -10,6 +10,7 @@
 #include "Grid.hpp"
 #include "Cell.hpp"
 #include "QuestionInfo.hpp"
+#include "BinarySerializer.hpp"
 
 bool Grid::IsCellFlagSet (uint32_t row, uint32_t col, CellFlags flag) const {
 	return row < _height && col < _width && _cells[CellIndex (row, col)]->IsFlagSet (flag);
@@ -67,6 +68,36 @@ std::shared_ptr<Grid> Grid::Create (uint32_t width, uint32_t height) {
 	}
 	
 	return grid;
+}
+
+std::shared_ptr<Grid> Grid::Deserialize (const BinaryReader& reader) {
+	std::shared_ptr<Grid> grid (new Grid ());
+	grid->_width = reader.ReadUInt32 ();
+	grid->_height = reader.ReadUInt32 ();
+	
+	volatile bool readError = false;
+	reader.ReadArray ([&readError, grid] (const BinaryReader& reader) -> void {
+		std::shared_ptr<Cell> cell = Cell::Deserialize (reader);
+		if (cell == nullptr) {
+			readError = true;
+		} else {
+			grid->_cells.push_back (cell);
+		}
+	});
+	
+	if (readError) {
+		return nullptr;
+	}
+	
+	return grid;
+}
+
+void Grid::Serialize (BinaryWriter& writer) {
+	writer.WriteUInt32 (_width);
+	writer.WriteUInt32 (_height);
+	writer.WriteArray (_cells, [] (BinaryWriter& writer, std::shared_ptr<Cell> cell) -> void {
+		cell->Serialize (writer);
+	});
 }
 
 void Grid::Dump () const {
@@ -164,14 +195,14 @@ Grid::FindQuestionResult Grid::FindHorizontalQuestionForPos (uint32_t row, uint3
 	//Check validity of found pos (get an available question pos)
 	FindQuestionResult res;
 	
-	res._questionCell = GetQuestionCellForPos (row, startCol);
-	if (res._questionCell != nullptr) { //We have a valid question pos available
+	res.questionCell = GetQuestionCellForPos (row, startCol);
+	if (res.questionCell != nullptr) { //We have a valid question pos available
 		for (uint32_t iCol = startCol; iCol < _width; ++iCol) {
 			if (IsCellFlagSet (row, iCol, CellFlags::Question)) {
 				break;
 			}
 			
-			res._cellsAvailable.push_back (_cells[CellIndex (row, iCol)]);
+			res.cellsAvailable.push_back (_cells[CellIndex (row, iCol)]);
 		}
 	}
 	
@@ -193,14 +224,14 @@ Grid::FindQuestionResult Grid::FindVerticalQuestionForPos (uint32_t row, uint32_
 	//Check validity of found pos (get an available question pos)
 	FindQuestionResult res;
 	
-	res._questionCell = GetQuestionCellForPos (startRow, col);
-	if (res._questionCell != nullptr) { //We have a valid question pos available
+	res.questionCell = GetQuestionCellForPos (startRow, col);
+	if (res.questionCell != nullptr) { //We have a valid question pos available
 		for (uint32_t iRow = startRow; iRow < _height; ++iRow) {
 			if (IsCellFlagSet (iRow, col, CellFlags::Question)) {
 				break;
 			}
 			
-			res._cellsAvailable.push_back (_cells[CellIndex (iRow, col)]);
+			res.cellsAvailable.push_back (_cells[CellIndex (iRow, col)]);
 		}
 	}
 	

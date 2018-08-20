@@ -11,6 +11,9 @@
 
 #include "cw.hpp"
 
+class BinaryReader;
+class BinaryWriter;
+
 class Grid {
 	uint32_t _width = 0;
 	uint32_t _height = 0;
@@ -27,6 +30,9 @@ class Grid {
 public:
 	static std::shared_ptr<Grid> Create (uint32_t width, uint32_t height);
 	
+	static std::shared_ptr<Grid> Deserialize (const BinaryReader& reader);
+	void Serialize (BinaryWriter& writer);
+	
 //Interface
 public:
 	uint32_t GetWidth () const { return _width; }
@@ -41,10 +47,10 @@ public:
 	void AdvanceToTheNextAvailablePos (uint32_t& row, uint32_t& col);
 	
 	struct FindQuestionResult {
-		std::shared_ptr<Cell> _questionCell;
-		std::vector<std::shared_ptr<Cell>> _cellsAvailable; ///< This is the list of available cells continuously...
+		std::shared_ptr<Cell> questionCell;
+		std::vector<std::shared_ptr<Cell>> cellsAvailable; ///< This is the list of available cells continuously...
 		
-		bool FoundAvailableQuestion () const { return _questionCell != nullptr; }
+		bool FoundAvailableQuestion () const { return questionCell != nullptr; }
 	};
 	
 	FindQuestionResult FindHorizontalQuestionForPos (uint32_t row, uint32_t col) const;

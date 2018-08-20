@@ -145,18 +145,21 @@
 	[_generatorInfo setSolutionFieldIndex: _solutionFieldIndex];
 	
 	//Generate crossword
-	[[PackageManager sharedInstance] generateWithInfo:_generatorInfo];
-	
-	//TODO: collect choosen cardlist to generate crossword from
-	//TODO: implement progress view of generation
-	//TODO: generate crossword with given settings (have to consider subscribe also!)...
-	
-	[self dismissViewControllerAnimated:YES completion:nil];
+	dispatch_async (dispatch_get_global_queue (DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+		[[PackageManager sharedInstance] generateWithInfo:self->_generatorInfo];
+
+		dispatch_async (dispatch_get_main_queue (), ^(void) {
+			__block UIViewController *parent = [self presentingViewController];
+			[self dismissViewControllerAnimated:YES completion: ^(void) {
+				[parent dismissViewControllerAnimated:YES completion:nil];
+			}];
+		});
+	});
 }
 
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
 	if (textField == _textWidth || textField == _textHeight) {
-		NSInteger maxSize = _isSubscribed ? 99 : 10;
+		NSInteger maxSize = _isSubscribed ? 999 : 16;
 		NSInteger givenSize = [[textField text] integerValue];
 
 		if (givenSize > maxSize) { //Show alert for user
