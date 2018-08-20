@@ -7,25 +7,32 @@
 //
 
 #import "CrosswordViewController.h"
+#import "CrosswordCell.h"
+#import "CrosswordLayout.h"
 
 @interface CrosswordViewController ()
+
+@property (weak, nonatomic) IBOutlet UICollectionView *crosswordView;
+@property (weak, nonatomic) IBOutlet CrosswordLayout *crosswordLayout;
 
 @end
 
 @implementation CrosswordViewController
 
-static NSString * const reuseIdentifier = @"Cell";
-
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+	
     // Uncomment the following line to preserve selection between presentations
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Register cell classes
-    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
+    //[self.collectionView registerClass:[CrosswordCell class] forCellWithReuseIdentifier:cellReusableIdentifier];
     
     // Do any additional setup after loading the view.
+	[_crosswordLayout setCellWidth:50];
+	[_crosswordLayout setCellHeight:50];
+	[_crosswordLayout setRowCount:1000];
+	[_crosswordLayout setColumnCount:1000];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -46,21 +53,23 @@ static NSString * const reuseIdentifier = @"Cell";
 #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-#warning Incomplete implementation, return the number of sections
-    return 0;
+    return [_crosswordLayout rowCount];
 }
 
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-#warning Incomplete implementation, return the number of items
-    return 0;
+    return [_crosswordLayout columnCount];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-    
-    // Configure the cell
-    
+    CrosswordCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CWCell" forIndexPath:indexPath];
+	if (cell) {
+		[cell setBackgroundColor:[UIColor colorWithRed:1 green:0 blue:0 alpha:1]];
+		
+		UILabel *label = [cell contentLabel];
+		NSString *content = [NSString stringWithFormat:@"%li, %li", indexPath.section, indexPath.row];
+		[label setText:content];
+	}
     return cell;
 }
 

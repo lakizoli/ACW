@@ -13,6 +13,8 @@
 		F09B2059210D7C9200398B2E /* PackageManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = F09B2058210D7C9200398B2E /* PackageManager.mm */; };
 		F09B205C210D7D3B00398B2E /* Package.m in Sources */ = {isa = PBXBuildFile; fileRef = F09B205B210D7D3B00398B2E /* Package.m */; };
 		F0BA0906212AC97900A7F154 /* CrosswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0BA0905212AC97900A7F154 /* CrosswordViewController.m */; };
+		F0BA0909212ACBC200A7F154 /* CrosswordCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F0BA0908212ACBC200A7F154 /* CrosswordCell.m */; };
+		F0BA090C212AD40F00A7F154 /* CrosswordLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = F0BA090B212AD40F00A7F154 /* CrosswordLayout.m */; };
 		F0C91BA4210C690000B06070 /* ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = F0C91BA3210C690000B06070 /* ProgressView.m */; };
 		FDCD521921084C860081FE4D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCD521821084C860081FE4D /* AppDelegate.m */; };
 		FDCD521C21084C860081FE4D /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCD521B21084C860081FE4D /* MainViewController.m */; };
@@ -58,6 +60,10 @@
 		F09B205B210D7D3B00398B2E /* Package.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Package.m; sourceTree = "<group>"; };
 		F0BA0904212AC97900A7F154 /* CrosswordViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CrosswordViewController.h; sourceTree = "<group>"; };
 		F0BA0905212AC97900A7F154 /* CrosswordViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CrosswordViewController.m; sourceTree = "<group>"; };
+		F0BA0907212ACBC200A7F154 /* CrosswordCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CrosswordCell.h; sourceTree = "<group>"; };
+		F0BA0908212ACBC200A7F154 /* CrosswordCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CrosswordCell.m; sourceTree = "<group>"; };
+		F0BA090A212AD40F00A7F154 /* CrosswordLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CrosswordLayout.h; sourceTree = "<group>"; };
+		F0BA090B212AD40F00A7F154 /* CrosswordLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CrosswordLayout.m; sourceTree = "<group>"; };
 		F0C91BA2210C690000B06070 /* ProgressView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProgressView.h; sourceTree = "<group>"; };
 		F0C91BA3210C690000B06070 /* ProgressView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProgressView.m; sourceTree = "<group>"; };
 		FDCD521421084C860081FE4D /* acwios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = acwios.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -134,6 +140,10 @@
 				FDCD52C221142FC70081FE4D /* CWGeneratorViewController.m */,
 				F0BA0904212AC97900A7F154 /* CrosswordViewController.h */,
 				F0BA0905212AC97900A7F154 /* CrosswordViewController.m */,
+				F0BA0907212ACBC200A7F154 /* CrosswordCell.h */,
+				F0BA0908212ACBC200A7F154 /* CrosswordCell.m */,
+				F0BA090A212AD40F00A7F154 /* CrosswordLayout.h */,
+				F0BA090B212AD40F00A7F154 /* CrosswordLayout.m */,
 				F0C91BA2210C690000B06070 /* ProgressView.h */,
 				F0C91BA3210C690000B06070 /* ProgressView.m */,
 				F092DB1D210CA5AA006B4DC6 /* Downloader.h */,
@@ -229,12 +239,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F0BA090C212AD40F00A7F154 /* CrosswordLayout.m in Sources */,
 				F09B2056210D742B00398B2E /* SubscriptionManager.m in Sources */,
 				FDCD521C21084C860081FE4D /* MainViewController.m in Sources */,
 				F09B205C210D7D3B00398B2E /* Package.m in Sources */,
 				F0C91BA4210C690000B06070 /* ProgressView.m in Sources */,
 				FDCD52B92112DB070081FE4D /* CWConfiguratorViewController.m in Sources */,
 				F0BA0906212AC97900A7F154 /* CrosswordViewController.m in Sources */,
+				F0BA0909212ACBC200A7F154 /* CrosswordCell.m in Sources */,
 				F092DB1F210CA5AA006B4DC6 /* Downloader.m in Sources */,
 				FDCD52802108682C0081FE4D /* AnkiDownloadViewController.m in Sources */,
 				F09B2053210D67B400398B2E /* ChoosePackageViewController.m in Sources */,
