@@ -19,6 +19,18 @@
 
 @implementation CrosswordViewController
 
+#pragma mark - Implementation
+
+- (NSInteger) getRowFromIndexPath:(NSIndexPath*)indexPath {
+	return indexPath.section;
+}
+
+- (NSInteger) getColFromIndexPath:(NSIndexPath*)indexPath {
+	return indexPath.row;
+}
+
+#pragma mark - Events
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
@@ -31,8 +43,8 @@
     // Do any additional setup after loading the view.
 	[_crosswordLayout setCellWidth:50];
 	[_crosswordLayout setCellHeight:50];
-	[_crosswordLayout setRowCount:1000];
-	[_crosswordLayout setColumnCount:1000];
+	[_crosswordLayout setRowCount:[_savedCrossword width]];
+	[_crosswordLayout setColumnCount:[_savedCrossword height]];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -40,9 +52,13 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
+- (IBAction)backButtonPressed:(id)sender {
+	[self dismissViewControllerAnimated:YES completion:nil];
+}
+
 #pragma mark - Navigation
 
+/*
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
@@ -64,11 +80,16 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     CrosswordCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CWCell" forIndexPath:indexPath];
 	if (cell) {
-		[cell setBackgroundColor:[UIColor colorWithRed:1 green:0 blue:0 alpha:1]];
+		//[cell setBackgroundColor:[UIColor colorWithRed:1 green:0 blue:0 alpha:1]];
 		
-		UILabel *label = [cell contentLabel];
+		UILabel *fullLabel = [cell fullLabel];
+		[fullLabel setHidden:NO];
+		
 		NSString *content = [NSString stringWithFormat:@"%li, %li", indexPath.section, indexPath.row];
-		[label setText:content];
+		[fullLabel setText:content];
+		
+		[[cell topLabel] setHidden:YES];
+		[[cell bottomLabel] setHidden:YES];
 	}
     return cell;
 }

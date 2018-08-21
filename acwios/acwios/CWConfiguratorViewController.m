@@ -11,6 +11,7 @@
 #import "CWGeneratorViewController.h"
 #import "SubscriptionManager.h"
 #import "PackageManager.h"
+#import "CrosswordViewController.h"
 
 @interface CWConfiguratorViewController ()
 
@@ -22,6 +23,7 @@
 @implementation CWConfiguratorViewController {
 	BOOL _isSubscribed;
 	NSDictionary<NSString*, NSArray<SavedCrossword*>*> *_savedCrosswords;
+	SavedCrossword *_selectedCrossword;
 }
 
 #pragma mark - Implementation
@@ -42,8 +44,11 @@
     // Do any additional setup after loading the view.
 	_isSubscribed = [[SubscriptionManager sharedInstance] isSubscribed];
 	[[self subscribeView] setHidden:_isSubscribed];
-	
+}
+
+- (void)viewWillAppear:(BOOL)animated {
 	_savedCrosswords = [[PackageManager sharedInstance] collectSavedCrosswords];
+	[_crosswordTable reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -69,6 +74,8 @@
 		if (!cwEnabled) {
 			[self showSubscription];
 		} else {
+			NSString* packageName = [[_savedCrosswords allKeys] objectAtIndex:[selectedRow section]];
+			_selectedCrossword = [[_savedCrosswords objectForKey:packageName] objectAtIndex:[selectedRow row]];
 			return YES;
 		}
 	} else if ([identifier compare:@"ShowPackageChooserView"] == NSOrderedSame) {
@@ -79,8 +86,14 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-	if ([segue.identifier compare:@"ShowCrosswordView"] == NSOrderedSame) {
-		//TODO: fill data on destination...
+	if ([segue.identifier compare:@"ShowCrosswordView"] == NSOrderedSame &&
+		[segue.destinationViewController isKindOfClass:[UINavigationController class]])
+	{
+		UINavigationController *navController = (UINavigationController*) [segue destinationViewController];
+		if ([[navController topViewController] isKindOfClass:[CrosswordViewController class]]) {
+			CrosswordViewController *cwController = (CrosswordViewController*) [navController topViewController];
+			[cwController setSavedCrossword:_selectedCrossword];
+		}
 	}
 }
 
@@ -124,7 +137,7 @@
 				[cell.textLabel setTextColor:[UIColor colorWithRed:1 green:0 blue:0 alpha:1]];
 			}
 
-			NSString *label = [NSString stringWithFormat:@"[%dx%d] (%d words) - %@", [cw width], [cw height], [cw wordCount], [cw name]];
+			NSString *label = [NSString stringWithFormat:@"[%dx%d] (%d cards) - %@", [cw width], [cw height], [cw wordCount], [cw name]];
 			[cell.textLabel setText:label];
 
 			if (cwEnabled) {

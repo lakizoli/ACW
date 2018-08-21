@@ -45,6 +45,8 @@ public:
 
 //Interface
 public:
+	const std::vector<Question> GetQuestions () const { return _questions; }
+	
 	//Max 2 question in a place!
 	bool HasAvailableQuestionPlace () const { return _questions.size () < 2; }
 	

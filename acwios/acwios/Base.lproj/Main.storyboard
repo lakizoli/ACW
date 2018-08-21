@@ -276,7 +276,7 @@
             </objects>
             <point key="canvasLocation" x="1841" y="278"/>
         </scene>
-        <!--Crossword View Controller-->
+        <!--Play crossword-->
         <scene sceneID="C7w-MJ-5Vd">
             <objects>
                 <collectionViewController id="oYt-3K-Fqm" customClass="CrosswordViewController" sceneMemberID="viewController">
@@ -293,8 +293,22 @@
                                     <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iui-qT-XwQ">
-                                            <rect key="frame" x="4" y="15" width="42" height="21"/>
+                                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Full label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumFontSize="7" translatesAutoresizingMaskIntoConstraints="NO" id="Iui-qT-XwQ">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Top label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="7" translatesAutoresizingMaskIntoConstraints="NO" id="mDB-De-EVC">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="25"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Bottom label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="7" translatesAutoresizingMaskIntoConstraints="NO" id="YYo-T8-EWa">
+                                            <rect key="frame" x="0.0" y="25" width="50" height="25"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
@@ -303,7 +317,9 @@
                                     </subviews>
                                 </view>
                                 <connections>
-                                    <outlet property="contentLabel" destination="Iui-qT-XwQ" id="PdE-oR-fva"/>
+                                    <outlet property="bottomLabel" destination="YYo-T8-EWa" id="5iI-eA-LsV"/>
+                                    <outlet property="fullLabel" destination="Iui-qT-XwQ" id="76T-dE-64K"/>
+                                    <outlet property="topLabel" destination="mDB-De-EVC" id="eAd-WD-Oj4"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
@@ -312,6 +328,13 @@
                             <outlet property="delegate" destination="oYt-3K-Fqm" id="Pfw-vi-axW"/>
                         </connections>
                     </collectionView>
+                    <navigationItem key="navigationItem" title="Play crossword" id="gWj-m0-jYt">
+                        <barButtonItem key="leftBarButtonItem" title="Back" image="arrow-back" id="M06-yv-WXy">
+                            <connections>
+                                <action selector="backButtonPressed:" destination="oYt-3K-Fqm" id="ScO-PB-avu"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="crosswordLayout" destination="NEG-KQ-SnD" id="AS3-bC-PSv"/>
                         <outlet property="crosswordView" destination="LAi-La-LeM" id="bjW-O0-CRz"/>
@@ -319,7 +342,23 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HeQ-JF-uUr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1841" y="1014"/>
+            <point key="canvasLocation" x="2660" y="993.55322338830592"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="rOj-Eu-ofd">
+            <objects>
+                <navigationController id="Ua7-2S-ojo" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="hcO-N4-a9V">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="oYt-3K-Fqm" kind="relationship" relationship="rootViewController" id="f11-rm-7b1"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1hI-89-3XU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1841" y="995"/>
         </scene>
         <!--Configurator View Controller-->
         <scene sceneID="k0S-uK-wfP">
@@ -358,7 +397,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="oYt-3K-Fqm" kind="show" identifier="ShowCrosswordView" id="Hny-iM-e4F"/>
+                                            <segue destination="Ua7-2S-ojo" kind="show" id="8GQ-ah-e7t"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

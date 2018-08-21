@@ -10,6 +10,15 @@
 
 @interface CrosswordCell : UICollectionViewCell
 
-@property (weak, nonatomic) IBOutlet UILabel *contentLabel;
+@property (weak, nonatomic) IBOutlet UILabel *fullLabel;
+@property (weak, nonatomic) IBOutlet UILabel *topLabel;
+@property (weak, nonatomic) IBOutlet UILabel *bottomLabel;
+
+-(void) fillOneQuestion:(NSString*)question;
+-(void) fillTwoQuestion:(NSString*)questionTop questionBottom:(NSString*)questionBottom;
+
+-(void) fillSpacer;
+-(void) fillLetter;
+-(void) fillArrowWithQestionPos:(CGPoint)questionPos answerStart:(CGPoint)answerStart isVertical:(BOOL)isVertical;
 
 @end

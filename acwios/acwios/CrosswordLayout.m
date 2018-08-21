@@ -9,20 +9,25 @@
 #import "CrosswordLayout.h"
 
 @implementation CrosswordLayout {
-	NSMutableArray<UICollectionViewLayoutAttributes*> *_layoutAttrs;
 }
 
+- (NSIndexPath*) getIndexPathForRow:(NSInteger)row col:(NSInteger)col {
+	NSIndexPath *indexPath = [NSIndexPath indexPathForRow:col inSection:row]; //row is the secion, and col is the row!
+	return indexPath;
+}
+
+- (NSInteger) getRowFromIndexPath:(NSIndexPath*)indexPath {
+	return indexPath.section;
+}
+
+- (NSInteger) getColFromIndexPath:(NSIndexPath*)indexPath {
+	return indexPath.row;
+}
+
+#pragma mark - Collection View Layout functions
+
 - (void) prepareLayout {
-	_layoutAttrs = [NSMutableArray<UICollectionViewLayoutAttributes*> new];
-	
-	for (NSInteger row = 0; row < _rowCount; ++row) {
-		for (NSInteger col = 0; col < _columnCount; ++col) {
-			NSIndexPath *indexPath = [NSIndexPath indexPathForRow:col inSection:row]; //row is the secion, and col is the row!
-			UICollectionViewLayoutAttributes *attr = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
-			[attr setFrame:CGRectMake (col * _cellWidth, row * _cellHeight, _cellWidth, _cellHeight)];
-			[_layoutAttrs addObject:attr];
-		}
-	}
+	//... nothing to do ...
 }
 
 - (CGSize) collectionViewContentSize {
@@ -30,20 +35,54 @@
 }
 
 - (NSArray<UICollectionViewLayoutAttributes *> *) layoutAttributesForElementsInRect:(CGRect)rect {
-	__block NSMutableArray<UICollectionViewLayoutAttributes*> *visibleLayoutAttributes = [NSMutableArray<UICollectionViewLayoutAttributes*> new];
-	
-	[_layoutAttrs enumerateObjectsUsingBlock:^(UICollectionViewLayoutAttributes * _Nonnull attr, NSUInteger idx, BOOL * _Nonnull stop) {
-		if (CGRectIntersectsRect ([attr frame], rect)) {
-			[visibleLayoutAttributes addObject:attr];
+	@autoreleasepool {
+		NSMutableArray<UICollectionViewLayoutAttributes*> *visibleLayoutAttributes = [NSMutableArray<UICollectionViewLayoutAttributes*> new];
+		
+		NSInteger left = rect.origin.x;
+		NSInteger right = left + rect.size.width;
+		NSInteger top = rect.origin.y;
+		NSInteger bottom = top + rect.size.height;
+		
+		NSInteger startRowInclusive = top / (NSInteger) _cellHeight;
+		NSInteger endRowInclusive = bottom / (NSInteger) _cellHeight;
+		if (bottom % _cellHeight > 0) {
+			++endRowInclusive;
 		}
-	}];
 
-	return visibleLayoutAttributes;
+		NSInteger startColInclusive = left / (NSInteger) _cellWidth;
+		NSInteger endColInclusive = right / (NSInteger) _cellWidth;
+		if (right % _cellWidth > 0) {
+			++endColInclusive;
+		}
+		
+		startRowInclusive = MAX (startRowInclusive, 0);
+		endRowInclusive = MIN (endRowInclusive, _rowCount - 1);
+		startColInclusive = MAX (startColInclusive, 0);
+		endColInclusive = MIN (endColInclusive, _columnCount - 1);
+		
+		for (NSInteger row = startRowInclusive; row <= endRowInclusive; ++row) {
+			for (NSInteger col = startColInclusive; col <= endColInclusive; ++col) {
+				NSIndexPath *indexPath = [self getIndexPathForRow:row col:col];
+				UICollectionViewLayoutAttributes *attr = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
+				[attr setFrame:CGRectMake (col * _cellWidth, row * _cellHeight, _cellWidth, _cellHeight)];
+				if (attr && CGRectIntersectsRect ([attr frame], rect)) {
+					[visibleLayoutAttributes addObject:attr];
+				}
+			}
+		}
+
+		return visibleLayoutAttributes;
+	}
 }
 
 - (UICollectionViewLayoutAttributes *) layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath {
-	NSUInteger idx = indexPath.section * _columnCount + indexPath.row;
-	return [_layoutAttrs objectAtIndex:idx];
+	@autoreleasepool {
+		NSInteger row = [self getRowFromIndexPath:indexPath];
+		NSInteger col = [self getColFromIndexPath:indexPath];
+		UICollectionViewLayoutAttributes *attr = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
+		[attr setFrame:CGRectMake (col * _cellWidth, row * _cellHeight, _cellWidth, _cellHeight)];
+		return attr;
+	}
 }
 
 @end

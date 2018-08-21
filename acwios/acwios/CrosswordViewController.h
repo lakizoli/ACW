@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Package.h"
 
 @interface CrosswordViewController : UICollectionViewController
+
+@property (strong) SavedCrossword *savedCrossword;
 
 @end

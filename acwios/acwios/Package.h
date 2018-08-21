@@ -62,6 +62,25 @@
 
 @end
 
+enum CWCellType {
+	CWCellType_Unknown,
+	
+	CWCellType_SingleQuestion,
+	CWCellType_DoubleQuestion,
+	CWCellType_Spacer,
+	CWCellType_Letter,
+	
+	CWCellType_Start_TopDown_Right,
+	CWCellType_Start_TopDown_Left,
+	
+	CWCellType_Start_TopRight,
+	CWCellType_Start_FullRight,
+	CWCellType_Start_BottomRight,
+
+	CWCellType_Start_LeftRight_Top,
+	CWCellType_Start_LeftRight_Bottom
+};
+
 @interface SavedCrossword : NSObject
 
 @property (strong) NSURL *path;
@@ -71,5 +90,10 @@
 @property (assign) uint32_t width;
 @property (assign) uint32_t height;
 @property (assign) uint32_t wordCount;
+
+-(void) loadDB;
+-(void) unloadDB;
+
+-(enum CWCellType) getCellTypeInRow:(uint32_t)row col:(uint32_t)col;
 
 @end
