@@ -236,4 +236,13 @@
 	return nil;
 }
 
+-(NSString*) getCellsValue:(uint32_t)row col:(uint32_t)col {
+	std::shared_ptr<Cell> cell = [self getCell:row col:col];
+	if (cell != nullptr && cell->IsFlagSet (CellFlags::Value)) {
+		return [NSString stringWithFormat:@"%c", cell->GetValue ()];
+	}
+	
+	return nil;
+}
+
 @end

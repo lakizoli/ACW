@@ -152,7 +152,7 @@ std::shared_ptr<Crossword> Generator::Generate () const {
 		grid->SetCellToFreeQuestionCell (row, 0);
 	}
 	
-	while (!grid->AllCellsAreFilled ()) {
+	while (!grid->AllCellsAreFilled () && col < _width && row < _height) {
 		lastCol = col;
 		lastRow = row;
 		

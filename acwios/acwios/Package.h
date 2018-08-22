@@ -97,5 +97,6 @@ enum CWCellType {
 
 -(enum CWCellType) getCellTypeInRow:(uint32_t)row col:(uint32_t)col;
 -(NSString*) getCellsQuestion:(uint32_t)row col:(uint32_t)col questionIndex:(uint32_t)questionIndex;
+-(NSString*) getCellsValue:(uint32_t)row col:(uint32_t)col;
 
 @end

@@ -23,9 +23,25 @@
 	[_bottomLabel setHidden:bottomHidden];
 }
 
+-(void) clearContent {
+	//Set all content to hidden
+	[self setHiddensForFullHidden:YES topHidden:YES bottomHidden:YES];
+	
+	//Clear arrows
+	__block NSMutableArray<CALayer*> *sublayers = [NSMutableArray<CALayer*> new];
+	[[[self layer] sublayers] enumerateObjectsUsingBlock:^(CALayer * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		if (![obj isKindOfClass:[CAShapeLayer class]]) {
+			[sublayers addObject:obj];
+		}
+	}];
+	
+	[[self layer] setSublayers:sublayers];
+}
+
 #pragma mark - Interface
 
 -(void) fillOneQuestion:(NSString*)question {
+	[self clearContent];
 	[self setBorder:self];
 	
 	[self setBackgroundColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:1]];
@@ -34,6 +50,7 @@
 }
 
 -(void) fillTwoQuestion:(NSString*)questionTop questionBottom:(NSString*)questionBottom {
+	[self clearContent];
 	[self setBorder:_topLabel];
 	[self setBorder:_bottomLabel];
 	
@@ -44,17 +61,24 @@
 }
 
 -(void) fillSpacer {
+	[self clearContent];
 	[self setBorder:self];
 	[self setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:1]];
 }
 
--(void) fillLetter {
+-(void) fillLetter:(BOOL)showValue value:(NSString*)value {
+	[self clearContent];
 	[self setBorder:self];
 	[self setBackgroundColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:1]];
+	
+	if (showValue) {
+		[_fullLabel setText:value];
+		[self setHiddensForFullHidden:NO topHidden:YES bottomHidden:YES];
+	}
 }
 
--(void) fillArrow:(enum CWCellType)cellType {
-	[self fillLetter];
+-(void) fillArrow:(enum CWCellType)cellType showValue:(BOOL)showValue value:(NSString*)value {
+	[self fillLetter:showValue value:value];
 	
 	const CGFloat baseX[] = { 0, 32, 25, 18 };
 	const CGFloat baseY[] = { 3,  3, 10,  3 };

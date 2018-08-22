@@ -334,10 +334,16 @@
                                 <action selector="backButtonPressed:" destination="oYt-3K-Fqm" id="ScO-PB-avu"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Show answers" id="b2E-oj-GcN">
+                            <connections>
+                                <action selector="showHideButtonPressed:" destination="oYt-3K-Fqm" id="Qaq-Ks-GtB"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="crosswordLayout" destination="NEG-KQ-SnD" id="AS3-bC-PSv"/>
                         <outlet property="crosswordView" destination="LAi-La-LeM" id="bjW-O0-CRz"/>
+                        <outlet property="showHideButton" destination="b2E-oj-GcN" id="YVF-Xy-x3x"/>
                     </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HeQ-JF-uUr" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -732,6 +738,7 @@
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="doneButton" destination="6fh-Ma-mSk" id="ab9-De-Sy3"/>
                         <outlet property="labelQuestion" destination="Gm4-Go-CpH" id="pbC-0r-v6s"/>
                         <outlet property="labelSolution" destination="hTH-ca-2WW" id="Arr-Gp-TC6"/>
                         <outlet property="pickerQuestion" destination="YN9-1Q-FU6" id="g0p-6J-nrt"/>

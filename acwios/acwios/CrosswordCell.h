@@ -19,7 +19,7 @@
 -(void) fillTwoQuestion:(NSString*)questionTop questionBottom:(NSString*)questionBottom;
 
 -(void) fillSpacer;
--(void) fillLetter;
--(void) fillArrow:(enum CWCellType)cellType;
+-(void) fillLetter:(BOOL)showValue value:(NSString*)value;
+-(void) fillArrow:(enum CWCellType)cellType showValue:(BOOL)showValue value:(NSString*)value;
 
 @end

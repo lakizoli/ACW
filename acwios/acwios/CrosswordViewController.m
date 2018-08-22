@@ -14,10 +14,13 @@
 
 @property (weak, nonatomic) IBOutlet UICollectionView *crosswordView;
 @property (weak, nonatomic) IBOutlet CrosswordLayout *crosswordLayout;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *showHideButton;
 
 @end
 
-@implementation CrosswordViewController
+@implementation CrosswordViewController {
+	BOOL _areAnswersVisible;
+}
 
 #pragma mark - Implementation
 
@@ -41,10 +44,12 @@
     //[self.collectionView registerClass:[CrosswordCell class] forCellWithReuseIdentifier:cellReusableIdentifier];
     
     // Do any additional setup after loading the view.
+	_areAnswersVisible = NO;
+	
 	[_crosswordLayout setCellWidth:50];
 	[_crosswordLayout setCellHeight:50];
-	[_crosswordLayout setRowCount:[_savedCrossword width]];
-	[_crosswordLayout setColumnCount:[_savedCrossword height]];
+	[_crosswordLayout setRowCount:[_savedCrossword height]];
+	[_crosswordLayout setColumnCount:[_savedCrossword width]];
 	
 	[_savedCrossword loadDB];
 }
@@ -57,6 +62,12 @@
 - (IBAction)backButtonPressed:(id)sender {
 	[_savedCrossword unloadDB];
 	[self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (IBAction)showHideButtonPressed:(id)sender {
+	_areAnswersVisible = _areAnswersVisible ? NO : YES;
+	[_showHideButton setTitle:_areAnswersVisible ? @"Hide answers" : @"Show answers"];
+	[_crosswordView reloadData];
 }
 
 #pragma mark - Navigation
@@ -100,9 +111,11 @@
 			case CWCellType_Spacer:
 				[cell fillSpacer];
 				break;
-			case CWCellType_Letter:
-				[cell fillLetter];
+			case CWCellType_Letter: {
+				NSString* cellValue = [_savedCrossword getCellsValue:row col:col];
+				[cell fillLetter:_areAnswersVisible value:cellValue];
 				break;
+			}
 			case CWCellType_Start_TopDown_Right:
 			case CWCellType_Start_TopDown_Left:
 			case CWCellType_Start_TopDown_Bottom:
@@ -110,25 +123,14 @@
 			case CWCellType_Start_FullRight:
 			case CWCellType_Start_BottomRight:
 			case CWCellType_Start_LeftRight_Top:
-			case CWCellType_Start_LeftRight_Bottom:
-				[cell fillArrow:cellType];
+			case CWCellType_Start_LeftRight_Bottom: {
+				NSString* cellValue = [_savedCrossword getCellsValue:row col:col];
+				[cell fillArrow:cellType showValue:_areAnswersVisible value:cellValue];
 				break;
+			}
 			default:
 				break;
 		}
-//
-//		//cell fillTwoQuestion:<#(NSString *)#> questionBottom:<#(NSString *)#>
-//
-//		//[cell setBackgroundColor:[UIColor colorWithRed:1 green:0 blue:0 alpha:1]];
-//
-//		UILabel *fullLabel = [cell fullLabel];
-//		[fullLabel setHidden:NO];
-//
-//		NSString *content = [NSString stringWithFormat:@"%li, %li", indexPath.section, indexPath.row];
-//		[fullLabel setText:content];
-//
-//		[[cell topLabel] setHidden:YES];
-//		[[cell bottomLabel] setHidden:YES];
 	}
     return cell;
 }

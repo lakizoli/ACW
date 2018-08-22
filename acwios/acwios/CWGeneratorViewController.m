@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UIPickerView *pickerQuestion;
 @property (weak, nonatomic) IBOutlet UILabel *labelSolution;
 @property (weak, nonatomic) IBOutlet UIPickerView *pickerSolution;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *doneButton;
 
 @end
 
@@ -145,6 +146,7 @@
 	[_generatorInfo setSolutionFieldIndex: _solutionFieldIndex];
 	
 	//Generate crossword
+	[_doneButton setEnabled:NO];
 	dispatch_async (dispatch_get_global_queue (DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
 		[[PackageManager sharedInstance] generateWithInfo:self->_generatorInfo];
 
@@ -159,7 +161,7 @@
 
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
 	if (textField == _textWidth || textField == _textHeight) {
-		NSInteger maxSize = _isSubscribed ? 999 : 16;
+		NSInteger maxSize = _isSubscribed ? 99 : 16;
 		NSInteger givenSize = [[textField text] integerValue];
 
 		if (givenSize > maxSize) { //Show alert for user
