@@ -20,6 +20,8 @@ enum class CellFlags : uint32_t {
 	RightSeparator =	0x0020,
 	TopSeparator =		0x0040,
 	BottomSeparator =	0x0080,
+	
+	StartCell =			0x0100, //Flag to sign start cells
 };
 
 inline CellFlags operator | (CellFlags lhs, CellFlags rhs) {

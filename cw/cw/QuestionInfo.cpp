@@ -42,10 +42,16 @@ void QuestionInfo::AddQuestion (Direction dir, uint32_t questionIndex, const std
 	if (!HasAvailableQuestionPlace ()) {
 		return;
 	}
-		
+	
 	_questions.push_back (Question {
 		dir,
 		questionIndex,
 		question
 	});
+	
+	if (_questions.size () > 1) {
+		std::sort (_questions.begin (), _questions.end (), [] (const Question& q1, const Question& q2) -> bool {
+			return (uint32_t) q1.dir < (uint32_t) q2.dir;
+		});
+	}
 }

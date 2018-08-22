@@ -36,6 +36,9 @@ std::shared_ptr<Cell> Cell::Deserialize (const BinaryReader& reader) {
 			return nullptr;
 		}
 	}
+	
+	cell->_questionRow = reader.ReadUInt32 ();
+	cell->_questionCol = reader.ReadUInt32 ();
 
 	return cell;
 }
@@ -53,6 +56,9 @@ void Cell::Serialize (BinaryWriter& writer) {
 	if (hasQuestionInfo) {
 		_questionInfo->Serialize (writer);
 	}
+
+	writer.WriteUInt32 (_questionRow);
+	writer.WriteUInt32 (_questionCol);
 }
 
 void Cell::ConfigureAsEmptyQuestion () {
@@ -64,4 +70,10 @@ void Cell::SetValue (uint8_t value) {
 	_flags |= CellFlags::Value;
 	_value = value;
 	++_valueRefCount;
+}
+
+void Cell::ConfigureAsStartCell (std::shared_ptr<Cell> questionCell) {
+	_flags |= CellFlags::StartCell;
+	_questionRow = questionCell->_row;
+	_questionCol = questionCell->_col;
 }

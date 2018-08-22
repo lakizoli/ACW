@@ -72,6 +72,7 @@ enum CWCellType {
 	
 	CWCellType_Start_TopDown_Right,
 	CWCellType_Start_TopDown_Left,
+	CWCellType_Start_TopDown_Bottom,
 	
 	CWCellType_Start_TopRight,
 	CWCellType_Start_FullRight,
@@ -95,5 +96,6 @@ enum CWCellType {
 -(void) unloadDB;
 
 -(enum CWCellType) getCellTypeInRow:(uint32_t)row col:(uint32_t)col;
+-(NSString*) getCellsQuestion:(uint32_t)row col:(uint32_t)col questionIndex:(uint32_t)questionIndex;
 
 @end

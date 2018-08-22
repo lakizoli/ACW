@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Package.h"
 
 @interface CrosswordCell : UICollectionViewCell
 
@@ -19,6 +20,6 @@
 
 -(void) fillSpacer;
 -(void) fillLetter;
--(void) fillArrowWithQestionPos:(CGPoint)questionPos answerStart:(CGPoint)answerStart isVertical:(BOOL)isVertical;
+-(void) fillArrow:(enum CWCellType)cellType;
 
 @end

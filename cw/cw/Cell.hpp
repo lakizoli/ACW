@@ -24,6 +24,8 @@ class Cell {
 	uint32_t _valueRefCount = 0;
 	
 	std::shared_ptr<QuestionInfo> _questionInfo;
+	uint32_t _questionRow = 0;
+	uint32_t _questionCol = 0;
 
 //Implementation
 	Cell () = default;
@@ -48,11 +50,14 @@ public:
 	uint32_t GetValueRefCount () const { return _valueRefCount; }
 	
 	std::shared_ptr<QuestionInfo> GetQuestionInfo () const { return _questionInfo; }
+	uint32_t GetQuestionRow () const { return _questionRow; }
+	uint32_t GetQuestionCol () const { return _questionCol; }
 	
 //Generation interface
 public:
 	void ConfigureAsEmptyQuestion ();
 	void SetValue (uint8_t value);
+	void ConfigureAsStartCell (std::shared_ptr<Cell> questionCell);
 };
 
 #endif /* Cell_hpp */

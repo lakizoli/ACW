@@ -18,8 +18,10 @@ public:
 	enum class Direction : uint32_t {
 		None,
 		LeftDown,
-		TopRight,
 		RightDown,
+		TopRight,
+		Right,
+		BottomDown,
 		BottomRight
 	};
 	

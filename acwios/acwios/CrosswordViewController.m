@@ -21,12 +21,12 @@
 
 #pragma mark - Implementation
 
-- (NSInteger) getRowFromIndexPath:(NSIndexPath*)indexPath {
-	return indexPath.section;
+- (uint32_t) getRowFromIndexPath:(NSIndexPath*)indexPath {
+	return (uint32_t) indexPath.section;
 }
 
-- (NSInteger) getColFromIndexPath:(NSIndexPath*)indexPath {
-	return indexPath.row;
+- (uint32_t) getColFromIndexPath:(NSIndexPath*)indexPath {
+	return (uint32_t) indexPath.row;
 }
 
 #pragma mark - Events
@@ -45,6 +45,8 @@
 	[_crosswordLayout setCellHeight:50];
 	[_crosswordLayout setRowCount:[_savedCrossword width]];
 	[_crosswordLayout setColumnCount:[_savedCrossword height]];
+	
+	[_savedCrossword loadDB];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -53,6 +55,7 @@
 }
 
 - (IBAction)backButtonPressed:(id)sender {
+	[_savedCrossword unloadDB];
 	[self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -80,16 +83,52 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     CrosswordCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CWCell" forIndexPath:indexPath];
 	if (cell) {
-		//[cell setBackgroundColor:[UIColor colorWithRed:1 green:0 blue:0 alpha:1]];
+		uint32_t row = [self getRowFromIndexPath:indexPath];
+		uint32_t col = [self getColFromIndexPath:indexPath];
+		enum CWCellType cellType = [_savedCrossword getCellTypeInRow:row col:col];
 		
-		UILabel *fullLabel = [cell fullLabel];
-		[fullLabel setHidden:NO];
-		
-		NSString *content = [NSString stringWithFormat:@"%li, %li", indexPath.section, indexPath.row];
-		[fullLabel setText:content];
-		
-		[[cell topLabel] setHidden:YES];
-		[[cell bottomLabel] setHidden:YES];
+		switch (cellType) {
+			case CWCellType_SingleQuestion:
+				[cell fillOneQuestion: [_savedCrossword getCellsQuestion:row col:col questionIndex:0]];
+				break;
+			case CWCellType_DoubleQuestion: {
+				NSString* qTop = [_savedCrossword getCellsQuestion:row col:col questionIndex:0];
+				NSString* qBottom = [_savedCrossword getCellsQuestion:row col:col questionIndex:1];
+				[cell fillTwoQuestion:qTop questionBottom:qBottom];
+				break;
+			}
+			case CWCellType_Spacer:
+				[cell fillSpacer];
+				break;
+			case CWCellType_Letter:
+				[cell fillLetter];
+				break;
+			case CWCellType_Start_TopDown_Right:
+			case CWCellType_Start_TopDown_Left:
+			case CWCellType_Start_TopDown_Bottom:
+			case CWCellType_Start_TopRight:
+			case CWCellType_Start_FullRight:
+			case CWCellType_Start_BottomRight:
+			case CWCellType_Start_LeftRight_Top:
+			case CWCellType_Start_LeftRight_Bottom:
+				[cell fillArrow:cellType];
+				break;
+			default:
+				break;
+		}
+//
+//		//cell fillTwoQuestion:<#(NSString *)#> questionBottom:<#(NSString *)#>
+//
+//		//[cell setBackgroundColor:[UIColor colorWithRed:1 green:0 blue:0 alpha:1]];
+//
+//		UILabel *fullLabel = [cell fullLabel];
+//		[fullLabel setHidden:NO];
+//
+//		NSString *content = [NSString stringWithFormat:@"%li, %li", indexPath.section, indexPath.row];
+//		[fullLabel setText:content];
+//
+//		[[cell topLabel] setHidden:YES];
+//		[[cell bottomLabel] setHidden:YES];
 	}
     return cell;
 }

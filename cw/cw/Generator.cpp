@@ -78,6 +78,7 @@ Generator::InsertWordRes Generator::InsertWordIntoCells (const std::vector<std::
 
 void Generator::ConfigureQuestionInCell (std::shared_ptr<Cell> questionCell,
 										 std::shared_ptr<Cell> firstLetterCell,
+										 std::shared_ptr<Cell> secondLetterCell,
 										 uint32_t questionIndex) const
 {
 	std::shared_ptr<QuestionInfo> qInfo = questionCell->GetQuestionInfo ();
@@ -88,13 +89,29 @@ void Generator::ConfigureQuestionInCell (std::shared_ptr<Cell> questionCell,
 	uint32_t firstLetterRow = firstLetterCell->GetRow ();
 	uint32_t firstLetterCol = firstLetterCell->GetCol ();
 	if (firstLetterRow > questionRow) { //First letter is below the question
-		qInfo->AddQuestion (QuestionInfo::Direction::BottomRight, questionIndex, word);
+		QuestionInfo::Direction dir;
+		if (secondLetterCell != nullptr && secondLetterCell->GetCol () == firstLetterCell->GetCol ()) {
+			dir = QuestionInfo::Direction::BottomDown;
+		} else {
+			dir = QuestionInfo::Direction::BottomRight;
+		}
+		qInfo->AddQuestion (dir, questionIndex, word);
+		firstLetterCell->ConfigureAsStartCell (questionCell);
 	} else if (firstLetterRow < questionRow) { //First letter is above the question
 		qInfo->AddQuestion (QuestionInfo::Direction::TopRight, questionIndex, word);
+		firstLetterCell->ConfigureAsStartCell (questionCell);
 	} else if (firstLetterCol < questionCol) { //First letter is on the left side of question
 		qInfo->AddQuestion (QuestionInfo::Direction::LeftDown, questionIndex, word);
+		firstLetterCell->ConfigureAsStartCell (questionCell);
 	} else if (firstLetterCol > questionCol) { //First letter is on the right side of question
-		qInfo->AddQuestion (QuestionInfo::Direction::RightDown, questionIndex, word);
+		QuestionInfo::Direction dir;
+		if (secondLetterCell != nullptr && secondLetterCell->GetCol () == firstLetterCell->GetCol ()) {
+			dir = QuestionInfo::Direction::RightDown;
+		} else {
+			dir = QuestionInfo::Direction::Right;
+		}
+		qInfo->AddQuestion (dir, questionIndex, word);
+		firstLetterCell->ConfigureAsStartCell (questionCell);
 	}
 }
 
@@ -164,12 +181,14 @@ std::shared_ptr<Crossword> Generator::Generate () const {
 		//-> if we found valid words, then we have to insert them into the grid and questions, and have to jump to the next available position
 		InsertWordRes hWord = InsertWordIntoCells (hQ.cellsAvailable, usedWords);
 		if (hWord.inserted) {
-			ConfigureQuestionInCell (hQ.questionCell, hQ.cellsAvailable[0], hWord.insertedWordIndex);
+			std::shared_ptr<Cell> secondLetterCell = hQ.cellsAvailable.size () > 1 ? hQ.cellsAvailable[1] : nullptr;
+			ConfigureQuestionInCell (hQ.questionCell, hQ.cellsAvailable[0], secondLetterCell, hWord.insertedWordIndex);
 		}
 		
 		InsertWordRes vWord = InsertWordIntoCells (vQ.cellsAvailable, usedWords);
 		if (vWord.inserted) {
-			ConfigureQuestionInCell (vQ.questionCell, vQ.cellsAvailable[0], vWord.insertedWordIndex);
+			std::shared_ptr<Cell> secondLetterCell = vQ.cellsAvailable.size () > 1 ? vQ.cellsAvailable[1] : nullptr;
+			ConfigureQuestionInCell (vQ.questionCell, vQ.cellsAvailable[0], secondLetterCell, vWord.insertedWordIndex);
 		}
 
 		//Advance to the next available position
