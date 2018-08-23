@@ -386,6 +386,41 @@
 
 #pragma mark - Generate crossword based on info
 
+-(NSString*) trimQuestionField:(NSString*)questionField {
+	__block NSString *field = [questionField stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+	
+	//Try to detect HTML content
+	if ([field hasPrefix:@"<"]) {
+		FirstContentXmlParserDelegate *xmlDel = [[FirstContentXmlParserDelegate alloc] init];
+		NSXMLParser *xml = [[NSXMLParser alloc] initWithData:[field dataUsingEncoding:NSUTF8StringEncoding]];
+		[xml setDelegate:xmlDel];
+		if ([xml parse]) {
+			field = [xmlDel firstValue];
+		} else {
+			return nil;
+		}
+	}
+	
+	//Convert separators to usable format
+	field = [field stringByReplacingOccurrencesOfString:@"&nbsp;" withString:@" "];
+	
+	NSArray<NSString*> *separatorArr = @[@";", @"<br", @"/>", @"\r", @"\n"];
+	[separatorArr enumerateObjectsUsingBlock:^(NSString * _Nonnull separatorStr, NSUInteger idx, BOOL * _Nonnull stop) {
+		field = [field stringByReplacingOccurrencesOfString:separatorStr withString:@":"];
+		field = [field stringByReplacingOccurrencesOfString:@"  " withString:@" "];
+		field = [field stringByReplacingOccurrencesOfString:@": :" withString:@", "];
+		field = [field stringByReplacingOccurrencesOfString:@"::" withString:@", "];
+	}];
+
+	field = [field stringByReplacingOccurrencesOfString:@":" withString:@", "];
+	while ([field hasSuffix:@", "]) {
+		field = [field substringToIndex:[field length] - 2];
+	}
+
+	NSLog (@"%@ -> %@", questionField, field);
+	return field;
+}
+
 -(NSString*) trimSolutionField:(NSString*)solutionField {
 	__block NSString *field = [solutionField stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 	
@@ -401,7 +436,7 @@
 		}
 	}
 	
-	//Split word out from garbage
+	//Pull word out from garbage
 	NSArray<NSString*> *splitArr = @[@" ", @"&nbsp;", @";", @"<br", @"/>", @"\r", @"\n", @",", @"(", @")", @"[", @"]", @"{", @"}"];
 	[splitArr enumerateObjectsUsingBlock:^(NSString*  _Nonnull splitStr, NSUInteger idx, BOOL * _Nonnull stop) {
 		NSString *trimmed = [field stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
@@ -455,6 +490,10 @@
 		solutionFieldValues.push_back ([val UTF8String]);
 
 		val = [[card fieldValues] objectAtIndex:[info questionFieldIndex]];
+		val = [self trimQuestionField:val];
+		if ([val length] <= 0) {
+			return;
+		}
 		questionFieldValues.push_back ([val UTF8String]);
 	}];
 	

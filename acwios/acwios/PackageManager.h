@@ -16,6 +16,9 @@
 -(NSArray<Package*>*)collectPackages;
 -(NSDictionary<NSString*, NSArray<SavedCrossword*>*>*)collectSavedCrosswords;
 -(GeneratorInfo*)collectGeneratorInfo:(NSArray<Deck*>*)decks;
+
+-(NSString*)trimQuestionField:(NSString*)questionField;
+-(NSString*)trimSolutionField:(NSString*)solutionField;
 -(BOOL)generateWithInfo:(GeneratorInfo*)info;
 
 @end

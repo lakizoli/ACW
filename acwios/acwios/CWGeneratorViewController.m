@@ -121,11 +121,13 @@
 	[_textWidth setText:[NSString stringWithFormat:@"%lu", _width]];
 	[_textHeight setText:[NSString stringWithFormat:@"%lu", _height]];
 	
+	PackageManager* pacMan = [PackageManager sharedInstance];
+	
 	NSString *fieldValue = [self getFieldValue:_questionFieldIndex];
-	[self updatePickerLabel:_labelQuestion withText:@"Question field:" andExample:fieldValue];
+	[self updatePickerLabel:_labelQuestion withText:@"Question field:" andExample:[pacMan trimQuestionField: fieldValue]];
 	
 	fieldValue = [self getFieldValue:_solutionFieldIndex];
-	[self updatePickerLabel:_labelSolution withText:@"Solution field:" andExample:fieldValue];
+	[self updatePickerLabel:_labelSolution withText:@"Solution field:" andExample:[pacMan trimSolutionField: fieldValue]];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -161,11 +163,13 @@
 
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
 	if (textField == _textWidth || textField == _textHeight) {
-		NSInteger maxSize = _isSubscribed ? 99 : 16;
+		NSInteger maxSize = _isSubscribed ? 99 : 10;
 		NSInteger givenSize = [[textField text] integerValue];
 
 		if (givenSize > maxSize) { //Show alert for user
-			if (!_isSubscribed) {
+			if (_isSubscribed) { //Size alert
+				//TODO: show size alert...
+			} else { //Subscription alert
 				[self showSubscription];
 			}
 
@@ -177,6 +181,8 @@
 				_height = (NSUInteger) maxSize;
 			}
 		} else if (givenSize < 5) { //Minimal size is 5
+			//TODO: show size alert...
+			
 			[textField setText:@"5"];
 			
 			if (textField == _textWidth) {
@@ -237,11 +243,11 @@
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
 	if (pickerView == _pickerQuestion) {
 		NSString *fieldValue = [self getFieldValue:row];
-		[self updatePickerLabel:_labelQuestion withText:@"Question field:" andExample:fieldValue];
+		[self updatePickerLabel:_labelQuestion withText:@"Question field:" andExample:[[PackageManager sharedInstance] trimQuestionField:fieldValue]];
 		_questionFieldIndex = row;
 	} else if (pickerView == _pickerSolution) {
 		NSString *fieldValue = [self getFieldValue:row];
-		[self updatePickerLabel:_labelSolution withText:@"Solution field:" andExample:fieldValue];
+		[self updatePickerLabel:_labelSolution withText:@"Solution field:" andExample:[[PackageManager sharedInstance] trimSolutionField:fieldValue]];
 		_solutionFieldIndex = row;
 	}
 }

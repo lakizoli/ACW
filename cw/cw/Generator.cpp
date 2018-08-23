@@ -58,6 +58,8 @@ Generator::InsertWordRes Generator::InsertWordIntoCells (const std::vector<std::
 					cell->ConfigureAsEmptyQuestion ();
 				}
 				
+				//TODO: fill separator borders during generation...
+				
 				//Place index to the used word indices
 				usedWords.insert (word);
 				
