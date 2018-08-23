@@ -125,6 +125,7 @@
 			isa = PBXGroup;
 			children = (
 				FDDAA329212E9EA3000365EF /* CrosswordView */,
+				FDDAA334212EB75F000365EF /* PackageView */,
 				FDCD521D21084C860081FE4D /* Main.storyboard */,
 				FDCD522021084C880081FE4D /* Assets.xcassets */,
 				FDCD522221084C880081FE4D /* LaunchScreen.storyboard */,
@@ -136,10 +137,6 @@
 				FDCD521B21084C860081FE4D /* MainViewController.m */,
 				FDCD527E2108682C0081FE4D /* AnkiDownloadViewController.h */,
 				FDCD527F2108682C0081FE4D /* AnkiDownloadViewController.m */,
-				F09B2051210D67B400398B2E /* ChoosePackageViewController.h */,
-				F09B2052210D67B400398B2E /* ChoosePackageViewController.m */,
-				FDDAA32E212EA06A000365EF /* PackageSectionHeaderCell.h */,
-				FDDAA32F212EA06A000365EF /* PackageSectionHeaderCell.m */,
 				FDCD52B72112DB070081FE4D /* CWConfiguratorViewController.h */,
 				FDCD52B82112DB070081FE4D /* CWConfiguratorViewController.m */,
 				FDCD52C121142FC70081FE4D /* CWGeneratorViewController.h */,
@@ -179,6 +176,17 @@
 				F0BA090B212AD40F00A7F154 /* CrosswordLayout.m */,
 			);
 			name = CrosswordView;
+			sourceTree = "<group>";
+		};
+		FDDAA334212EB75F000365EF /* PackageView */ = {
+			isa = PBXGroup;
+			children = (
+				F09B2051210D67B400398B2E /* ChoosePackageViewController.h */,
+				F09B2052210D67B400398B2E /* ChoosePackageViewController.m */,
+				FDDAA32E212EA06A000365EF /* PackageSectionHeaderCell.h */,
+				FDDAA32F212EA06A000365EF /* PackageSectionHeaderCell.m */,
+			);
+			name = PackageView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
