@@ -417,7 +417,7 @@
 		field = [field substringToIndex:[field length] - 2];
 	}
 
-	NSLog (@"%@ -> %@", questionField, field);
+	//NSLog (@"%@ -> %@", questionField, field);
 	return field;
 }
 

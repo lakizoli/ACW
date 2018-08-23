@@ -36,6 +36,12 @@
 	[self presentViewController:alert animated:YES completion:nil];
 }
 
+-(SavedCrossword*) savedCWFromIndexPath:(NSIndexPath*)indexPath {
+	NSString *packageName = [[_savedCrosswords allKeys] objectAtIndex:indexPath.section];
+	NSArray<SavedCrossword*> *cws = [_savedCrosswords objectForKey:packageName];
+	return [cws objectAtIndex:indexPath.row];
+}
+
 #pragma mark - Events
 
 - (void)viewDidLoad {
@@ -97,7 +103,7 @@
 	}
 }
 
-#pragma mark - Package Table
+#pragma mark - Package Table DataSource
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 	return [_savedCrosswords count];
@@ -125,10 +131,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CWCell" forIndexPath:indexPath];
 	if (cell && indexPath.section >= 0 && indexPath.section < [_savedCrosswords count]) {
-		NSString *packageName = [[_savedCrosswords allKeys] objectAtIndex:indexPath.section];
-		NSArray<SavedCrossword*> *cws = [_savedCrosswords objectForKey:packageName];
-		
-		SavedCrossword *cw = [cws objectAtIndex:indexPath.row];
+		SavedCrossword *cw = [self savedCWFromIndexPath:indexPath];
 		if (cw) {
 			BOOL cwEnabled = indexPath.row < 1 || _isSubscribed;
 			if (cwEnabled) { //Enabled
@@ -148,6 +151,27 @@
 		}
 	}
 	return cell;
+}
+
+#pragma mark - Package Table Editing
+
+- (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
+	return @[ [UITableViewRowAction
+			   rowActionWithStyle:UITableViewRowActionStyleDestructive
+			   title:@"Delete crossword"
+			   handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+				   SavedCrossword *cw = [self savedCWFromIndexPath:indexPath];
+				   if (cw) {
+					   NSError *err = nil;
+					   if ([[NSFileManager defaultManager] removeItemAtURL:[cw path] error:&err] != YES) {
+						   NSLog (@"Cannot delete crossword at path: %@, error: %@", [cw path], err);
+					   }
+				   }
+				   
+				   self->_savedCrosswords = [[PackageManager sharedInstance] collectSavedCrosswords];
+				   [tableView reloadData];
+			   }]
+			];
 }
 
 @end
