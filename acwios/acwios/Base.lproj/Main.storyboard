@@ -206,6 +206,60 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PackageSectionHeaderCell" id="giy-5f-Nfh" customClass="PackageSectionHeaderCell">
+                                        <rect key="frame" x="0.0" y="72" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="giy-5f-Nfh" id="m9K-ek-dfr">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fsf-id-fLd">
+                                                    <rect key="frame" x="15" y="6" width="30" height="30"/>
+                                                    <state key="normal" image="collapse-arrow"/>
+                                                    <connections>
+                                                        <action selector="openCloseButtonPressed:" destination="giy-5f-Nfh" eventType="touchUpInside" id="TSP-SC-dhS"/>
+                                                    </connections>
+                                                </button>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="25Q-Kn-y2h">
+                                                    <rect key="frame" x="53" y="11" width="244" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bfz-Id-pNZ">
+                                                    <rect key="frame" x="327" y="6" width="30" height="30"/>
+                                                    <state key="normal" image="cancel-delete"/>
+                                                    <connections>
+                                                        <action selector="deleteButtonPressed:" destination="giy-5f-Nfh" eventType="touchUpInside" id="NIr-Vg-ew4"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mto-Mi-0WR">
+                                                    <rect key="frame" x="279" y="7" width="30" height="30"/>
+                                                    <state key="normal" image="select-all"/>
+                                                    <connections>
+                                                        <action selector="selectDeselectAllButtonPressed:" destination="giy-5f-Nfh" eventType="touchUpInside" id="qJF-mV-1gS"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="25Q-Kn-y2h" firstAttribute="centerY" secondItem="fsf-id-fLd" secondAttribute="centerY" id="1jg-cQ-efK"/>
+                                                <constraint firstItem="Mto-Mi-0WR" firstAttribute="centerY" secondItem="m9K-ek-dfr" secondAttribute="centerY" id="6rf-pB-661"/>
+                                                <constraint firstItem="fsf-id-fLd" firstAttribute="centerY" secondItem="m9K-ek-dfr" secondAttribute="centerY" id="H3J-EA-hSu"/>
+                                                <constraint firstItem="25Q-Kn-y2h" firstAttribute="trailing" secondItem="Mto-Mi-0WR" secondAttribute="leading" constant="18" id="Odd-KP-6zg"/>
+                                                <constraint firstItem="fsf-id-fLd" firstAttribute="leading" secondItem="m9K-ek-dfr" secondAttribute="leading" constant="15" id="Z1z-7l-l4F"/>
+                                                <constraint firstItem="bfz-Id-pNZ" firstAttribute="centerY" secondItem="m9K-ek-dfr" secondAttribute="centerY" id="bdK-bx-mg6"/>
+                                                <constraint firstItem="bfz-Id-pNZ" firstAttribute="leading" secondItem="Mto-Mi-0WR" secondAttribute="trailing" constant="18" id="gys-Cv-dce"/>
+                                                <constraint firstAttribute="trailing" secondItem="bfz-Id-pNZ" secondAttribute="trailing" constant="18" id="kPm-ei-Dju"/>
+                                                <constraint firstItem="25Q-Kn-y2h" firstAttribute="leading" secondItem="fsf-id-fLd" secondAttribute="trailing" constant="8" id="usK-Du-1YP"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="deleteButton" destination="bfz-Id-pNZ" id="ojk-dq-2qb"/>
+                                            <outlet property="openCloseButton" destination="fsf-id-fLd" id="eNE-H1-9RE"/>
+                                            <outlet property="selectDeselectAllButton" destination="Mto-Mi-0WR" id="YLw-cg-vq2"/>
+                                            <outlet property="titleLabel" destination="25Q-Kn-y2h" id="vW6-nz-J35"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="zRY-u3-jNH" id="qEB-73-hy6"/>
@@ -274,7 +328,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NRc-fC-bMa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1841" y="278"/>
+            <point key="canvasLocation" x="1840.8" y="277.51124437781112"/>
         </scene>
         <!--Play crossword-->
         <scene sceneID="C7w-MJ-5Vd">
@@ -755,5 +809,8 @@
     </scenes>
     <resources>
         <image name="arrow-back" width="32" height="32"/>
+        <image name="cancel-delete" width="30" height="30"/>
+        <image name="collapse-arrow" width="30" height="30"/>
+        <image name="select-all" width="30" height="30"/>
     </resources>
 </document>

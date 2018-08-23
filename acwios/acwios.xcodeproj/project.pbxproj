@@ -30,6 +30,7 @@
 		FDCD52862109A6030081FE4D /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FDCD52852109A6030081FE4D /* WebKit.framework */; };
 		FDCD52B92112DB070081FE4D /* CWConfiguratorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCD52B82112DB070081FE4D /* CWConfiguratorViewController.m */; };
 		FDCD52C321142FC70081FE4D /* CWGeneratorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCD52C221142FC70081FE4D /* CWGeneratorViewController.m */; };
+		FDDAA330212EA06A000365EF /* PackageSectionHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FDDAA32F212EA06A000365EF /* PackageSectionHeaderCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -85,6 +86,8 @@
 		FDCD52B82112DB070081FE4D /* CWConfiguratorViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CWConfiguratorViewController.m; sourceTree = "<group>"; };
 		FDCD52C121142FC70081FE4D /* CWGeneratorViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CWGeneratorViewController.h; sourceTree = "<group>"; };
 		FDCD52C221142FC70081FE4D /* CWGeneratorViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CWGeneratorViewController.m; sourceTree = "<group>"; };
+		FDDAA32E212EA06A000365EF /* PackageSectionHeaderCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PackageSectionHeaderCell.h; sourceTree = "<group>"; };
+		FDDAA32F212EA06A000365EF /* PackageSectionHeaderCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PackageSectionHeaderCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +124,7 @@
 		FDCD521621084C860081FE4D /* acwios */ = {
 			isa = PBXGroup;
 			children = (
+				FDDAA329212E9EA3000365EF /* CrosswordView */,
 				FDCD521D21084C860081FE4D /* Main.storyboard */,
 				FDCD522021084C880081FE4D /* Assets.xcassets */,
 				FDCD522221084C880081FE4D /* LaunchScreen.storyboard */,
@@ -134,16 +138,12 @@
 				FDCD527F2108682C0081FE4D /* AnkiDownloadViewController.m */,
 				F09B2051210D67B400398B2E /* ChoosePackageViewController.h */,
 				F09B2052210D67B400398B2E /* ChoosePackageViewController.m */,
+				FDDAA32E212EA06A000365EF /* PackageSectionHeaderCell.h */,
+				FDDAA32F212EA06A000365EF /* PackageSectionHeaderCell.m */,
 				FDCD52B72112DB070081FE4D /* CWConfiguratorViewController.h */,
 				FDCD52B82112DB070081FE4D /* CWConfiguratorViewController.m */,
 				FDCD52C121142FC70081FE4D /* CWGeneratorViewController.h */,
 				FDCD52C221142FC70081FE4D /* CWGeneratorViewController.m */,
-				F0BA0904212AC97900A7F154 /* CrosswordViewController.h */,
-				F0BA0905212AC97900A7F154 /* CrosswordViewController.m */,
-				F0BA0907212ACBC200A7F154 /* CrosswordCell.h */,
-				F0BA0908212ACBC200A7F154 /* CrosswordCell.m */,
-				F0BA090A212AD40F00A7F154 /* CrosswordLayout.h */,
-				F0BA090B212AD40F00A7F154 /* CrosswordLayout.m */,
 				F0C91BA2210C690000B06070 /* ProgressView.h */,
 				F0C91BA3210C690000B06070 /* ProgressView.m */,
 				F092DB1D210CA5AA006B4DC6 /* Downloader.h */,
@@ -166,6 +166,19 @@
 				FDCD5275210855AC0081FE4D /* cw.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FDDAA329212E9EA3000365EF /* CrosswordView */ = {
+			isa = PBXGroup;
+			children = (
+				F0BA0904212AC97900A7F154 /* CrosswordViewController.h */,
+				F0BA0905212AC97900A7F154 /* CrosswordViewController.m */,
+				F0BA0907212ACBC200A7F154 /* CrosswordCell.h */,
+				F0BA0908212ACBC200A7F154 /* CrosswordCell.m */,
+				F0BA090A212AD40F00A7F154 /* CrosswordLayout.h */,
+				F0BA090B212AD40F00A7F154 /* CrosswordLayout.m */,
+			);
+			name = CrosswordView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -254,6 +267,7 @@
 				FDCD521921084C860081FE4D /* AppDelegate.m in Sources */,
 				FDCD52C321142FC70081FE4D /* CWGeneratorViewController.m in Sources */,
 				F09B2059210D7C9200398B2E /* PackageManager.mm in Sources */,
+				FDDAA330212EA06A000365EF /* PackageSectionHeaderCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

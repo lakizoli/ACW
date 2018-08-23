@@ -10,6 +10,7 @@
 #import "SubscriptionManager.h"
 #import "PackageManager.h"
 #import "CWGeneratorViewController.h"
+#import "PackageSectionHeaderCell.h"
 
 @interface ChoosePackageViewController ()
 
@@ -35,6 +36,15 @@
 	[self presentViewController:alert animated:YES completion:nil];
 }
 
+-(void) reloadPackages {
+	NSArray<Package*>* collectedPackages = [[PackageManager sharedInstance] collectPackages];
+	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name"
+																   ascending:YES
+																	selector:@selector (localizedStandardCompare:)];
+	
+	_packages = [collectedPackages sortedArrayUsingDescriptors:@[sortDescriptor]];
+}
+
 #pragma mark - Events
 
 - (void)viewDidLoad {
@@ -45,13 +55,8 @@
 	[_subscribeView setHidden:_isSubscribed];
 	
 	[_configureButton setEnabled:NO];
-	
-	NSArray<Package*>* collectedPackages = [[PackageManager sharedInstance] collectPackages];
-	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name"
-																   ascending:YES
-																	selector:@selector (localizedStandardCompare:)];
-	
-	_packages = [collectedPackages sortedArrayUsingDescriptors:@[sortDescriptor]];
+
+	[self reloadPackages];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -119,13 +124,41 @@
 	return [_packages count];
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-	if (section >= 0 && section < [_packages count]) {
-		Package* package = [_packages objectAtIndex:section];
-		return [NSString stringWithFormat:@"Package: %@", [package name]];
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+	__block PackageSectionHeaderCell *sectionHeaderCell = [tableView dequeueReusableCellWithIdentifier:@"PackageSectionHeaderCell"];
+	if (sectionHeaderCell) {
+		if (section >= 0 && section < [_packages count]) {
+			__block Package* package = [_packages objectAtIndex:section];
+			[[sectionHeaderCell titleLabel] setText:[NSString stringWithFormat:@"Package: %@", [package name]]];
+			[sectionHeaderCell setOpenCloseCallback:^{
+				//TODO: handle open close
+				NSLog (@"open/close called! section: %li", section);
+			}];
+			[sectionHeaderCell setSelectDeselectCallback:^{
+				//TODO: handle select deselect
+				NSLog (@"select/deselect called! section: %li", section);
+			}];
+			[sectionHeaderCell setDeleteCallback:^{
+				NSError *err = nil;
+				if ([[NSFileManager defaultManager] removeItemAtURL:[package path] error:&err] != YES) {
+					NSLog (@"Cannot remove package at path: %@, error: %@", [package path], err);
+				}
+				
+				[self reloadPackages];
+				[self->_packageTable reloadData];
+			}];
+		} else {
+			[[sectionHeaderCell titleLabel] setText:@""];
+			[sectionHeaderCell setOpenCloseCallback:nil];
+			[sectionHeaderCell setSelectDeselectCallback:nil];
+			[sectionHeaderCell setDeleteCallback:nil];
+		}
 	}
-	
-	return @"";
+	return sectionHeaderCell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+	return 43;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
