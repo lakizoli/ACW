@@ -9,6 +9,8 @@
 #import "CrosswordLayout.h"
 
 @implementation CrosswordLayout {
+	CGFloat _gridOffsetX;
+	CGFloat _gridOffsetY;
 }
 
 - (NSIndexPath*) getIndexPathForRow:(NSInteger)row col:(NSInteger)col {
@@ -27,11 +29,29 @@
 #pragma mark - Collection View Layout functions
 
 - (void) prepareLayout {
-	//... nothing to do ...
+	UIEdgeInsets contentInset = self.collectionView.contentInset;
+	CGFloat collectionViewWidth = self.collectionView.bounds.size.width - (contentInset.left + contentInset.right);
+	CGFloat collectionViewHeight = self.collectionView.bounds.size.height - (contentInset.top + contentInset.bottom);
+	
+	CGFloat cellSumWidth = _columnCount * _cellWidth;
+	_gridOffsetX = 0;
+	if (collectionViewWidth > cellSumWidth) {
+		_gridOffsetX = (collectionViewWidth - cellSumWidth) / 2.0;
+	}
+	
+	CGFloat cellSumHeight = _rowCount * _cellHeight;
+	_gridOffsetY = 0;
+	if (collectionViewHeight > cellSumHeight) {
+		_gridOffsetY = (collectionViewHeight - (cellSumHeight + _navigationBarHeight + _statusBarHeight)) / 2.0;
+	}
+}
+
+- (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds {
+	return YES;
 }
 
 - (CGSize) collectionViewContentSize {
-	return CGSizeMake (_columnCount * _cellWidth, _rowCount * _cellHeight);
+	return CGSizeMake (_gridOffsetX + _columnCount * _cellWidth, _gridOffsetY + _rowCount * _cellHeight);
 }
 
 - (NSArray<UICollectionViewLayoutAttributes *> *) layoutAttributesForElementsInRect:(CGRect)rect {
@@ -64,7 +84,7 @@
 			for (NSInteger col = startColInclusive; col <= endColInclusive; ++col) {
 				NSIndexPath *indexPath = [self getIndexPathForRow:row col:col];
 				UICollectionViewLayoutAttributes *attr = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
-				[attr setFrame:CGRectMake (col * _cellWidth, row * _cellHeight, _cellWidth, _cellHeight)];
+				[attr setFrame:CGRectMake (_gridOffsetX + col * _cellWidth, _gridOffsetY + row * _cellHeight, _cellWidth, _cellHeight)];
 				if (attr && CGRectIntersectsRect ([attr frame], rect)) {
 					[visibleLayoutAttributes addObject:attr];
 				}
@@ -80,7 +100,7 @@
 		NSInteger row = [self getRowFromIndexPath:indexPath];
 		NSInteger col = [self getColFromIndexPath:indexPath];
 		UICollectionViewLayoutAttributes *attr = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
-		[attr setFrame:CGRectMake (col * _cellWidth, row * _cellHeight, _cellWidth, _cellHeight)];
+		[attr setFrame:CGRectMake (_gridOffsetX + col * _cellWidth, _gridOffsetY + row * _cellHeight, _cellWidth, _cellHeight)];
 		return attr;
 	}
 }

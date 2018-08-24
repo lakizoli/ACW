@@ -50,6 +50,8 @@
 	[_crosswordLayout setCellHeight:50];
 	[_crosswordLayout setRowCount:[_savedCrossword height]];
 	[_crosswordLayout setColumnCount:[_savedCrossword width]];
+	[_crosswordLayout setStatusBarHeight:[UIApplication sharedApplication].statusBarFrame.size.height];
+	[_crosswordLayout setNavigationBarHeight:self.navigationController.navigationBar.frame.size.height];
 	
 	[_savedCrossword loadDB];
 }

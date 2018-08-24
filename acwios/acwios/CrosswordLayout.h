@@ -14,5 +14,7 @@
 @property (assign) NSUInteger cellHeight;
 @property (assign) NSUInteger columnCount;
 @property (assign) NSUInteger rowCount;
+@property (assign) NSUInteger statusBarHeight;
+@property (assign) NSUInteger navigationBarHeight;
 
 @end

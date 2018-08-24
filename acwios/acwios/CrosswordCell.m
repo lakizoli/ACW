@@ -38,6 +38,45 @@
 	[[self layer] setSublayers:sublayers];
 }
 
+-(NSAttributedString*) attributedQuestionString:(NSString*)question {
+	//Choose question's font
+	CGFloat fontSize = [UIFont systemFontSize];
+	UIFont* font = [UIFont fontWithName:@"AvenirNextCondensed-DemiBold" size:fontSize];
+	if (font == nil) {
+		font = [UIFont fontWithName:@"Baskerville-Bold" size:fontSize];
+	}
+	if (font == nil) {
+		font = [UIFont systemFontOfSize:fontSize];
+	}
+	
+	//TODO: ... implement with well question style ...
+	
+	return [[NSAttributedString alloc]
+			initWithString:question
+			attributes:@{ NSFontAttributeName: font }];
+}
+
+-(NSAttributedString*) attributedValueString:(NSString*)value {
+	//Choose value font
+	CGFloat fontSize = 26;
+	UIFont* font = [UIFont fontWithName:@"BradleyHandITCTT-Bold" size:fontSize];
+	if (font == nil) {
+		font = [UIFont fontWithName:@"Baskerville-BoldItalic" size:fontSize];
+	}
+	if (font == nil) {
+		font = [UIFont systemFontOfSize:fontSize];
+	}
+	
+	//Make value capital
+	NSString *content = [value uppercaseStringWithLocale:nil];
+
+	//TODO: ... implement with well value style ...
+	
+	return [[NSAttributedString alloc]
+			initWithString:content
+			attributes:@{ NSFontAttributeName: font }];
+}
+
 #pragma mark - Interface
 
 -(void) fillOneQuestion:(NSString*)question {
@@ -45,7 +84,7 @@
 	[self setBorder:self];
 	
 	[self setBackgroundColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:1]];
-	[_fullLabel setText:question];
+	[_fullLabel setAttributedText:[self attributedQuestionString:question]];
 	[self setHiddensForFullHidden:NO topHidden:YES bottomHidden:YES];
 }
 
@@ -55,8 +94,8 @@
 	[self setBorder:_bottomLabel];
 	
 	[self setBackgroundColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:1]];
-	[_topLabel setText:questionTop];
-	[_bottomLabel setText:questionBottom];
+	[_topLabel setAttributedText:[self attributedQuestionString:questionTop]];
+	[_bottomLabel setAttributedText:[self attributedQuestionString:questionBottom]];
 	[self setHiddensForFullHidden:YES topHidden:NO bottomHidden:NO];
 }
 
@@ -72,7 +111,7 @@
 	[self setBackgroundColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:1]];
 	
 	if (showValue) {
-		[_fullLabel setText:value];
+		[_fullLabel setAttributedText:[self attributedValueString:value]];
 		[self setHiddensForFullHidden:NO topHidden:YES bottomHidden:YES];
 	}
 }
