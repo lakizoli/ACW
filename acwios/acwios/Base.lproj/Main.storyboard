@@ -221,21 +221,21 @@
                                                     </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="25Q-Kn-y2h">
-                                                    <rect key="frame" x="53" y="11" width="244" height="21"/>
+                                                    <rect key="frame" x="53" y="11" width="252" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bfz-Id-pNZ">
-                                                    <rect key="frame" x="327" y="6" width="30" height="30"/>
-                                                    <state key="normal" image="cancel-delete"/>
+                                                    <rect key="frame" x="331" y="8" width="26" height="26"/>
+                                                    <state key="normal" image="delete-all"/>
                                                     <connections>
                                                         <action selector="deleteButtonPressed:" destination="giy-5f-Nfh" eventType="touchUpInside" id="NIr-Vg-ew4"/>
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mto-Mi-0WR">
-                                                    <rect key="frame" x="279" y="7" width="30" height="30"/>
-                                                    <state key="normal" image="select-all"/>
+                                                    <rect key="frame" x="287" y="9" width="26" height="26"/>
+                                                    <state key="normal" image="check-all"/>
                                                     <connections>
                                                         <action selector="selectDeselectAllButtonPressed:" destination="giy-5f-Nfh" eventType="touchUpInside" id="qJF-mV-1gS"/>
                                                     </connections>
@@ -809,8 +809,8 @@
     </scenes>
     <resources>
         <image name="arrow-back" width="32" height="32"/>
-        <image name="cancel-delete" width="30" height="30"/>
+        <image name="check-all" width="26" height="26"/>
         <image name="collapse-arrow" width="30" height="30"/>
-        <image name="select-all" width="30" height="30"/>
+        <image name="delete-all" width="26" height="26"/>
     </resources>
 </document>

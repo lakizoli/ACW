@@ -23,6 +23,7 @@
 @implementation ChoosePackageViewController {
 	BOOL _isSubscribed;
 	NSArray<Package*>* _packages;
+	NSMutableDictionary<NSURL*, NSNumber*>* _openStateOfPackages;
 	NSArray<Deck*> *_choosenDecks;
 }
 
@@ -45,6 +46,41 @@
 	_packages = [collectedPackages sortedArrayUsingDescriptors:@[sortDescriptor]];
 }
 
+-(BOOL) sectionHasSomeSelectedCells:(NSInteger)section {
+	__block BOOL foundSelected = NO;
+
+	NSArray<NSIndexPath*> *selectedRows = [self->_packageTable indexPathsForSelectedRows];
+	[selectedRows enumerateObjectsUsingBlock:^(NSIndexPath * _Nonnull indexPath, NSUInteger idx, BOOL * _Nonnull stop) {
+		if (indexPath.section == section) {
+			foundSelected = YES;
+			*stop = YES;
+		}
+	}];
+	
+	return foundSelected;
+}
+
+-(void) deselectSelectedRows:(UITableView*)tableView notInSection:(NSInteger)section {
+	NSArray<NSIndexPath*> *selectedRows = [tableView indexPathsForSelectedRows];
+	[selectedRows enumerateObjectsUsingBlock:^(NSIndexPath * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		if (section != obj.section) {
+			[tableView deselectRowAtIndexPath:obj animated:YES];
+			[self setSectionHeaderSelectionState:tableView section:obj.section selectAll:YES];
+		}
+	}];
+}
+
+-(void) setSectionHeaderSelectionState:(UITableView*)tableView section:(NSInteger)section selectAll:(BOOL)selectAll {
+	PackageSectionHeaderCell *sectionHeaderCell = [tableView viewWithTag:1000 + section];
+	if (sectionHeaderCell) {
+		if (selectAll) {
+			[sectionHeaderCell setSelectAll];
+		} else {
+			[sectionHeaderCell setDeselectAll];
+		}
+	}
+}
+
 #pragma mark - Events
 
 - (void)viewDidLoad {
@@ -57,6 +93,11 @@
 	[_configureButton setEnabled:NO];
 
 	[self reloadPackages];
+	
+	_openStateOfPackages = [NSMutableDictionary<NSURL*, NSNumber*> new];
+	[_packages enumerateObjectsUsingBlock:^(Package * _Nonnull package, NSUInteger idx, BOOL * _Nonnull stop) {
+		[self->_openStateOfPackages setObject:[NSNumber numberWithBool:YES] forKey:[package path]];
+	}];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -129,16 +170,64 @@
 	if (sectionHeaderCell) {
 		if (section >= 0 && section < [_packages count]) {
 			__block Package* package = [_packages objectAtIndex:section];
+
+			//Refresh opened and closed state of the section
+			__block NSNumber *packageOpened = [self->_openStateOfPackages objectForKey:[package path]];
+			if ([packageOpened boolValue]) {
+				[sectionHeaderCell setOpened];
+			} else {
+				[sectionHeaderCell setClosed];
+			}
+			
+			//Refresh selected/deselected state
+			if ([self sectionHasSomeSelectedCells:section]) {
+				[sectionHeaderCell setDeselectAll];
+			} else {
+				[sectionHeaderCell setSelectAll];
+			}
+			
+			//Set text
 			[[sectionHeaderCell titleLabel] setText:[NSString stringWithFormat:@"Package: %@", [package name]]];
+			
+			//Set tag
+			[sectionHeaderCell setTag:1000 + section];
+			
+			//Set button callbacks
+			__block __weak PackageSectionHeaderCell *weakSectionHeaderCell = sectionHeaderCell;
 			[sectionHeaderCell setOpenCloseCallback:^{
-				//TODO: handle open close
-				NSLog (@"open/close called! section: %li", section);
+				NSNumber *currentPackageState = [self->_openStateOfPackages objectForKey:[package path]];
+				NSNumber *newPackageState = [NSNumber numberWithBool:[currentPackageState boolValue] ? NO : YES];
+				[self->_openStateOfPackages setObject:newPackageState forKey:[package path]];
+
+				[self->_packageTable reloadData];
 			}];
 			[sectionHeaderCell setSelectDeselectCallback:^{
-				//TODO: handle select deselect
-				NSLog (@"select/deselect called! section: %li", section);
+				if ([packageOpened boolValue]) {
+					if ([self sectionHasSomeSelectedCells:section]) { //Deselect all
+						NSArray<NSIndexPath*> *selectedRows = [self->_packageTable indexPathsForSelectedRows];
+						[selectedRows enumerateObjectsUsingBlock:^(NSIndexPath * _Nonnull indexPath, NSUInteger idx, BOOL * _Nonnull stop) {
+							if (indexPath.section == section) {
+								[self->_packageTable deselectRowAtIndexPath:indexPath animated:YES];
+							}
+						}];
+						
+						[weakSectionHeaderCell setSelectAll];
+					} else { //Select all
+						[self deselectSelectedRows:tableView notInSection:section];
+
+						NSInteger rowsOfSection = [self->_packageTable numberOfRowsInSection:section];
+						for (NSInteger i = 0; i < rowsOfSection; ++i) {
+							NSIndexPath *selIP = [NSIndexPath indexPathForRow:i inSection:section];
+							[self->_packageTable selectRowAtIndexPath:selIP animated:YES scrollPosition:UITableViewScrollPositionNone];
+						}
+						
+						[weakSectionHeaderCell setDeselectAll];
+					}
+				}
 			}];
 			[sectionHeaderCell setDeleteCallback:^{
+				//TODO: show alert before deletion...
+							
 				NSError *err = nil;
 				if ([[NSFileManager defaultManager] removeItemAtURL:[package path] error:&err] != YES) {
 					NSLog (@"Cannot remove package at path: %@, error: %@", [package path], err);
@@ -164,7 +253,10 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	if (section >= 0 && section < [_packages count]) {
 		Package* package = [_packages objectAtIndex:section];
-		return [[package decks] count];
+		NSNumber *packageOpened = [_openStateOfPackages objectForKey:[package path]];
+		if ([packageOpened boolValue]) {
+			return [[package decks] count];
+		}
 	}
 	
 	return 0;
@@ -196,20 +288,20 @@
 	if ([selectedRows count] <= 0) {
 		[_configureButton setEnabled:NO];
 	}
+	
+	if ([self sectionHasSomeSelectedCells:indexPath.section] == NO) {
+		[self setSectionHeaderSelectionState:tableView section:indexPath.section selectAll:YES];
+	}
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	NSArray<NSIndexPath*> *selectedRows = [tableView indexPathsForSelectedRows];
-	
 	if ([selectedRows count] > 0) {
 		[_configureButton setEnabled:YES];
 	}
-	
-	[selectedRows enumerateObjectsUsingBlock:^(NSIndexPath * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-		if (indexPath.section != obj.section) {
-			[tableView deselectRowAtIndexPath:obj animated:YES];
-		}
-	}];
+
+	[self deselectSelectedRows:tableView notInSection:indexPath.section];
+	[self setSectionHeaderSelectionState:tableView section:indexPath.section selectAll:NO];
 }
 
 @end

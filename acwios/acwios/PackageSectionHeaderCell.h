@@ -19,4 +19,7 @@
 -(void)setOpened;
 -(void)setClosed;
 
+-(void)setSelectAll;
+-(void)setDeselectAll;
+
 @end

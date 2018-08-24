@@ -32,11 +32,23 @@
 }
 
 -(void)setOpened {
-	[_openCloseButton setImage:[UIImage imageNamed:@"collapse-arrow.png"] forState:UIControlStateNormal];
+	UIImage *img = [UIImage imageNamed:@"collapse-arrow.png"];
+	[_openCloseButton setImage:img forState:UIControlStateNormal];
 }
 
 -(void)setClosed {
-	[_openCloseButton setImage:[UIImage imageNamed:@"expand-arrow.png"] forState:UIControlStateNormal];
+	UIImage *img = [UIImage imageNamed:@"expand-arrow.png"];
+	[_openCloseButton setImage:img forState:UIControlStateNormal];
+}
+
+-(void)setSelectAll {
+	UIImage *img = [UIImage imageNamed:@"check-all.png"];
+	[_selectDeselectAllButton setImage:img forState:UIControlStateNormal];
+}
+
+-(void)setDeselectAll {
+	UIImage *img = [UIImage imageNamed:@"uncheck-all.png"];
+	[_selectDeselectAllButton setImage:img forState:UIControlStateNormal];
 }
 
 #pragma mark - Event handlers
