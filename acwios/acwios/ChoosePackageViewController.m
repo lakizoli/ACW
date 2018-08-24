@@ -81,6 +81,15 @@
 	}
 }
 
+-(void) enableConfigureButtonUponSelection:(UITableView*)tableView {
+	NSArray<NSIndexPath*> *selectedRows = [tableView indexPathsForSelectedRows];
+	if ([selectedRows count] > 0) {
+		[_configureButton setEnabled:YES];
+	} else {
+		[_configureButton setEnabled:NO];
+	}
+}
+
 #pragma mark - Events
 
 - (void)viewDidLoad {
@@ -179,6 +188,8 @@
 				[sectionHeaderCell setClosed];
 			}
 			
+			[self enableConfigureButtonUponSelection:self->_packageTable];
+
 			//Refresh selected/deselected state
 			if ([self sectionHasSomeSelectedCells:section]) {
 				[sectionHeaderCell setDeselectAll];
@@ -223,6 +234,8 @@
 						
 						[weakSectionHeaderCell setDeselectAll];
 					}
+					
+					[self enableConfigureButtonUponSelection:self->_packageTable];
 				}
 			}];
 			[sectionHeaderCell setDeleteCallback:^{
@@ -284,22 +297,14 @@
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
-	NSArray<NSIndexPath*> *selectedRows = [tableView indexPathsForSelectedRows];
-	if ([selectedRows count] <= 0) {
-		[_configureButton setEnabled:NO];
-	}
-	
+	[self enableConfigureButtonUponSelection:tableView];
 	if ([self sectionHasSomeSelectedCells:indexPath.section] == NO) {
 		[self setSectionHeaderSelectionState:tableView section:indexPath.section selectAll:YES];
 	}
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	NSArray<NSIndexPath*> *selectedRows = [tableView indexPathsForSelectedRows];
-	if ([selectedRows count] > 0) {
-		[_configureButton setEnabled:YES];
-	}
-
+	[self enableConfigureButtonUponSelection:tableView];
 	[self deselectSelectedRows:tableView notInSection:indexPath.section];
 	[self setSectionHeaderSelectionState:tableView section:indexPath.section selectAll:NO];
 }
