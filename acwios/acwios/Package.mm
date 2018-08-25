@@ -150,75 +150,80 @@
 	
 	//Handle start letters
 	if (cell->IsFlagSet (CellFlags::StartCell)) {
-		uint32_t qRow = cell->GetQuestionRow ();
-		uint32_t qCol = cell->GetQuestionCol ();
-		std::shared_ptr<Cell> qCell = [self getCell:qRow col:qCol];
-		if (qCell == nullptr) {
-			return CWCellType_Unknown;
-		}
-
-		uint32_t cRow = cell->GetRow ();
-		uint32_t cCol = cell->GetCol ();
-		
-		if (cRow < qRow && cCol == qCol) { //Start cell is above question cell
-			return CWCellType_Start_LeftRight_Top;
-		} else if (cRow > qRow && cCol == qCol) { //Start cell is below question cell
-			std::shared_ptr<QuestionInfo> qInfo = qCell->GetQuestionInfo ();
-			if (qInfo == nullptr) {
+		for (const CellPos& qPos : cell->GetStartCellQuestionPositions ()) {
+			std::shared_ptr<Cell> qCell = [self getCell:qPos.row col:qPos.col];
+			if (qCell == nullptr) {
 				return CWCellType_Unknown;
 			}
-			
-			const std::vector<QuestionInfo::Question>& qs = qInfo->GetQuestions ();
-			if (qs.size () >= 1) {
-				switch (qs[qs.size () - 1].dir) {
-					case QuestionInfo::Direction::BottomDown:
-						return CWCellType_Start_TopDown_Bottom;
-					case QuestionInfo::Direction::BottomRight:
-						return CWCellType_Start_LeftRight_Bottom;
-					default:
-						break;
-				}
-			}
 
-			return CWCellType_Unknown;
-		} else if (cRow == qRow && cCol < qCol) { //Start cell is on the left side of question cell
-			return CWCellType_Start_TopDown_Left;
-		} else if (cRow == qRow && cCol > qCol) { //Start cell is on the right side of question cell
-			std::shared_ptr<QuestionInfo> qInfo = qCell->GetQuestionInfo ();
-			if (qInfo == nullptr) {
-				return CWCellType_Unknown;
-			}
-			
-			const std::vector<QuestionInfo::Question>& qs = qInfo->GetQuestions ();
-			if (qs.size () > 1) {
-				switch (qs[0].dir) {
-					case QuestionInfo::Direction::RightDown:
-						return CWCellType_Start_TopDown_Right;
-					case QuestionInfo::Direction::Right:
-						return CWCellType_Start_TopRight;
-					default:
-						break;
+			const CellPos& cPos = cell->GetPos ();
+			if (cPos.row < qPos.row && cPos.col == qPos.col) { //Start cell is above question cell
+				return CWCellType_Start_LeftRight_Top;
+			} else if (cPos.row > qPos.row && cPos.col == qPos.col) { //Start cell is below question cell
+				std::shared_ptr<QuestionInfo> qInfo = qCell->GetQuestionInfo ();
+				if (qInfo == nullptr) {
+					return CWCellType_Unknown;
 				}
 				
-				if (qs[1].dir == QuestionInfo::Direction::Right) {
-					return CWCellType_Start_BottomRight;
+				const std::vector<QuestionInfo::Question>& qs = qInfo->GetQuestions ();
+				if (qs.size () >= 1) {
+					switch (qs[qs.size () - 1].dir) {
+						case QuestionInfo::Direction::BottomDown:
+							return CWCellType_Start_TopDown_Bottom;
+						case QuestionInfo::Direction::BottomRight:
+							return CWCellType_Start_LeftRight_Bottom;
+						default:
+							break;
+					}
 				}
-			} else if (qs.size () == 1) {
-				switch (qs[0].dir) {
-					case QuestionInfo::Direction::RightDown:
-						return CWCellType_Start_TopDown_Right;
-					case QuestionInfo::Direction::Right:
-						return CWCellType_Start_FullRight;
-					default:
-						break;
+
+				return CWCellType_Unknown;
+			} else if (cPos.row == qPos.row && cPos.col < qPos.col) { //Start cell is on the left side of question cell
+				return CWCellType_Start_TopDown_Left;
+			} else if (cPos.row == qPos.row && cPos.col > qPos.col) { //Start cell is on the right side of question cell
+				std::shared_ptr<QuestionInfo> qInfo = qCell->GetQuestionInfo ();
+				if (qInfo == nullptr) {
+					return CWCellType_Unknown;
 				}
+				
+				const std::vector<QuestionInfo::Question>& qs = qInfo->GetQuestions ();
+				if (qs.size () > 1) {
+					switch (qs[0].dir) {
+						case QuestionInfo::Direction::RightDown:
+							return CWCellType_Start_TopDown_Right;
+						case QuestionInfo::Direction::Right:
+							return CWCellType_Start_TopRight;
+						default:
+							break;
+					}
+					
+					if (qs[1].dir == QuestionInfo::Direction::Right) {
+						return CWCellType_Start_BottomRight;
+					}
+				} else if (qs.size () == 1) {
+					switch (qs[0].dir) {
+						case QuestionInfo::Direction::RightDown:
+							return CWCellType_Start_TopDown_Right;
+						case QuestionInfo::Direction::Right:
+							return CWCellType_Start_FullRight;
+						default:
+							break;
+					}
+				}
+				
+				return CWCellType_Unknown;
 			}
 			
-			return CWCellType_Unknown;
+			break; //TODO: fix bug of doubled start cells!
 		}
 	}
 
 	return CWCellType_Letter;
+}
+
+-(BOOL) isStartCell:(uint32_t)row col:(uint32_t)col {
+	std::shared_ptr<Cell> cell = [self getCell:row col:col];
+	return (cell != nullptr && cell->IsFlagSet (CellFlags::StartCell));
 }
 
 -(NSString*) getCellsQuestion:(uint32_t)row col:(uint32_t)col questionIndex:(uint32_t)questionIndex {

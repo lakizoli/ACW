@@ -15,17 +15,20 @@ class BinaryReader;
 class BinaryWriter;
 class QuestionInfo;
 
+struct CellPos {
+	uint32_t row = 0;
+	uint32_t col = 0;
+};
+
 class Cell {
-	uint32_t _row = 0;
-	uint32_t _col = 0;
+	CellPos _pos;
 	CellFlags _flags = CellFlags::Empty;
 	
 	uint8_t _value = 0;
 	uint32_t _valueRefCount = 0;
 	
 	std::shared_ptr<QuestionInfo> _questionInfo;
-	uint32_t _questionRow = 0;
-	uint32_t _questionCol = 0;
+	std::vector<CellPos> _startCellQuestionPositions;
 
 //Implementation
 	Cell () = default;
@@ -39,8 +42,7 @@ public:
 
 //Interface
 public:
-	uint32_t GetRow () const { return _row; }
-	uint32_t GetCol () const { return _col; }
+	const CellPos& GetPos () const { return _pos; }
 	
 	CellFlags GetFlags () const { return _flags; }
 	bool IsEmpty () const { return (_flags & CellFlags::HasSomeValue) == CellFlags::Empty; }
@@ -50,14 +52,13 @@ public:
 	uint32_t GetValueRefCount () const { return _valueRefCount; }
 	
 	std::shared_ptr<QuestionInfo> GetQuestionInfo () const { return _questionInfo; }
-	uint32_t GetQuestionRow () const { return _questionRow; }
-	uint32_t GetQuestionCol () const { return _questionCol; }
+	const std::vector<CellPos>& GetStartCellQuestionPositions () const { return _startCellQuestionPositions; }
 	
 //Generation interface
 public:
 	void ConfigureAsEmptyQuestion ();
 	void SetValue (uint8_t value);
-	void ConfigureAsStartCell (std::shared_ptr<Cell> questionCell);
+	void AddQuestionToStartCell (std::shared_ptr<Cell> questionCell);
 };
 
 #endif /* Cell_hpp */

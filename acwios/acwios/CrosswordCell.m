@@ -116,6 +116,8 @@
 	}
 }
 
+//TODO: fix bug of doubled start cells!
+
 -(void) fillArrow:(enum CWCellType)cellType showValue:(BOOL)showValue value:(NSString*)value {
 	[self fillLetter:showValue value:value];
 	

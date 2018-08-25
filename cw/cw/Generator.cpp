@@ -86,34 +86,32 @@ void Generator::ConfigureQuestionInCell (std::shared_ptr<Cell> questionCell,
 	std::shared_ptr<QuestionInfo> qInfo = questionCell->GetQuestionInfo ();
 	const std::string& word = _questions->GetWord (questionIndex);
 	
-	uint32_t questionRow = questionCell->GetRow ();
-	uint32_t questionCol = questionCell->GetCol ();
-	uint32_t firstLetterRow = firstLetterCell->GetRow ();
-	uint32_t firstLetterCol = firstLetterCell->GetCol ();
-	if (firstLetterRow > questionRow) { //First letter is below the question
+	const CellPos& questionPos = questionCell->GetPos ();
+	const CellPos& firstLetterPos = firstLetterCell->GetPos ();
+	if (firstLetterPos.row > questionPos.row) { //First letter is below the question
 		QuestionInfo::Direction dir;
-		if (secondLetterCell != nullptr && secondLetterCell->GetCol () == firstLetterCell->GetCol ()) {
+		if (secondLetterCell != nullptr && secondLetterCell->GetPos ().col == firstLetterPos.col) {
 			dir = QuestionInfo::Direction::BottomDown;
 		} else {
 			dir = QuestionInfo::Direction::BottomRight;
 		}
 		qInfo->AddQuestion (dir, questionIndex, word);
-		firstLetterCell->ConfigureAsStartCell (questionCell);
-	} else if (firstLetterRow < questionRow) { //First letter is above the question
+		firstLetterCell->AddQuestionToStartCell (questionCell);
+	} else if (firstLetterPos.row < questionPos.row) { //First letter is above the question
 		qInfo->AddQuestion (QuestionInfo::Direction::TopRight, questionIndex, word);
-		firstLetterCell->ConfigureAsStartCell (questionCell);
-	} else if (firstLetterCol < questionCol) { //First letter is on the left side of question
+		firstLetterCell->AddQuestionToStartCell (questionCell);
+	} else if (firstLetterPos.col < questionPos.col) { //First letter is on the left side of question
 		qInfo->AddQuestion (QuestionInfo::Direction::LeftDown, questionIndex, word);
-		firstLetterCell->ConfigureAsStartCell (questionCell);
-	} else if (firstLetterCol > questionCol) { //First letter is on the right side of question
+		firstLetterCell->AddQuestionToStartCell (questionCell);
+	} else if (firstLetterPos.col > questionPos.col) { //First letter is on the right side of question
 		QuestionInfo::Direction dir;
-		if (secondLetterCell != nullptr && secondLetterCell->GetCol () == firstLetterCell->GetCol ()) {
+		if (secondLetterCell != nullptr && secondLetterCell->GetPos ().col == firstLetterPos.col) {
 			dir = QuestionInfo::Direction::RightDown;
 		} else {
 			dir = QuestionInfo::Direction::Right;
 		}
 		qInfo->AddQuestion (dir, questionIndex, word);
-		firstLetterCell->ConfigureAsStartCell (questionCell);
+		firstLetterCell->AddQuestionToStartCell (questionCell);
 	}
 }
 

@@ -137,6 +137,14 @@
     return cell;
 }
 
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+	//TODO: show keyboard!
+	//TODO: highlite word have to be enter!
+	//TODO: handle multiple tap on start cells with multiple directions! The individual taps have to roll over every direction.
+	
+	NSLog (@"did select item at index path: %@", [indexPath description]);
+}
+
 #pragma mark <UICollectionViewDelegate>
 
 /*
@@ -146,12 +154,12 @@
 }
 */
 
-/*
-// Uncomment this method to specify if the specified item should be selected
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
+	uint32_t row = [self getRowFromIndexPath:indexPath];
+	uint32_t col = [self getColFromIndexPath:indexPath];
+	BOOL startCell = [_savedCrossword isStartCell:row col:col];
+    return startCell;
 }
-*/
 
 /*
 // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item

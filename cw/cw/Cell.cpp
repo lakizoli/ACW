@@ -13,8 +13,7 @@
 
 std::shared_ptr<Cell> Cell::Create (uint32_t row, uint32_t col) {
 	std::shared_ptr<Cell> cell (new Cell ());
-	cell->_row = row;
-	cell->_col = col;
+	cell->_pos = CellPos { row, col };
 	
 	return cell;
 }
@@ -22,8 +21,11 @@ std::shared_ptr<Cell> Cell::Create (uint32_t row, uint32_t col) {
 std::shared_ptr<Cell> Cell::Deserialize (const BinaryReader& reader) {
 	std::shared_ptr<Cell> cell (new Cell ());
 	
-	cell->_row = reader.ReadUInt32 ();
-	cell->_col = reader.ReadUInt32 ();
+	cell->_pos = CellPos {
+		reader.ReadUInt32 (), //row
+		reader.ReadUInt32 () //col
+	};
+	
 	cell->_flags = (CellFlags) reader.ReadUInt32 ();
 	
 	cell->_value = reader.ReadUInt8 ();
@@ -37,15 +39,19 @@ std::shared_ptr<Cell> Cell::Deserialize (const BinaryReader& reader) {
 		}
 	}
 	
-	cell->_questionRow = reader.ReadUInt32 ();
-	cell->_questionCol = reader.ReadUInt32 ();
+	reader.ReadArray ([cell] (const BinaryReader& reader) -> void {
+		cell->_startCellQuestionPositions.push_back (CellPos {
+			reader.ReadUInt32 (), //row
+			reader.ReadUInt32 () //col
+		});
+	});
 
 	return cell;
 }
 
 void Cell::Serialize (BinaryWriter& writer) {
-	writer.WriteUInt32 (_row);
-	writer.WriteUInt32 (_col);
+	writer.WriteUInt32 (_pos.row);
+	writer.WriteUInt32 (_pos.col);
 	writer.WriteUInt32 ((uint32_t) _flags);
 	
 	writer.WriteUInt8 (_value);
@@ -57,8 +63,10 @@ void Cell::Serialize (BinaryWriter& writer) {
 		_questionInfo->Serialize (writer);
 	}
 
-	writer.WriteUInt32 (_questionRow);
-	writer.WriteUInt32 (_questionCol);
+	writer.WriteArray (_startCellQuestionPositions, [] (BinaryWriter& writer, const CellPos& questionPos) -> void {
+		writer.WriteUInt32 (questionPos.row);
+		writer.WriteUInt32 (questionPos.col);
+	});
 }
 
 void Cell::ConfigureAsEmptyQuestion () {
@@ -72,8 +80,10 @@ void Cell::SetValue (uint8_t value) {
 	++_valueRefCount;
 }
 
-void Cell::ConfigureAsStartCell (std::shared_ptr<Cell> questionCell) {
+void Cell::AddQuestionToStartCell (std::shared_ptr<Cell> questionCell) {
 	_flags |= CellFlags::StartCell;
-	_questionRow = questionCell->_row;
-	_questionCol = questionCell->_col;
+	_startCellQuestionPositions.push_back (CellPos {
+		questionCell->_pos.row,
+		questionCell->_pos.col
+	});
 }
