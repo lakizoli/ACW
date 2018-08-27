@@ -93,12 +93,29 @@
     return [_crosswordLayout columnCount];
 }
 
+-(void)fillCellsArrow:(uint32_t)cellType
+		checkCellType:(enum CWCellType)checkCellType
+				 cell:(CrosswordCell*)cell
+				  row:(uint32_t)row
+				  col:(uint32_t)col
+		 letterFilled:(BOOL*)letterFilled
+{
+	if (cellType & checkCellType) {
+		if (*letterFilled != YES) {
+			NSString* cellValue = [_savedCrossword getCellsValue:row col:col];
+			[cell fillLetter:_areAnswersVisible value:cellValue];
+			*letterFilled = YES;
+		}
+		[cell fillArrow:checkCellType];
+	}
+}
+
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     CrosswordCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CWCell" forIndexPath:indexPath];
 	if (cell) {
 		uint32_t row = [self getRowFromIndexPath:indexPath];
 		uint32_t col = [self getColFromIndexPath:indexPath];
-		enum CWCellType cellType = [_savedCrossword getCellTypeInRow:row col:col];
+		uint32_t cellType = [_savedCrossword getCellTypeInRow:row col:col];
 		
 		switch (cellType) {
 			case CWCellType_SingleQuestion:
@@ -118,20 +135,18 @@
 				[cell fillLetter:_areAnswersVisible value:cellValue];
 				break;
 			}
-			case CWCellType_Start_TopDown_Right:
-			case CWCellType_Start_TopDown_Left:
-			case CWCellType_Start_TopDown_Bottom:
-			case CWCellType_Start_TopRight:
-			case CWCellType_Start_FullRight:
-			case CWCellType_Start_BottomRight:
-			case CWCellType_Start_LeftRight_Top:
-			case CWCellType_Start_LeftRight_Bottom: {
-				NSString* cellValue = [_savedCrossword getCellsValue:row col:col];
-				[cell fillArrow:cellType showValue:_areAnswersVisible value:cellValue];
+			default: {
+				BOOL letterFilled = NO;
+				[self fillCellsArrow:cellType checkCellType:CWCellType_Start_TopDown_Right cell:cell row:row col:col letterFilled:&letterFilled];
+				[self fillCellsArrow:cellType checkCellType:CWCellType_Start_TopDown_Left cell:cell row:row col:col letterFilled:&letterFilled];
+				[self fillCellsArrow:cellType checkCellType:CWCellType_Start_TopDown_Bottom cell:cell row:row col:col letterFilled:&letterFilled];
+				[self fillCellsArrow:cellType checkCellType:CWCellType_Start_TopRight cell:cell row:row col:col letterFilled:&letterFilled];
+				[self fillCellsArrow:cellType checkCellType:CWCellType_Start_FullRight cell:cell row:row col:col letterFilled:&letterFilled];
+				[self fillCellsArrow:cellType checkCellType:CWCellType_Start_BottomRight cell:cell row:row col:col letterFilled:&letterFilled];
+				[self fillCellsArrow:cellType checkCellType:CWCellType_Start_LeftRight_Top cell:cell row:row col:col letterFilled:&letterFilled];
+				[self fillCellsArrow:cellType checkCellType:CWCellType_Start_LeftRight_Bottom cell:cell row:row col:col letterFilled:&letterFilled];
 				break;
 			}
-			default:
-				break;
 		}
 	}
     return cell;

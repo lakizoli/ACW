@@ -116,11 +116,7 @@
 	}
 }
 
-//TODO: fix bug of doubled start cells!
-
--(void) fillArrow:(enum CWCellType)cellType showValue:(BOOL)showValue value:(NSString*)value {
-	[self fillLetter:showValue value:value];
-	
+-(void) fillArrow:(enum CWCellType)cellType {
 	const CGFloat baseX[] = { 0, 32, 25, 18 };
 	const CGFloat baseY[] = { 3,  3, 10,  3 };
 	

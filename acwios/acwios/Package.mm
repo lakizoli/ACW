@@ -117,7 +117,7 @@
 	return grid->GetCell (row, col);
 }
 
--(enum CWCellType) getCellTypeInRow:(uint32_t)row col:(uint32_t)col {
+-(uint32_t) getCellTypeInRow:(uint32_t)row col:(uint32_t)col {
 	std::shared_ptr<Cell> cell = [self getCell:row col:col];
 	if (cell == nullptr) {
 		return CWCellType_Unknown;
@@ -150,72 +150,76 @@
 	
 	//Handle start letters
 	if (cell->IsFlagSet (CellFlags::StartCell)) {
+		uint32_t cellTypeRes = CWCellType_Unknown;
+		
 		for (const CellPos& qPos : cell->GetStartCellQuestionPositions ()) {
 			std::shared_ptr<Cell> qCell = [self getCell:qPos.row col:qPos.col];
 			if (qCell == nullptr) {
-				return CWCellType_Unknown;
+				continue;
 			}
 
 			const CellPos& cPos = cell->GetPos ();
 			if (cPos.row < qPos.row && cPos.col == qPos.col) { //Start cell is above question cell
-				return CWCellType_Start_LeftRight_Top;
+				cellTypeRes |= CWCellType_Start_LeftRight_Top;
 			} else if (cPos.row > qPos.row && cPos.col == qPos.col) { //Start cell is below question cell
 				std::shared_ptr<QuestionInfo> qInfo = qCell->GetQuestionInfo ();
 				if (qInfo == nullptr) {
-					return CWCellType_Unknown;
+					continue;
 				}
 				
 				const std::vector<QuestionInfo::Question>& qs = qInfo->GetQuestions ();
 				if (qs.size () >= 1) {
 					switch (qs[qs.size () - 1].dir) {
 						case QuestionInfo::Direction::BottomDown:
-							return CWCellType_Start_TopDown_Bottom;
+							cellTypeRes |= CWCellType_Start_TopDown_Bottom;
+							break;
 						case QuestionInfo::Direction::BottomRight:
-							return CWCellType_Start_LeftRight_Bottom;
+							cellTypeRes |= CWCellType_Start_LeftRight_Bottom;
+							break;
 						default:
 							break;
 					}
 				}
-
-				return CWCellType_Unknown;
 			} else if (cPos.row == qPos.row && cPos.col < qPos.col) { //Start cell is on the left side of question cell
-				return CWCellType_Start_TopDown_Left;
+				cellTypeRes |= CWCellType_Start_TopDown_Left;
 			} else if (cPos.row == qPos.row && cPos.col > qPos.col) { //Start cell is on the right side of question cell
 				std::shared_ptr<QuestionInfo> qInfo = qCell->GetQuestionInfo ();
 				if (qInfo == nullptr) {
-					return CWCellType_Unknown;
+					continue;
 				}
 				
 				const std::vector<QuestionInfo::Question>& qs = qInfo->GetQuestions ();
 				if (qs.size () > 1) {
 					switch (qs[0].dir) {
 						case QuestionInfo::Direction::RightDown:
-							return CWCellType_Start_TopDown_Right;
+							cellTypeRes |= CWCellType_Start_TopDown_Right;
+							break;
 						case QuestionInfo::Direction::Right:
-							return CWCellType_Start_TopRight;
+							cellTypeRes |= CWCellType_Start_TopRight;
+							break;
 						default:
 							break;
 					}
 					
 					if (qs[1].dir == QuestionInfo::Direction::Right) {
-						return CWCellType_Start_BottomRight;
+						cellTypeRes |= CWCellType_Start_BottomRight;
 					}
 				} else if (qs.size () == 1) {
 					switch (qs[0].dir) {
 						case QuestionInfo::Direction::RightDown:
-							return CWCellType_Start_TopDown_Right;
+							cellTypeRes |= CWCellType_Start_TopDown_Right;
+							break;
 						case QuestionInfo::Direction::Right:
-							return CWCellType_Start_FullRight;
+							cellTypeRes |= CWCellType_Start_FullRight;
+							break;
 						default:
 							break;
 					}
 				}
-				
-				return CWCellType_Unknown;
 			}
-			
-			break; //TODO: fix bug of doubled start cells!
 		}
+		
+		return cellTypeRes;
 	}
 
 	return CWCellType_Letter;

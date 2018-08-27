@@ -20,6 +20,6 @@
 
 -(void) fillSpacer;
 -(void) fillLetter:(BOOL)showValue value:(NSString*)value;
--(void) fillArrow:(enum CWCellType)cellType showValue:(BOOL)showValue value:(NSString*)value;
+-(void) fillArrow:(enum CWCellType)cellType;
 
 @end
