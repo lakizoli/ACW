@@ -20,9 +20,24 @@
 
 @implementation CrosswordViewController {
 	BOOL _areAnswersVisible;
+	NSMutableDictionary<NSIndexPath*, NSString*> *_cellFilledValues; ///< The current fill state of the whole grid.
+
+	//Text input data
+	BOOL _canBecameFirstResponder;
+	NSString *_currentAnswer;
+	uint32_t _maxAnswerLength;
+	int32_t _startCellRow;
+	int32_t _startCellCol;
+	int32_t _answerIndex; ///< The rolling index of the current answer selected for input, when multiple answers are available in a start cell.
+	NSMutableArray<NSNumber*> *_availableAnswerDirections; ///< All of the available input directions can be originated from the current start cell.
 }
 
 #pragma mark - Implementation
+
+- (NSIndexPath*) getIndexPathForRow:(NSInteger)row col:(NSInteger)col {
+	NSIndexPath *indexPath = [NSIndexPath indexPathForRow:col inSection:row]; //row is the secion, and col is the row!
+	return indexPath;
+}
 
 - (uint32_t) getRowFromIndexPath:(NSIndexPath*)indexPath {
 	return (uint32_t) indexPath.section;
@@ -30,6 +45,17 @@
 
 - (uint32_t) getColFromIndexPath:(NSIndexPath*)indexPath {
 	return (uint32_t) indexPath.row;
+}
+
+-(void) resetInput {
+	[self resignFirstResponder];
+	_canBecameFirstResponder = NO;
+	_currentAnswer = nil;
+	_maxAnswerLength = 0;
+	_startCellCol = -1;
+	_startCellRow = -1;
+	_availableAnswerDirections = nil;
+	_answerIndex = -1;
 }
 
 #pragma mark - Events
@@ -45,6 +71,10 @@
     
     // Do any additional setup after loading the view.
 	_areAnswersVisible = NO;
+	_cellFilledValues = [NSMutableDictionary<NSIndexPath*, NSString*> new];
+	
+	[self resetInput];
+	[self registerForKeyboardNotifications];
 	
 	[_crosswordLayout setCellWidth:50];
 	[_crosswordLayout setCellHeight:50];
@@ -82,7 +112,86 @@
 }
 */
 
-#pragma mark <UICollectionViewDataSource>
+#pragma mark - UICollectionViewDataSource
+
+-(BOOL) isInputInHorizontalDirection {
+	BOOL res = NO;
+	if (_answerIndex >= 0 && _answerIndex < [_availableAnswerDirections count]) {
+		enum CWCellType currentDir = (enum CWCellType) [[_availableAnswerDirections objectAtIndex:_answerIndex] unsignedIntegerValue];
+		if (currentDir == CWCellType_Start_TopRight || currentDir == CWCellType_Start_FullRight ||
+			currentDir == CWCellType_Start_BottomRight || currentDir == CWCellType_Start_LeftRight_Top ||
+			currentDir == CWCellType_Start_LeftRight_Bottom) //Horizontal answer direction
+		{
+			res = YES;
+		}
+	}
+	return res;
+}
+
+-(void) fillLetterForCell:(CrosswordCell*)cell row:(uint32_t)row col:(uint32_t)col {
+	BOOL fillValue = NO;
+	NSString* cellValue;
+	if (_areAnswersVisible) {
+		fillValue = YES;
+		cellValue = [_savedCrossword getCellsValue:row col:col];
+	} else {
+		//Get value from current answer if available
+		if (_currentAnswer != nil) {
+			if ([self isInputInHorizontalDirection]) { //Horizontal answer
+				if (row == _startCellRow && col >= _startCellCol && col < (_startCellCol + [_currentAnswer length])) {
+					fillValue = YES;
+					cellValue = [_currentAnswer substringWithRange:NSMakeRange (col - _startCellCol, 1)];
+				}
+			} else { //Vertical answer
+				if (col == _startCellCol && row >= _startCellRow && row < (_startCellRow + [_currentAnswer length])) {
+					fillValue = YES;
+					cellValue = [_currentAnswer substringWithRange:NSMakeRange (row - _startCellRow, 1)];
+				}
+			}
+		}
+	
+		//Fill value from filled values
+		if (!fillValue) {
+			NSIndexPath *path = [self getIndexPathForRow:row col:col];
+			NSString *value = [_cellFilledValues objectForKey:path];
+			if (value) {
+				fillValue = YES;
+				cellValue = value;
+			}
+		}
+	}
+	
+	[cell fillLetter:fillValue value:cellValue];
+}
+
+-(void) fillCellsArrow:(uint32_t)cellType
+		 checkCellType:(enum CWCellType)checkCellType
+				  cell:(CrosswordCell*)cell
+				   row:(uint32_t)row
+				   col:(uint32_t)col
+		  letterFilled:(BOOL*)letterFilled
+{
+	if (cellType & checkCellType) {
+		if (*letterFilled != YES) {
+			[self fillLetterForCell:cell row:row col:col];
+			*letterFilled = YES;
+		}
+		[cell fillArrow:checkCellType];
+	}
+}
+
+-(void) addAvailableInputDirection:(uint32_t)cellType checkCellType:(enum CWCellType)checkCellType {
+	if (cellType & checkCellType) {
+		[_availableAnswerDirections addObject:[NSNumber numberWithUnsignedInteger:checkCellType]];
+	}
+}
+
+-(void) ensureVisibleRow:(uint32_t)row col:(uint32_t)col {
+	NSIndexPath *path = [self getIndexPathForRow:row col:col];
+	[_crosswordView scrollToItemAtIndexPath:path
+						   atScrollPosition:UICollectionViewScrollPositionCenteredVertically | UICollectionViewScrollPositionCenteredHorizontally
+								   animated:YES];
+}
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return [_crosswordLayout rowCount];
@@ -91,23 +200,6 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return [_crosswordLayout columnCount];
-}
-
--(void)fillCellsArrow:(uint32_t)cellType
-		checkCellType:(enum CWCellType)checkCellType
-				 cell:(CrosswordCell*)cell
-				  row:(uint32_t)row
-				  col:(uint32_t)col
-		 letterFilled:(BOOL*)letterFilled
-{
-	if (cellType & checkCellType) {
-		if (*letterFilled != YES) {
-			NSString* cellValue = [_savedCrossword getCellsValue:row col:col];
-			[cell fillLetter:_areAnswersVisible value:cellValue];
-			*letterFilled = YES;
-		}
-		[cell fillArrow:checkCellType];
-	}
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -130,11 +222,9 @@
 			case CWCellType_Spacer:
 				[cell fillSpacer];
 				break;
-			case CWCellType_Letter: {
-				NSString* cellValue = [_savedCrossword getCellsValue:row col:col];
-				[cell fillLetter:_areAnswersVisible value:cellValue];
+			case CWCellType_Letter:
+				[self fillLetterForCell:cell row:row col:col];
 				break;
-			}
 			default: {
 				BOOL letterFilled = NO;
 				[self fillCellsArrow:cellType checkCellType:CWCellType_Start_TopDown_Right cell:cell row:row col:col letterFilled:&letterFilled];
@@ -153,14 +243,78 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-	//TODO: show keyboard!
+	//Determine answer's current direction
+	uint32_t selRow = [self getRowFromIndexPath:indexPath];
+	uint32_t selCol = [self getColFromIndexPath:indexPath];
+	BOOL isNewStart = _startCellRow < 0 || _startCellCol < 0 || _answerIndex < 0 || _startCellRow != selRow || _startCellCol != selCol;
+	if (isNewStart) {
+		//Collect available answer directions
+		_availableAnswerDirections = [NSMutableArray<NSNumber*> new];
+		uint32_t cellType = [_savedCrossword getCellTypeInRow:selRow col:selCol];
+		[self addAvailableInputDirection:cellType checkCellType:CWCellType_Start_TopDown_Right];
+		[self addAvailableInputDirection:cellType checkCellType:CWCellType_Start_TopDown_Left];
+		[self addAvailableInputDirection:cellType checkCellType:CWCellType_Start_TopDown_Bottom];
+		[self addAvailableInputDirection:cellType checkCellType:CWCellType_Start_TopRight];
+		[self addAvailableInputDirection:cellType checkCellType:CWCellType_Start_FullRight];
+		[self addAvailableInputDirection:cellType checkCellType:CWCellType_Start_BottomRight];
+		[self addAvailableInputDirection:cellType checkCellType:CWCellType_Start_LeftRight_Top];
+		[self addAvailableInputDirection:cellType checkCellType:CWCellType_Start_LeftRight_Bottom];
+		if ([_availableAnswerDirections count] <= 0) { //Basic error check (one direction have to be available!)
+			return;
+		}
+
+		//Start input of first answer
+		_startCellRow = selRow;
+		_startCellCol = selCol;
+		_answerIndex = 0;
+	} else {
+		++_answerIndex;
+		if (_answerIndex >= [_availableAnswerDirections count]) {
+			_answerIndex = 0;
+		}
+	}
+	
+	//Determine answer's available length
+	_maxAnswerLength = 0;
+	if ([self isInputInHorizontalDirection]) {
+		BOOL endReached = NO;
+		while (!endReached) {
+			++_maxAnswerLength;
+			
+			uint32_t cellType = [_savedCrossword getCellTypeInRow:selRow col:selCol + _maxAnswerLength];
+			if (cellType == CWCellType_Unknown || cellType == CWCellType_SingleQuestion ||
+				cellType == CWCellType_DoubleQuestion || cellType == CWCellType_Spacer) //End of current input word reached
+			{
+				endReached = YES;
+			}
+		}
+	} else {
+		BOOL endReached = NO;
+		while (!endReached) {
+			++_maxAnswerLength;
+			
+			uint32_t cellType = [_savedCrossword getCellTypeInRow:selRow + _maxAnswerLength col:selCol];
+			if (cellType == CWCellType_Unknown || cellType == CWCellType_SingleQuestion ||
+				cellType == CWCellType_DoubleQuestion || cellType == CWCellType_Spacer) //End of current input word reached
+			{
+				endReached = YES;
+			}
+		}
+	}
+	
+	//Show keyboard
+	[self becomeFirstResponder];
+	_currentAnswer = nil;
+	
+	//Ensure visibility of value is under entering
+	[self ensureVisibleRow:selRow col:selCol];
+
 	//TODO: highlite word have to be enter!
-	//TODO: handle multiple tap on start cells with multiple directions! The individual taps have to roll over every direction.
 	
 	NSLog (@"did select item at index path: %@", [indexPath description]);
 }
 
-#pragma mark <UICollectionViewDelegate>
+#pragma mark - UICollectionViewDelegate
 
 /*
 // Uncomment this method to specify if the specified item should be highlighted during tracking
@@ -173,6 +327,10 @@
 	uint32_t row = [self getRowFromIndexPath:indexPath];
 	uint32_t col = [self getColFromIndexPath:indexPath];
 	BOOL startCell = [_savedCrossword isStartCell:row col:col];
+	_canBecameFirstResponder = startCell;
+	if (startCell != YES) {
+		[self resetInput];
+	}
     return startCell;
 }
 
@@ -190,5 +348,140 @@
 	
 }
 */
+
+#pragma mark - UIResponder protocol
+
+- (BOOL)canBecomeFirstResponder {
+	return _canBecameFirstResponder;
+}
+
+#pragma mark - UIKeyInput protocol
+
+-(BOOL) hasText {
+	return [_currentAnswer length] > 0;
+}
+
+- (void)deleteBackward {
+	//Alter answer
+	NSUInteger len = [_currentAnswer length];
+	if (len > 1) {
+		_currentAnswer = [_currentAnswer substringToIndex:(len - 1)];
+	} else if (len == 1) {
+		_currentAnswer = nil;
+	}
+	
+	//Ensure visibility of next char to enter
+	if ([self isInputInHorizontalDirection]) {
+		[self ensureVisibleRow:_startCellRow col:_startCellCol + (uint32_t) [_currentAnswer length]];
+	} else {
+		[self ensureVisibleRow:_startCellRow + (uint32_t) [_currentAnswer length] col:_startCellCol];
+	}
+
+	//Fill grid
+	[_crosswordView reloadData];
+}
+
+- (void)insertText:(nonnull NSString *)text {
+	//Handle input
+	if ([text isEqualToString:@"\n"]) { //Handle press of return (done button)
+		//TODO: check answer's validity before copy!
+		
+		//Copy value into fill table
+		NSUInteger len = [_currentAnswer length];
+		if (len > 0) {
+			if ([self isInputInHorizontalDirection]) {
+				for (NSUInteger i = 0; i < len; ++i) {
+					NSString *val = [NSString stringWithFormat: @"%C", [_currentAnswer characterAtIndex:i]];
+					NSIndexPath *path = [self getIndexPathForRow:_startCellRow col:_startCellCol + i];
+					[_cellFilledValues setObject:val forKey:path];
+				}
+			} else {
+				for (NSUInteger i = 0; i < len; ++i) {
+					NSString *val = [NSString stringWithFormat: @"%C", [_currentAnswer characterAtIndex:i]];
+					NSIndexPath *path = [self getIndexPathForRow:_startCellRow + i col:_startCellCol];
+					[_cellFilledValues setObject:val forKey:path];
+				}
+			}
+		}
+		
+		//Dismiss keyboard
+		[self resignFirstResponder];
+	} else { //Handle normal keys
+		//Check available length
+		if ([_currentAnswer length] >= _maxAnswerLength) { //Allow only entering of chars, when enough space remaining
+			return;
+		}
+		
+		//Alter answer
+		NSUInteger len = [_currentAnswer length];
+		if (len > 0) {
+			_currentAnswer = [_currentAnswer stringByAppendingString:text];
+		} else {
+			_currentAnswer = text;
+		}
+		
+		//Ensure visibility of next char
+		if ([self isInputInHorizontalDirection]) {
+			[self ensureVisibleRow:_startCellRow col:_startCellCol + (uint32_t) [_currentAnswer length]];
+		} else {
+			[self ensureVisibleRow:_startCellRow + (uint32_t) [_currentAnswer length] col:_startCellCol];
+		}
+	}
+	
+	//Fill grid
+	[_crosswordView reloadData];
+}
+
+#pragma mark - UITextInputTraits protocol
+
+- (UIKeyboardType)keyboardType {
+	return UIKeyboardTypeASCIICapable;
+}
+
+- (UIKeyboardAppearance)keyboardAppearance {
+	return UIKeyboardAppearanceDark;
+}
+
+- (UIReturnKeyType)returnKeyType {
+	return UIReturnKeyDone;
+}
+
+- (BOOL)enablesReturnKeyAutomatically {
+	return YES;
+}
+
+- (UITextAutocorrectionType)autocorrectionType {
+	return UITextAutocorrectionTypeNo;
+}
+
+- (UITextSpellCheckingType)spellCheckingType {
+	return UITextSpellCheckingTypeNo;
+}
+
+- (UITextSmartQuotesType)smartQuotesType {
+	return UITextSmartQuotesTypeNo;
+}
+
+- (UITextSmartDashesType)smartDashesType {
+	return UITextSmartDashesTypeNo;
+}
+
+- (UITextSmartInsertDeleteType)smartInsertDeleteType {
+	return UITextSmartInsertDeleteTypeNo;
+}
+
+#pragma mark - Keyboard notifications
+
+- (void)registerForKeyboardNotifications {
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(keyboardWillBeHidden:)
+												 name:UIKeyboardWillHideNotification object:nil];
+	
+}
+
+- (void)keyboardWillBeHidden:(NSNotification*)aNotification {
+	[self resetInput];
+	[_crosswordView reloadData];
+}
 
 @end

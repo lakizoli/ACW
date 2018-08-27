@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Package.h"
 
-@interface CrosswordViewController : UICollectionViewController
+@interface CrosswordViewController : UICollectionViewController<UIKeyInput>
 
 @property (strong) SavedCrossword *savedCrossword;
 
