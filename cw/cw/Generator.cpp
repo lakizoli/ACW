@@ -117,7 +117,7 @@ void Generator::ConfigureQuestionInCell (std::shared_ptr<Cell> questionCell,
 
 std::shared_ptr<Generator> Generator::Create (const std::string& path, const std::string& name, uint32_t width, uint32_t height,
 											  std::shared_ptr<QueryWords> questions, std::shared_ptr<QueryWords> answers,
-											  std::shared_ptr<QueryWords> usedWords)
+											  std::shared_ptr<QueryWords> usedWords, ProgressCallback progressCallback)
 {
 	std::shared_ptr<Generator> gen (new Generator ());
 	gen->_path = path;
@@ -125,7 +125,7 @@ std::shared_ptr<Generator> Generator::Create (const std::string& path, const std
 	gen->_width = width;
 	gen->_height = height;
 	gen->_questions = questions;
-	gen->_answers = WordBank::Create (answers);
+	gen->_answers = WordBank::Create (answers, progressCallback);
 	if (gen->_answers == nullptr) {
 		return nullptr;
 	}

@@ -60,7 +60,7 @@ bool WordBank::EnumerateWordsOfIndices (const std::vector<uint32_t>& indices, En
 	return true; //continue
 }
 
-std::shared_ptr<WordBank> WordBank::Create (std::shared_ptr<QueryWords> words) {
+std::shared_ptr<WordBank> WordBank::Create (std::shared_ptr<QueryWords> words, std::function<void (float)> progressCallback) {
 	std::shared_ptr<WordBank> bank (new WordBank ());
 	bank->_words = words;
 	if (bank->_words->GetCount () <= 0) {
@@ -79,9 +79,19 @@ std::shared_ptr<WordBank> WordBank::Create (std::shared_ptr<QueryWords> words) {
 		} else { //This length is found already
 			itLen->second->AddWord (i, len, word, words);
 		}
+		
+		if (progressCallback) {
+			float progress = (float) i / (float) iEnd;
+			progressCallback (progress);
+		}
 	}
 	
 	//TODO: ... Sort words in word lists
+	//TODO: ... store wordbank in database ...
+	
+	if (progressCallback) {
+		progressCallback (1.0f);
+	}
 	
 	return bank;
 }

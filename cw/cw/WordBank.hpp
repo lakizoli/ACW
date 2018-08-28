@@ -34,7 +34,7 @@ private:
 	
 //Construction
 public:
-	static std::shared_ptr<WordBank> Create (std::shared_ptr<QueryWords> words);
+	static std::shared_ptr<WordBank> Create (std::shared_ptr<QueryWords> words, std::function<void (float)> progressCallback);
 	
 //Interface
 public:

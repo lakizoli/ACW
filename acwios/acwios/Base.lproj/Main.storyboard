@@ -781,18 +781,72 @@
                                     </mask>
                                 </variation>
                             </stackView>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n91-5q-Eqf" customClass="ProgressView">
+                                <rect key="frame" x="37.5" y="279.5" width="300" height="128"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&lt;progress&gt;" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lDb-DS-6Wk">
+                                        <rect key="frame" x="106" y="22" width="89" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="LP4-Da-EZE">
+                                        <rect key="frame" x="15" y="63" width="270" height="2"/>
+                                    </progressView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vV5-VY-MxL" userLabel="Button">
+                                        <rect key="frame" x="118" y="81" width="64" height="30"/>
+                                        <state key="normal" title="&lt;button&gt;"/>
+                                        <connections>
+                                            <action selector="buttonPressed:" destination="n91-5q-Eqf" eventType="touchUpInside" id="2O9-wH-yWy"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="lDb-DS-6Wk" firstAttribute="centerX" secondItem="n91-5q-Eqf" secondAttribute="centerX" id="5mi-e8-ged"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="300" id="6d4-XJ-fnj"/>
+                                    <constraint firstAttribute="bottom" secondItem="vV5-VY-MxL" secondAttribute="centerY" multiplier="4:3" id="AsE-YW-OcW"/>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="600" id="HK5-eU-iLM"/>
+                                    <constraint firstAttribute="trailing" secondItem="LP4-Da-EZE" secondAttribute="trailing" constant="15" id="N21-8O-8Hc"/>
+                                    <constraint firstAttribute="bottom" secondItem="LP4-Da-EZE" secondAttribute="centerY" multiplier="4:2" id="Ram-i5-kf5"/>
+                                    <constraint firstAttribute="height" constant="128" id="fX4-wR-h9I"/>
+                                    <constraint firstItem="LP4-Da-EZE" firstAttribute="centerX" secondItem="lDb-DS-6Wk" secondAttribute="centerX" id="gYU-6y-Y0t"/>
+                                    <constraint firstAttribute="bottom" secondItem="lDb-DS-6Wk" secondAttribute="centerY" multiplier="4:1" id="pfD-hg-qDg"/>
+                                    <constraint firstItem="vV5-VY-MxL" firstAttribute="centerX" secondItem="lDb-DS-6Wk" secondAttribute="centerX" id="rg0-2k-YTa"/>
+                                    <constraint firstItem="LP4-Da-EZE" firstAttribute="leading" secondItem="n91-5q-Eqf" secondAttribute="leading" constant="15" id="x0k-cf-ivL"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <integer key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                        <integer key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                        <color key="value" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <outlet property="button" destination="vV5-VY-MxL" id="2iH-7x-bfG"/>
+                                    <outlet property="progressLabel" destination="lDb-DS-6Wk" id="Ob5-lw-3DU"/>
+                                    <outlet property="progressView" destination="LP4-Da-EZE" id="SF0-HK-cxU"/>
+                                </connections>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="YME-XT-DVw" firstAttribute="top" secondItem="PVy-5K-3Os" secondAttribute="top" id="3FY-bX-IU7"/>
                             <constraint firstItem="fLW-I2-GIc" firstAttribute="leading" secondItem="PVy-5K-3Os" secondAttribute="leading" constant="5" id="5Bu-W2-HRf"/>
                             <constraint firstItem="fLW-I2-GIc" firstAttribute="top" relation="greaterThanOrEqual" secondItem="YME-XT-DVw" secondAttribute="bottom" id="Iv7-6A-J5e"/>
+                            <constraint firstItem="n91-5q-Eqf" firstAttribute="centerY" secondItem="PVy-5K-3Os" secondAttribute="centerY" id="Qed-PN-stJ"/>
+                            <constraint firstItem="n91-5q-Eqf" firstAttribute="leading" secondItem="PVy-5K-3Os" secondAttribute="leading" priority="900" constant="200" id="VoG-LH-BJt"/>
                             <constraint firstItem="fLW-I2-GIc" firstAttribute="centerX" secondItem="MgG-sD-S1T" secondAttribute="centerX" id="X0N-QP-aDh"/>
                             <constraint firstItem="PVy-5K-3Os" firstAttribute="trailing" secondItem="fLW-I2-GIc" secondAttribute="trailing" priority="950" id="az1-GS-wiE"/>
                             <constraint firstItem="PVy-5K-3Os" firstAttribute="trailing" secondItem="YME-XT-DVw" secondAttribute="trailing" id="bvx-PJ-1q7"/>
                             <constraint firstItem="PVy-5K-3Os" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="fLW-I2-GIc" secondAttribute="bottom" id="mKn-sS-a94"/>
                             <constraint firstItem="fLW-I2-GIc" firstAttribute="top" secondItem="YME-XT-DVw" secondAttribute="bottom" priority="950" id="nfm-qD-JDa"/>
                             <constraint firstItem="fLW-I2-GIc" firstAttribute="leading" secondItem="PVy-5K-3Os" secondAttribute="leading" priority="950" constant="5" id="oOC-si-BHl"/>
+                            <constraint firstItem="n91-5q-Eqf" firstAttribute="centerX" secondItem="PVy-5K-3Os" secondAttribute="centerX" id="qvZ-4q-n63"/>
                             <constraint firstItem="YME-XT-DVw" firstAttribute="leading" secondItem="PVy-5K-3Os" secondAttribute="leading" id="wbF-0w-huK"/>
                             <constraint firstItem="fLW-I2-GIc" firstAttribute="centerY" secondItem="MgG-sD-S1T" secondAttribute="centerY" id="wpV-Fv-bK3"/>
                         </constraints>
@@ -815,6 +869,7 @@
                         <outlet property="labelSolution" destination="hTH-ca-2WW" id="Arr-Gp-TC6"/>
                         <outlet property="pickerQuestion" destination="YN9-1Q-FU6" id="g0p-6J-nrt"/>
                         <outlet property="pickerSolution" destination="YJE-t3-YOS" id="r29-vD-aLd"/>
+                        <outlet property="progressView" destination="n91-5q-Eqf" id="41N-cY-rOD"/>
                         <outlet property="textCrosswordName" destination="kUs-Ip-HI4" id="NV3-BT-D5L"/>
                         <outlet property="textHeight" destination="coG-7v-Hca" id="sfk-XP-RdX"/>
                         <outlet property="textWidth" destination="xFc-uH-ElI" id="Enl-qB-bbG"/>

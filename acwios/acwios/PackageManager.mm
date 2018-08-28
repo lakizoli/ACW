@@ -472,7 +472,7 @@
 	return field;
 }
 
--(BOOL) generateWithInfo:(GeneratorInfo*)info {
+-(BOOL) generateWithInfo:(GeneratorInfo*)info progressCallback:(void(^)(float))progressCallback {
 	if (info == nil) {
 		return NO;
 	}
@@ -548,7 +548,8 @@
 														(uint32_t) [info height],
 														std::make_shared<Query> (questionFieldValues),
 														std::make_shared<Query> (solutionFieldValues),
-														std::make_shared<Query> (usedWordValues, updateUsedWords));
+														std::make_shared<Query> (usedWordValues, updateUsedWords),
+														progressCallback);
 	if (gen == nullptr) {
 		return NO;
 	}

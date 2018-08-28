@@ -19,6 +19,6 @@
 
 -(NSString*)trimQuestionField:(NSString*)questionField;
 -(NSString*)trimSolutionField:(NSString*)solutionField;
--(BOOL)generateWithInfo:(GeneratorInfo*)info;
+-(BOOL)generateWithInfo:(GeneratorInfo*)info progressCallback:(void(^)(float))progressCallback;
 
 @end

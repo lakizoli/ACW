@@ -9,6 +9,7 @@
 #import "CWGeneratorViewController.h"
 #import "SubscriptionManager.h"
 #import "PackageManager.h"
+#import "ProgressView.h"
 
 @interface CWGeneratorViewController ()
 
@@ -20,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *labelSolution;
 @property (weak, nonatomic) IBOutlet UIPickerView *pickerSolution;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *doneButton;
+@property (weak, nonatomic) IBOutlet ProgressView *progressView;
 
 @end
 
@@ -153,6 +155,17 @@
 		[_textHeight resignFirstResponder];
 	}
 	
+	//Show progress
+	[_doneButton setEnabled:NO];
+	[_progressView setHidden:NO];
+	
+	[_progressView setLabelContent:@"Generating crossword..."];
+	[_progressView setButtonLabel:@"Cancel"];
+	[_progressView setOnButtonPressed:^{
+		//TODO: handle cancel in progress view...
+		NSLog (@"cancel pressed during generation...");
+	}];
+
 	//Fill info with configuration values
 	[_generatorInfo setCrosswordName: _crosswordName];
 	[_generatorInfo setWidth: _width];
@@ -161,9 +174,18 @@
 	[_generatorInfo setSolutionFieldIndex: _solutionFieldIndex];
 	
 	//Generate crossword
-	[_doneButton setEnabled:NO];
 	dispatch_async (dispatch_get_global_queue (DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
-		[[PackageManager sharedInstance] generateWithInfo:self->_generatorInfo];
+		__block int32_t lastPercent = -1;
+		[[PackageManager sharedInstance] generateWithInfo:self->_generatorInfo progressCallback:^(float percent) {
+			int32_t percentVal = (int32_t) (percent * 100.0f + 0.5f);
+			if (percentVal != lastPercent) {
+				lastPercent = percentVal;
+				
+				dispatch_async (dispatch_get_main_queue (), ^(void) {
+					[self->_progressView setProgressValue:percent];
+				});
+			}
+		}];
 
 		dispatch_async (dispatch_get_main_queue (), ^(void) {
 			__block UIViewController *parent = [self presentingViewController];
