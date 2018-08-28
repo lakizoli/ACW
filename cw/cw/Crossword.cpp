@@ -25,7 +25,7 @@ std::shared_ptr<Crossword> Crossword::Create (const std::string& name, uint32_t 
 
 std::shared_ptr<Crossword> Crossword::Load (const std::string& path) {
 	//Load crossword from file
-	std::fstream in (path.c_str (), std::ios::in | std::ios::binary | std::ios::ate);
+	std::fstream in (path, std::ios::in | std::ios::binary | std::ios::ate);
 	if (!in) {
 		return nullptr;
 	}
@@ -64,9 +64,7 @@ std::shared_ptr<Crossword> Crossword::Load (const std::string& path) {
 	if (cw->_grid == nullptr) {
 		return nullptr;
 	}
-	reader.ReadArray ([cw] (const BinaryReader& reader) -> void {
-		cw->_usedWords.insert (reader.ReadWideString ());
-	});
+	cw->_wordCount = reader.ReadUInt32 ();
 	
 	return cw;
 }
@@ -78,12 +76,10 @@ bool Crossword::Save (const std::string& path) const {
 	//Serialize crossword
 	writer.WriteString (_name);
 	_grid->Serialize (writer);
-	writer.WriteArray (_usedWords, [] (BinaryWriter& writer, const std::wstring& word) -> void {
-		writer.WriteWideString (word);
-	});
+	writer.WriteUInt32 (_wordCount);
 	
 	//Save crossword to file
-	std::fstream out (path.c_str (), std::ios::out | std::ios::binary | std::ios::trunc);
+	std::fstream out (path, std::ios::out | std::ios::binary | std::ios::trunc);
 	if (!out) {
 		return false;
 	}

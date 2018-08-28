@@ -116,7 +116,8 @@ void Generator::ConfigureQuestionInCell (std::shared_ptr<Cell> questionCell,
 }
 
 std::shared_ptr<Generator> Generator::Create (const std::string& path, const std::string& name, uint32_t width, uint32_t height,
-											  std::shared_ptr<QueryWords> questions, std::shared_ptr<QueryWords> answers)
+											  std::shared_ptr<QueryWords> questions, std::shared_ptr<QueryWords> answers,
+											  std::shared_ptr<QueryWords> usedWords)
 {
 	std::shared_ptr<Generator> gen (new Generator ());
 	gen->_path = path;
@@ -128,6 +129,7 @@ std::shared_ptr<Generator> Generator::Create (const std::string& path, const std
 	if (gen->_answers == nullptr) {
 		return nullptr;
 	}
+	gen->_usedWords = usedWords;
 	
 	return gen;
 }
@@ -142,7 +144,13 @@ std::shared_ptr<Crossword> Generator::Generate () const {
 	std::shared_ptr<Grid> grid = cw->GetGrid ();
 	uint32_t lastRow, row = 1; //The current free cell's row index
 	uint32_t lastCol, col = 1; //The current free cell's col index
-	std::set<std::wstring>& usedWords = cw->GetUsedWords (); //The used words in crossword
+	std::set<std::wstring> usedWords; //The used words in crossword
+	
+	if (_usedWords != nullptr) {
+		for (uint32_t i = 0, iEnd = _usedWords->GetCount (); i < iEnd; ++i) {
+			usedWords.insert (_usedWords->GetWord (i));
+		}
+	}
 	
 	for (uint32_t col = 0; col < _width; col += 2) {
 		grid->SetCellToFreeQuestionCell (0, col);
@@ -202,6 +210,12 @@ std::shared_ptr<Crossword> Generator::Generate () const {
 			
 			grid->AdvanceToTheNextAvailablePos (row, col);
 		}
+	}
+	
+	cw->SetWordCount ((uint32_t) usedWords.size ());
+	
+	if (_usedWords != nullptr) {
+		_usedWords->UpdateWithSet (usedWords);
 	}
 	
 //	grid->Dump ();

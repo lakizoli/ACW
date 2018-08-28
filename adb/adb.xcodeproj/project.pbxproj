@@ -10,6 +10,9 @@
 		F09B2155210DADF700F26BFA /* BasicInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F09B2153210DADF700F26BFA /* BasicInfo.cpp */; };
 		F09B2156210DADF700F26BFA /* BasicInfo.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F09B2154210DADF700F26BFA /* BasicInfo.hpp */; };
 		F09B219E210DB64A00F26BFA /* libminizip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F09B219D210DB64A00F26BFA /* libminizip.a */; };
+		FD6ED58721354A9700FCCAC7 /* UsedWords.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD6ED58521354A9700FCCAC7 /* UsedWords.cpp */; };
+		FD6ED58821354A9700FCCAC7 /* UsedWords.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FD6ED58621354A9700FCCAC7 /* UsedWords.hpp */; };
+		FD6ED58A21354CB400FCCAC7 /* BinarySerializer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FD6ED58921354CB300FCCAC7 /* BinarySerializer.hpp */; };
 		FDCD5257210855490081FE4D /* adb.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FDCD5255210855490081FE4D /* adb.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		FDCD52AB210F0DBE0081FE4D /* libsqlite3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FDCD52AA210F0DBE0081FE4D /* libsqlite3.a */; };
 		FDCD52B121104A6C0081FE4D /* JsonImpl.mm in Sources */ = {isa = PBXBuildFile; fileRef = FDCD52AC21104A6B0081FE4D /* JsonImpl.mm */; };
@@ -28,6 +31,9 @@
 		F09B2154210DADF700F26BFA /* BasicInfo.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BasicInfo.hpp; sourceTree = "<group>"; };
 		F09B2157210DAEC500F26BFA /* prefix.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = prefix.hpp; sourceTree = "<group>"; };
 		F09B219D210DB64A00F26BFA /* libminizip.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libminizip.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		FD6ED58521354A9700FCCAC7 /* UsedWords.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = UsedWords.cpp; sourceTree = "<group>"; };
+		FD6ED58621354A9700FCCAC7 /* UsedWords.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = UsedWords.hpp; sourceTree = "<group>"; };
+		FD6ED58921354CB300FCCAC7 /* BinarySerializer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BinarySerializer.hpp; sourceTree = "<group>"; };
 		FDCD5252210855490081FE4D /* adb.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = adb.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDCD5255210855490081FE4D /* adb.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = adb.hpp; sourceTree = "<group>"; };
 		FDCD5256210855490081FE4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -97,6 +103,9 @@
 				F09B2154210DADF700F26BFA /* BasicInfo.hpp */,
 				FDCD52BA2112EE510081FE4D /* CardList.cpp */,
 				FDCD52BB2112EE510081FE4D /* CardList.hpp */,
+				FD6ED58521354A9700FCCAC7 /* UsedWords.cpp */,
+				FD6ED58621354A9700FCCAC7 /* UsedWords.hpp */,
+				FD6ED58921354CB300FCCAC7 /* BinarySerializer.hpp */,
 			);
 			path = adb;
 			sourceTree = "<group>";
@@ -121,6 +130,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				FDCD52BD2112EE510081FE4D /* CardList.hpp in Headers */,
+				FD6ED58A21354CB400FCCAC7 /* BinarySerializer.hpp in Headers */,
+				FD6ED58821354A9700FCCAC7 /* UsedWords.hpp in Headers */,
 				FDCD52B421104A6C0081FE4D /* JsonImpl.hpp in Headers */,
 				F09B2156210DADF700F26BFA /* BasicInfo.hpp in Headers */,
 				FDCD5257210855490081FE4D /* adb.hpp in Headers */,
@@ -198,6 +209,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FD6ED58721354A9700FCCAC7 /* UsedWords.cpp in Sources */,
 				F09B2155210DADF700F26BFA /* BasicInfo.cpp in Sources */,
 				FDCD52BC2112EE510081FE4D /* CardList.cpp in Sources */,
 				FDCD52C6211432750081FE4D /* DBHandler.cpp in Sources */,

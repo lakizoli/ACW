@@ -44,6 +44,7 @@
 		_decks = [NSMutableArray<Deck*> new];
 		_cards = [NSMutableArray<Card*> new];
 		_fields = [NSMutableArray<Field*> new];
+		_usedWords = [NSMutableArray<NSString*> new];
 	}
 	return self;
 }

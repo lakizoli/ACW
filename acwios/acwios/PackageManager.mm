@@ -240,7 +240,7 @@
 				std::shared_ptr<Grid> grid = loadedCW->GetGrid ();
 				[cw setWidth:grid->GetWidth ()];
 				[cw setHeight:grid->GetHeight ()];
-				[cw setWordCount:(uint32_t) loadedCW->GetUsedWords ().size ()];
+				[cw setWordCount:loadedCW->GetWordCount ()];
 			
 				[arr addObject:cw];
 			}
@@ -287,7 +287,7 @@
 		return nil;
 	}
 	
-	//TODO: ... filter available question and solution fields for the easyly usable into the picker ...
+	//TODO: ... filter available question and solution fields for the easyly usability into the picker ...
 	
 	//Collect most decks with same modelID (all of them have to be the same, but not guaranteed!)
 	__block NSURL *packagePath;
@@ -332,6 +332,9 @@
 	if (!foundOneModelID) {
 		return nil;
 	}
+
+	//Read used words of package
+	std::shared_ptr<UsedWords> usedWords = UsedWords::Create ([[packagePath path] UTF8String]);
 
 	//Collect generator info
 	GeneratorInfo *info = [[GeneratorInfo alloc] init];
@@ -378,7 +381,14 @@
 			
 			[[info cards] addObject:card];
 		}
-
+	}
+	
+	if (usedWords != nullptr) {
+		for (const std::wstring& word : usedWords->GetWords ()) {
+			NSUInteger len = word.length () * sizeof (wchar_t);
+			NSString *nsWord = [[NSString alloc] initWithBytes:word.c_str () length:len encoding:NSUTF32LittleEndianStringEncoding];
+			[info.usedWords addObject:nsWord];
+		}
 	}
 	
 	return info;
@@ -505,13 +515,31 @@
 		return NO;
 	}
 	
+	__block std::vector<std::wstring> usedWordValues;
+	[[info usedWords] enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		NSData *valData = [obj dataUsingEncoding:NSUTF32LittleEndianStringEncoding];
+		usedWordValues.push_back (std::wstring ((const wchar_t*) [valData bytes], [valData length] / sizeof (wchar_t)));
+	}];
+	
 	struct Query : public QueryWords {
 		std::vector<std::wstring>& _words;
+		std::function<void (const std::set<std::wstring>& values)> _updater;
 		
 		virtual uint32_t GetCount () const override final { return (uint32_t) _words.size (); }
 		virtual const std::wstring& GetWord (uint32_t idx) const override final { return _words[idx]; }
 		virtual void Clear () override final { _words.clear (); }
-		Query (std::vector<std::wstring>& words) : _words (words) {}
+		virtual void UpdateWithSet (const std::set<std::wstring>& values) override {
+			if (_updater) {
+				_updater (values);
+			}
+		}
+		Query (std::vector<std::wstring>& words, std::function<void (const std::set<std::wstring>&)> updater = nullptr) :
+			_words (words), _updater (updater) {}
+	};
+	
+	std::string packagePathForUsedWords = [packagePath UTF8String];
+	auto updateUsedWords = [&packagePathForUsedWords] (const std::set<std::wstring>& usedWords) -> void {
+		UsedWords::Update (packagePathForUsedWords, usedWords);
 	};
 	
 	std::shared_ptr<Generator> gen = Generator::Create ([packagePath UTF8String],
@@ -519,7 +547,8 @@
 														(uint32_t) [info width],
 														(uint32_t) [info height],
 														std::make_shared<Query> (questionFieldValues),
-														std::make_shared<Query> (solutionFieldValues));
+														std::make_shared<Query> (solutionFieldValues),
+														std::make_shared<Query> (usedWordValues, updateUsedWords));
 	if (gen == nullptr) {
 		return NO;
 	}

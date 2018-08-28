@@ -36,6 +36,7 @@
 @property (strong) NSMutableArray<Deck*> *decks;
 @property (strong) NSMutableArray<Card*> *cards;
 @property (strong) NSMutableArray<Field*> *fields;
+@property (strong) NSMutableArray<NSString*> *usedWords;
 
 //Configured properties
 @property (strong) NSString *crosswordName;

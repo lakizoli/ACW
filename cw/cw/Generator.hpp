@@ -21,6 +21,7 @@ class Generator {
 	uint32_t _height = 0;
 	std::shared_ptr<QueryWords> _questions;
 	std::shared_ptr<WordBank> _answers;
+	std::shared_ptr<QueryWords> _usedWords;
 	
 //Implementation
 	Generator () = default;
@@ -40,7 +41,8 @@ class Generator {
 public:
 	static std::shared_ptr<Generator> Create (const std::string& path, const std::string& name,
 											  uint32_t width, uint32_t height,
-											  std::shared_ptr<QueryWords> questions, std::shared_ptr<QueryWords> answers);
+											  std::shared_ptr<QueryWords> questions, std::shared_ptr<QueryWords> answers,
+											  std::shared_ptr<QueryWords> usedWords);
 	
 //Interface
 public:

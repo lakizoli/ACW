@@ -9,3 +9,4 @@
 #include "prefix.hpp"
 #include "BasicInfo.hpp"
 #include "CardList.hpp"
+#include "UsedWords.hpp"
