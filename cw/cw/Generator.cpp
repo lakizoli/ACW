@@ -146,8 +146,10 @@ std::shared_ptr<Crossword> Generator::Generate () const {
 	uint32_t lastCol, col = 1; //The current free cell's col index
 	std::set<std::wstring> usedWords; //The used words in crossword
 	
+	uint32_t startUsedWordCount = 0;
 	if (_usedWords != nullptr) {
-		for (uint32_t i = 0, iEnd = _usedWords->GetCount (); i < iEnd; ++i) {
+		startUsedWordCount = _usedWords->GetCount ();
+		for (uint32_t i = 0; i < startUsedWordCount; ++i) {
 			usedWords.insert (_usedWords->GetWord (i));
 		}
 	}
@@ -212,7 +214,7 @@ std::shared_ptr<Crossword> Generator::Generate () const {
 		}
 	}
 	
-	cw->SetWordCount ((uint32_t) usedWords.size ());
+	cw->SetWordCount ((uint32_t) usedWords.size () - startUsedWordCount);
 	
 	if (_usedWords != nullptr) {
 		_usedWords->UpdateWithSet (usedWords);

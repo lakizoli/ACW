@@ -140,6 +140,19 @@
 }
 
 - (IBAction)doneButtonPressed:(id)sender {
+	//Resign first responders
+	if ([_textCrosswordName isFirstResponder]) {
+		[_textCrosswordName resignFirstResponder];
+	}
+	
+	if ([_textWidth isFirstResponder]) {
+		[_textWidth resignFirstResponder];
+	}
+	
+	if ([_textHeight isFirstResponder]) {
+		[_textHeight resignFirstResponder];
+	}
+	
 	//Fill info with configuration values
 	[_generatorInfo setCrosswordName: _crosswordName];
 	[_generatorInfo setWidth: _width];

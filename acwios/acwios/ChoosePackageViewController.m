@@ -240,6 +240,7 @@
 			}];
 			[sectionHeaderCell setDeleteCallback:^{
 				//TODO: show alert before deletion...
+				//TODO: delete used words of crossword from usedwords file in package dir...
 							
 				NSError *err = nil;
 				if ([[NSFileManager defaultManager] removeItemAtURL:[package path] error:&err] != YES) {
