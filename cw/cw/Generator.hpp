@@ -32,7 +32,7 @@ class Generator {
 		uint32_t insertedWordIndex = 0;
 	};
 	
-	InsertWordRes InsertWordIntoCells (const std::vector<std::shared_ptr<Cell>>& cells, std::set<std::string>& usedWords) const;
+	InsertWordRes InsertWordIntoCells (const std::vector<std::shared_ptr<Cell>>& cells, std::set<std::wstring>& usedWords) const;
 	void ConfigureQuestionInCell (std::shared_ptr<Cell> questionCell, std::shared_ptr<Cell> firstLetterCell,
 								  std::shared_ptr<Cell> secondLetterCell, uint32_t questionIndex) const;
 	

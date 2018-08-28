@@ -479,22 +479,26 @@
 		deckIDs.insert ([deck deckID]);
 	}];
 	
-	__block std::vector<std::string> questionFieldValues;
-	__block std::vector<std::string> solutionFieldValues;
+	__block std::vector<std::wstring> questionFieldValues;
+	__block std::vector<std::wstring> solutionFieldValues;
 	[[info cards] enumerateObjectsUsingBlock:^(Card * _Nonnull card, NSUInteger idx, BOOL * _Nonnull stop) {
 		NSString *val = [[[card fieldValues] objectAtIndex:[info solutionFieldIndex]] lowercaseString];
 		val = [self trimSolutionField:val];
 		if ([val length] <= 0) {
 			return;
 		}
-		solutionFieldValues.push_back ([val UTF8String]);
-
+		
+		NSData *valData = [val dataUsingEncoding:NSUTF32LittleEndianStringEncoding];
+		solutionFieldValues.push_back (std::wstring ((const wchar_t*) [valData bytes], [valData length] / sizeof (wchar_t)));
+		
 		val = [[card fieldValues] objectAtIndex:[info questionFieldIndex]];
 		val = [self trimQuestionField:val];
 		if ([val length] <= 0) {
 			return;
 		}
-		questionFieldValues.push_back ([val UTF8String]);
+		
+		valData = [val dataUsingEncoding:NSUTF32LittleEndianStringEncoding];
+		questionFieldValues.push_back (std::wstring ((const wchar_t*) [valData bytes], [valData length] / sizeof (wchar_t)));
 	}];
 	
 	if (questionFieldValues.size () <= 0 || solutionFieldValues.size () <= 0 || questionFieldValues.size () != solutionFieldValues.size ()) {
@@ -502,12 +506,12 @@
 	}
 	
 	struct Query : public QueryWords {
-		std::vector<std::string>& _words;
+		std::vector<std::wstring>& _words;
 		
 		virtual uint32_t GetCount () const override final { return (uint32_t) _words.size (); }
-		virtual const std::string& GetWord (uint32_t idx) const override final { return _words[idx]; }
+		virtual const std::wstring& GetWord (uint32_t idx) const override final { return _words[idx]; }
 		virtual void Clear () override final { _words.clear (); }
-		Query (std::vector<std::string>& words) : _words (words) {}
+		Query (std::vector<std::wstring>& words) : _words (words) {}
 	};
 	
 	std::shared_ptr<Generator> gen = Generator::Create ([packagePath UTF8String],

@@ -28,7 +28,7 @@ public:
 	struct Question {
 		Direction dir = Direction::None;
 		uint32_t questionIndex = 0;
-		std::string question;
+		std::wstring question;
 	};
 	
 //Data
@@ -52,7 +52,7 @@ public:
 	//Max 2 question in a place!
 	bool HasAvailableQuestionPlace () const { return _questions.size () < 2; }
 	
-	void AddQuestion (Direction dir, uint32_t questionIndex, const std::string& question);
+	void AddQuestion (Direction dir, uint32_t questionIndex, const std::wstring& question);
 };
 
 #endif /* QuestionInfo_hpp */

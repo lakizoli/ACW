@@ -10,11 +10,11 @@
 #include "WordBank.hpp"
 #include "QueryWords.hpp"
 
-uint32_t WordBank::WordList::IntersectionCount (const std::string& w1, const std::string& w2) {
+uint32_t WordBank::WordList::IntersectionCount (const std::wstring& w1, const std::wstring& w2) {
 	uint32_t count = 0;
 
-	for (uint8_t ch1 : w1) {
-		for (uint8_t ch2 : w2) {
+	for (wchar_t ch1 : w1) {
+		for (wchar_t ch2 : w2) {
 			if (ch1 == ch2) {
 				++count;
 			}
@@ -24,14 +24,14 @@ uint32_t WordBank::WordList::IntersectionCount (const std::string& w1, const std
 	return count;
 }
 
-void WordBank::WordList::AddWord (uint32_t index, uint32_t length, const std::string& word, std::shared_ptr<QueryWords> allWords) {
+void WordBank::WordList::AddWord (uint32_t index, uint32_t length, const std::wstring& word, std::shared_ptr<QueryWords> allWords) {
 	uint32_t sumIntersectionCount = 0;
 	for (uint32_t i = 0, iEnd = allWords->GetCount (); i < iEnd; ++i) {
 		if (i == index) {
 			continue;
 		}
 		
-		const std::string& checkWord = allWords->GetWord (i);
+		const std::wstring& checkWord = allWords->GetWord (i);
 		if (checkWord == word) {
 			continue;
 		}
@@ -68,7 +68,7 @@ std::shared_ptr<WordBank> WordBank::Create (std::shared_ptr<QueryWords> words) {
 	}
 	
 	for (uint32_t i = 0, iEnd = bank->_words->GetCount (); i < iEnd; ++i) {
-		std::string word = bank->_words->GetWord (i);
+		std::wstring word = bank->_words->GetWord (i);
 
 		uint32_t len = (uint32_t) word.length ();
 		auto itLen = bank->_search.find (len);

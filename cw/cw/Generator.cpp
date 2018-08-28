@@ -13,7 +13,7 @@
 #include "QueryWords.hpp"
 #include "Grid.hpp"
 
-Generator::InsertWordRes Generator::InsertWordIntoCells (const std::vector<std::shared_ptr<Cell>>& cells, std::set<std::string>& usedWords) const {
+Generator::InsertWordRes Generator::InsertWordIntoCells (const std::vector<std::shared_ptr<Cell>>& cells, std::set<std::wstring>& usedWords) const {
 	InsertWordRes res;
 	
 	uint32_t minLen = (uint32_t) cells.size ();
@@ -22,7 +22,7 @@ Generator::InsertWordRes Generator::InsertWordIntoCells (const std::vector<std::
 	}
 	
 	for (uint32_t wordLen = (uint32_t) cells.size (); wordLen > minLen && !res.inserted; --wordLen) {
-		_answers->EnumerateWords (wordLen, [&res, &cells, &usedWords, wordLen] (uint32_t idx, const std::string& word) -> bool {
+		_answers->EnumerateWords (wordLen, [&res, &cells, &usedWords, wordLen] (uint32_t idx, const std::wstring& word) -> bool {
 			auto itUseCheck = usedWords.find (word);
 			if (itUseCheck != usedWords.end ()) {
 				return true; //continue enumeration
@@ -84,7 +84,7 @@ void Generator::ConfigureQuestionInCell (std::shared_ptr<Cell> questionCell,
 										 uint32_t questionIndex) const
 {
 	std::shared_ptr<QuestionInfo> qInfo = questionCell->GetQuestionInfo ();
-	const std::string& word = _questions->GetWord (questionIndex);
+	const std::wstring& word = _questions->GetWord (questionIndex);
 	
 	const CellPos& questionPos = questionCell->GetPos ();
 	const CellPos& firstLetterPos = firstLetterCell->GetPos ();
@@ -142,7 +142,7 @@ std::shared_ptr<Crossword> Generator::Generate () const {
 	std::shared_ptr<Grid> grid = cw->GetGrid ();
 	uint32_t lastRow, row = 1; //The current free cell's row index
 	uint32_t lastCol, col = 1; //The current free cell's col index
-	std::set<std::string>& usedWords = cw->GetUsedWords (); //The used words in crossword
+	std::set<std::wstring>& usedWords = cw->GetUsedWords (); //The used words in crossword
 	
 	for (uint32_t col = 0; col < _width; col += 2) {
 		grid->SetCellToFreeQuestionCell (0, col);

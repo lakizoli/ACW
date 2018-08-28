@@ -16,12 +16,12 @@ class WordBank {
 	struct WordList {
 		std::map<uint32_t, std::vector<uint32_t>> _indices; ///< The word indices assigned to their importance.
 		
-		static uint32_t IntersectionCount (const std::string& w1, const std::string& w2);
-		void AddWord (uint32_t index, uint32_t length, const std::string& word, std::shared_ptr<QueryWords> allWords);
+		static uint32_t IntersectionCount (const std::wstring& w1, const std::wstring& w2);
+		void AddWord (uint32_t index, uint32_t length, const std::wstring& word, std::shared_ptr<QueryWords> allWords);
 	};
 	
 public:
-	typedef std::function<bool (uint32_t idx, const std::string& word)> EnumWords;
+	typedef std::function<bool (uint32_t idx, const std::wstring& word)> EnumWords;
 
 //Data
 private:

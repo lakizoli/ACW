@@ -237,7 +237,9 @@
 		if (qInfo != nullptr) {
 			const std::vector<QuestionInfo::Question>& qs = qInfo->GetQuestions ();
 			if (qs.size () > questionIndex) {
-				return [NSString stringWithUTF8String: qs[questionIndex].question.c_str ()];
+				const std::wstring& qStr = qs[questionIndex].question;
+				NSUInteger len = qStr.length () * sizeof (wchar_t);
+				return [[NSString alloc] initWithBytes:qStr.c_str () length:len encoding:NSUTF32LittleEndianStringEncoding];
 			}
 		}
 	}

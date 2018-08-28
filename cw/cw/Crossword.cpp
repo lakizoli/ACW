@@ -19,8 +19,6 @@ std::shared_ptr<Crossword> Crossword::Create (const std::string& name, uint32_t 
 		return nullptr;
 	}
 	
-	//TODO: ... support wide strings overall in crossword ...
-	
 	return cw;
 }
 
@@ -67,7 +65,7 @@ std::shared_ptr<Crossword> Crossword::Load (const std::string& path) {
 		return nullptr;
 	}
 	reader.ReadArray ([cw] (const BinaryReader& reader) -> void {
-		cw->_usedWords.insert (reader.ReadString ());
+		cw->_usedWords.insert (reader.ReadWideString ());
 	});
 	
 	return cw;
@@ -80,8 +78,8 @@ bool Crossword::Save (const std::string& path) const {
 	//Serialize crossword
 	writer.WriteString (_name);
 	_grid->Serialize (writer);
-	writer.WriteArray (_usedWords, [] (BinaryWriter& writer, const std::string& word) -> void {
-		writer.WriteString (word);
+	writer.WriteArray (_usedWords, [] (BinaryWriter& writer, const std::wstring& word) -> void {
+		writer.WriteWideString (word);
 	});
 	
 	//Save crossword to file

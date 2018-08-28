@@ -63,6 +63,15 @@ public:
 	float ReadFloat () const { return ReadValue<float> (); }
 	double ReadDouble () const { return ReadValue<double> (); }
 	
+	wchar_t ReadWideChar () const { return ReadValue<wchar_t> (); }
+	std::wstring ReadWideString () const {
+		std::wstring res;
+		ReadArray([&res] (const BinaryReader& reader) -> void {
+			res.push_back (reader.ReadWideChar ());
+		});
+		return res;
+	}
+	
 	void ReadArray (std::function<void (const BinaryReader&)> readItem) const {
 		uint32_t count = ReadUInt32 ();
 
@@ -115,10 +124,17 @@ public:
 	
 	void WriteInt64 (int64_t val) { WriteValue<int64_t> (val); }
 	void WriteUInt64 (uint64_t val) { WriteValue<uint64_t> (val); }
-	
+
 	void WriteFloat (float val) { WriteValue<float> (val); }
 	void WriteDouble (double val) { WriteValue<double> (val); }
 	
+	void WriteWideChar (wchar_t val) { WriteValue<wchar_t> (val); }
+	void WriteWideString (const std::wstring& val) {
+		WriteArray (val, [] (BinaryWriter& writer, const wchar_t& item) -> void {
+			writer.WriteWideChar (item);
+		});
+	}
+
 	template<class T>
 	void WriteArray (const T& arr, std::function<void (BinaryWriter&, const typename T::value_type&)> writeItem) {
 		uint32_t count = (uint32_t) arr.size ();

@@ -23,7 +23,7 @@ std::shared_ptr<QuestionInfo> QuestionInfo::Deserialize (const BinaryReader& rea
 		info->_questions.push_back (Question {
 			(Direction) reader.ReadUInt32 (),
 			reader.ReadUInt32 (),
-			reader.ReadString ()
+			reader.ReadWideString ()
 		});
 	});
 
@@ -34,11 +34,11 @@ void QuestionInfo::Serialize (BinaryWriter& writer) {
 	writer.WriteArray (_questions, [] (BinaryWriter& writer, const Question& question) -> void {
 		writer.WriteUInt32 ((uint32_t) question.dir);
 		writer.WriteUInt32 (question.questionIndex);
-		writer.WriteString (question.question);
+		writer.WriteWideString (question.question);
 	});
 }
 
-void QuestionInfo::AddQuestion (Direction dir, uint32_t questionIndex, const std::string& question) {
+void QuestionInfo::AddQuestion (Direction dir, uint32_t questionIndex, const std::wstring& question) {
 	if (!HasAvailableQuestionPlace ()) {
 		return;
 	}

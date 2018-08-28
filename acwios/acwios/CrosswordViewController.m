@@ -422,9 +422,15 @@
 		
 		//Ensure visibility of next char
 		if ([self isInputInHorizontalDirection]) {
-			[self ensureVisibleRow:_startCellRow col:_startCellCol + (uint32_t) [_currentAnswer length]];
+			uint32_t nextCol = _startCellCol + (uint32_t) [_currentAnswer length];
+			if (nextCol < [_savedCrossword width]) {
+				[self ensureVisibleRow:_startCellRow col:nextCol];
+			}
 		} else {
-			[self ensureVisibleRow:_startCellRow + (uint32_t) [_currentAnswer length] col:_startCellCol];
+			uint32_t nextRow = _startCellRow + (uint32_t) [_currentAnswer length];
+			if (nextRow < [_savedCrossword height]) {
+				[self ensureVisibleRow:nextRow col:_startCellCol];
+			}
 		}
 	}
 	
