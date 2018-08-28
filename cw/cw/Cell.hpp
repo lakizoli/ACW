@@ -24,7 +24,7 @@ class Cell {
 	CellPos _pos;
 	CellFlags _flags = CellFlags::Empty;
 	
-	uint8_t _value = 0;
+	wchar_t _value = 0;
 	uint32_t _valueRefCount = 0;
 	
 	std::shared_ptr<QuestionInfo> _questionInfo;
@@ -48,7 +48,7 @@ public:
 	bool IsEmpty () const { return (_flags & CellFlags::HasSomeValue) == CellFlags::Empty; }
 	bool IsFlagSet (CellFlags flag) const { return (_flags & flag) == flag; }
 	
-	uint8_t GetValue () const { return _value; }
+	wchar_t GetValue () const { return _value; }
 	uint32_t GetValueRefCount () const { return _valueRefCount; }
 	
 	std::shared_ptr<QuestionInfo> GetQuestionInfo () const { return _questionInfo; }
@@ -57,7 +57,7 @@ public:
 //Generation interface
 public:
 	void ConfigureAsEmptyQuestion ();
-	void SetValue (uint8_t value);
+	void SetValue (wchar_t value);
 	void AddQuestionToStartCell (std::shared_ptr<Cell> questionCell);
 };
 

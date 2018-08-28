@@ -28,7 +28,7 @@ std::shared_ptr<Cell> Cell::Deserialize (const BinaryReader& reader) {
 	
 	cell->_flags = (CellFlags) reader.ReadUInt32 ();
 	
-	cell->_value = reader.ReadUInt8 ();
+	cell->_value = reader.ReadWideChar ();
 	cell->_valueRefCount = reader.ReadUInt32 ();
 	
 	bool hasQuestionInfo = reader.ReadBoolean ();
@@ -54,7 +54,7 @@ void Cell::Serialize (BinaryWriter& writer) {
 	writer.WriteUInt32 (_pos.col);
 	writer.WriteUInt32 ((uint32_t) _flags);
 	
-	writer.WriteUInt8 (_value);
+	writer.WriteWideChar (_value);
 	writer.WriteUInt32 (_valueRefCount);
 	
 	bool hasQuestionInfo = _questionInfo != nullptr;
@@ -74,7 +74,7 @@ void Cell::ConfigureAsEmptyQuestion () {
 	_flags |= CellFlags::Question;
 }
 
-void Cell::SetValue (uint8_t value) {
+void Cell::SetValue (wchar_t value) {
 	_flags |= CellFlags::Value;
 	_value = value;
 	++_valueRefCount;

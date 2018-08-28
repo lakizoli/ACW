@@ -404,7 +404,7 @@
 	//Convert separators to usable format
 	field = [field stringByReplacingOccurrencesOfString:@"&nbsp;" withString:@" "];
 	
-	NSArray<NSString*> *separatorArr = @[@";", @"<br", @"/>", @"\r", @"\n"];
+	NSArray<NSString*> *separatorArr = @[@";", @"<br", @"/>", @"*", @"\r", @"\n"];
 	[separatorArr enumerateObjectsUsingBlock:^(NSString * _Nonnull separatorStr, NSUInteger idx, BOOL * _Nonnull stop) {
 		field = [field stringByReplacingOccurrencesOfString:separatorStr withString:@":"];
 		field = [field stringByReplacingOccurrencesOfString:@"  " withString:@" "];
@@ -437,7 +437,7 @@
 	}
 	
 	//Pull word out from garbage
-	NSArray<NSString*> *splitArr = @[@" ", @"&nbsp;", @";", @"<br", @"/>", @"\r", @"\n", @",", @"(", @")", @"[", @"]", @"{", @"}"];
+	NSArray<NSString*> *splitArr = @[@" ", @"&nbsp;", @";", @"<br", @"/>", @"*", @"\r", @"\n", @",", @"(", @")", @"[", @"]", @"{", @"}"];
 	[splitArr enumerateObjectsUsingBlock:^(NSString*  _Nonnull splitStr, NSUInteger idx, BOOL * _Nonnull stop) {
 		NSString *trimmed = [field stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 		NSArray<NSString*> *items = [trimmed componentsSeparatedByString:splitStr];

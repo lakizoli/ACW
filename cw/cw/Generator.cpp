@@ -31,7 +31,7 @@ Generator::InsertWordRes Generator::InsertWordIntoCells (const std::vector<std::
 			//Check word for cells pattern
 			bool wordFits = true;
 			for (uint32_t i = 0, iEnd = (uint32_t) word.length (); i < iEnd; ++i) {
-				uint8_t ch = word[i];
+				wchar_t ch = word[i];
 				std::shared_ptr<Cell> cell = cells[i];
 				if (cell->IsEmpty ()) {
 					//This character fits the place well, so we have to do nothing...
@@ -47,7 +47,7 @@ Generator::InsertWordRes Generator::InsertWordIntoCells (const std::vector<std::
 			if (wordFits) {
 				//Insert word into the cells
 				for (uint32_t i = 0, iEnd = (uint32_t) word.length(); i < iEnd; ++i) {
-					uint8_t ch = word[i];
+					wchar_t ch = word[i];
 					std::shared_ptr<Cell> cell = cells[i];
 					cell->SetValue (ch);
 				}
