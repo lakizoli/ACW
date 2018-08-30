@@ -10,13 +10,32 @@
 
 @interface MainViewController ()
 
+@property (weak, nonatomic) IBOutlet UIImageView *backgroundView;
+
 @end
 
 @implementation MainViewController
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
+	
 	// Do any additional setup after loading the view, typically from a nib.
+	// Set vertical effect
+	UIInterpolatingMotionEffect *verticalMotionEffect =	[[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.y" type:UIInterpolatingMotionEffectTypeTiltAlongVerticalAxis];
+	verticalMotionEffect.minimumRelativeValue = @(-40);
+	verticalMotionEffect.maximumRelativeValue = @(40);
+	
+	// Set horizontal effect
+	UIInterpolatingMotionEffect *horizontalMotionEffect = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.x" type:UIInterpolatingMotionEffectTypeTiltAlongHorizontalAxis];
+	horizontalMotionEffect.minimumRelativeValue = @(-40);
+	horizontalMotionEffect.maximumRelativeValue = @(40);
+	
+	// Create group to combine both
+	UIMotionEffectGroup *group = [UIMotionEffectGroup new];
+	group.motionEffects = @[horizontalMotionEffect, verticalMotionEffect];
+	
+	// Add both effects to your view
+	[_backgroundView addMotionEffect:group];
 }
 
 
