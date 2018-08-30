@@ -10,6 +10,8 @@
 #import "CrosswordCell.h"
 #import "CrosswordLayout.h"
 
+//TODO: show custom (owner draw) keyboard with all characters used by the crossword!
+
 @interface CrosswordViewController ()
 
 @property (weak, nonatomic) IBOutlet UICollectionView *crosswordView;
@@ -45,6 +47,80 @@
 
 - (uint32_t) getColFromIndexPath:(NSIndexPath*)indexPath {
 	return (uint32_t) indexPath.row;
+}
+
+-(void) commitValidAnswer {
+	//Copy value into fill table
+	NSUInteger len = [_currentAnswer length];
+	if (len > 0) {
+		if ([self isInputInHorizontalDirection]) { //Horizontal answer
+			//Check answers validity
+			BOOL validAnswerFound = YES;
+			uint32_t answerLen = [_savedCrossword width] - _startCellCol;
+			for (uint32_t col = _startCellCol, colEnd = [_savedCrossword width]; col < colEnd; ++col) {
+				uint32_t cellType = [_savedCrossword getCellTypeInRow:_startCellRow col:col];
+				if ((cellType & CWCellType_HasValue) == 0) { //We reach the end of this value
+					answerLen = col - _startCellCol;
+					break;
+				}
+				
+				if ([_currentAnswer length] <= col - _startCellCol) {
+					validAnswerFound = NO;
+					break;
+				}
+
+				NSString *cellValue = [_savedCrossword getCellsValue:_startCellRow col:col];
+				if ([cellValue length] > 0 &&
+					[_currentAnswer characterAtIndex:col - _startCellCol] != [cellValue characterAtIndex:0]) //We found an invalid character
+				{
+					validAnswerFound = NO;
+					break;
+				}
+			}
+			
+			if (answerLen == len && validAnswerFound) { //We have a valid answer
+				//Copy values to grid
+				for (NSUInteger i = 0; i < len; ++i) {
+					NSString *val = [NSString stringWithFormat: @"%C", [_currentAnswer characterAtIndex:i]];
+					NSIndexPath *path = [self getIndexPathForRow:_startCellRow col:_startCellCol + i];
+					[_cellFilledValues setObject:val forKey:path];
+				}
+			}
+		} else { //Vertical answer
+			//Check answers validity
+			BOOL validAnswerFound = YES;
+			uint32_t answerLen = [_savedCrossword height] - _startCellRow;
+			for (uint32_t row = _startCellRow, rowEnd = [_savedCrossword height]; row < rowEnd; ++row) {
+				uint32_t cellType = [_savedCrossword getCellTypeInRow:row col:_startCellCol];
+				if ((cellType & CWCellType_HasValue) == 0) { //We reach the end of this value
+					answerLen = row - _startCellRow;
+					break;
+				}
+				
+				if ([_currentAnswer length] <= row - _startCellRow) {
+					validAnswerFound = NO;
+					break;
+				}
+				
+				NSString *cellValue = [_savedCrossword getCellsValue:row col:_startCellCol];
+				if ([cellValue length] > 0 &&
+					[_currentAnswer characterAtIndex:row - _startCellRow] != [cellValue characterAtIndex:0]) //We found an invalid character
+				{
+					validAnswerFound = NO;
+					break;
+				}
+			}
+			
+			if (answerLen == len && validAnswerFound) { //We have a valid answer
+				//Copy values to grid
+				for (NSUInteger i = 0; i < len; ++i) {
+					NSString *val = [NSString stringWithFormat: @"%C", [_currentAnswer characterAtIndex:i]];
+					NSIndexPath *path = [self getIndexPathForRow:_startCellRow + i col:_startCellCol];
+					[_cellFilledValues setObject:val forKey:path];
+				}
+			}
+		}
+	}
 }
 
 -(void) resetInput {
@@ -331,6 +407,7 @@
 	BOOL startCell = [_savedCrossword isStartCell:row col:col];
 	_canBecameFirstResponder = startCell;
 	if (startCell != YES) {
+		[self commitValidAnswer];
 		[self resetInput];
 	}
     return startCell;
@@ -386,27 +463,7 @@
 - (void)insertText:(nonnull NSString *)text {
 	//Handle input
 	if ([text isEqualToString:@"\n"]) { //Handle press of return (done button)
-		//TODO: check answer's validity before copy!
-		
-		//Copy value into fill table
-		NSUInteger len = [_currentAnswer length];
-		if (len > 0) {
-			if ([self isInputInHorizontalDirection]) {
-				for (NSUInteger i = 0; i < len; ++i) {
-					NSString *val = [NSString stringWithFormat: @"%C", [_currentAnswer characterAtIndex:i]];
-					NSIndexPath *path = [self getIndexPathForRow:_startCellRow col:_startCellCol + i];
-					[_cellFilledValues setObject:val forKey:path];
-				}
-			} else {
-				for (NSUInteger i = 0; i < len; ++i) {
-					NSString *val = [NSString stringWithFormat: @"%C", [_currentAnswer characterAtIndex:i]];
-					NSIndexPath *path = [self getIndexPathForRow:_startCellRow + i col:_startCellCol];
-					[_cellFilledValues setObject:val forKey:path];
-				}
-			}
-		}
-		
-		//Dismiss keyboard
+		[self commitValidAnswer];
 		[self resignFirstResponder];
 	} else { //Handle normal keys
 		//Check available length
@@ -488,6 +545,7 @@
 }
 
 - (void)keyboardWillBeHidden:(NSNotification*)aNotification {
+	[self commitValidAnswer];
 	[self resetInput];
 	[_crosswordView reloadData];
 }

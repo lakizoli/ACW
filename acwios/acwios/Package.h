@@ -80,7 +80,9 @@ enum CWCellType : uint32_t {
 	CWCellType_Start_BottomRight		= 0x0200,
 
 	CWCellType_Start_LeftRight_Top		= 0x0400,
-	CWCellType_Start_LeftRight_Bottom	= 0x0800
+	CWCellType_Start_LeftRight_Bottom	= 0x0800,
+	
+	CWCellType_HasValue					= 0x0FF8
 };
 
 enum CWCellSeparator : uint32_t {
