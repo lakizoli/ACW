@@ -11,6 +11,7 @@
 #import "CrosswordLayout.h"
 
 //TODO: show custom (owner draw) keyboard with all characters used by the crossword!
+//TODO: implement statistics!
 
 @interface CrosswordViewController ()
 
