@@ -52,12 +52,49 @@ void WordBank::WordList::AddWord (uint32_t index, uint32_t length, const std::ws
 bool WordBank::EnumerateWordsOfIndices (const std::vector<uint32_t>& indices, EnumWords callback) const {
 	for (auto it = indices.begin (); it != indices.end (); ++it) {
 		uint32_t wordIdx = *it;
-		if (!callback (wordIdx, _words->GetWord (wordIdx))) {
+		
+		std::set<uint32_t> spacePositions;
+		std::wstring wordWithoutSpaces = RemoveSpacesAndCollectPlaces (_words->GetWord (wordIdx), spacePositions);
+
+		if (!callback (wordIdx, wordWithoutSpaces, spacePositions)) {
 			return false; //break
 		}
 	}
 	
 	return true; //continue
+}
+
+bool WordBank::IsSeparatorOrSpace (wchar_t ch) {
+	return (ch >= 0x09 && ch <= 0x0D) ||
+		ch == 0x20 || ch == 0xA0 || ch == 0x1680 || ch == 0x180E ||
+		(ch >= 0x2000 && ch <= 0x200A) ||
+		ch == 0x2028 || ch == 0x2029 || ch == 0x202F || ch == 0x205F || ch == 0x3000;
+}
+
+uint32_t WordBank::LengthOfWordWithoutSpaces (const std::wstring& word) {
+	uint32_t count_space = (uint32_t) std::count_if (word.begin (), word.end (), [] (wchar_t ch) -> bool {
+		return IsSeparatorOrSpace (ch);
+	});
+	
+	return (uint32_t) word.length () - count_space;
+}
+
+std::wstring WordBank::RemoveSpacesAndCollectPlaces (const std::wstring& word, std::set<uint32_t>& spacePositions) const {
+	std::wstring res;
+	
+	for (uint32_t pos = 0, posEnd = (uint32_t) word.length (); pos < posEnd; ++pos) {
+		wchar_t ch = word[pos];
+		if (IsSeparatorOrSpace (ch)) {
+			uint32_t currentLen = (uint32_t) res.length ();
+			if (currentLen > 0) {
+				spacePositions.insert (currentLen);
+			}
+		} else {
+			res.push_back (ch);
+		}
+	}
+	
+	return res;
 }
 
 std::shared_ptr<WordBank> WordBank::Create (std::shared_ptr<QueryWords> words, std::function<void (float)> progressCallback) {
@@ -68,9 +105,9 @@ std::shared_ptr<WordBank> WordBank::Create (std::shared_ptr<QueryWords> words, s
 	}
 	
 	for (uint32_t i = 0, iEnd = bank->_words->GetCount (); i < iEnd; ++i) {
-		std::wstring word = bank->_words->GetWord (i);
+		const std::wstring& word = bank->_words->GetWord (i);
 
-		uint32_t len = (uint32_t) word.length ();
+		uint32_t len = LengthOfWordWithoutSpaces (word);
 		auto itLen = bank->_search.find (len);
 		if (itLen == bank->_search.end ()) { //New length found
 			std::shared_ptr<WordList> wordList (std::make_shared<WordList> ());
@@ -87,7 +124,6 @@ std::shared_ptr<WordBank> WordBank::Create (std::shared_ptr<QueryWords> words, s
 	}
 	
 	//TODO: ... Sort words in word lists
-	//TODO: ... store wordbank in database ...
 	
 	if (progressCallback) {
 		progressCallback (1.0f);

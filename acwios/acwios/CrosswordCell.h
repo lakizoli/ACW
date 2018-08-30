@@ -21,5 +21,6 @@
 -(void) fillSpacer;
 -(void) fillLetter:(BOOL)showValue value:(NSString*)value;
 -(void) fillArrow:(enum CWCellType)cellType;
+-(void) fillSeparator:(uint32_t)separators;
 
 @end

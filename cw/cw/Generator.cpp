@@ -13,7 +13,9 @@
 #include "QueryWords.hpp"
 #include "Grid.hpp"
 
-Generator::InsertWordRes Generator::InsertWordIntoCells (const std::vector<std::shared_ptr<Cell>>& cells, std::set<std::wstring>& usedWords) const {
+Generator::InsertWordRes Generator::InsertWordIntoCells (bool isVertical, const std::vector<std::shared_ptr<Cell>>& cells,
+														 std::set<std::wstring>& usedWords) const
+{
 	InsertWordRes res;
 	
 	uint32_t minLen = (uint32_t) cells.size ();
@@ -22,7 +24,9 @@ Generator::InsertWordRes Generator::InsertWordIntoCells (const std::vector<std::
 	}
 	
 	for (uint32_t wordLen = (uint32_t) cells.size (); wordLen > minLen && !res.inserted; --wordLen) {
-		_answers->EnumerateWords (wordLen, [&res, &cells, &usedWords, wordLen] (uint32_t idx, const std::wstring& word) -> bool {
+		_answers->EnumerateWords (wordLen, [&res, &cells, &usedWords, wordLen, isVertical]
+								  (uint32_t idx, const std::wstring& word, const std::set<uint32_t>& spacePositions) -> bool
+		{
 			auto itUseCheck = usedWords.find (word);
 			if (itUseCheck != usedWords.end ()) {
 				return true; //continue enumeration
@@ -46,10 +50,14 @@ Generator::InsertWordRes Generator::InsertWordIntoCells (const std::vector<std::
 			//If the word fits the pattern, we have found a valid word
 			if (wordFits) {
 				//Insert word into the cells
-				for (uint32_t i = 0, iEnd = (uint32_t) word.length(); i < iEnd; ++i) {
+				for (uint32_t i = 0, iEnd = (uint32_t) word.length (); i < iEnd; ++i) {
 					wchar_t ch = word[i];
 					std::shared_ptr<Cell> cell = cells[i];
 					cell->SetValue (ch);
+					
+					if (spacePositions.find (i) != spacePositions.end ()) { //We have to place a separator before the cell
+						cell->SetSeparator (isVertical ? CellFlags::TopSeparator : CellFlags::LeftSeparator);
+					}
 				}
 				
 				bool addQuestion = word.length () < cells.size ();
@@ -57,8 +65,6 @@ Generator::InsertWordRes Generator::InsertWordIntoCells (const std::vector<std::
 					std::shared_ptr<Cell> cell = cells[word.length ()];
 					cell->ConfigureAsEmptyQuestion ();
 				}
-				
-				//TODO: fill separator borders during generation...
 				
 				//Place index to the used word indices
 				usedWords.insert (word);
@@ -189,13 +195,13 @@ std::shared_ptr<Crossword> Generator::Generate () const {
 		//...(one direction rolled back at once!)
 		//...(if we don't have available words at all, then we have to use the best filled state during generation history and exit!)
 		//-> if we found valid words, then we have to insert them into the grid and questions, and have to jump to the next available position
-		InsertWordRes hWord = InsertWordIntoCells (hQ.cellsAvailable, usedWords);
+		InsertWordRes hWord = InsertWordIntoCells (false, hQ.cellsAvailable, usedWords);
 		if (hWord.inserted) {
 			std::shared_ptr<Cell> secondLetterCell = hQ.cellsAvailable.size () > 1 ? hQ.cellsAvailable[1] : nullptr;
 			ConfigureQuestionInCell (hQ.questionCell, hQ.cellsAvailable[0], secondLetterCell, hWord.insertedWordIndex);
 		}
 		
-		InsertWordRes vWord = InsertWordIntoCells (vQ.cellsAvailable, usedWords);
+		InsertWordRes vWord = InsertWordIntoCells (true, vQ.cellsAvailable, usedWords);
 		if (vWord.inserted) {
 			std::shared_ptr<Cell> secondLetterCell = vQ.cellsAvailable.size () > 1 ? vQ.cellsAvailable[1] : nullptr;
 			ConfigureQuestionInCell (vQ.questionCell, vQ.cellsAvailable[0], secondLetterCell, vWord.insertedWordIndex);

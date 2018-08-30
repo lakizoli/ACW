@@ -38,6 +38,20 @@
 	[[self layer] setSublayers:sublayers];
 }
 
+-(void) drawSeparatorLine:(CGPoint)ptStart ptEnd:(CGPoint)ptEnd {
+	UIBezierPath *path = [UIBezierPath bezierPath];
+	[path moveToPoint:ptStart];
+	[path addLineToPoint:ptEnd];
+	
+	CAShapeLayer *shapeLayer = [CAShapeLayer layer];
+	shapeLayer.path = [path CGPath];
+	shapeLayer.strokeColor = [[UIColor blackColor] CGColor];
+	shapeLayer.lineWidth = 2.0f;
+	shapeLayer.fillColor = [[UIColor whiteColor] CGColor];
+	
+	[self.layer addSublayer:shapeLayer];
+}
+
 -(NSAttributedString*) attributedQuestionString:(NSString*)question {
 	//Choose question's font
 	CGFloat fontSize = [UIFont systemFontSize];
@@ -190,6 +204,30 @@
 		shapeLayer.fillColor = [[UIColor whiteColor] CGColor];
 		
 		[self.layer addSublayer:shapeLayer];
+	}
+}
+
+-(void) fillSeparator:(uint32_t)separators {
+	const CGFloat coords[] = { 1, 49 };
+	
+	if ((separators & CWCellSeparator_Left) == CWCellSeparator_Left) {
+		[self drawSeparatorLine:CGPointMake (coords[0], coords[1])
+						  ptEnd:CGPointMake (coords[0], coords[0])];
+	}
+	
+	if ((separators & CWCellSeparator_Top) == CWCellSeparator_Top) {
+		[self drawSeparatorLine:CGPointMake (coords[0], coords[0])
+						  ptEnd:CGPointMake (coords[1], coords[0])];
+	}
+	
+	if ((separators & CWCellSeparator_Right) == CWCellSeparator_Right) {
+		[self drawSeparatorLine:CGPointMake (coords[1], coords[0])
+						  ptEnd:CGPointMake (coords[1], coords[1])];
+	}
+	
+	if ((separators & CWCellSeparator_Bottom) == CWCellSeparator_Bottom) {
+		[self drawSeparatorLine:CGPointMake (coords[0], coords[1])
+						  ptEnd:CGPointMake (coords[1], coords[1])];
 	}
 }
 

@@ -15,6 +15,7 @@
 #include <set>
 #include <deque>
 #include <cstdint>
+#include <clocale>
 #include <fstream>
 #include <sstream>
 #include <iostream>

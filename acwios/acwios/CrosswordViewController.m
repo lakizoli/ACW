@@ -224,6 +224,7 @@
 				break;
 			case CWCellType_Letter:
 				[self fillLetterForCell:cell row:row col:col];
+				[cell fillSeparator:[_savedCrossword getCellsSeparators:row col:col]];
 				break;
 			default: {
 				BOOL letterFilled = NO;
@@ -235,6 +236,7 @@
 				[self fillCellsArrow:cellType checkCellType:CWCellType_Start_BottomRight cell:cell row:row col:col letterFilled:&letterFilled];
 				[self fillCellsArrow:cellType checkCellType:CWCellType_Start_LeftRight_Top cell:cell row:row col:col letterFilled:&letterFilled];
 				[self fillCellsArrow:cellType checkCellType:CWCellType_Start_LeftRight_Bottom cell:cell row:row col:col letterFilled:&letterFilled];
+				[cell fillSeparator:[_savedCrossword getCellsSeparators:row col:col]];
 				break;
 			}
 		}

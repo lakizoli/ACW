@@ -83,6 +83,17 @@ enum CWCellType : uint32_t {
 	CWCellType_Start_LeftRight_Bottom	= 0x0800
 };
 
+enum CWCellSeparator : uint32_t {
+	CWCellSeparator_None	= 0x0000,
+	
+	CWCellSeparator_Left	= 0x0001,
+	CWCellSeparator_Top		= 0x0002,
+	CWCellSeparator_Right	= 0x0004,
+	CWCellSeparator_Bottom	= 0x0008,
+	
+	CWCellSeparator_All		= 0x000F
+};
+
 @interface SavedCrossword : NSObject
 
 @property (strong) NSURL *path;
@@ -100,5 +111,6 @@ enum CWCellType : uint32_t {
 -(BOOL) isStartCell:(uint32_t)row col:(uint32_t)col;
 -(NSString*) getCellsQuestion:(uint32_t)row col:(uint32_t)col questionIndex:(uint32_t)questionIndex;
 -(NSString*) getCellsValue:(uint32_t)row col:(uint32_t)col;
+-(uint32_t) getCellsSeparators:(uint32_t)row col:(uint32_t)col;
 
 @end

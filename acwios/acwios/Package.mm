@@ -257,4 +257,31 @@
 	return nil;
 }
 
+-(uint32_t) getCellsSeparators:(uint32_t)row col:(uint32_t)col {
+	uint32_t seps = CWCellSeparator_None;
+
+	std::shared_ptr<Cell> cell = [self getCell:row col:col];
+	if (cell != nullptr) {
+		if (cell->IsFlagSet (CellFlags::LeftSeparator)) {
+			seps |= CWCellSeparator_Left;
+		}
+		
+		if (cell->IsFlagSet (CellFlags::TopSeparator)) {
+			seps |= CWCellSeparator_Top;
+		}
+
+		std::shared_ptr<Cell> rightCell = [self getCell:row col:col + 1];
+		if (rightCell != nullptr && rightCell->IsFlagSet (CellFlags::LeftSeparator)) { //If the right neighbour has a left separator!
+			seps |= CWCellSeparator_Right;
+		}
+		
+		std::shared_ptr<Cell> bottomCell = [self getCell:row + 1 col:col];
+		if (bottomCell != nullptr && bottomCell->IsFlagSet (CellFlags::TopSeparator)) { //If the bottom neighbour has a top separator!
+			seps |= CWCellSeparator_Bottom;
+		}
+	}
+	
+	return seps;
+}
+
 @end

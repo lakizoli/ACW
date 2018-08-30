@@ -80,6 +80,10 @@ void Cell::SetValue (wchar_t value) {
 	++_valueRefCount;
 }
 
+void Cell::SetSeparator (CellFlags separatorFlag) {
+	_flags |= separatorFlag;
+}
+
 void Cell::AddQuestionToStartCell (std::shared_ptr<Cell> questionCell) {
 	_flags |= CellFlags::StartCell;
 	_startCellQuestionPositions.push_back (CellPos {

@@ -58,6 +58,7 @@ public:
 public:
 	void ConfigureAsEmptyQuestion ();
 	void SetValue (wchar_t value);
+	void SetSeparator (CellFlags separatorFlag);
 	void AddQuestionToStartCell (std::shared_ptr<Cell> questionCell);
 };
 

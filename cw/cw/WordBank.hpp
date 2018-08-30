@@ -21,7 +21,7 @@ class WordBank {
 	};
 	
 public:
-	typedef std::function<bool (uint32_t idx, const std::wstring& word)> EnumWords;
+	typedef std::function<bool (uint32_t idx, const std::wstring& word, const std::set<uint32_t>& spacePositions)> EnumWords;
 
 //Data
 private:
@@ -31,7 +31,10 @@ private:
 //Implementation
 	WordBank () = default;
 	bool EnumerateWordsOfIndices (const std::vector<uint32_t>& indices, EnumWords callback) const;
-	
+	static bool IsSeparatorOrSpace (wchar_t ch);
+	static uint32_t LengthOfWordWithoutSpaces (const std::wstring& word);
+	std::wstring RemoveSpacesAndCollectPlaces (const std::wstring& word, std::set<uint32_t>& spacePositions) const;
+
 //Construction
 public:
 	static std::shared_ptr<WordBank> Create (std::shared_ptr<QueryWords> words, std::function<void (float)> progressCallback);
