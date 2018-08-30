@@ -135,6 +135,12 @@
 	_answerIndex = -1;
 }
 
+#pragma mark - Appearance
+
+- (BOOL)prefersStatusBarHidden {
+	return YES;
+}
+
 #pragma mark - Events
 
 - (void)viewDidLoad {

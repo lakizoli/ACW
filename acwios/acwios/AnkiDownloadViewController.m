@@ -38,6 +38,12 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Appearance
+
+- (BOOL)prefersStatusBarHidden {
+	return YES;
+}
+
 #pragma mark - Event handlers
 
 - (IBAction)backButtonPressed:(id)sender {

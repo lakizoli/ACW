@@ -90,6 +90,12 @@
 	}
 }
 
+#pragma mark - Appearance
+
+- (BOOL)prefersStatusBarHidden {
+	return YES;
+}
+
 #pragma mark - Events
 
 - (void)viewDidLoad {

@@ -25,5 +25,10 @@
 	// Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Appearance
+
+- (BOOL)prefersStatusBarHidden {
+	return YES;
+}
 
 @end

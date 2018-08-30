@@ -42,6 +42,12 @@
 	return [cws objectAtIndex:indexPath.row];
 }
 
+#pragma mark - Appearance
+
+- (BOOL)prefersStatusBarHidden {
+	return YES;
+}
+
 #pragma mark - Events
 
 - (void)viewDidLoad {
