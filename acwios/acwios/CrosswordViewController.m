@@ -181,7 +181,7 @@
 
 - (IBAction)showHideButtonPressed:(id)sender {
 	_areAnswersVisible = _areAnswersVisible ? NO : YES;
-	[_showHideButton setTitle:_areAnswersVisible ? @"Hide answers" : @"Show answers"];
+	[_showHideButton setTitle:_areAnswersVisible ? @"Hide Hint" : @"Show Hint"];
 	[_crosswordView reloadData];
 }
 

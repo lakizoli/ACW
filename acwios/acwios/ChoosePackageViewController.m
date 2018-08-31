@@ -204,7 +204,8 @@
 			}
 			
 			//Set text
-			[[sectionHeaderCell titleLabel] setText:[NSString stringWithFormat:@"Package: %@", [package name]]];
+			NSString *titleText = [[NSString stringWithFormat:@"Package: %@", [package name]] uppercaseString];
+			[[sectionHeaderCell titleLabel] setText:titleText];
 			
 			//Set tag
 			[sectionHeaderCell setTag:1000 + section];
@@ -267,7 +268,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-	return 43;
+	return 58;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

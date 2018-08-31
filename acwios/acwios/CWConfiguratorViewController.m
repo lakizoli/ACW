@@ -139,7 +139,7 @@
 	if (cell && indexPath.section >= 0 && indexPath.section < [_savedCrosswords count]) {
 		SavedCrossword *cw = [self savedCWFromIndexPath:indexPath];
 		if (cw) {
-			BOOL cwEnabled = indexPath.row < 1 || _isSubscribed;
+			BOOL cwEnabled = (indexPath.section < 1 && indexPath.row < 1) || _isSubscribed;
 			if (cwEnabled) { //Enabled
 				[cell.textLabel setTextColor:[UIColor blackColor]];
 			} else { //Disabled

@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -22,14 +23,8 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" image="background_pattern_blue" translatesAutoresizingMaskIntoConstraints="NO" id="rrW-zx-5I9">
                                 <rect key="frame" x="-40" y="-20" width="455" height="727"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ANKI Crossword" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="drp-JA-hF9">
-                                <rect key="frame" x="36" y="114.5" width="303.5" height="52.5"/>
-                                <fontDescription key="fontDescription" name="BradleyHandITCTT-Bold" family="Bradley Hand" pointSize="42"/>
-                                <color key="textColor" red="0.89803921568627454" green="0.75686274509803919" blue="0.27843137254901962" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bbn-wA-I5E" customClass="GlossyButton">
-                                <rect key="frame" x="52.5" y="273.5" width="270" height="60"/>
+                                <rect key="frame" x="52.5" y="351" width="270" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="270" id="CjX-Qy-11W"/>
                                     <constraint firstAttribute="height" constant="60" id="Hhu-hk-pFM"/>
@@ -56,7 +51,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k1a-W5-XBY" customClass="GlossyButton">
-                                <rect key="frame" x="52.5" y="440.5" width="270" height="60"/>
+                                <rect key="frame" x="52.5" y="446.5" width="270" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="270" id="fEA-ae-56m"/>
                                     <constraint firstAttribute="height" constant="60" id="mP8-wD-uqk"/>
@@ -82,19 +77,26 @@
                                     <segue destination="8Gq-Af-vIq" kind="show" id="3dm-Y5-C1e"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="game_logo" translatesAutoresizingMaskIntoConstraints="NO" id="cTc-mp-rNw">
+                                <rect key="frame" x="37.5" y="70" width="300" height="193.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="cTc-mp-rNw" secondAttribute="height" multiplier="420:271" id="NrT-d0-k2J"/>
+                                    <constraint firstAttribute="width" constant="300" id="sMW-z7-kBa"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="rrW-zx-5I9" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" constant="40" id="4LP-mw-b6I"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="k1a-W5-XBY" secondAttribute="bottom" multiplier="4:3" id="NgX-Qd-yN8"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="bbn-wA-I5E" secondAttribute="bottom" multiplier="4:2" id="PyU-yK-sxR"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="k1a-W5-XBY" secondAttribute="centerY" multiplier="7:5" id="NgX-Qd-yN8"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="bbn-wA-I5E" secondAttribute="centerY" multiplier="7:4" id="PyU-yK-sxR"/>
                             <constraint firstItem="k1a-W5-XBY" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Siv-Bc-aNW"/>
                             <constraint firstItem="rrW-zx-5I9" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" constant="40" id="W2L-5B-0YD"/>
+                            <constraint firstItem="cTc-mp-rNw" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="XrX-bZ-JaZ"/>
                             <constraint firstItem="bbn-wA-I5E" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="fNl-qn-pLp"/>
                             <constraint firstItem="rrW-zx-5I9" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="-40" id="iJo-L7-jgS"/>
-                            <constraint firstItem="drp-JA-hF9" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="kmU-hU-NUe"/>
                             <constraint firstItem="rrW-zx-5I9" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="-40" id="nxR-WF-uJM"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="drp-JA-hF9" secondAttribute="bottom" multiplier="4:1" id="pP2-YO-Z64"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="cTc-mp-rNw" secondAttribute="centerY" multiplier="4:1" id="pP2-YO-Z64"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -224,14 +226,20 @@
                         <subviews>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IBp-Un-jvg">
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                                <color key="barTintColor" red="0.15680609810000001" green="0.31361219620000003" blue="0.31230547870000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <textAttributes key="titleTextAttributes">
+                                    <color key="textColor" red="0.8980392157" green="0.75686274509999996" blue="0.2784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </textAttributes>
                                 <items>
                                     <navigationItem title="Choose package's decks" id="eiV-wP-otF">
                                         <barButtonItem key="leftBarButtonItem" title="Back" image="arrow-back" id="N59-dM-Zp8">
+                                            <color key="tintColor" red="0.8980392157" green="0.75686274509999996" blue="0.2784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <connections>
                                                 <action selector="backButtonPressed:" destination="zRY-u3-jNH" id="mba-qn-vc5"/>
                                             </connections>
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" title="Configure" id="iok-E7-h1f">
+                                            <color key="tintColor" red="0.8980392157" green="0.75686274509999996" blue="0.2784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <connections>
                                                 <segue destination="Fr7-zT-vyu" kind="show" identifier="ShowGenerateView" id="1gA-zV-NWP"/>
                                             </connections>
@@ -242,63 +250,110 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsMultipleSelection="YES" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="byk-7i-6Pg">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" allowsMultipleSelection="YES" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="byk-7i-6Pg">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PackageCell" id="VPb-0i-jnJ">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="VPb-0i-jnJ" id="g1g-EO-nIt">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" red="0.83339843749999998" green="0.87779947920000001" blue="0.90000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PackageSectionHeaderCell" id="giy-5f-Nfh" customClass="PackageSectionHeaderCell">
-                                        <rect key="frame" x="0.0" y="72" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="99.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="giy-5f-Nfh" id="m9K-ek-dfr">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fsf-id-fLd">
-                                                    <rect key="frame" x="15" y="7" width="30" height="30"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fsf-id-fLd" customClass="GlossyButton">
+                                                    <rect key="frame" x="5" y="-3" width="70" height="50"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="70" id="7D8-Oy-NUJ"/>
+                                                        <constraint firstAttribute="height" constant="50" id="fkJ-DZ-yZV"/>
+                                                    </constraints>
                                                     <state key="normal" image="collapse-arrow"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="hue">
+                                                            <real key="value" value="0.5"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="saturation">
+                                                            <real key="value" value="0.5"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="brightness">
+                                                            <real key="value" value="0.5"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
                                                     <connections>
                                                         <action selector="openCloseButtonPressed:" destination="giy-5f-Nfh" eventType="touchUpInside" id="TSP-SC-dhS"/>
                                                     </connections>
                                                 </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="25Q-Kn-y2h">
-                                                    <rect key="frame" x="53" y="12" width="252" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bfz-Id-pNZ">
-                                                    <rect key="frame" x="331" y="9" width="26" height="26"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bfz-Id-pNZ" customClass="GlossyButton">
+                                                    <rect key="frame" x="300" y="-3" width="70" height="50"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="50" id="jHu-4Q-ccH"/>
+                                                        <constraint firstAttribute="width" constant="70" id="p3E-Ac-Vvu"/>
+                                                    </constraints>
                                                     <state key="normal" image="delete-all"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="hue">
+                                                            <real key="value" value="0.5"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="saturation">
+                                                            <real key="value" value="0.5"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="brightness">
+                                                            <real key="value" value="0.5"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
                                                     <connections>
                                                         <action selector="deleteButtonPressed:" destination="giy-5f-Nfh" eventType="touchUpInside" id="NIr-Vg-ew4"/>
                                                     </connections>
                                                 </button>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mto-Mi-0WR">
-                                                    <rect key="frame" x="287" y="9" width="26" height="26"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mto-Mi-0WR" customClass="GlossyButton">
+                                                    <rect key="frame" x="225" y="-3" width="70" height="50"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="70" id="AbF-mo-lgi"/>
+                                                        <constraint firstAttribute="height" constant="50" id="fAL-ED-6Xz"/>
+                                                    </constraints>
                                                     <state key="normal" image="check-all"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="hue">
+                                                            <real key="value" value="0.5"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="saturation">
+                                                            <real key="value" value="0.5"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="brightness">
+                                                            <real key="value" value="0.5"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
                                                     <connections>
                                                         <action selector="selectDeselectAllButtonPressed:" destination="giy-5f-Nfh" eventType="touchUpInside" id="qJF-mV-1gS"/>
                                                     </connections>
                                                 </button>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="25Q-Kn-y2h">
+                                                    <rect key="frame" x="80" y="22.5" width="150" height="15"/>
+                                                    <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="13"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
+                                            <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                             <constraints>
-                                                <constraint firstItem="25Q-Kn-y2h" firstAttribute="centerY" secondItem="fsf-id-fLd" secondAttribute="centerY" id="1jg-cQ-efK"/>
+                                                <constraint firstItem="25Q-Kn-y2h" firstAttribute="bottom" secondItem="m9K-ek-dfr" secondAttribute="bottom" constant="-6" id="1jg-cQ-efK"/>
                                                 <constraint firstItem="Mto-Mi-0WR" firstAttribute="centerY" secondItem="m9K-ek-dfr" secondAttribute="centerY" id="6rf-pB-661"/>
                                                 <constraint firstItem="fsf-id-fLd" firstAttribute="centerY" secondItem="m9K-ek-dfr" secondAttribute="centerY" id="H3J-EA-hSu"/>
-                                                <constraint firstItem="25Q-Kn-y2h" firstAttribute="trailing" secondItem="Mto-Mi-0WR" secondAttribute="leading" constant="18" id="Odd-KP-6zg"/>
-                                                <constraint firstItem="fsf-id-fLd" firstAttribute="leading" secondItem="m9K-ek-dfr" secondAttribute="leading" constant="15" id="Z1z-7l-l4F"/>
+                                                <constraint firstItem="25Q-Kn-y2h" firstAttribute="trailing" secondItem="Mto-Mi-0WR" secondAttribute="leading" constant="5" id="Odd-KP-6zg"/>
+                                                <constraint firstItem="fsf-id-fLd" firstAttribute="leading" secondItem="m9K-ek-dfr" secondAttribute="leading" constant="5" id="Z1z-7l-l4F"/>
                                                 <constraint firstItem="bfz-Id-pNZ" firstAttribute="centerY" secondItem="m9K-ek-dfr" secondAttribute="centerY" id="bdK-bx-mg6"/>
-                                                <constraint firstItem="bfz-Id-pNZ" firstAttribute="leading" secondItem="Mto-Mi-0WR" secondAttribute="trailing" constant="18" id="gys-Cv-dce"/>
-                                                <constraint firstAttribute="trailing" secondItem="bfz-Id-pNZ" secondAttribute="trailing" constant="18" id="kPm-ei-Dju"/>
-                                                <constraint firstItem="25Q-Kn-y2h" firstAttribute="leading" secondItem="fsf-id-fLd" secondAttribute="trailing" constant="8" id="usK-Du-1YP"/>
+                                                <constraint firstItem="bfz-Id-pNZ" firstAttribute="leading" secondItem="Mto-Mi-0WR" secondAttribute="trailing" constant="5" id="gys-Cv-dce"/>
+                                                <constraint firstAttribute="trailing" secondItem="bfz-Id-pNZ" secondAttribute="trailing" constant="5" id="kPm-ei-Dju"/>
+                                                <constraint firstItem="25Q-Kn-y2h" firstAttribute="leading" secondItem="fsf-id-fLd" secondAttribute="trailing" constant="5" id="usK-Du-1YP"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -341,7 +396,7 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" red="0.83339843749999998" green="0.87779947920000001" blue="0.90000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="WDy-pw-Jep" firstAttribute="centerX" secondItem="ift-Ha-q0S" secondAttribute="centerX" id="05i-eT-rQc"/>
                                     <constraint firstItem="xrc-WZ-AAS" firstAttribute="centerX" secondItem="WDy-pw-Jep" secondAttribute="centerX" id="J3n-zm-WhP"/>
@@ -351,6 +406,14 @@
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="WDy-pw-Jep" secondAttribute="trailing" constant="8" id="dQg-ho-VTD"/>
                                     <constraint firstItem="WDy-pw-Jep" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="ift-Ha-q0S" secondAttribute="leading" constant="8" id="nHv-4Q-dDF"/>
                                 </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                                        <integer key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColorFromUIColor">
+                                        <color key="value" white="0.75" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -450,11 +513,13 @@
                     </collectionView>
                     <navigationItem key="navigationItem" title="Play crossword" id="gWj-m0-jYt">
                         <barButtonItem key="leftBarButtonItem" title="Back" image="arrow-back" id="M06-yv-WXy">
+                            <color key="tintColor" red="0.8980392157" green="0.75686274509999996" blue="0.2784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
                                 <action selector="backButtonPressed:" destination="oYt-3K-Fqm" id="ScO-PB-avu"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Show answers" id="b2E-oj-GcN">
+                        <barButtonItem key="rightBarButtonItem" title="Show Hint" id="b2E-oj-GcN">
+                            <color key="tintColor" red="0.8980392157" green="0.75686274509999996" blue="0.2784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
                                 <action selector="showHideButtonPressed:" destination="oYt-3K-Fqm" id="Qaq-Ks-GtB"/>
                             </connections>
@@ -477,6 +542,10 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="hcO-N4-a9V">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.15680609810000001" green="0.31361219620000003" blue="0.31230547870000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" red="0.8980392157" green="0.75686274509999996" blue="0.2784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </textAttributes>
                     </navigationBar>
                     <connections>
                         <segue destination="oYt-3K-Fqm" kind="relationship" relationship="rootViewController" id="f11-rm-7b1"/>
@@ -496,14 +565,20 @@
                         <subviews>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aRQ-ga-XBK">
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                                <color key="barTintColor" red="0.15680609809027779" green="0.31361219618055558" blue="0.3123054787173774" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <textAttributes key="titleTextAttributes">
+                                    <color key="textColor" red="0.8980392157" green="0.75686274509999996" blue="0.2784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </textAttributes>
                                 <items>
                                     <navigationItem title="Choose Crossword" id="iHf-cJ-Ryw">
                                         <barButtonItem key="leftBarButtonItem" title="Back" image="arrow-back" id="BIz-U8-5ud">
+                                            <color key="tintColor" red="0.8980392157" green="0.75686274509999996" blue="0.2784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <connections>
                                                 <action selector="backButtonPressed:" destination="8Gq-Af-vIq" id="GJ6-cD-6A1"/>
                                             </connections>
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="1qT-4d-Rwo">
+                                            <color key="tintColor" red="0.8980392157" green="0.75686274509999996" blue="0.2784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <connections>
                                                 <segue destination="zRY-u3-jNH" kind="show" identifier="ShowPackageChooserView" id="haY-u7-5gD"/>
                                             </connections>
@@ -511,17 +586,18 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="5Nd-5S-rnz">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="5Nd-5S-rnz">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="CWCell" id="iGu-cw-f0W">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="iGu-cw-f0W" id="bM0-eq-oFQ">
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" red="0.83339843750000009" green="0.87779947916666667" blue="0.90000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <connections>
                                             <segue destination="Ua7-2S-ojo" kind="show" id="8GQ-ah-e7t"/>
                                         </connections>
@@ -560,7 +636,7 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" red="0.83339843749999998" green="0.87779947920000001" blue="0.90000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="ShQ-4t-HxL" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6om-eJ-Vzt" secondAttribute="leading" constant="8" id="HBH-YZ-deK"/>
                                     <constraint firstItem="ShQ-4t-HxL" firstAttribute="top" secondItem="6om-eJ-Vzt" secondAttribute="top" constant="8" id="LAL-4d-0tP"/>
@@ -570,6 +646,14 @@
                                     <constraint firstItem="mO6-uW-gDN" firstAttribute="centerX" secondItem="ShQ-4t-HxL" secondAttribute="centerX" id="f2L-Jd-GOn"/>
                                     <constraint firstAttribute="bottom" secondItem="mO6-uW-gDN" secondAttribute="bottom" constant="8" id="sT6-GU-p90"/>
                                 </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                                        <integer key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColorFromUIColor">
+                                        <color key="value" white="0.75" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -609,14 +693,20 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="2IR-yD-2tb"/>
                                 </constraints>
+                                <color key="barTintColor" red="0.15680609810000001" green="0.31361219620000003" blue="0.31230547870000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <textAttributes key="titleTextAttributes">
+                                    <color key="textColor" red="0.8980392157" green="0.75686274509999996" blue="0.2784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </textAttributes>
                                 <items>
                                     <navigationItem title="Generate crossword" id="Zgm-B1-TJs">
                                         <barButtonItem key="leftBarButtonItem" title="Back" image="arrow-back" id="sDo-2q-RFX">
+                                            <color key="tintColor" red="0.8980392157" green="0.75686274509999996" blue="0.2784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <connections>
                                                 <action selector="backButtorPressed:" destination="Fr7-zT-vyu" id="F0X-64-BYZ"/>
                                             </connections>
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="6fh-Ma-mSk">
+                                            <color key="tintColor" red="0.8980392157" green="0.75686274509999996" blue="0.2784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <connections>
                                                 <action selector="doneButtonPressed:" destination="Fr7-zT-vyu" id="s7c-uo-xIL"/>
                                             </connections>
@@ -934,5 +1024,6 @@
         <image name="check-all" width="26" height="26"/>
         <image name="collapse-arrow" width="30" height="30"/>
         <image name="delete-all" width="26" height="26"/>
+        <image name="game_logo" width="426" height="277"/>
     </resources>
 </document>

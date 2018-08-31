@@ -23,8 +23,6 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
-	
-	[self setBackgroundColor:[UIColor yellowColor]];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
