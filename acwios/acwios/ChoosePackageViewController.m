@@ -11,6 +11,7 @@
 #import "PackageManager.h"
 #import "CWGeneratorViewController.h"
 #import "PackageSectionHeaderCell.h"
+#import "GameTableCell.h"
 
 @interface ChoosePackageViewController ()
 
@@ -284,17 +285,15 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PackageCell" forIndexPath:indexPath];
+	GameTableCell *cell = (GameTableCell*) [tableView dequeueReusableCellWithIdentifier:@"PackageCell" forIndexPath:indexPath];
 	if (cell && indexPath.section >= 0 && indexPath.section < [_packages count]) {
 		Package* pack = [_packages objectAtIndex:indexPath.section];
-		
+
+		//Set text color
 		BOOL packEnabled = (indexPath.section < 1 && indexPath.row < 1) || _isSubscribed;
-		if (packEnabled) { //Enabled
-			[cell.textLabel setTextColor:[UIColor blackColor]];
-		} else { //Disabled
-			[cell.textLabel setTextColor:[UIColor colorWithRed:1 green:0 blue:0 alpha:1]];
-		}
+		[cell setSubscribed:packEnabled];
 		
+		//Set text
 		NSArray<Deck*> *decks = [pack decks];
 		if (indexPath.row >= 0 && indexPath.row < [decks count]) {
 			Deck *deck = [decks objectAtIndex:indexPath.row];

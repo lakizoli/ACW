@@ -226,7 +226,7 @@
                         <subviews>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IBp-Un-jvg">
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
-                                <color key="barTintColor" red="0.15680609810000001" green="0.31361219620000003" blue="0.31230547870000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="barTintColor" red="0.15686274509803921" green="0.31372549019607843" blue="0.31372549019607843" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <textAttributes key="titleTextAttributes">
                                     <color key="textColor" red="0.8980392157" green="0.75686274509999996" blue="0.2784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </textAttributes>
@@ -254,7 +254,7 @@
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PackageCell" id="VPb-0i-jnJ">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PackageCell" id="VPb-0i-jnJ" customClass="GameTableCell">
                                         <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="VPb-0i-jnJ" id="g1g-EO-nIt">
@@ -448,7 +448,7 @@
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="LAi-La-LeM">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="0.83339843749999998" green="0.87779947920000001" blue="0.90000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <collectionViewLayout key="collectionViewLayout" id="NEG-KQ-SnD" customClass="CrosswordLayout"/>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CWCell" id="wPI-Sc-f4D" customClass="CrosswordCell">
@@ -590,7 +590,7 @@
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="CWCell" id="iGu-cw-f0W">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="CWCell" id="iGu-cw-f0W" customClass="GameTableCell">
                                         <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="iGu-cw-f0W" id="bM0-eq-oFQ">
@@ -715,7 +715,7 @@
                                 </items>
                             </navigationBar>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="fLW-I2-GIc">
-                                <rect key="frame" x="5" y="64" width="365" height="539"/>
+                                <rect key="frame" x="5" y="69" width="365" height="529"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UWl-ZJ-rIh">
                                         <rect key="frame" x="0.0" y="0.0" width="365" height="30"/>
@@ -763,7 +763,7 @@
                                                         <subviews>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="umD-Sb-Mk8">
                                                                 <rect key="frame" x="0.0" y="0.0" width="15" height="30"/>
-                                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <color key="backgroundColor" red="0.83339843749999998" green="0.87779947920000001" blue="0.90000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="15" id="50C-uL-7r1"/>
                                                                     <constraint firstAttribute="height" constant="30" id="7OP-Ax-PAH"/>
@@ -797,7 +797,7 @@
                                                         <subviews>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uZK-k3-Td5">
                                                                 <rect key="frame" x="0.0" y="0.0" width="15" height="30"/>
-                                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <color key="backgroundColor" red="0.83339843749999998" green="0.87779947920000001" blue="0.90000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="15" id="CYc-8y-rWp"/>
                                                                     <constraint firstAttribute="height" constant="30" id="GvF-BA-NSE"/>
@@ -846,10 +846,10 @@
                                         </variation>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="GMf-P2-rr5">
-                                        <rect key="frame" x="0.0" y="135" width="365" height="404"/>
+                                        <rect key="frame" x="0.0" y="135" width="365" height="394"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Ro3-BD-efi">
-                                                <rect key="frame" x="0.0" y="0.0" width="365" height="202"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="365" height="197"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gm4-Go-CpH">
                                                         <rect key="frame" x="0.0" y="0.0" width="365" height="30"/>
@@ -866,7 +866,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <pickerView contentMode="scaleToFill" verticalHuggingPriority="249" translatesAutoresizingMaskIntoConstraints="NO" id="YN9-1Q-FU6">
-                                                        <rect key="frame" x="0.0" y="30" width="365" height="172"/>
+                                                        <rect key="frame" x="0.0" y="30" width="365" height="167"/>
                                                         <connections>
                                                             <outlet property="dataSource" destination="Fr7-zT-vyu" id="nFJ-Oa-SbE"/>
                                                             <outlet property="delegate" destination="Fr7-zT-vyu" id="KG2-c8-czz"/>
@@ -875,7 +875,7 @@
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Mi8-hW-1SP">
-                                                <rect key="frame" x="0.0" y="202" width="365" height="202"/>
+                                                <rect key="frame" x="0.0" y="197" width="365" height="197"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hTH-ca-2WW">
                                                         <rect key="frame" x="0.0" y="0.0" width="365" height="30"/>
@@ -892,7 +892,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <pickerView contentMode="scaleToFill" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="YJE-t3-YOS">
-                                                        <rect key="frame" x="0.0" y="30" width="365" height="172"/>
+                                                        <rect key="frame" x="0.0" y="30" width="365" height="167"/>
                                                         <connections>
                                                             <outlet property="dataSource" destination="Fr7-zT-vyu" id="jQ7-SR-kVA"/>
                                                             <outlet property="delegate" destination="Fr7-zT-vyu" id="wjS-Q7-lmj"/>
@@ -971,7 +971,7 @@
                                 </connections>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="0.83339843749999998" green="0.87779947920000001" blue="0.90000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="YME-XT-DVw" firstAttribute="top" secondItem="PVy-5K-3Os" secondAttribute="top" id="3FY-bX-IU7"/>
                             <constraint firstItem="fLW-I2-GIc" firstAttribute="leading" secondItem="PVy-5K-3Os" secondAttribute="leading" constant="5" id="5Bu-W2-HRf"/>
@@ -982,7 +982,7 @@
                             <constraint firstItem="PVy-5K-3Os" firstAttribute="trailing" secondItem="fLW-I2-GIc" secondAttribute="trailing" priority="950" id="az1-GS-wiE"/>
                             <constraint firstItem="PVy-5K-3Os" firstAttribute="trailing" secondItem="YME-XT-DVw" secondAttribute="trailing" id="bvx-PJ-1q7"/>
                             <constraint firstItem="PVy-5K-3Os" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="fLW-I2-GIc" secondAttribute="bottom" id="mKn-sS-a94"/>
-                            <constraint firstItem="fLW-I2-GIc" firstAttribute="top" secondItem="YME-XT-DVw" secondAttribute="bottom" priority="950" id="nfm-qD-JDa"/>
+                            <constraint firstItem="fLW-I2-GIc" firstAttribute="top" secondItem="YME-XT-DVw" secondAttribute="bottom" priority="950" constant="5" id="nfm-qD-JDa"/>
                             <constraint firstItem="fLW-I2-GIc" firstAttribute="leading" secondItem="PVy-5K-3Os" secondAttribute="leading" priority="950" constant="5" id="oOC-si-BHl"/>
                             <constraint firstItem="n91-5q-Eqf" firstAttribute="centerX" secondItem="PVy-5K-3Os" secondAttribute="centerX" id="qvZ-4q-n63"/>
                             <constraint firstItem="YME-XT-DVw" firstAttribute="leading" secondItem="PVy-5K-3Os" secondAttribute="leading" id="wbF-0w-huK"/>

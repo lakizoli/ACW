@@ -12,6 +12,7 @@
 #import "SubscriptionManager.h"
 #import "PackageManager.h"
 #import "CrosswordViewController.h"
+#import "GameTableCell.h"
 
 @interface CWConfiguratorViewController ()
 
@@ -135,16 +136,12 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CWCell" forIndexPath:indexPath];
+	GameTableCell *cell = (GameTableCell*) [tableView dequeueReusableCellWithIdentifier:@"CWCell" forIndexPath:indexPath];
 	if (cell && indexPath.section >= 0 && indexPath.section < [_savedCrosswords count]) {
 		SavedCrossword *cw = [self savedCWFromIndexPath:indexPath];
 		if (cw) {
 			BOOL cwEnabled = (indexPath.section < 1 && indexPath.row < 1) || _isSubscribed;
-			if (cwEnabled) { //Enabled
-				[cell.textLabel setTextColor:[UIColor blackColor]];
-			} else { //Disabled
-				[cell.textLabel setTextColor:[UIColor colorWithRed:1 green:0 blue:0 alpha:1]];
-			}
+			[cell setSubscribed:cwEnabled];
 
 			NSString *label = [NSString stringWithFormat:@"[%dx%d] (%d cards) - %@", [cw width], [cw height], [cw wordCount], [cw name]];
 			[cell.textLabel setText:label];
