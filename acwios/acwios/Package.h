@@ -109,6 +109,9 @@ enum CWCellSeparator : uint32_t {
 -(void) loadDB;
 -(void) unloadDB;
 
+-(void) saveFilledValues:(NSMutableDictionary<NSIndexPath*, NSString*>*)filledValues;
+-(void) loadFilledValuesInto:(NSMutableDictionary<NSIndexPath*, NSString*>*)filledValues;
+
 -(uint32_t) getCellTypeInRow:(uint32_t)row col:(uint32_t)col;
 -(BOOL) isStartCell:(uint32_t)row col:(uint32_t)col;
 -(NSString*) getCellsQuestion:(uint32_t)row col:(uint32_t)col questionIndex:(uint32_t)questionIndex;

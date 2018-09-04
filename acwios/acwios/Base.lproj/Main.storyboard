@@ -8,6 +8,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -518,12 +519,20 @@
                                 <action selector="backButtonPressed:" destination="oYt-3K-Fqm" id="ScO-PB-avu"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Show Hint" id="b2E-oj-GcN">
-                            <color key="tintColor" red="0.8980392157" green="0.75686274509999996" blue="0.2784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <connections>
-                                <action selector="showHideButtonPressed:" destination="oYt-3K-Fqm" id="Qaq-Ks-GtB"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem title="Show Hint" id="b2E-oj-GcN">
+                                <color key="tintColor" red="0.8980392157" green="0.75686274509999996" blue="0.2784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <action selector="showHideButtonPressed:" destination="oYt-3K-Fqm" id="Qaq-Ks-GtB"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Reset" id="3c4-fh-bHc">
+                                <color key="tintColor" red="0.8980392157" green="0.75686274509999996" blue="0.2784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <action selector="resetButtonPressed:" destination="oYt-3K-Fqm" id="agw-Ao-I04"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="crosswordLayout" destination="NEG-KQ-SnD" id="AS3-bC-PSv"/>

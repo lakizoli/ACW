@@ -86,6 +86,9 @@
 					NSIndexPath *path = [self getIndexPathForRow:_startCellRow col:_startCellCol + i];
 					[_cellFilledValues setObject:val forKey:path];
 				}
+				
+				//Save filled values
+				[_savedCrossword saveFilledValues:_cellFilledValues];
 			}
 		} else { //Vertical answer
 			//Check answers validity
@@ -119,20 +122,24 @@
 					NSIndexPath *path = [self getIndexPathForRow:_startCellRow + i col:_startCellCol];
 					[_cellFilledValues setObject:val forKey:path];
 				}
+				
+				//Save filled values
+				[_savedCrossword saveFilledValues:_cellFilledValues];
 			}
 		}
 	}
 }
 
 -(void) resetInput {
-	[self resignFirstResponder];
-	_canBecameFirstResponder = NO;
 	_currentAnswer = nil;
+	_canBecameFirstResponder = NO;
 	_maxAnswerLength = 0;
 	_startCellCol = -1;
 	_startCellRow = -1;
 	_availableAnswerDirections = nil;
 	_answerIndex = -1;
+
+	[self resignFirstResponder];
 }
 
 #pragma mark - Appearance
@@ -155,6 +162,7 @@
     // Do any additional setup after loading the view.
 	_areAnswersVisible = NO;
 	_cellFilledValues = [NSMutableDictionary<NSIndexPath*, NSString*> new];
+	[_savedCrossword loadFilledValuesInto:_cellFilledValues];
 	
 	[self resetInput];
 	[self registerForKeyboardNotifications];
@@ -182,6 +190,12 @@
 - (IBAction)showHideButtonPressed:(id)sender {
 	_areAnswersVisible = _areAnswersVisible ? NO : YES;
 	[_showHideButton setTitle:_areAnswersVisible ? @"Hide Hint" : @"Show Hint"];
+	[_crosswordView reloadData];
+}
+
+- (IBAction)resetButtonPressed:(id)sender {
+	[_cellFilledValues removeAllObjects];
+	[_savedCrossword saveFilledValues:_cellFilledValues];
 	[_crosswordView reloadData];
 }
 
@@ -471,7 +485,7 @@
 	//Handle input
 	if ([text isEqualToString:@"\n"]) { //Handle press of return (done button)
 		[self commitValidAnswer];
-		[self resignFirstResponder];
+		[self resetInput];
 	} else { //Handle normal keys
 		//Check available length
 		if ([_currentAnswer length] >= _maxAnswerLength) { //Allow only entering of chars, when enough space remaining

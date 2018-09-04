@@ -7,6 +7,7 @@
 //
 
 #import "Package.h"
+#import <UIKit/UIKit.h>
 #include <cw.hpp>
 
 @implementation Card
@@ -95,6 +96,63 @@
 
 -(void) unloadDB {
 	_cw = nullptr;
+}
+
+- (NSURL*)filledValuesPath {
+	NSURL *pureFileName = [_path URLByDeletingPathExtension];
+	return [pureFileName URLByAppendingPathExtension:@"filledValues"];
+}
+
+-(void) saveFilledValues:(NSMutableDictionary<NSIndexPath*, NSString*>*)filledValues {
+	//Remove original file if exists
+	NSFileManager *man = [NSFileManager defaultManager];
+	NSURL *path = [self filledValuesPath];
+
+	if ([man fileExistsAtPath:[path path]]) {
+		NSError *err = nil;
+		if ([man removeItemAtURL:path error:&err] == NO) {
+			//log...
+			return;
+		}
+	}
+	
+	//Convert filled values to serializable one
+	__block NSMutableDictionary<NSString*, NSString*> *ser = [NSMutableDictionary<NSString*, NSString*> new];
+	[filledValues enumerateKeysAndObjectsUsingBlock:^(NSIndexPath * _Nonnull key, NSString * _Nonnull obj, BOOL * _Nonnull stop) {
+		NSString *keyValue = [NSString stringWithFormat:@"%ld_%ld", (long)key.section, key.row];
+		[ser setObject:obj forKey:keyValue];
+	}];
+	
+	//Save filled values
+	NSError* errWrite = nil;
+	if ([ser writeToURL:path error:&errWrite] == NO) {
+		//log...
+		return;
+	}
+}
+
+-(void) loadFilledValuesInto:(NSMutableDictionary<NSIndexPath*, NSString*>*)filledValues {
+	//Clear original content
+	[filledValues removeAllObjects];
+	
+	//Load content
+	NSURL *path = [self filledValuesPath];
+	BOOL isDirectory = NO;
+	if ([[NSFileManager defaultManager] fileExistsAtPath:[path path] isDirectory:&isDirectory] && isDirectory == NO) {
+		NSDictionary<NSString*, NSString*>* dict = [NSDictionary dictionaryWithContentsOfURL:path];
+		[dict enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull obj, BOOL * _Nonnull stop) {
+			NSRange range = [key rangeOfString:@"_"];
+			if (range.location != NSNotFound) {
+				NSString *valSection = [key substringToIndex:range.location];
+				NSString *valRow = [key substringFromIndex:range.location + 1];
+				NSInteger section = [valSection intValue];
+				NSInteger row = [valRow intValue];
+				
+				NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:section];
+				[filledValues setObject:obj forKey:indexPath];
+			}
+		}];
+	}
 }
 
 -(std::shared_ptr<Cell>) getCell:(uint32_t)row col:(uint32_t)col {
