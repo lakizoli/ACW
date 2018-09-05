@@ -14,7 +14,7 @@ class Grid;
 class Crossword {
 	std::string _name;
 	std::shared_ptr<Grid> _grid;
-	uint32_t _wordCount = 0;
+	std::set<std::wstring> _words; ///< The list of words used in this crossword.
 	
 //Implementation
 	Crossword () = default;
@@ -31,8 +31,8 @@ public:
 	const std::string& GetName () const { return _name; }
 	std::shared_ptr<Grid> GetGrid () const { return _grid; }
 	
-	uint32_t GetWordCount () const { return _wordCount; }
-	void SetWordCount (uint32_t wordCount) { _wordCount = wordCount; }
+	const std::set<std::wstring>& GetWords () const { return _words; }
+	void SetWords (const std::set<std::wstring>& words) { _words = words; }
 };
 
 #endif /* Crossword_hpp */

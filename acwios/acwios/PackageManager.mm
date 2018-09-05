@@ -240,7 +240,15 @@
 				std::shared_ptr<Grid> grid = loadedCW->GetGrid ();
 				[cw setWidth:grid->GetWidth ()];
 				[cw setHeight:grid->GetHeight ()];
-				[cw setWordCount:loadedCW->GetWordCount ()];
+
+				NSMutableSet<NSString*> *words = [NSMutableSet<NSString*> new];
+				for (const std::wstring& word : loadedCW->GetWords ()) {
+					NSUInteger len = word.length () * sizeof (wchar_t);
+					NSString *nsWord = [[NSString alloc] initWithBytes:word.c_str () length:len encoding:NSUTF32LittleEndianStringEncoding];
+					[words addObject:nsWord];
+				}
+
+				[cw setWords:words];
 			
 				[arr addObject:cw];
 			}

@@ -104,7 +104,9 @@ enum CWCellSeparator : uint32_t {
 
 @property (assign) uint32_t width;
 @property (assign) uint32_t height;
-@property (assign) uint32_t wordCount;
+@property (strong) NSSet<NSString*> *words;
+
+-(void) eraseFromDisk;
 
 -(void) loadDB;
 -(void) unloadDB;

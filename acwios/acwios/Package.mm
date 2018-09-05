@@ -9,6 +9,7 @@
 #import "Package.h"
 #import <UIKit/UIKit.h>
 #include <cw.hpp>
+#include <adb.hpp>
 
 @implementation Card
 
@@ -85,9 +86,43 @@
 	if (self) {
 		_width = 0;
 		_height = 0;
-		_wordCount = 0;
 	}
 	return self;
+}
+
+-(void) eraseFromDisk {
+	NSFileManager *man = [NSFileManager defaultManager];
+	NSError *err = nil;
+
+	//Delete used words from db
+	if ([_words count] > 0) {
+		NSString *packagePath = [[_path path] stringByDeletingLastPathComponent];
+		std::shared_ptr<UsedWords> usedWords = UsedWords::Create ([packagePath UTF8String]);
+		if (usedWords) {
+			__block std::set<std::wstring> updatedWords = usedWords->GetWords ();
+			
+			[_words enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, BOOL * _Nonnull stop) {
+				NSData *objData = [obj dataUsingEncoding:NSUTF32LittleEndianStringEncoding];
+				std::wstring wordToErase ((const wchar_t*) [objData bytes], [objData length] / sizeof (wchar_t));
+				updatedWords.erase (wordToErase);
+			}];
+			
+			UsedWords::Update ([packagePath UTF8String], updatedWords);
+		}
+	}
+	
+	//Delete filled values
+	NSURL *filledValuesPath = [self filledValuesPath];
+	err = nil;
+	if ([man removeItemAtURL:filledValuesPath error:&err] != YES) {
+		NSLog (@"Cannot delete crossword's filled values at path: %@, error: %@", filledValuesPath, err);
+	}
+
+	//Delete crossword
+	err = nil;
+	if ([man removeItemAtURL:_path error:&err] != YES) {
+		NSLog (@"Cannot delete crossword at path: %@, error: %@", _path, err);
+	}
 }
 
 -(void) loadDB {

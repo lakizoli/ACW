@@ -43,6 +43,36 @@
 	return [cws objectAtIndex:indexPath.row];
 }
 
+-(void) deleteCrosswordAt:(NSIndexPath*)indexPath {
+	UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Do You want to delete this crossword?"
+																   message:@"You cannot undo this action."
+															preferredStyle:UIAlertControllerStyleAlert];
+	
+	UIAlertAction *actionNo = [UIAlertAction actionWithTitle:@"Cancel"
+													   style:UIAlertActionStyleCancel
+													 handler:^(UIAlertAction * _Nonnull action)
+		{
+			//Nothing to do here...
+		}];
+	
+	[alert addAction:actionNo];
+	
+	UIAlertAction *actionYes = [UIAlertAction actionWithTitle:@"Delete"
+														style:UIAlertActionStyleDestructive
+													  handler:^(UIAlertAction * _Nonnull action)
+		{
+			SavedCrossword *cw = [self savedCWFromIndexPath:indexPath];
+			[cw eraseFromDisk];
+			
+			self->_savedCrosswords = [[PackageManager sharedInstance] collectSavedCrosswords];
+			[self->_crosswordTable reloadData];
+		}];
+	
+	[alert addAction:actionYes];
+	
+	[self presentViewController:alert animated:YES completion:nil];
+}
+
 #pragma mark - Appearance
 
 - (BOOL)prefersStatusBarHidden {
@@ -143,7 +173,7 @@
 			BOOL cwEnabled = (indexPath.section < 1 && indexPath.row < 1) || _isSubscribed;
 			[cell setSubscribed:cwEnabled];
 
-			NSString *label = [NSString stringWithFormat:@"[%dx%d] (%d cards) - %@", [cw width], [cw height], [cw wordCount], [cw name]];
+			NSString *label = [NSString stringWithFormat:@"[%dx%d] (%lu cards) - %@", [cw width], [cw height], [[cw words] count], [cw name]];
 			[cell.textLabel setText:label];
 
 			if (cwEnabled) {
@@ -163,16 +193,7 @@
 			   rowActionWithStyle:UITableViewRowActionStyleDestructive
 			   title:@"Delete crossword"
 			   handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
-				   SavedCrossword *cw = [self savedCWFromIndexPath:indexPath];
-				   if (cw) {
-					   NSError *err = nil;
-					   if ([[NSFileManager defaultManager] removeItemAtURL:[cw path] error:&err] != YES) {
-						   NSLog (@"Cannot delete crossword at path: %@, error: %@", [cw path], err);
-					   }
-				   }
-				   
-				   self->_savedCrosswords = [[PackageManager sharedInstance] collectSavedCrosswords];
-				   [tableView reloadData];
+				   [self deleteCrosswordAt:indexPath];
 			   }]
 			];
 }

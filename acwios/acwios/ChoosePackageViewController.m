@@ -91,6 +91,38 @@
 	}
 }
 
+-(void) deletePackage:(Package*)package {
+	UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Do You want to delete this package?"
+																   message:@"All of Your already generated crosswords in this package will be deleted too! You cannot undo this action."
+															preferredStyle:UIAlertControllerStyleAlert];
+	
+	UIAlertAction *actionNo = [UIAlertAction actionWithTitle:@"Cancel"
+													   style:UIAlertActionStyleCancel
+													 handler:^(UIAlertAction * _Nonnull action)
+		{
+			//Nothing to do here...
+		}];
+	
+	[alert addAction:actionNo];
+	
+	UIAlertAction *actionYes = [UIAlertAction actionWithTitle:@"Delete"
+														style:UIAlertActionStyleDestructive
+													  handler:^(UIAlertAction * _Nonnull action)
+		{
+			NSError *err = nil;
+			if ([[NSFileManager defaultManager] removeItemAtURL:[package path] error:&err] != YES) {
+				NSLog (@"Cannot remove package at path: %@, error: %@", [package path], err);
+			}
+
+			[self reloadPackages];
+			[self->_packageTable reloadData];
+		}];
+	
+	[alert addAction:actionYes];
+	
+	[self presentViewController:alert animated:YES completion:nil];
+}
+
 #pragma mark - Appearance
 
 - (BOOL)prefersStatusBarHidden {
@@ -247,16 +279,7 @@
 				}
 			}];
 			[sectionHeaderCell setDeleteCallback:^{
-				//TODO: show alert before deletion...
-				//TODO: delete used words of crossword from usedwords file in package dir...
-							
-				NSError *err = nil;
-				if ([[NSFileManager defaultManager] removeItemAtURL:[package path] error:&err] != YES) {
-					NSLog (@"Cannot remove package at path: %@, error: %@", [package path], err);
-				}
-				
-				[self reloadPackages];
-				[self->_packageTable reloadData];
+				[self deletePackage:package];
 			}];
 		} else {
 			[[sectionHeaderCell titleLabel] setText:@""];

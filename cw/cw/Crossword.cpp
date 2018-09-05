@@ -64,7 +64,10 @@ std::shared_ptr<Crossword> Crossword::Load (const std::string& path) {
 	if (cw->_grid == nullptr) {
 		return nullptr;
 	}
-	cw->_wordCount = reader.ReadUInt32 ();
+	
+	reader.ReadArray ([cw] (const BinaryReader& reader) -> void {
+		cw->_words.insert (reader.ReadWideString ());
+	});
 	
 	return cw;
 }
@@ -76,7 +79,10 @@ bool Crossword::Save (const std::string& path) const {
 	//Serialize crossword
 	writer.WriteString (_name);
 	_grid->Serialize (writer);
-	writer.WriteUInt32 (_wordCount);
+	
+	writer.WriteArray (_words, [] (BinaryWriter& writer, const std::wstring& word) -> void {
+		writer.WriteWideString (word);
+	});
 	
 	//Save crossword to file
 	std::fstream out (path, std::ios::out | std::ios::binary | std::ios::trunc);
