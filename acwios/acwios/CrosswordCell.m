@@ -63,8 +63,6 @@
 		font = [UIFont systemFontOfSize:fontSize];
 	}
 	
-	//TODO: ... implement with well question style ...
-	
 	return [[NSAttributedString alloc]
 			initWithString:question
 			attributes:@{ NSFontAttributeName: font }];
@@ -84,8 +82,6 @@
 	//Make value capital
 	NSString *content = [value uppercaseStringWithLocale:nil];
 
-	//TODO: ... implement with well value style ...
-	
 	return [[NSAttributedString alloc]
 			initWithString:content
 			attributes:@{ NSFontAttributeName: font }];

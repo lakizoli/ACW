@@ -40,7 +40,7 @@ class Generator {
 	
 //Construction
 public:
-	typedef std::function<void (float)> ProgressCallback;
+	typedef std::function<bool (float)> ProgressCallback;
 	static std::shared_ptr<Generator> Create (const std::string& path, const std::string& name,
 											  uint32_t width, uint32_t height,
 											  std::shared_ptr<QueryWords> questions, std::shared_ptr<QueryWords> answers,

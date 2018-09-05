@@ -46,6 +46,34 @@
 	[self presentViewController:alert animated:YES completion:nil];
 }
 
+-(void) showMaximalSizeAlert:(NSInteger)maxSize {
+	NSString *msg = [NSString stringWithFormat:@"You can enter only smaller sizes, than the maximal crossword size of %li!", maxSize];
+	UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Maximal size limit reached!"
+																   message:msg
+															preferredStyle:UIAlertControllerStyleAlert];
+	
+	UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+		//... nothing to do ...
+	}];
+	[alert addAction: action];
+	
+	[self presentViewController:alert animated:YES completion:nil];
+}
+
+-(void) showMinimalSizeAlert:(NSInteger)minSize {
+	NSString *msg = [NSString stringWithFormat:@"You can enter only bigger sizes, than the minimal crossword size of %li!", minSize];
+	UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Minimal size limit reached!"
+																   message:msg
+															preferredStyle:UIAlertControllerStyleAlert];
+	
+	UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+		//... nothing to do ...
+	}];
+	[alert addAction: action];
+	
+	[self presentViewController:alert animated:YES completion:nil];
+}
+
 -(void) showNameAlert {
 	UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Name error" message:@"You have to give a name for the generated crossword!" preferredStyle:UIAlertControllerStyleAlert];
 	
@@ -162,14 +190,15 @@
 	}
 	
 	//Show progress
+	__block volatile BOOL isGenerationCancelled = NO;
+
 	[_doneButton setEnabled:NO];
 	[_progressView setHidden:NO];
 	
 	[_progressView setLabelContent:@"Generating crossword..."];
 	[_progressView setButtonLabel:@"Cancel"];
 	[_progressView setOnButtonPressed:^{
-		//TODO: handle cancel in progress view...
-		NSLog (@"cancel pressed during generation...");
+		isGenerationCancelled = YES;
 	}];
 
 	//Fill info with configuration values
@@ -182,7 +211,7 @@
 	//Generate crossword
 	dispatch_async (dispatch_get_global_queue (DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
 		__block int32_t lastPercent = -1;
-		[[PackageManager sharedInstance] generateWithInfo:self->_generatorInfo progressCallback:^(float percent) {
+		[[PackageManager sharedInstance] generateWithInfo:self->_generatorInfo progressCallback:^(float percent, BOOL *stop) {
 			int32_t percentVal = (int32_t) (percent * 100.0f + 0.5f);
 			if (percentVal != lastPercent) {
 				lastPercent = percentVal;
@@ -190,6 +219,10 @@
 				dispatch_async (dispatch_get_main_queue (), ^(void) {
 					[self->_progressView setProgressValue:percent];
 				});
+			}
+			
+			if (isGenerationCancelled) {
+				*stop = YES;
 			}
 		}];
 
@@ -209,7 +242,7 @@
 
 		if (givenSize > maxSize) { //Show alert for user
 			if (_isSubscribed) { //Size alert
-				//TODO: show size alert...
+				[self showMaximalSizeAlert:maxSize];
 			} else { //Subscription alert
 				[self showSubscription];
 			}
@@ -222,7 +255,7 @@
 				_height = (NSUInteger) maxSize;
 			}
 		} else if (givenSize < 5) { //Minimal size is 5
-			//TODO: show size alert...
+			[self showMinimalSizeAlert:5];
 			
 			[textField setText:@"5"];
 			

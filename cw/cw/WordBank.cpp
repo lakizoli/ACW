@@ -97,7 +97,7 @@ std::wstring WordBank::RemoveSpacesAndCollectPlaces (const std::wstring& word, s
 	return res;
 }
 
-std::shared_ptr<WordBank> WordBank::Create (std::shared_ptr<QueryWords> words, std::function<void (float)> progressCallback) {
+std::shared_ptr<WordBank> WordBank::Create (std::shared_ptr<QueryWords> words, std::function<bool (float)> progressCallback) {
 	std::shared_ptr<WordBank> bank (new WordBank ());
 	bank->_words = words;
 	if (bank->_words->GetCount () <= 0) {
@@ -119,7 +119,9 @@ std::shared_ptr<WordBank> WordBank::Create (std::shared_ptr<QueryWords> words, s
 		
 		if (progressCallback) {
 			float progress = (float) i / (float) iEnd;
-			progressCallback (progress);
+			if (!progressCallback (progress)) {
+				return nullptr; //break generation
+			}
 		}
 	}
 	

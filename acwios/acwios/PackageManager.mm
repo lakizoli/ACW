@@ -480,7 +480,7 @@
 	return field;
 }
 
--(BOOL) generateWithInfo:(GeneratorInfo*)info progressCallback:(void(^)(float))progressCallback {
+-(BOOL) generateWithInfo:(GeneratorInfo*)info progressCallback:(void(^)(float, BOOL*))progressCallback {
 	if (info == nil) {
 		return NO;
 	}
@@ -550,6 +550,12 @@
 		UsedWords::Update (packagePathForUsedWords, usedWords);
 	};
 	
+	auto progressHandler = [progressCallback] (float progress) -> bool {
+		BOOL stop = NO;
+		progressCallback (progress, &stop);
+		return stop != YES; //continue generation
+	};
+	
 	std::shared_ptr<Generator> gen = Generator::Create ([packagePath UTF8String],
 														[[info crosswordName] UTF8String],
 														(uint32_t) [info width],
@@ -557,7 +563,7 @@
 														std::make_shared<Query> (questionFieldValues),
 														std::make_shared<Query> (solutionFieldValues),
 														std::make_shared<Query> (usedWordValues, updateUsedWords),
-														progressCallback);
+														progressHandler);
 	if (gen == nullptr) {
 		return NO;
 	}
