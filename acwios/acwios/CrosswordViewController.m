@@ -427,8 +427,10 @@
 	uint32_t col = [self getColFromIndexPath:indexPath];
 	BOOL startCell = [_savedCrossword isStartCell:row col:col];
 	_canBecameFirstResponder = startCell;
-	if (startCell != YES) {
-		[self commitValidAnswer];
+	[self commitValidAnswer];
+	if (startCell == YES) {
+		_currentAnswer = nil;
+	} else {
 		[self resetInput];
 	}
     return startCell;
