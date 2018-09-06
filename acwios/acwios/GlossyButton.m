@@ -12,14 +12,25 @@ IB_DESIGNABLE
 
 @implementation GlossyButton
 
+-(void) setup {
+	self.opaque = NO;
+	self.backgroundColor = [UIColor clearColor];
+	_hue = 0.4;
+	_saturation = 0.4;
+	_brightness = 0.4;
+}
+
+-(id) initWithFrame:(CGRect)frame {
+	if ((self = [super initWithFrame:frame])) {
+		[self setup];
+	}
+	return self;
+}
+
 -(id) initWithCoder:(NSCoder *)aDecoder
 {
     if ((self = [super initWithCoder:aDecoder])) {
-		self.opaque = NO;
-		self.backgroundColor = [UIColor clearColor];
-		_hue = 0.4;
-		_saturation = 0.4;
-		_brightness = 0.4;
+		[self setup];
     }
     return self;
 }

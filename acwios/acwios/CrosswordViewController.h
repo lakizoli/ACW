@@ -11,6 +11,10 @@
 
 @interface CrosswordViewController : UICollectionViewController<UIKeyInput>
 
+//Property for override system keyboard
+@property (nonatomic, strong) UIInputViewController *inputViewController;
+
+//Property of the choosen crossword
 @property (strong) SavedCrossword *savedCrossword;
 
 @end

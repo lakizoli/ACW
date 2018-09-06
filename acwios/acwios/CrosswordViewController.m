@@ -9,6 +9,7 @@
 #import "CrosswordViewController.h"
 #import "CrosswordCell.h"
 #import "CrosswordLayout.h"
+#import "KeyboardViewController.h"
 
 //TODO: show custom (owner draw) keyboard with all characters used by the crossword!
 //TODO: implement statistics!
@@ -54,6 +55,8 @@
 	//Copy value into fill table
 	NSUInteger len = [_currentAnswer length];
 	if (len > 0) {
+		_currentAnswer = [_currentAnswer lowercaseString];
+		
 		if ([self isInputInHorizontalDirection]) { //Horizontal answer
 			//Check answers validity
 			BOOL validAnswerFound = YES;
@@ -160,6 +163,8 @@
     //[self.collectionView registerClass:[CrosswordCell class] forCellWithReuseIdentifier:cellReusableIdentifier];
     
     // Do any additional setup after loading the view.
+	_inputViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"KeyboardVC"];
+	
 	_areAnswersVisible = NO;
 	_cellFilledValues = [NSMutableDictionary<NSIndexPath*, NSString*> new];
 	[_savedCrossword loadFilledValuesInto:_cellFilledValues];
@@ -410,7 +415,7 @@
 
 	//TODO: highlite word have to be enter!
 	
-	NSLog (@"did select item at index path: %@", [indexPath description]);
+	//NSLog (@"did select item at index path: %@", [indexPath description]);
 }
 
 #pragma mark - UICollectionViewDelegate

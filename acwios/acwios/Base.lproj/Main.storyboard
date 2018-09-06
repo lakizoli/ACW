@@ -542,7 +542,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HeQ-JF-uUr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2660" y="993.55322338830592"/>
+            <point key="canvasLocation" x="2694" y="994"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="rOj-Eu-ofd">
@@ -688,6 +688,58 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SG7-Ji-uOH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="986" y="510"/>
+        </scene>
+        <!--Keyboard View Controller-->
+        <scene sceneID="AkF-gw-rKB">
+            <objects>
+                <viewController storyboardIdentifier="KeyboardVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="HII-cM-SNa" customClass="KeyboardViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="kBX-cV-L1y">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="svY-qz-2YH">
+                                <rect key="frame" x="0.0" y="20" width="375" height="667"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gXF-9a-2Xa">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="167"/>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KU3-Hh-XLs">
+                                        <rect key="frame" x="0.0" y="167" width="375" height="166.5"/>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NJx-Zp-LBL">
+                                        <rect key="frame" x="0.0" y="333.5" width="375" height="167"/>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nar-mT-FTN">
+                                        <rect key="frame" x="0.0" y="500.5" width="375" height="166.5"/>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="KU3-Hh-XLs" firstAttribute="height" secondItem="svY-qz-2YH" secondAttribute="height" multiplier="1:4" id="BcU-hY-nQQ"/>
+                                    <constraint firstItem="NJx-Zp-LBL" firstAttribute="height" secondItem="svY-qz-2YH" secondAttribute="height" multiplier="1:4" id="Cj7-tm-nZa"/>
+                                    <constraint firstItem="nar-mT-FTN" firstAttribute="height" secondItem="svY-qz-2YH" secondAttribute="height" multiplier="1:4" id="V7S-yj-7nR"/>
+                                    <constraint firstItem="gXF-9a-2Xa" firstAttribute="height" secondItem="svY-qz-2YH" secondAttribute="height" multiplier="1:4" id="XIA-IN-6Ic"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.15680609810000001" green="0.31361219620000003" blue="0.31230547870000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="svY-qz-2YH" firstAttribute="height" secondItem="kBX-cV-L1y" secondAttribute="height" id="HiP-XV-tcT"/>
+                            <constraint firstItem="svY-qz-2YH" firstAttribute="top" secondItem="Lv8-yT-fLq" secondAttribute="top" id="cE4-7H-jPz"/>
+                            <constraint firstItem="svY-qz-2YH" firstAttribute="leading" secondItem="Lv8-yT-fLq" secondAttribute="leading" id="oLQ-MF-rce"/>
+                            <constraint firstItem="svY-qz-2YH" firstAttribute="width" secondItem="kBX-cV-L1y" secondAttribute="width" id="zbO-uv-g3R"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Lv8-yT-fLq"/>
+                    </view>
+                    <connections>
+                        <outlet property="firstKeyRow" destination="gXF-9a-2Xa" id="yDu-yo-Qxf"/>
+                        <outlet property="fourthKeyRow" destination="nar-mT-FTN" id="O2T-U0-741"/>
+                        <outlet property="secondKeyRow" destination="KU3-Hh-XLs" id="kOR-vX-6g7"/>
+                        <outlet property="thirdKeyRow" destination="NJx-Zp-LBL" id="wqX-qh-Jeg"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="B4t-fe-0bC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1841" y="-446"/>
         </scene>
         <!--Generator View Controller-->
         <scene sceneID="Zcu-RR-tsr">
