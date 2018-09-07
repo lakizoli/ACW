@@ -15,7 +15,8 @@
 
 Generator::InsertWordRes Generator::InsertWordIntoCells (bool isVertical, const std::vector<std::shared_ptr<Cell>>& cells,
 														 std::set<std::wstring>& usedWordsOfWholePackage,
-														 std::set<std::wstring>& usedWordsOfCrossword) const
+														 std::set<std::wstring>& usedWordsOfCrossword,
+														 std::set<wchar_t>& usedCharsOfCrossword) const
 {
 	InsertWordRes res;
 	
@@ -25,7 +26,8 @@ Generator::InsertWordRes Generator::InsertWordIntoCells (bool isVertical, const 
 	}
 	
 	for (uint32_t wordLen = (uint32_t) cells.size (); wordLen > minLen && !res.inserted; --wordLen) {
-		_answers->EnumerateWords (wordLen, [&res, &cells, &usedWordsOfWholePackage, &usedWordsOfCrossword, wordLen, isVertical]
+		_answers->EnumerateWords (wordLen, [&res, &cells, &usedWordsOfWholePackage, &usedWordsOfCrossword,
+											&usedCharsOfCrossword, wordLen, isVertical]
 								  (uint32_t idx, const std::wstring& word, const std::set<uint32_t>& spacePositions) -> bool
 		{
 			auto itUseCheck = usedWordsOfWholePackage.find (word);
@@ -55,6 +57,7 @@ Generator::InsertWordRes Generator::InsertWordIntoCells (bool isVertical, const 
 					wchar_t ch = word[i];
 					std::shared_ptr<Cell> cell = cells[i];
 					cell->SetValue (ch);
+					usedCharsOfCrossword.insert (ch);
 					
 					if (spacePositions.find (i) != spacePositions.end ()) { //We have to place a separator before the cell
 						cell->SetSeparator (isVertical ? CellFlags::TopSeparator : CellFlags::LeftSeparator);
@@ -154,6 +157,7 @@ std::shared_ptr<Crossword> Generator::Generate () const {
 	uint32_t lastCol, col = 1; //The current free cell's col index
 	std::set<std::wstring> usedWords; //The used words of the whole package
 	std::set<std::wstring> usedWordsOfCrossword; //The used words in crossword
+	std::set<wchar_t> usedCharsOfCrossword; //The used characters in crossword
 	
 	if (_usedWords != nullptr) {
 		for (uint32_t i = 0, iEnd = _usedWords->GetCount (); i < iEnd; ++i) {
@@ -196,13 +200,13 @@ std::shared_ptr<Crossword> Generator::Generate () const {
 		//...(one direction rolled back at once!)
 		//...(if we don't have available words at all, then we have to use the best filled state during generation history and exit!)
 		//-> if we found valid words, then we have to insert them into the grid and questions, and have to jump to the next available position
-		InsertWordRes hWord = InsertWordIntoCells (false, hQ.cellsAvailable, usedWords, usedWordsOfCrossword);
+		InsertWordRes hWord = InsertWordIntoCells (false, hQ.cellsAvailable, usedWords, usedWordsOfCrossword, usedCharsOfCrossword);
 		if (hWord.inserted) {
 			std::shared_ptr<Cell> secondLetterCell = hQ.cellsAvailable.size () > 1 ? hQ.cellsAvailable[1] : nullptr;
 			ConfigureQuestionInCell (hQ.questionCell, hQ.cellsAvailable[0], secondLetterCell, hWord.insertedWordIndex);
 		}
 		
-		InsertWordRes vWord = InsertWordIntoCells (true, vQ.cellsAvailable, usedWords, usedWordsOfCrossword);
+		InsertWordRes vWord = InsertWordIntoCells (true, vQ.cellsAvailable, usedWords, usedWordsOfCrossword, usedCharsOfCrossword);
 		if (vWord.inserted) {
 			std::shared_ptr<Cell> secondLetterCell = vQ.cellsAvailable.size () > 1 ? vQ.cellsAvailable[1] : nullptr;
 			ConfigureQuestionInCell (vQ.questionCell, vQ.cellsAvailable[0], secondLetterCell, vWord.insertedWordIndex);
@@ -222,6 +226,7 @@ std::shared_ptr<Crossword> Generator::Generate () const {
 	}
 	
 	cw->SetWords (usedWordsOfCrossword);
+	cw->SetUsedKeys (usedCharsOfCrossword);
 	
 	if (_usedWords != nullptr) {
 		_usedWords->UpdateWithSet (usedWords);

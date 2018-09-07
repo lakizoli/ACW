@@ -377,4 +377,21 @@
 	return seps;
 }
 
+-(NSSet<NSString*>*) getUsedKeys {
+	if (_cw == nullptr) {
+		return nil;
+	}
+	
+	NSMutableSet<NSString*>* usedKeys = [NSMutableSet<NSString*> new];
+	for (wchar_t ch :  _cw->GetUsedKeys ()) {
+		std::wstring chStr;
+		chStr += ch;
+		NSUInteger len = chStr.length () * sizeof (wchar_t);
+		NSString* nsStr = [[NSString alloc] initWithBytes:chStr.c_str () length:len encoding:NSUTF32LittleEndianStringEncoding];
+		[usedKeys addObject:nsStr];
+	}
+	
+	return usedKeys;
+}
+
 @end

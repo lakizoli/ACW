@@ -69,6 +69,10 @@ std::shared_ptr<Crossword> Crossword::Load (const std::string& path) {
 		cw->_words.insert (reader.ReadWideString ());
 	});
 	
+	reader.ReadArray([cw] (const BinaryReader& reader) -> void {
+		cw->_usedKeys.insert (reader.ReadWideChar ());
+	});
+	
 	return cw;
 }
 
@@ -82,6 +86,10 @@ bool Crossword::Save (const std::string& path) const {
 	
 	writer.WriteArray (_words, [] (BinaryWriter& writer, const std::wstring& word) -> void {
 		writer.WriteWideString (word);
+	});
+	
+	writer.WriteArray(_usedKeys, [] (BinaryWriter& writer, const wchar_t& ch) -> void {
+		writer.WriteWideChar (ch);
 	});
 	
 	//Save crossword to file

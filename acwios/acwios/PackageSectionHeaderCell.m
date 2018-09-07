@@ -18,8 +18,6 @@
 
 @implementation PackageSectionHeaderCell
 
-//TODO: fix layout bug on telephone!
-
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code

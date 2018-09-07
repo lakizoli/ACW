@@ -10,4 +10,8 @@
 
 @interface KeyboardViewController : UIInputViewController
 
+@property (strong) NSSet<NSString*> *usedKeys;
+
+-(void) setup;
+
 @end

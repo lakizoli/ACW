@@ -15,6 +15,7 @@ class Crossword {
 	std::string _name;
 	std::shared_ptr<Grid> _grid;
 	std::set<std::wstring> _words; ///< The list of words used in this crossword.
+	std::set<wchar_t> _usedKeys; ///< The keys used in words.
 	
 //Implementation
 	Crossword () = default;
@@ -33,6 +34,9 @@ public:
 	
 	const std::set<std::wstring>& GetWords () const { return _words; }
 	void SetWords (const std::set<std::wstring>& words) { _words = words; }
+	
+	const std::set<wchar_t>& GetUsedKeys () const { return _usedKeys; }
+	void SetUsedKeys (const std::set<wchar_t>& usedKeys) { _usedKeys = usedKeys; }
 };
 
 #endif /* Crossword_hpp */

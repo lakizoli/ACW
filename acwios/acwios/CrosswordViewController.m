@@ -163,8 +163,6 @@
     //[self.collectionView registerClass:[CrosswordCell class] forCellWithReuseIdentifier:cellReusableIdentifier];
     
     // Do any additional setup after loading the view.
-	_inputViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"KeyboardVC"];
-	
 	_areAnswersVisible = NO;
 	_cellFilledValues = [NSMutableDictionary<NSIndexPath*, NSString*> new];
 	[_savedCrossword loadFilledValuesInto:_cellFilledValues];
@@ -180,6 +178,11 @@
 	[_crosswordLayout setNavigationBarHeight:self.navigationController.navigationBar.frame.size.height];
 	
 	[_savedCrossword loadDB];
+	
+	_inputViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"KeyboardVC"];
+	KeyboardViewController* kbVC = (KeyboardViewController*) _inputViewController;
+	[kbVC setUsedKeys:[_savedCrossword getUsedKeys]];
+	[kbVC setup];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -120,4 +120,6 @@ enum CWCellSeparator : uint32_t {
 -(NSString*) getCellsValue:(uint32_t)row col:(uint32_t)col;
 -(uint32_t) getCellsSeparators:(uint32_t)row col:(uint32_t)col;
 
+-(NSSet<NSString*>*) getUsedKeys;
+
 @end
