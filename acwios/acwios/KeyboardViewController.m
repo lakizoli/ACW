@@ -20,7 +20,8 @@
 @end
 
 @implementation KeyboardViewController {
-	id<KeyboardConfig> _keyboardConfig;
+	KeyboardConfig *_keyboardConfig;
+	NSUInteger _currentPage;
 	
 	NSMutableArray<UIStackView*> *_rowViews;
 	NSMutableArray<UIButton*> *_rowButtons[4];
@@ -39,6 +40,8 @@
 	
 	//Custom initialization
 	self.view.translatesAutoresizingMaskIntoConstraints = false;
+	
+	_currentPage = PAGE_ALPHA;
 	
 	_rowViews = [NSMutableArray<UIStackView*> new];
 	[_rowViews addObject:_firstKeyRow];
@@ -61,18 +64,18 @@
 
 -(void) setup {
 	_keyboardConfig = [self chooseBestFitKeyboard];
-	[self createPage:PAGE_ALPHA];
+	[self createPage:_currentPage];
 }
 
 #pragma mark - Setup buttons
 
--(void) createPage:(uint32_t)page {
+-(void) createPage:(NSUInteger)page {
 	NSArray<NSString*>* keys = nil;
 	NSArray<NSNumber*>* weights = nil;
-	for (uint32_t row = 0; row < 4; ++row) {
-		if ([_keyboardConfig rowKeys:row page:page outKeys:&keys outWieghts:&weights] == YES) {
+	for (NSUInteger row = 0; row < 4; ++row) {
+		if ([_keyboardConfig rowKeys:row page:page outKeys:&keys outWeights:&weights] == YES) {
 			[self createButtonsForKeys:keys
-								widths:weights
+							   weights:weights
 						   destination:[_rowViews objectAtIndex:row]
 						 buttonStorage:_rowButtons[row]
 					 constraintStorage:_constraints[row]];
@@ -81,33 +84,62 @@
 }
 
 - (void) createButtonsForKeys:(NSArray<NSString*>*)keys
-					   widths:(NSArray<NSNumber*>*)widths
+					  weights:(NSArray<NSNumber*>*)weights
 				  destination:(UIStackView*)destination
 				buttonStorage:(NSMutableArray<UIButton*>*)buttonStorage
 			constraintStorage:(NSMutableArray<NSLayoutConstraint*>*)constraintStorage
 {
-	__block CGFloat sumWidth = 0;
-	[widths enumerateObjectsUsingBlock:^(NSNumber * _Nonnull val, NSUInteger idx, BOOL * _Nonnull stop) {
-		sumWidth += [val floatValue];
+	__block CGFloat sumWeight = 0;
+	[weights enumerateObjectsUsingBlock:^(NSNumber * _Nonnull val, NSUInteger idx, BOOL * _Nonnull stop) {
+		sumWeight += [val floatValue];
 	}];
 	
 	[buttonStorage removeAllObjects];
 	[constraintStorage removeAllObjects];
 	
-	[keys enumerateObjectsUsingBlock:^(NSString * _Nonnull keyValue, NSUInteger idx, BOOL * _Nonnull stop) {
+	[keys enumerateObjectsUsingBlock:^(NSString * _Nonnull key, NSUInteger idx, BOOL * _Nonnull stop) {
 		//Create button
 		GlossyButton *button = [[GlossyButton alloc] initWithFrame:CGRectMake (0, 0, 0, 0)];
-		[buttonStorage addObject:button];
 
-		//TODO: handle special key values (with images or so)...
-		[button setTitle:keyValue forState:UIControlStateNormal];
-		[self setupButtonsAction:button keyValue:keyValue];
+		if ([key caseInsensitiveCompare:BACKSPACE] == NSOrderedSame) {
+			//TODO: add image for backspace...
+			[button setTitle:BACKSPACE forState:UIControlStateNormal];
+		} else if ([key caseInsensitiveCompare:ENTER] == NSOrderedSame) {
+			//TODO: alter enter button's color...
+			[button setTitle:@"Done" forState:UIControlStateNormal];
+		} else if ([key caseInsensitiveCompare:SPACEBAR] == NSOrderedSame) {
+			[button setTitle:@"Space" forState:UIControlStateNormal];
+		} else if ([key caseInsensitiveCompare:TURNOFF] == NSOrderedSame) {
+			//TODO: add image for turn off...
+			[button setTitle:TURNOFF forState:UIControlStateNormal];
+		} else if ([key caseInsensitiveCompare:SWITCH] == NSOrderedSame) {
+			//TODO: add image for switch...
+			[button setTitle:SWITCH forState:UIControlStateNormal];
+		} else if ([key hasPrefix:@"Ex"]) { //Extra key
+			NSInteger extraKeyID = [self->_keyboardConfig getExtraKeyID:key page:self->_currentPage];
+			if (extraKeyID > 0) { //Used extra key
+				[button setTag:extraKeyID];
+				
+				NSString *title = [self->_keyboardConfig getTitleForExtraKeyID:extraKeyID];
+				if (title) {
+					[button setTitle:title forState:UIControlStateNormal];
+				}
+			} else { //Unused extra key
+				[button setHidden:YES];
+				[button setEnabled:NO];
+			}
+		} else { //Normal value key
+			[button setTitle:key forState:UIControlStateNormal];
+		}
+
+		[buttonStorage addObject:button];
+		[self setupButtonsAction:button key:key];
 		
 		//Add button to the stack view
 		[destination addArrangedSubview:button];
 
 		//Add constraint
-		CGFloat widthRatio = [[widths objectAtIndex:idx] floatValue] / sumWidth;
+		CGFloat widthRatio = [[weights objectAtIndex:idx] floatValue] / sumWeight;
 		NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:button
 																	  attribute:NSLayoutAttributeWidth
 																	  relatedBy:NSLayoutRelationEqual
@@ -120,20 +152,18 @@
 	}];
 }
 
--(void) setupButtonsAction:(UIButton*)button keyValue:(NSString*)keyValue {
-	if ([keyValue caseInsensitiveCompare:BACKSPACE] == NSOrderedSame) {
+-(void) setupButtonsAction:(UIButton*)button key:(NSString*)key {
+	if ([key caseInsensitiveCompare:BACKSPACE] == NSOrderedSame) {
 		[button addTarget:self action:@selector (backSpacePressed) forControlEvents:UIControlEventTouchUpInside];
-	} else if ([keyValue caseInsensitiveCompare:ENTER] == NSOrderedSame) {
+	} else if ([key caseInsensitiveCompare:ENTER] == NSOrderedSame) {
 		[button addTarget:self action:@selector (enterPressed) forControlEvents:UIControlEventTouchUpInside];
-	} else if ([keyValue caseInsensitiveCompare:SPACEBAR] == NSOrderedSame) {
+	} else if ([key caseInsensitiveCompare:SPACEBAR] == NSOrderedSame) {
 		[button addTarget:self action:@selector (spacePressed) forControlEvents:UIControlEventTouchUpInside];
-	} else if ([keyValue caseInsensitiveCompare:TURNOFF] == NSOrderedSame) {
+	} else if ([key caseInsensitiveCompare:TURNOFF] == NSOrderedSame) {
 		[button addTarget:self action:@selector (turnOffPressed) forControlEvents:UIControlEventTouchUpInside];
-	} else if ([keyValue caseInsensitiveCompare:SWITCHNUM] == NSOrderedSame) {
-		[button addTarget:self action:@selector (switchNumPressed) forControlEvents:UIControlEventTouchUpInside];
-	} else if ([keyValue caseInsensitiveCompare:SWITCHALPHA] == NSOrderedSame) {
-		[button addTarget:self action:@selector (switchAlphaPressed) forControlEvents:UIControlEventTouchUpInside];
-	} else if ([keyValue hasPrefix:@"Ex"]) { //Extra key
+	} else if ([key caseInsensitiveCompare:SWITCH] == NSOrderedSame) {
+		[button addTarget:self action:@selector (switchPressed) forControlEvents:UIControlEventTouchUpInside];
+	} else if ([key hasPrefix:@"Ex"]) { //Extra key
 		[button addTarget:self action:@selector (extraKeyPressed:) forControlEvents:UIControlEventTouchUpInside];
 	} else { //Normal value key
 		[button addTarget:self action:@selector (keyPressed:) forControlEvents:UIControlEventTouchUpInside];
@@ -154,53 +184,35 @@
 	}
 }
 
--(NSSet<NSString*>*) getKeyboardKeys:(id<KeyboardConfig>)keyboardConfig {
-	__block NSMutableSet<NSString*>* res = [NSMutableSet<NSString*> new];
+-(KeyboardConfig*)chooseBestFitKeyboard {
+	//TODO: collect extra characters for available extra keys!
 	
-	for (uint32_t page = 0;page < 2;++page) {
-		for (uint32_t row = 0;row < 4;++row) {
-			NSArray<NSString*>* keys = nil;
-			NSArray<NSNumber*>* weights = nil;
-			if ([keyboardConfig rowKeys:row page:page outKeys:&keys outWieghts:&weights] == YES) {
-				[keys enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-					[res addObject:obj];
-				}];
-			}
-		}
-	}
+	NSArray<Class> *keyboardClasses = @[ [USKeyboard class] ]; //TODO: add other keyboard classes
 	
-	return res;
-}
+	__block KeyboardConfig *cfg = nil;
+	__block NSSet<NSString*> *extraKeys = nil;
+	__block NSUInteger extraKeyCount = NSUIntegerMax;
 
--(uint32_t) getNotFoundKeyCount:(id<KeyboardConfig>)keyboardConfig {
-	__block uint32_t notFoundCount = 0;
-	
-	__block NSSet<NSString*> *keys = [self getKeyboardKeys:keyboardConfig];
-	[_usedKeys enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, BOOL * _Nonnull stop) {
-		if ([keys containsObject:[obj uppercaseString]] != YES) {
-			++notFoundCount;
+	[keyboardClasses enumerateObjectsUsingBlock:^(Class  _Nonnull cls, NSUInteger idx, BOOL * _Nonnull stop) {
+		KeyboardConfig *kb = [[USKeyboard alloc] init];
+		
+		NSSet<NSString*> *kbExtraKeys = [kb collectExtraKeys:self->_usedKeys];
+		NSUInteger kbExtraKeyCount = [kbExtraKeys count];
+		if (kbExtraKeyCount <= 0) { //We found a full keyboard without needing any extra keys
+			cfg = kb;
+			extraKeys = kbExtraKeys;
+			extraKeyCount = kbExtraKeyCount;
+			
+			*stop = YES;
+		} else if (kbExtraKeyCount < extraKeyCount) { //We found a keyboard config with lower extra button needs
+			cfg = kb;
+			extraKeys = kbExtraKeys;
+			extraKeyCount = kbExtraKeyCount;
 		}
 	}];
 	
-	return notFoundCount;
-}
-
-//-(NSSet<NSString*>*) collectExtraKeys:(id<KeyboardConfig>*)keyboardConfig {
-//	//TODO: implement countOfKeysFoundOnKeyboard
-//	return 0;
-//}
-
--(id<KeyboardConfig>)chooseBestFitKeyboard {
-	//TODO: choose best fit keyboard for the results!
-	//TODO: collect extra characters for available extra keys!
-
-	id<KeyboardConfig> cfg = [[USKeyboard alloc] init];
-	
-	uint32_t notFoundKeyCount = [self getNotFoundKeyCount:cfg];
-	if (notFoundKeyCount <= 0) {
-		return cfg;
-//	} else if (notFoundKeyCount <= /*extra key count*/) {
-		//TODO: ...
+	if (extraKeyCount > 0) {
+		[cfg addExtraPages:extraKeys];
 	}
 	
 	return cfg;
@@ -224,21 +236,27 @@
 	[self dismissKeyboard];
 }
 
--(void) switchNumPressed {
+-(void) switchPressed {
 	[self removeAllButtons];
-	[self createPage:PAGE_NUM];
-}
-
--(void) switchAlphaPressed {
-	[self removeAllButtons];
-	[self createPage:PAGE_ALPHA];
+	
+	++_currentPage;
+	if (_currentPage >= [_keyboardConfig getPageCount]) {
+		_currentPage = 0;
+	}
+	
+	[self createPage:_currentPage];
 }
 
 -(void) extraKeyPressed:(id)sender {
 	if ([sender isKindOfClass:[UIButton class]]) {
-//		UIButton *button = (UIButton*) sender;
-//		NSString *key = [[button titleLabel] text];
-//		[[self textDocumentProxy] insertText:key];
+		UIButton *button = (UIButton*) sender;
+		NSInteger extraKeyID = [button tag];
+		if (extraKeyID > 0) {
+			NSString *value = [_keyboardConfig getValueForExtraKeyID:extraKeyID];
+			if (value) {
+				[[self textDocumentProxy] insertText:value];
+			}
+		}
 	}
 }
 
