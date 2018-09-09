@@ -11,7 +11,7 @@
 #import "CrosswordLayout.h"
 #import "KeyboardViewController.h"
 
-//TODO: show custom (owner draw) keyboard with all characters used by the crossword!
+//TODO: implement zoom on pinch gesture!
 //TODO: implement statistics!
 
 @interface CrosswordViewController ()
@@ -233,7 +233,7 @@
 	return res;
 }
 
--(void) fillLetterForCell:(CrosswordCell*)cell row:(uint32_t)row col:(uint32_t)col {
+-(void) fillLetterForCell:(CrosswordCell*)cell row:(uint32_t)row col:(uint32_t)col highlighted:(BOOL)highlighted currentCell:(BOOL)currentCell {
 	BOOL fillValue = NO;
 	NSString* cellValue;
 	if (_areAnswersVisible) {
@@ -266,7 +266,7 @@
 		}
 	}
 	
-	[cell fillLetter:fillValue value:cellValue];
+	[cell fillLetter:fillValue value:cellValue highlighted:highlighted currentCell:currentCell];
 }
 
 -(void) fillCellsArrow:(uint32_t)cellType
@@ -274,11 +274,13 @@
 				  cell:(CrosswordCell*)cell
 				   row:(uint32_t)row
 				   col:(uint32_t)col
+		   highlighted:(BOOL)highlighted
+		   currentCell:(BOOL)currentCell
 		  letterFilled:(BOOL*)letterFilled
 {
 	if (cellType & checkCellType) {
 		if (*letterFilled != YES) {
-			[self fillLetterForCell:cell row:row col:col];
+			[self fillLetterForCell:cell row:row col:col highlighted:highlighted currentCell:currentCell];
 			*letterFilled = YES;
 		}
 		[cell fillArrow:checkCellType];
@@ -314,6 +316,18 @@
 		uint32_t col = [self getColFromIndexPath:indexPath];
 		uint32_t cellType = [_savedCrossword getCellTypeInRow:row col:col];
 		
+		BOOL isHighlighted = NO;
+		BOOL isCurrentCell = NO;
+		if (_answerIndex >= 0) {
+			if ([self isInputInHorizontalDirection]) {
+				isHighlighted = row == _startCellRow && col >= _startCellCol && col < _startCellCol + _maxAnswerLength ? YES : NO;
+				isCurrentCell = row == _startCellRow && col == _startCellCol + [_currentAnswer length];
+			} else {
+				isHighlighted = col == _startCellCol && row >= _startCellRow && row < _startCellRow + _maxAnswerLength ? YES : NO;
+				isCurrentCell = col == _startCellCol && row == _startCellRow + [_currentAnswer length];
+			}
+		}
+		
 		switch (cellType) {
 			case CWCellType_SingleQuestion:
 				[cell fillOneQuestion: [_savedCrossword getCellsQuestion:row col:col questionIndex:0]];
@@ -328,19 +342,27 @@
 				[cell fillSpacer];
 				break;
 			case CWCellType_Letter:
-				[self fillLetterForCell:cell row:row col:col];
+				[self fillLetterForCell:cell row:row col:col highlighted:isHighlighted currentCell:isCurrentCell];
 				[cell fillSeparator:[_savedCrossword getCellsSeparators:row col:col]];
 				break;
 			default: {
 				BOOL letterFilled = NO;
-				[self fillCellsArrow:cellType checkCellType:CWCellType_Start_TopDown_Right cell:cell row:row col:col letterFilled:&letterFilled];
-				[self fillCellsArrow:cellType checkCellType:CWCellType_Start_TopDown_Left cell:cell row:row col:col letterFilled:&letterFilled];
-				[self fillCellsArrow:cellType checkCellType:CWCellType_Start_TopDown_Bottom cell:cell row:row col:col letterFilled:&letterFilled];
-				[self fillCellsArrow:cellType checkCellType:CWCellType_Start_TopRight cell:cell row:row col:col letterFilled:&letterFilled];
-				[self fillCellsArrow:cellType checkCellType:CWCellType_Start_FullRight cell:cell row:row col:col letterFilled:&letterFilled];
-				[self fillCellsArrow:cellType checkCellType:CWCellType_Start_BottomRight cell:cell row:row col:col letterFilled:&letterFilled];
-				[self fillCellsArrow:cellType checkCellType:CWCellType_Start_LeftRight_Top cell:cell row:row col:col letterFilled:&letterFilled];
-				[self fillCellsArrow:cellType checkCellType:CWCellType_Start_LeftRight_Bottom cell:cell row:row col:col letterFilled:&letterFilled];
+				[self fillCellsArrow:cellType checkCellType:CWCellType_Start_TopDown_Right cell:cell row:row col:col highlighted:isHighlighted
+						 currentCell:isCurrentCell letterFilled:&letterFilled];
+				[self fillCellsArrow:cellType checkCellType:CWCellType_Start_TopDown_Left cell:cell row:row col:col highlighted:isHighlighted
+						 currentCell:isCurrentCell letterFilled:&letterFilled];
+				[self fillCellsArrow:cellType checkCellType:CWCellType_Start_TopDown_Bottom cell:cell row:row col:col highlighted:isHighlighted
+						 currentCell:isCurrentCell letterFilled:&letterFilled];
+				[self fillCellsArrow:cellType checkCellType:CWCellType_Start_TopRight cell:cell row:row col:col highlighted:isHighlighted
+						 currentCell:isCurrentCell letterFilled:&letterFilled];
+				[self fillCellsArrow:cellType checkCellType:CWCellType_Start_FullRight cell:cell row:row col:col highlighted:isHighlighted
+						 currentCell:isCurrentCell letterFilled:&letterFilled];
+				[self fillCellsArrow:cellType checkCellType:CWCellType_Start_BottomRight cell:cell row:row col:col highlighted:isHighlighted
+						 currentCell:isCurrentCell letterFilled:&letterFilled];
+				[self fillCellsArrow:cellType checkCellType:CWCellType_Start_LeftRight_Top cell:cell row:row col:col highlighted:isHighlighted
+						 currentCell:isCurrentCell letterFilled:&letterFilled];
+				[self fillCellsArrow:cellType checkCellType:CWCellType_Start_LeftRight_Bottom cell:cell row:row col:col highlighted:isHighlighted
+						 currentCell:isCurrentCell letterFilled:&letterFilled];
 				[cell fillSeparator:[_savedCrossword getCellsSeparators:row col:col]];
 				break;
 			}
@@ -415,10 +437,9 @@
 	
 	//Ensure visibility of value is under entering
 	[self ensureVisibleRow:selRow col:selCol];
-
-	//TODO: highlite word have to be enter!
 	
-	//NSLog (@"did select item at index path: %@", [indexPath description]);
+	//Highlight the word have to be enter
+	[_crosswordView reloadData];
 }
 
 #pragma mark - UICollectionViewDelegate

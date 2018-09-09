@@ -93,7 +93,9 @@
 	[self clearContent];
 	[self setBorder:self];
 	
-	[self setBackgroundColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:1]];
+	[self setBackgroundColor:[UIColor whiteColor]];
+	[_fullLabel setTextColor:[UIColor blackColor]];
+	
 	[_fullLabel setAttributedText:[self attributedQuestionString:question]];
 	[self setHiddensForFullHidden:NO topHidden:YES bottomHidden:YES];
 }
@@ -103,7 +105,10 @@
 	[self setBorder:_topLabel];
 	[self setBorder:_bottomLabel];
 	
-	[self setBackgroundColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:1]];
+	[self setBackgroundColor:[UIColor whiteColor]];
+	[_topLabel setTextColor:[UIColor blackColor]];
+	[_bottomLabel setTextColor:[UIColor blackColor]];
+	
 	[_topLabel setAttributedText:[self attributedQuestionString:questionTop]];
 	[_bottomLabel setAttributedText:[self attributedQuestionString:questionBottom]];
 	[self setHiddensForFullHidden:YES topHidden:NO bottomHidden:NO];
@@ -112,13 +117,23 @@
 -(void) fillSpacer {
 	[self clearContent];
 	[self setBorder:self];
-	[self setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:1]];
+	[self setBackgroundColor:[UIColor blackColor]];
 }
 
--(void) fillLetter:(BOOL)showValue value:(NSString*)value {
+-(void) fillLetter:(BOOL)showValue value:(NSString*)value highlighted:(BOOL)highlighted currentCell:(BOOL)currentCell {
 	[self clearContent];
 	[self setBorder:self];
-	[self setBackgroundColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:1]];
+	if (highlighted) {
+		if (currentCell) {
+			[self setBackgroundColor:[UIColor colorWithRed:56.0f / 255.0f green:112.0f / 255.0f blue:112.0f / 255.0f alpha:1]];
+		} else {
+			[self setBackgroundColor:[UIColor colorWithRed:40.0f / 255.0f green:80.0f / 255.0f blue:80.0f / 255.0f alpha:1]];
+		}
+		[_fullLabel setTextColor:[UIColor colorWithRed:229.0f / 255.0f green:193.0f / 255.0f blue:71.0f / 255.0f alpha:1]];
+	} else {
+		[self setBackgroundColor:[UIColor whiteColor]];
+		[_fullLabel setTextColor:[UIColor blackColor]];
+	}
 	
 	if (showValue) {
 		[_fullLabel setAttributedText:[self attributedValueString:value]];

@@ -185,8 +185,6 @@
 }
 
 -(KeyboardConfig*)chooseBestFitKeyboard {
-	//TODO: collect extra characters for available extra keys!
-	
 	NSArray<Class> *keyboardClasses = @[ [USKeyboard class] ]; //TODO: add other keyboard classes
 	
 	__block KeyboardConfig *cfg = nil;
