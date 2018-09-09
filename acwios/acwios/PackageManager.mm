@@ -455,7 +455,9 @@
 	}
 	
 	//Pull word out from garbage
-	NSArray<NSString*> *splitArr = @[@" ", @"&nbsp;", @";", @"<br", @"/>", @"<div>", @"</div>", @"*", @"\r", @"\n", @",", @"(", @")", @"[", @"]", @"{", @"}"];
+	NSArray<NSString*> *splitArr = @[@" ", @"&nbsp;", @";", @"<br", @"/>", @"<div>", @"</div>",
+									 @"<span>", @"</span>", @"*", @"\r", @"\n", @",", @"(", @")",
+									 @"[", @"]", @"{", @"}", @"~", @"-", @"/"];
 	[splitArr enumerateObjectsUsingBlock:^(NSString*  _Nonnull splitStr, NSUInteger idx, BOOL * _Nonnull stop) {
 		NSString *trimmed = [field stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 		NSArray<NSString*> *items = [trimmed componentsSeparatedByString:splitStr];
@@ -500,22 +502,22 @@
 	__block std::vector<std::wstring> questionFieldValues;
 	__block std::vector<std::wstring> solutionFieldValues;
 	[[info cards] enumerateObjectsUsingBlock:^(Card * _Nonnull card, NSUInteger idx, BOOL * _Nonnull stop) {
-		NSString *val = [[[card fieldValues] objectAtIndex:[info solutionFieldIndex]] lowercaseString];
-		val = [self trimSolutionField:val];
-		if ([val length] <= 0) {
+		NSString *solutionVal = [[[card fieldValues] objectAtIndex:[info solutionFieldIndex]] lowercaseString];
+		solutionVal = [self trimSolutionField:solutionVal];
+		if ([solutionVal length] <= 0) {
 			return;
 		}
 		
-		NSData *valData = [val dataUsingEncoding:NSUTF32LittleEndianStringEncoding];
+		NSString *questionVal = [[card fieldValues] objectAtIndex:[info questionFieldIndex]];
+		questionVal = [self trimQuestionField:questionVal];
+		if ([questionVal length] <= 0) {
+			return;
+		}
+
+		NSData *valData = [solutionVal dataUsingEncoding:NSUTF32LittleEndianStringEncoding];
 		solutionFieldValues.push_back (std::wstring ((const wchar_t*) [valData bytes], [valData length] / sizeof (wchar_t)));
-		
-		val = [[card fieldValues] objectAtIndex:[info questionFieldIndex]];
-		val = [self trimQuestionField:val];
-		if ([val length] <= 0) {
-			return;
-		}
-		
-		valData = [val dataUsingEncoding:NSUTF32LittleEndianStringEncoding];
+
+		valData = [questionVal dataUsingEncoding:NSUTF32LittleEndianStringEncoding];
 		questionFieldValues.push_back (std::wstring ((const wchar_t*) [valData bytes], [valData length] / sizeof (wchar_t)));
 	}];
 	
