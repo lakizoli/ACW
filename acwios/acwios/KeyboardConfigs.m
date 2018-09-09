@@ -15,6 +15,7 @@
 	NSDictionary<NSNumber*, NSNumber*> *_extraKeyCountsOfBasicPages;
 	
 	NSUInteger _extraPageCount;
+	NSUInteger _extraPageKeyCount;
 	NSMutableDictionary<NSNumber*, NSString*> *_extraKeyTitles;
 	NSMutableDictionary<NSNumber*, NSString*> *_extraKeyValues;
 }
@@ -58,6 +59,21 @@
 	return (NSInteger) page * 1000 + keyIndex;
 }
 
+-(void) allocKeys:(NSMutableArray<NSString*>*)keysToAlloc page:(NSUInteger)page availableKeyCount:(NSUInteger)availableKeyCount {
+	NSUInteger allocatableKeyCount = availableKeyCount > [keysToAlloc count] ? [keysToAlloc count] : availableKeyCount; //min
+	for (NSUInteger i = 0; i < allocatableKeyCount; ++i) {
+		NSInteger extraKeyID = [self extraKeyIDFromPage:page keyIndex:i+1];
+		NSString *key = [keysToAlloc objectAtIndex:i];
+		
+		[self->_extraKeyValues setObject:key forKey:[NSNumber numberWithInteger:extraKeyID]];
+		[self->_extraKeyTitles setObject:key forKey:[NSNumber numberWithInteger:extraKeyID]];
+	}
+	
+	for (NSUInteger i = 0; i < allocatableKeyCount; ++i) {
+		[keysToAlloc removeObjectAtIndex:0];
+	}
+}
+
 //////////////////////////////////////////////////////////////////////
 //Interface
 //////////////////////////////////////////////////////////////////////
@@ -69,6 +85,7 @@
 		[self collectKeyboardKeys];
 		
 		_extraPageCount = 0;
+		_extraPageKeyCount = 29; //Must be conforming with rowKeys layout!
 		_extraKeyTitles = [NSMutableDictionary<NSNumber*, NSString*> new];
 		_extraKeyValues = [NSMutableDictionary<NSNumber*, NSString*> new];
 	}
@@ -93,8 +110,8 @@
 			*outWeights = @[   @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,  @2.0];
 			return YES;
 		case 2:
-			*outKeys    = @[@"Ex20", @"Ex21", @"Ex22", @"Ex23", @"Ex24", @"Ex25", @"Ex26"];
-			*outWeights = @[   @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0];
+			*outKeys    = @[@"Ex20", @"Ex21", @"Ex22", @"Ex23", @"Ex24", @"Ex25", @"Ex26", @"Ex27", @"Ex28", @"Ex29"];
+			*outWeights = @[   @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0];
 			return YES;
 		case 3:
 			*outKeys    = @[SWITCH, SPACEBAR, TURNOFF];
@@ -174,28 +191,21 @@
 	[sortedKeys enumerateObjectsUsingBlock:^(NSNumber *pageNum, NSUInteger idx, BOOL *stop) {
 		NSUInteger page = [pageNum unsignedIntegerValue];
 		NSUInteger availableKeyCount = [[self->_extraKeyCountsOfBasicPages objectForKey:pageNum] unsignedIntegerValue];
-		
-		NSUInteger allocatableKeyCount = availableKeyCount > [keysToAlloc count] ? [keysToAlloc count] : availableKeyCount; //min
-		for (NSUInteger i = 0; i < allocatableKeyCount; ++i) {
-			NSInteger extraKeyID = [self extraKeyIDFromPage:page keyIndex:i+1];
-			NSString *key = [keysToAlloc objectAtIndex:i];
-			
-			[self->_extraKeyValues setObject:key forKey:[NSNumber numberWithInteger:extraKeyID]];
-			[self->_extraKeyTitles setObject:key forKey:[NSNumber numberWithInteger:extraKeyID]];
-		}
-		
-		for (NSUInteger i = 0; i < allocatableKeyCount; ++i) {
-			[keysToAlloc removeObjectAtIndex:0];
-		}
+		[self allocKeys:keysToAlloc page:page availableKeyCount:availableKeyCount];
 	}];
 	
 	//Fill remaining not found keys on etxra pages
-	//TODO: ...
-	
-//	[notFoundKeys enumerateObjectsUsingBlock:^(NSString *key, BOOL *stop) {
-//
-//	}];
-	//TODO: implement addExtraPages...
+	NSUInteger remainingKeyCount = [keysToAlloc count];
+	if (remainingKeyCount > 0) {
+		_extraPageCount = remainingKeyCount / _extraPageKeyCount;
+		if (remainingKeyCount % _extraPageKeyCount > 0) {
+			++_extraPageCount;
+		}
+		
+		for (NSUInteger page = 0; page < _extraPageCount; ++page) {
+			[self allocKeys:keysToAlloc page:page + BASIC_PAGE_COUNT availableKeyCount:_extraPageKeyCount];
+		}
+	}
 }
 
 @end

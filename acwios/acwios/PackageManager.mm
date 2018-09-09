@@ -457,7 +457,7 @@
 	//Pull word out from garbage
 	NSArray<NSString*> *splitArr = @[@" ", @"&nbsp;", @";", @"<br", @"/>", @"<div>", @"</div>",
 									 @"<span>", @"</span>", @"*", @"\r", @"\n", @",", @"(", @")",
-									 @"[", @"]", @"{", @"}", @"~", @"-", @"/"];
+									 @"[", @"]", @"{", @"}"];
 	[splitArr enumerateObjectsUsingBlock:^(NSString*  _Nonnull splitStr, NSUInteger idx, BOOL * _Nonnull stop) {
 		NSString *trimmed = [field stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 		NSArray<NSString*> *items = [trimmed componentsSeparatedByString:splitStr];
