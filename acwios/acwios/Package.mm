@@ -344,7 +344,11 @@
 -(NSString*) getCellsValue:(uint32_t)row col:(uint32_t)col {
 	std::shared_ptr<Cell> cell = [self getCell:row col:col];
 	if (cell != nullptr && cell->IsFlagSet (CellFlags::Value)) {
-		return [NSString stringWithFormat:@"%c", cell->GetValue ()];
+		std::wstring chStr;
+		chStr += cell->GetValue ();
+		NSUInteger len = chStr.length () * sizeof (wchar_t);
+		NSString* nsStr = [[NSString alloc] initWithBytes:chStr.c_str () length:len encoding:NSUTF32LittleEndianStringEncoding];
+		return nsStr;
 	}
 	
 	return nil;
