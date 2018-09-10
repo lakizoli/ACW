@@ -10,6 +10,8 @@
 #import "GlossyButton.h"
 #import "KeyboardConfigs.h"
 
+//TODO: refine keyboard's button images!
+
 @interface KeyboardViewController ()
 
 @property (weak, nonatomic) IBOutlet UIStackView *firstKeyRow;
@@ -102,19 +104,16 @@
 		GlossyButton *button = [[GlossyButton alloc] initWithFrame:CGRectMake (0, 0, 0, 0)];
 
 		if ([key caseInsensitiveCompare:BACKSPACE] == NSOrderedSame) {
-			//TODO: add image for backspace...
-			[button setTitle:BACKSPACE forState:UIControlStateNormal];
+			[button setImage:[UIImage imageNamed:@"backspace-keyboard"] forState:UIControlStateNormal];
 		} else if ([key caseInsensitiveCompare:ENTER] == NSOrderedSame) {
 			//TODO: alter enter button's color...
 			[button setTitle:@"Done" forState:UIControlStateNormal];
 		} else if ([key caseInsensitiveCompare:SPACEBAR] == NSOrderedSame) {
 			[button setTitle:@"Space" forState:UIControlStateNormal];
 		} else if ([key caseInsensitiveCompare:TURNOFF] == NSOrderedSame) {
-			//TODO: add image for turn off...
-			[button setTitle:TURNOFF forState:UIControlStateNormal];
+			[button setImage:[UIImage imageNamed:@"turn-off-keyboard"] forState:UIControlStateNormal];
 		} else if ([key caseInsensitiveCompare:SWITCH] == NSOrderedSame) {
-			//TODO: add image for switch...
-			[button setTitle:SWITCH forState:UIControlStateNormal];
+			[button setImage:[UIImage imageNamed:@"switch-keyboard"] forState:UIControlStateNormal];
 		} else if ([key hasPrefix:@"Ex"]) { //Extra key
 			NSInteger extraKeyID = [self->_keyboardConfig getExtraKeyID:key page:self->_currentPage];
 			if (extraKeyID > 0) { //Used extra key
@@ -131,6 +130,8 @@
 		} else { //Normal value key
 			[button setTitle:key forState:UIControlStateNormal];
 		}
+		
+		[button setTitleColor:[UIColor colorWithRed:229.0f / 255.0f green:193.0f / 255.0f blue:71.0f / 255.0f alpha:1] forState:UIControlStateNormal];
 
 		[buttonStorage addObject:button];
 		[self setupButtonsAction:button key:key];
