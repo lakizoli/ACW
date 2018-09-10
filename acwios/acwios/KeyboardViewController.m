@@ -106,7 +106,10 @@
 		if ([key caseInsensitiveCompare:BACKSPACE] == NSOrderedSame) {
 			[button setImage:[UIImage imageNamed:@"backspace-keyboard"] forState:UIControlStateNormal];
 		} else if ([key caseInsensitiveCompare:ENTER] == NSOrderedSame) {
-			//TODO: alter enter button's color...
+			[button setHue:0.67];
+			[button setSaturation:0.97];
+			[button setBrightness:0.95];
+			
 			[button setTitle:@"Done" forState:UIControlStateNormal];
 		} else if ([key caseInsensitiveCompare:SPACEBAR] == NSOrderedSame) {
 			[button setTitle:@"Space" forState:UIControlStateNormal];
