@@ -52,6 +52,30 @@
 
 @end
 
+#pragma mark - Hungarian Keyboard
+
+@interface HunKeyboard : KeyboardConfig
+
+-(BOOL) rowKeys:(NSUInteger)row page:(NSUInteger)page outKeys:(NSArray<NSString*>**)outKeys outWeights:(NSArray<NSNumber*>**)outWeights;
+
+@end
+
+#pragma mark - Japanese Katakana Keyboard
+
+@interface JapanKatakanaKeyboard : KeyboardConfig
+
+-(BOOL) rowKeys:(NSUInteger)row page:(NSUInteger)page outKeys:(NSArray<NSString*>**)outKeys outWeights:(NSArray<NSNumber*>**)outWeights;
+
+@end
+
+#pragma mark - Japanese Hiragana Keyboard
+
+@interface JapanHiraganaKeyboard : KeyboardConfig
+
+-(BOOL) rowKeys:(NSUInteger)row page:(NSUInteger)page outKeys:(NSArray<NSString*>**)outKeys outWeights:(NSArray<NSNumber*>**)outWeights;
+
+@end
+
 //TODO: code all of supported international keyboards
 
 #endif /* KeyboardConfigs_h */

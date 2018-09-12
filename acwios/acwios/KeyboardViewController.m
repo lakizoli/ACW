@@ -189,14 +189,17 @@
 }
 
 -(KeyboardConfig*)chooseBestFitKeyboard {
-	NSArray<Class> *keyboardClasses = @[ [USKeyboard class] ]; //TODO: add other keyboard classes
+	NSArray<Class> *keyboardClasses = @[ [USKeyboard class],
+										 [HunKeyboard class],
+										 [JapanKatakanaKeyboard class],
+										 [JapanHiraganaKeyboard class] ]; //TODO: add other keyboard classes
 	
 	__block KeyboardConfig *cfg = nil;
 	__block NSSet<NSString*> *extraKeys = nil;
 	__block NSUInteger extraKeyCount = NSUIntegerMax;
 
 	[keyboardClasses enumerateObjectsUsingBlock:^(Class  _Nonnull cls, NSUInteger idx, BOOL * _Nonnull stop) {
-		KeyboardConfig *kb = [[USKeyboard alloc] init];
+		KeyboardConfig *kb = [[cls alloc] init];
 		
 		NSSet<NSString*> *kbExtraKeys = [kb collectExtraKeys:self->_usedKeys];
 		NSUInteger kbExtraKeyCount = [kbExtraKeys count];
