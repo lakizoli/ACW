@@ -448,36 +448,480 @@
 	return NO;
 }
 
+@end
+
 #pragma mark - Chinese ChaJei Keyboard
 
-//TODO: implement Chinese ChaJei Keyboard
+@implementation ChineseChaJeiKeyboard
+
+-(BOOL) rowKeys:(NSUInteger)row page:(NSUInteger)page outKeys:(NSArray<NSString*>**)outKeys outWeights:(NSArray<NSNumber*>**)outWeights {
+	if (page >= BASIC_PAGE_COUNT) {
+		return [super rowKeys:row page:page outKeys:outKeys outWeights:outWeights];
+	}
+	
+	switch (row) {
+		case 0:
+			if (page == PAGE_ALPHA) {
+				*outKeys    = @[@"\u624b", @"\u7530", @"\u6c34", @"\u53e3", @"\u5eff", @"\u535c", @"\u5c71", @"\u6208", BACKSPACE];
+				*outWeights = @[     @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @2.0];
+				return YES;
+			} else if (page == PAGE_NUM) {
+				*outKeys    = @[@"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"0", BACKSPACE];
+				*outWeights = @[@1.0, @1.0, @1.0, @1.0, @1.0, @1.0, @1.0, @1.0, @1.0, @1.0,      @2.0];
+				return YES;
+			}
+			break;
+		case 1:
+			if (page == PAGE_ALPHA) {
+				*outKeys    = @[@"\u65e5", @"\u5c38", @"\u6728", @"\u706b", @"\u571f", @"\u7af9", @"\u5341", @"\u5927", @"\u4e2d", ENTER];
+				*outWeights = @[     @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,   @2.0];
+				return YES;
+			} else if (page == PAGE_NUM) {
+				*outKeys    = @[@"Ex1", @"Ex2", @"Ex3", @"Ex4", @"Ex5", @"Ex6", @"Ex7", @"Ex8", @"Ex9", ENTER];
+				*outWeights = @[  @1.0,   @1.0,   @1.0,   @1.0,   @1.0,   @1.0,   @1.0,   @1.0,   @1.0,  @2.0];
+				return YES;
+			}
+			break;
+		case 2:
+			if (page == PAGE_ALPHA) {
+				*outKeys    = @[@"\uff3a", @"\u96e3", @"\u91d1", @"\u5973", @"\u6708", @"\u5f13", @"\u4e00", @"\u4eba", @"\u5fc3"];
+				*outWeights = @[     @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0];
+				return YES;
+			} else if (page == PAGE_NUM) {
+				*outKeys    = @[@"Ex10", @"Ex11", @"Ex12", @"Ex13", @"Ex14", @"Ex15", @"Ex16", @"Ex17", @"Ex18"];
+				*outWeights = @[   @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0];
+				return YES;
+			}
+			break;
+		case 3:
+			if (page == PAGE_ALPHA || page == PAGE_NUM) {
+				*outKeys    = @[SWITCH, SPACEBAR, TURNOFF];
+				*outWeights = @[  @1.0,     @3.0,    @1.0];
+				return YES;
+			}
+			break;
+		default:
+			break;
+	}
+	
+	return NO;
+}
+
+@end
+
 
 #pragma mark - Chinese Bopomofo Keyboard
 
-//TODO: implement Chinese Bopomofo Keyboard
+@implementation ChineseBopomofoKeyboard
+
+-(BOOL) rowKeys:(NSUInteger)row page:(NSUInteger)page outKeys:(NSArray<NSString*>**)outKeys outWeights:(NSArray<NSNumber*>**)outWeights {
+	if (page >= BASIC_PAGE_COUNT) {
+		return [super rowKeys:row page:page outKeys:outKeys outWeights:outWeights];
+	}
+	
+	switch (row) {
+		case 0:
+			if (page == PAGE_ALPHA) {
+				*outKeys    = @[@"\u3106", @"\u310a", @"\u310d", @"\u3110", @"\u3114", @"\u3117", @"\u3127", @"\u311b", @"\u311f", @"\u3123", BACKSPACE];
+				*outWeights = @[     @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @2.0];
+				return YES;
+			} else if (page == PAGE_NUM) {
+				*outKeys    = @[@"\u3105", @"\u3109", @"\u02c7", @"\u02cb", @"\u3113", @"\u02ca", @"\u02d9", @"\u311a", @"\u311e", @"\u3122", BACKSPACE];
+				*outWeights = @[     @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @2.0];
+				return YES;
+			}
+			break;
+		case 1:
+			if (page == PAGE_ALPHA) {
+				*outKeys    = @[@"\u3107", @"\u310b", @"\u310e", @"\u3111", @"\u3115", @"\u3118", @"\u3128", @"\u311c", @"\u3120", @"\u3124", ENTER];
+				*outWeights = @[     @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,   @2.0];
+				return YES;
+			} else if (page == PAGE_NUM) {
+				*outKeys    = @[@"Ex1", @"Ex2", @"Ex3", @"Ex4", @"Ex5", @"Ex6", @"Ex7", @"Ex8", @"Ex9", @"Ex10", ENTER];
+				*outWeights = @[  @1.0,   @1.0,   @1.0,   @1.0,   @1.0,   @1.0,   @1.0,   @1.0,   @1.0,    @1.0,  @2.0];
+				return YES;
+			}
+			break;
+		case 2:
+			if (page == PAGE_ALPHA) {
+				*outKeys    = @[@"\u3108", @"\u310c", @"\u310f", @"\u3112", @"\u3116", @"\u3119", @"\u3129", @"\u311d", @"\u3121", @"\u3125", @"\u3126"];
+				*outWeights = @[     @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0];
+				return YES;
+			} else if (page == PAGE_NUM) {
+				*outKeys    = @[@"Ex11", @"Ex12", @"Ex13", @"Ex14", @"Ex15", @"Ex16", @"Ex17", @"Ex18", @"Ex19", @"Ex20", @"Ex21"];
+				*outWeights = @[   @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0];
+				return YES;
+			}
+			break;
+		case 3:
+			if (page == PAGE_ALPHA || page == PAGE_NUM) {
+				*outKeys    = @[SWITCH, SPACEBAR, TURNOFF];
+				*outWeights = @[  @1.0,     @3.0,    @1.0];
+				return YES;
+			}
+			break;
+		default:
+			break;
+	}
+	
+	return NO;
+}
+
+@end
+
 
 #pragma mark - Russian Keyboard
 
-//TODO: implement Russian Keyboard
+@implementation RussianKeyboard
+
+-(BOOL) rowKeys:(NSUInteger)row page:(NSUInteger)page outKeys:(NSArray<NSString*>**)outKeys outWeights:(NSArray<NSNumber*>**)outWeights {
+	if (page >= BASIC_PAGE_COUNT) {
+		return [super rowKeys:row page:page outKeys:outKeys outWeights:outWeights];
+	}
+	
+	switch (row) {
+		case 0:
+			if (page == PAGE_ALPHA) {
+				*outKeys    = @[@"\u0439", @"\u0446", @"\u0443", @"\u043a", @"\u0435", @"\u043d", @"\u0433", @"\u0448", @"\u0449", @"\u0437", @"\u0445", BACKSPACE];
+				*outWeights = @[     @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @2.0];
+				return YES;
+			} else if (page == PAGE_NUM) {
+				*outKeys    = @[@"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"0", BACKSPACE];
+				*outWeights = @[@1.0, @1.0, @1.0, @1.0, @1.0, @1.0, @1.0, @1.0, @1.0, @1.0,      @2.0];
+				return YES;
+			}
+			break;
+		case 1:
+			if (page == PAGE_ALPHA) {
+				*outKeys    = @[@"\u0444", @"\u044b", @"\u0432", @"\u0430", @"\u043f", @"\u0440", @"\u043e", @"\u043b", @"\u0434", @"\u0436", @"\u044d", ENTER];
+				*outWeights = @[     @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,     @1.0,   @2.0];
+				return YES;
+			} else if (page == PAGE_NUM) {
+				*outKeys    = @[@"Ex1", @"Ex2", @"Ex3", @"Ex4", @"Ex5", @"Ex6", @"Ex7", @"Ex8", @"Ex9", @"Ex10", @"Ex11", ENTER];
+				*outWeights = @[  @1.0,   @1.0,   @1.0,   @1.0,   @1.0,   @1.0,   @1.0,   @1.0,   @1.0,    @1.0,    @1.0,  @2.0];
+				return YES;
+			}
+			break;
+		case 2:
+			if (page == PAGE_ALPHA) {
+				*outKeys    = @[@"\u044f", @"\u0447", @"\u0441", @"\u043c", @"\u0438", @"\u0442", @"\u044c", @"\u0431", @"\u044e", @"\u0451", @"\u044a"];
+				*outWeights = @[     @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0];
+				return YES;
+			} else if (page == PAGE_NUM) {
+				*outKeys    = @[@"Ex12", @"Ex13", @"Ex14", @"Ex15", @"Ex16", @"Ex17", @"Ex18", @"Ex19", @"Ex20", @"Ex21", @"Ex22"];
+				*outWeights = @[   @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0];
+				return YES;
+			}
+			break;
+		case 3:
+			if (page == PAGE_ALPHA || page == PAGE_NUM) {
+				*outKeys    = @[SWITCH, SPACEBAR, TURNOFF];
+				*outWeights = @[  @1.0,     @3.0,    @1.0];
+				return YES;
+			}
+			break;
+		default:
+			break;
+	}
+	
+	return NO;
+}
+
+@end
 
 #pragma mark - Arabic 102 Keyboard
 
-//TODO: implement Arabic 102 Keyboard
+@implementation Arabic102Keyboard
+
+-(BOOL) rowKeys:(NSUInteger)row page:(NSUInteger)page outKeys:(NSArray<NSString*>**)outKeys outWeights:(NSArray<NSNumber*>**)outWeights {
+	if (page >= BASIC_PAGE_COUNT) {
+		return [super rowKeys:row page:page outKeys:outKeys outWeights:outWeights];
+	}
+	
+	switch (row) {
+		case 0:
+			if (page == PAGE_ALPHA) {
+				*outKeys    = @[@"\u0636", @"\u0635", @"\u062b", @"\u0642", @"\u0641", @"\u063a", @"\u0639", @"\u0647", @"\u062e", @"\u062d", @"\u062c", @"\u062f", BACKSPACE];
+				*outWeights = @[     @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @2.0];
+				return YES;
+			} else if (page == PAGE_NUM) {
+				*outKeys    = @[@"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"0", BACKSPACE];
+				*outWeights = @[@1.0, @1.0, @1.0, @1.0, @1.0, @1.0, @1.0, @1.0, @1.0, @1.0,      @2.0];
+				return YES;
+			}
+			break;
+		case 1:
+			if (page == PAGE_ALPHA) {
+				*outKeys    = @[@"\u0634", @"\u0633", @"\u064a", @"\u0628", @"\u0644", @"\u0627", @"\u062a", @"\u0646", @"\u0645", @"\u0643", @"\u0637", @"\u0630", ENTER];
+				*outWeights = @[     @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,     @1.0,       @1.0,  @2.0];
+				return YES;
+			} else if (page == PAGE_NUM) {
+				*outKeys    = @[@"Ex1", @"Ex2", @"Ex3", @"Ex4", @"Ex5", @"Ex6", @"Ex7", @"Ex8", @"Ex9", @"Ex10", @"Ex11", @"Ex12", ENTER];
+				*outWeights = @[  @1.0,   @1.0,   @1.0,   @1.0,   @1.0,   @1.0,   @1.0,   @1.0,   @1.0,    @1.0,    @1.0,    @1.0,  @2.0];
+				return YES;
+			}
+			break;
+		case 2:
+			if (page == PAGE_ALPHA) {
+				*outKeys    = @[@"\u0640", @"\u0626", @"\u0621", @"\u0624", @"\u0631", @"\u0644", @"\u0627", @"\u0649", @"\u0629", @"\u0648", @"\u0632", @"\u0638"];
+				*outWeights = @[     @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0];
+				return YES;
+			} else if (page == PAGE_NUM) {
+				*outKeys    = @[@"Ex13", @"Ex14", @"Ex15", @"Ex16", @"Ex17", @"Ex18", @"Ex19", @"Ex20", @"Ex21", @"Ex22", @"Ex23", @"Ex24"];
+				*outWeights = @[   @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0];
+				return YES;
+			}
+			break;
+		case 3:
+			if (page == PAGE_ALPHA || page == PAGE_NUM) {
+				*outKeys    = @[SWITCH, SPACEBAR, TURNOFF];
+				*outWeights = @[  @1.0,     @3.0,    @1.0];
+				return YES;
+			}
+			break;
+		default:
+			break;
+	}
+	
+	return NO;
+}
+
+@end
 
 #pragma mark - Persian Keyboard
 
-//TODO: implement Persian Keyboard
+@implementation PersianKeyboard
+
+-(BOOL) rowKeys:(NSUInteger)row page:(NSUInteger)page outKeys:(NSArray<NSString*>**)outKeys outWeights:(NSArray<NSNumber*>**)outWeights {
+	if (page >= BASIC_PAGE_COUNT) {
+		return [super rowKeys:row page:page outKeys:outKeys outWeights:outWeights];
+	}
+	
+	switch (row) {
+		case 0:
+			if (page == PAGE_ALPHA) {
+				*outKeys    = @[@"\u0636", @"\u0635", @"\u062b", @"\u0642", @"\u0641", @"\u063a", @"\u0639", @"\u0647", @"\u062e", @"\u062d", @"\u062c", BACKSPACE];
+				*outWeights = @[     @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @2.0];
+				return YES;
+			} else if (page == PAGE_NUM) {
+				*outKeys    = @[@"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"0", BACKSPACE];
+				*outWeights = @[@1.0, @1.0, @1.0, @1.0, @1.0, @1.0, @1.0, @1.0, @1.0, @1.0,      @2.0];
+				return YES;
+			}
+			break;
+		case 1:
+			if (page == PAGE_ALPHA) {
+				*outKeys    = @[@"\u0634", @"\u0633", @"\u06cc", @"\u0628", @"\u0644", @"\u0627", @"\u062a", @"\u0646", @"\u0645", @"\u06a9", @"\u06af", ENTER];
+				*outWeights = @[     @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,  @2.0];
+				return YES;
+			} else if (page == PAGE_NUM) {
+				*outKeys    = @[@"Ex1", @"Ex2", @"Ex3", @"Ex4", @"Ex5", @"Ex6", @"Ex7", @"Ex8", @"Ex9", @"Ex10", @"Ex11", ENTER];
+				*outWeights = @[  @1.0,   @1.0,   @1.0,   @1.0,   @1.0,   @1.0,   @1.0,   @1.0,   @1.0,    @1.0,    @1.0,  @2.0];
+				return YES;
+			}
+			break;
+		case 2:
+			if (page == PAGE_ALPHA) {
+				*outKeys    = @[@"\u067e", @"\u0638", @"\u0637", @"\u0632", @"\u0631", @"\u0630", @"\u062f", @"\u0626", @"\u0648", @"\u0686", @"\u067e"];
+				*outWeights = @[     @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0];
+				return YES;
+			} else if (page == PAGE_NUM) {
+				*outKeys    = @[@"Ex12", @"Ex13", @"Ex14", @"Ex15", @"Ex16", @"Ex17", @"Ex18", @"Ex19", @"Ex20", @"Ex21", @"Ex22"];
+				*outWeights = @[   @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0];
+				return YES;
+			}
+			break;
+		case 3:
+			if (page == PAGE_ALPHA || page == PAGE_NUM) {
+				*outKeys    = @[SWITCH, SPACEBAR, TURNOFF];
+				*outWeights = @[  @1.0,     @3.0,    @1.0];
+				return YES;
+			}
+			break;
+		default:
+			break;
+	}
+	
+	return NO;
+}
+
+@end
+
 
 #pragma mark - Thai Kedmanee Keyboard
 
-//TODO: implement Thai Kedmanee Keyboard
+@implementation ThaiKedmaneeKeyboard
+
+-(BOOL) rowKeys:(NSUInteger)row page:(NSUInteger)page outKeys:(NSArray<NSString*>**)outKeys outWeights:(NSArray<NSNumber*>**)outWeights {
+	if (page >= BASIC_PAGE_COUNT) {
+		return [super rowKeys:row page:page outKeys:outKeys outWeights:outWeights];
+	}
+	
+	switch (row) {
+		case 0:
+			if (page == PAGE_ALPHA) {
+				*outKeys    = @[@"\u0e46", @"\u0e44", @"\u0e33", @"\u0e1e", @"\u0e30", @"\u0e31", @"\u0e35", @"\u0e23", @"\u0e19", @"\u0e22", @"\u0e1a", BACKSPACE];
+				*outWeights = @[     @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @2.0];
+				return YES;
+			} else if (page == PAGE_NUM) {
+				*outKeys    = @[@"\u0e45", @"\u0e20", @"\u0e16", @"\u0e38", @"\u0e36", @"\u0e04", @"\u0e15", @"\u0e08", @"\u0e02", @"\u0e0a", BACKSPACE];
+				*outWeights = @[     @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @2.0];
+				return YES;
+			}
+			break;
+		case 1:
+			if (page == PAGE_ALPHA) {
+				*outKeys    = @[@"\u0e1f", @"\u0e2b", @"\u0e01", @"\u0e14", @"\u0e40", @"\u0e49", @"\u0e48", @"\u0e32", @"\u0e2a", @"\u0e27", @"\u0e07", ENTER];
+				*outWeights = @[     @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,  @2.0];
+				return YES;
+			} else if (page == PAGE_NUM) {
+				*outKeys    = @[@"Ex1", @"Ex2", @"Ex3", @"Ex4", @"Ex5", @"Ex6", @"Ex7", @"Ex8", @"Ex9", @"Ex10", @"Ex11", ENTER];
+				*outWeights = @[  @1.0,   @1.0,   @1.0,   @1.0,   @1.0,   @1.0,   @1.0,   @1.0,   @1.0,    @1.0,    @1.0,  @2.0];
+				return YES;
+			}
+			break;
+		case 2:
+			if (page == PAGE_ALPHA) {
+				*outKeys    = @[@"\u0e1c", @"\u0e1b", @"\u0e41", @"\u0e2d", @"\u0e34", @"\u0e37", @"\u0e17", @"\u0e21", @"\u0e43", @"\u0e1d", @"\u0e25", @"\u0e03"];
+				*outWeights = @[     @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0];
+				return YES;
+			} else if (page == PAGE_NUM) {
+				*outKeys    = @[@"Ex12", @"Ex13", @"Ex14", @"Ex15", @"Ex16", @"Ex17", @"Ex18", @"Ex19", @"Ex20", @"Ex21", @"Ex22", @"Ex23"];
+				*outWeights = @[   @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0];
+				return YES;
+			}
+			break;
+		case 3:
+			if (page == PAGE_ALPHA || page == PAGE_NUM) {
+				*outKeys    = @[SWITCH, SPACEBAR, TURNOFF];
+				*outWeights = @[  @1.0,     @3.0,    @1.0];
+				return YES;
+			}
+			break;
+		default:
+			break;
+	}
+	
+	return NO;
+}
+
+@end
+
 
 #pragma mark - Thai Pattachote Keyboard
 
-//TODO: implement Thai Pattachote Keyboard
+@implementation ThaiPattachoteKeyboard
+
+-(BOOL) rowKeys:(NSUInteger)row page:(NSUInteger)page outKeys:(NSArray<NSString*>**)outKeys outWeights:(NSArray<NSNumber*>**)outWeights {
+	if (page >= BASIC_PAGE_COUNT) {
+		return [super rowKeys:row page:page outKeys:outKeys outWeights:outWeights];
+	}
+	
+	switch (row) {
+		case 0:
+			if (page == PAGE_ALPHA) {
+				*outKeys    = @[@"\u0e47", @"\u0e15", @"\u0e22", @"\u0e2d", @"\u0e23", @"\u0e48", @"\u0e14", @"\u0e21", @"\u0e27", @"\u0e41", @"\u0e43", BACKSPACE];
+				*outWeights = @[     @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @2.0];
+				return YES;
+			} else if (page == PAGE_NUM) {
+				*outKeys    = @[@"\u0e52", @"\u0e53", @"\u0e54", @"\u0e55", @"\u0e39", @"\u0e57", @"\u0e58", @"\u0e59", @"\u0e50", @"\u0e51", @"\u0e56", BACKSPACE];
+				*outWeights = @[     @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @2.0];
+				return YES;
+			}
+			break;
+		case 1:
+			if (page == PAGE_ALPHA) {
+				*outKeys    = @[@"\u0e49", @"\u0e17", @"\u0e07", @"\u0e01", @"\u0e31", @"\u0e35", @"\u0e32", @"\u0e19", @"\u0e40", @"\u0e44", @"\u0e02", ENTER];
+				*outWeights = @[     @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,  @2.0];
+				return YES;
+			} else if (page == PAGE_NUM) {
+				*outKeys    = @[@"Ex1", @"Ex2", @"Ex3", @"Ex4", @"Ex5", @"Ex6", @"Ex7", @"Ex8", @"Ex9", @"Ex10", @"Ex11", ENTER];
+				*outWeights = @[  @1.0,   @1.0,   @1.0,   @1.0,   @1.0,   @1.0,   @1.0,   @1.0,   @1.0,    @1.0,    @1.0,  @2.0];
+				return YES;
+			}
+			break;
+		case 2:
+			if (page == PAGE_ALPHA) {
+				*outKeys    = @[@"\u0e1a", @"\u0e1b", @"\u0e25", @"\u0e2b", @"\u0e34", @"\u0e04", @"\u0e2a", @"\u0e30", @"\u0e08", @"\u0e1e", @"\u0e0c", @"\uf8c7"];
+				*outWeights = @[     @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0];
+				return YES;
+			} else if (page == PAGE_NUM) {
+				*outKeys    = @[@"Ex12", @"Ex13", @"Ex14", @"Ex15", @"Ex16", @"Ex17", @"Ex18", @"Ex19", @"Ex20", @"Ex21", @"Ex22", @"Ex23"];
+				*outWeights = @[   @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0];
+				return YES;
+			}
+			break;
+		case 3:
+			if (page == PAGE_ALPHA || page == PAGE_NUM) {
+				*outKeys    = @[SWITCH, SPACEBAR, TURNOFF];
+				*outWeights = @[  @1.0,     @3.0,    @1.0];
+				return YES;
+			}
+			break;
+		default:
+			break;
+	}
+	
+	return NO;
+}
+
+@end
 
 #pragma mark - Greek Keyboard
 
-//TODO: implement Greek Keyboard
+@implementation GreekKeyboard
+
+-(BOOL) rowKeys:(NSUInteger)row page:(NSUInteger)page outKeys:(NSArray<NSString*>**)outKeys outWeights:(NSArray<NSNumber*>**)outWeights {
+	if (page >= BASIC_PAGE_COUNT) {
+		return [super rowKeys:row page:page outKeys:outKeys outWeights:outWeights];
+	}
+	
+	switch (row) {
+		case 0:
+			if (page == PAGE_ALPHA) {
+				*outKeys    = @[@"\u03c2", @"\u03b5", @"\u03c1", @"\u03c4", @"\u03c5", @"\u03b8", @"\u03b9", @"\u03bf", @"\u03c0", BACKSPACE];
+				*outWeights = @[     @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @2.0];
+				return YES;
+			} else if (page == PAGE_NUM) {
+				*outKeys    = @[@"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"0", BACKSPACE];
+				*outWeights = @[@1.0, @1.0, @1.0, @1.0, @1.0, @1.0, @1.0, @1.0, @1.0, @1.0,      @2.0];
+				return YES;
+			}
+			break;
+		case 1:
+			if (page == PAGE_ALPHA) {
+				*outKeys    = @[@"\u03b1", @"\u03c3", @"\u03b4", @"\u03c6", @"\u03b3", @"\u03b7", @"\u03be", @"\u03ba", @"\u03bb", @"\u0384", ENTER];
+				*outWeights = @[     @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,  @2.0];
+				return YES;
+			} else if (page == PAGE_NUM) {
+				*outKeys    = @[@"Ex1", @"Ex2", @"Ex3", @"Ex4", @"Ex5", @"Ex6", @"Ex7", @"Ex8", @"Ex9", @"Ex10", ENTER];
+				*outWeights = @[  @1.0,   @1.0,   @1.0,   @1.0,   @1.0,   @1.0,   @1.0,   @1.0,   @1.0,    @1.0,  @2.0];
+				return YES;
+			}
+			break;
+		case 2:
+			if (page == PAGE_ALPHA) {
+				*outKeys    = @[@"\u03b6", @"\u03c7", @"\u03c8", @"\u03c9", @"\u03b2", @"\u03bd", @"\u03bc"];
+				*outWeights = @[     @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0];
+				return YES;
+			} else if (page == PAGE_NUM) {
+				*outKeys    = @[@"Ex11", @"Ex12", @"Ex13", @"Ex14", @"Ex15", @"Ex16", @"Ex17"];
+				*outWeights = @[   @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0,    @1.0];
+				return YES;
+			}
+			break;
+		case 3:
+			if (page == PAGE_ALPHA || page == PAGE_NUM) {
+				*outKeys    = @[SWITCH, SPACEBAR, TURNOFF];
+				*outWeights = @[  @1.0,     @3.0,    @1.0];
+				return YES;
+			}
+			break;
+		default:
+			break;
+	}
+	
+	return NO;
+}
 
 @end

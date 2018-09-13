@@ -124,6 +124,7 @@
 				
 				NSString *title = [self->_keyboardConfig getTitleForExtraKeyID:extraKeyID];
 				if (title) {
+					NSLog (@"title: %@", title);
 					[button setTitle:title forState:UIControlStateNormal];
 				}
 			} else { //Unused extra key
@@ -133,6 +134,16 @@
 		} else { //Normal value key
 			[button setTitle:key forState:UIControlStateNormal];
 		}
+		
+		CGFloat fontSize = 26;
+		UIFont* font = [UIFont fontWithName:@"BradleyHandITCTT-Bold" size:fontSize];
+		if (font == nil) {
+			font = [UIFont fontWithName:@"Baskerville-BoldItalic" size:fontSize];
+		}
+		if (font == nil) {
+			font = [UIFont systemFontOfSize:fontSize];
+		}
+		[[button titleLabel] setFont:font];
 		
 		[button setTitleColor:[UIColor colorWithRed:229.0f / 255.0f green:193.0f / 255.0f blue:71.0f / 255.0f alpha:1] forState:UIControlStateNormal];
 
@@ -191,8 +202,16 @@
 -(KeyboardConfig*)chooseBestFitKeyboard {
 	NSArray<Class> *keyboardClasses = @[ [USKeyboard class],
 										 [HunKeyboard class],
+										 [GreekKeyboard class],
+										 [RussianKeyboard class],
+										 [Arabic102Keyboard class],
+										 [PersianKeyboard class],
 										 [JapanKatakanaKeyboard class],
-										 [JapanHiraganaKeyboard class] ]; //TODO: add other keyboard classes
+										 [JapanHiraganaKeyboard class],
+										 [ThaiKedmaneeKeyboard class],
+										 [ThaiPattachoteKeyboard class],
+										 [ChineseBopomofoKeyboard class],
+										 [ChineseChaJeiKeyboard class] ];
 	
 	__block KeyboardConfig *cfg = nil;
 	__block NSSet<NSString*> *extraKeys = nil;

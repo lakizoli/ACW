@@ -76,6 +76,68 @@
 
 @end
 
-//TODO: code all of supported international keyboards
+#pragma mark - Chinese ChaJei Keyboard
+
+@interface ChineseChaJeiKeyboard : KeyboardConfig
+
+-(BOOL) rowKeys:(NSUInteger)row page:(NSUInteger)page outKeys:(NSArray<NSString*>**)outKeys outWeights:(NSArray<NSNumber*>**)outWeights;
+
+@end
+
+#pragma mark - Chinese Bopomofo Keyboard
+
+@interface ChineseBopomofoKeyboard : KeyboardConfig
+
+-(BOOL) rowKeys:(NSUInteger)row page:(NSUInteger)page outKeys:(NSArray<NSString*>**)outKeys outWeights:(NSArray<NSNumber*>**)outWeights;
+
+@end
+
+#pragma mark - Russian Keyboard
+
+@interface RussianKeyboard : KeyboardConfig
+
+-(BOOL) rowKeys:(NSUInteger)row page:(NSUInteger)page outKeys:(NSArray<NSString*>**)outKeys outWeights:(NSArray<NSNumber*>**)outWeights;
+
+@end
+
+#pragma mark - Arabic 102 Keyboard
+
+@interface Arabic102Keyboard : KeyboardConfig
+
+-(BOOL) rowKeys:(NSUInteger)row page:(NSUInteger)page outKeys:(NSArray<NSString*>**)outKeys outWeights:(NSArray<NSNumber*>**)outWeights;
+
+@end
+
+#pragma mark - Persian Keyboard
+
+@interface PersianKeyboard : KeyboardConfig
+
+-(BOOL) rowKeys:(NSUInteger)row page:(NSUInteger)page outKeys:(NSArray<NSString*>**)outKeys outWeights:(NSArray<NSNumber*>**)outWeights;
+
+@end
+
+#pragma mark - Thai Kedmanee Keyboard
+
+@interface ThaiKedmaneeKeyboard : KeyboardConfig
+
+-(BOOL) rowKeys:(NSUInteger)row page:(NSUInteger)page outKeys:(NSArray<NSString*>**)outKeys outWeights:(NSArray<NSNumber*>**)outWeights;
+
+@end
+
+#pragma mark - Thai Pattachote Keyboard
+
+@interface ThaiPattachoteKeyboard : KeyboardConfig
+
+-(BOOL) rowKeys:(NSUInteger)row page:(NSUInteger)page outKeys:(NSArray<NSString*>**)outKeys outWeights:(NSArray<NSNumber*>**)outWeights;
+
+@end
+
+#pragma mark - Greek Keyboard
+
+@interface GreekKeyboard : KeyboardConfig
+
+-(BOOL) rowKeys:(NSUInteger)row page:(NSUInteger)page outKeys:(NSArray<NSString*>**)outKeys outWeights:(NSArray<NSNumber*>**)outWeights;
+
+@end
 
 #endif /* KeyboardConfigs_h */
