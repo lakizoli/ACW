@@ -8,6 +8,8 @@
 
 #import "EmitterEffect.h"
 
+//TODO: fix images in particles...
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //Info taken from here: https://www.raywenderlich.com/2989-uikit-particle-systems-in-ios-5-tutorial
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -80,6 +82,35 @@
 	dispatch_after (dispatch_time (DISPATCH_TIME_NOW, (int64_t)(100 * 1000000)), dispatch_get_main_queue (), ^{
 		[self stop];
 	});
+}
+
+-(void) startFire:(UIView*)view pt:(CGPoint)pt {
+	//Create the emitter layer
+	_emitter = [CAEmitterLayer layer];
+	_emitter.emitterPosition = pt;
+	_emitter.emitterMode = kCAEmitterLayerOutline;
+	_emitter.emitterShape = kCAEmitterLayerCircle;
+	_emitter.renderMode = kCAEmitterLayerAdditive;
+	_emitter.emitterSize = CGSizeMake(3, 3);
+	
+	CAEmitterCell* fire = [CAEmitterCell emitterCell];
+	fire.birthRate = 200;
+	fire.lifetime = 3.0;
+	fire.lifetimeRange = 0.5;
+	fire.color = [[UIColor colorWithRed:0.8 green:0.4 blue:0.2 alpha:0.1] CGColor];
+	fire.contents = (id)[[UIImage imageNamed:@"arrow-back"] CGImage];
+	[fire setName:@"fire"];
+	
+	fire.velocity = 5;
+	fire.velocityRange = 10;
+	fire.emissionRange = M_PI * 2.0;
+	
+	fire.scaleSpeed = 0.3;
+	fire.spin = 0.5;
+	
+	//add the cell to the layer and we're done
+	_emitter.emitterCells = [NSArray arrayWithObject:fire];
+	[view.layer addSublayer:_emitter];
 }
 
 -(void) moveTo:(CGPoint)pt {

@@ -14,6 +14,7 @@
 
 -(void) startSparkler:(UIView*)view pt:(CGPoint)pt;
 -(void) startFireWorks:(UIView*)view pt:(CGPoint)pt;
+-(void) startFire:(UIView*)view pt:(CGPoint)pt;
 
 -(void) moveTo:(CGPoint)pt;
 

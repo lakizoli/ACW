@@ -521,7 +521,7 @@
 	//TEST
 	if (_emitter == nil) {
 		_emitter = [[EmitterEffect alloc] init];
-		[_emitter startFireWorks:[self view] pt:CGPointMake (256, 128)];
+		[_emitter startFire:[self view] pt:CGPointMake (256, 128)];
 	} else {
 //		[_emitter moveTo:CGPointMake (512, 200)];
 //		[_emitter stop];
