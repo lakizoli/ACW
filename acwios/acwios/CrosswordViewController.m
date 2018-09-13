@@ -13,6 +13,7 @@
 
 //TODO: implement zoom on pinch gesture!
 //TODO: implement statistics!
+//TODO: implement win screen...
 
 @interface CrosswordViewController ()
 
@@ -34,6 +35,12 @@
 	int32_t _startCellCol;
 	int32_t _answerIndex; ///< The rolling index of the current answer selected for input, when multiple answers are available in a start cell.
 	NSMutableArray<NSNumber*> *_availableAnswerDirections; ///< All of the available input directions can be originated from the current start cell.
+	
+	//Statistics
+	uint32_t _failCount;
+	uint32_t _hintCount;
+	NSDate* _startTime;
+	BOOL _isFilled;
 }
 
 #pragma mark - Implementation
@@ -55,6 +62,7 @@
 	//Copy value into fill table
 	NSUInteger len = [_currentAnswer length];
 	if (len > 0) {
+		BOOL answerCommitted = NO;
 		_currentAnswer = [_currentAnswer lowercaseString];
 		
 		if ([self isInputInHorizontalDirection]) { //Horizontal answer
@@ -92,6 +100,9 @@
 				
 				//Save filled values
 				[_savedCrossword saveFilledValues:_cellFilledValues];
+				
+				//Sign committed result
+				answerCommitted = YES;
 			}
 		} else { //Vertical answer
 			//Check answers validity
@@ -128,7 +139,19 @@
 				
 				//Save filled values
 				[_savedCrossword saveFilledValues:_cellFilledValues];
+				
+				//Sign committed result
+				answerCommitted = YES;
 			}
+		}
+		
+		if (answerCommitted) {
+			//Determine filled state
+			[self calculateFillRatio:&_isFilled];
+			
+			//TODO: handle win screen transition...
+		} else {
+			++_failCount;
 		}
 	}
 }
@@ -143,6 +166,45 @@
 	_answerIndex = -1;
 
 	[self resignFirstResponder];
+}
+
+-(void) resetStatistics {
+	_failCount = 0;
+	_hintCount = 0;
+	_startTime = [NSDate date];
+	_isFilled = NO;
+}
+
+-(double) calculateFillRatio:(BOOL*)isFilled {
+	uint32_t valueCellCount = 0;
+	uint32_t filledCellCount = 0;
+	
+	for (uint32_t row = 0, rowEnd = (uint32_t) [_crosswordLayout rowCount]; row < rowEnd; ++row) {
+		for (uint32_t col = 0, colEnd = (uint32_t) [_crosswordLayout columnCount]; col < colEnd; ++col) {
+			uint32_t cellType = [_savedCrossword getCellTypeInRow:row col:col];
+			if ((cellType & CWCellType_HasValue) != 0) {
+				++valueCellCount;
+				
+				NSIndexPath *indexPath = [self getIndexPathForRow:row col:col];
+				NSString *val = [_cellFilledValues objectForKey:indexPath];
+				if ([val length] > 0) {
+					++filledCellCount;
+				}
+			}
+		}
+	}
+
+	double fillRatio = valueCellCount > 0 ? (double) filledCellCount / (double) valueCellCount : 1.0;
+	*isFilled = filledCellCount == valueCellCount ? YES : NO;
+	return *isFilled ? 1.0 : fillRatio;
+}
+
+-(void) mergeStatistics {
+	BOOL isFilled = NO;
+	double fillRatio = [self calculateFillRatio:&isFilled];
+	NSTimeInterval duration = [[NSDate date] timeIntervalSinceDate:_startTime];
+	[_savedCrossword mergeStatistics:_failCount hintCount:_hintCount fillRatio:fillRatio isFilled:isFilled fillDuration:duration];
+	[self resetStatistics];
 }
 
 #pragma mark - Appearance
@@ -183,6 +245,8 @@
 	KeyboardViewController* kbVC = (KeyboardViewController*) _inputViewController;
 	[kbVC setUsedKeys:[_savedCrossword getUsedKeys]];
 	[kbVC setup];
+	
+	[self resetStatistics];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -191,6 +255,7 @@
 }
 
 - (IBAction)backButtonPressed:(id)sender {
+	[self mergeStatistics];
 	[_savedCrossword unloadDB];
 	[self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -199,12 +264,20 @@
 	_areAnswersVisible = _areAnswersVisible ? NO : YES;
 	[_showHideButton setTitle:_areAnswersVisible ? @"Hide Hint" : @"Show Hint"];
 	[_crosswordView reloadData];
+	
+	if (_areAnswersVisible) {
+		++_hintCount;
+	}
 }
 
 - (IBAction)resetButtonPressed:(id)sender {
 	[_cellFilledValues removeAllObjects];
 	[_savedCrossword saveFilledValues:_cellFilledValues];
 	[_crosswordView reloadData];
+	
+	//Reset statistics
+	[self resetStatistics];
+	[_savedCrossword resetStatistics];
 }
 
 #pragma mark - Navigation

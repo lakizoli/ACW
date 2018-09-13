@@ -96,6 +96,16 @@ enum CWCellSeparator : uint32_t {
 	CWCellSeparator_All		= 0x000F
 };
 
+@interface Statistics : NSObject
+
+@property (assign) uint32_t failCount;
+@property (assign) uint32_t hintCount;
+@property (assign) double fillRatio;
+@property (assign) NSTimeInterval fillDuration;
+@property (assign) BOOL isFilled;
+
+@end
+
 @interface SavedCrossword : NSObject
 
 @property (strong) NSURL *path;
@@ -113,6 +123,10 @@ enum CWCellSeparator : uint32_t {
 
 -(void) saveFilledValues:(NSMutableDictionary<NSIndexPath*, NSString*>*)filledValues;
 -(void) loadFilledValuesInto:(NSMutableDictionary<NSIndexPath*, NSString*>*)filledValues;
+
+-(NSArray<Statistics*>*) loadStatistics;
+-(void) mergeStatistics:(uint32_t) failCount hintCount:(uint32_t)hintCount fillRatio:(double)fillRatio isFilled:(BOOL)isFilled fillDuration:(NSTimeInterval)fillDuration;
+-(void) resetStatistics;
 
 -(uint32_t) getCellTypeInRow:(uint32_t)row col:(uint32_t)col;
 -(BOOL) isStartCell:(uint32_t)row col:(uint32_t)col;

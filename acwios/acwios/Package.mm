@@ -77,6 +77,22 @@
 
 @end
 
+@implementation Statistics
+
+-(id) init {
+	self = [super init];
+	if (self) {
+		_failCount = 0;
+		_hintCount = 0;
+		_fillRatio = 0;
+		_fillDuration = 0;
+		_isFilled = NO;
+	}
+	return self;
+}
+
+@end
+
 @implementation SavedCrossword {
 	std::shared_ptr<Crossword> _cw;
 }
@@ -188,6 +204,130 @@
 			}
 		}];
 	}
+}
+
+- (NSURL*)statisticsPath {
+	NSURL *pureFileName = [_path URLByDeletingPathExtension];
+	return [pureFileName URLByAppendingPathExtension:@"statistics"];
+}
+
+-(Statistics*) getCurrentStatistics:(NSMutableArray<Statistics*>*)statistics {
+	Statistics *currentStat = nil;
+	if ([statistics count] > 0) {
+		Statistics *stat = [statistics lastObject];
+		if ([stat isFilled] == NO) {
+			currentStat = stat;
+		}
+	}
+	
+	if (currentStat == nil) {
+		currentStat = [[Statistics alloc] init];
+		[statistics addObject:currentStat];
+	}
+	
+	return currentStat;
+}
+
+-(void) saveStatistics:(NSArray<Statistics*>*)stats {
+	//Remove original file if exists
+	NSFileManager *man = [NSFileManager defaultManager];
+	NSURL *path = [self statisticsPath];
+	
+	if ([man fileExistsAtPath:[path path]]) {
+		NSError *err = nil;
+		if ([man removeItemAtURL:path error:&err] == NO) {
+			//log...
+			return;
+		}
+	}
+	
+	//Convert statistics to serializable one
+	NSMutableArray<NSDictionary<NSString*, id>*> *ser = [NSMutableArray<NSDictionary<NSString*, id>*> new];
+	[stats enumerateObjectsUsingBlock:^(Statistics * _Nonnull stat, NSUInteger idx, BOOL * _Nonnull stop) {
+		[ser addObject:@{
+						 @"failCount": [NSNumber numberWithUnsignedInt: [stat failCount]],
+						 @"hintCount": [NSNumber numberWithUnsignedInt: [stat hintCount]],
+						 @"fillRatio": [NSNumber numberWithDouble: [stat fillRatio]],
+						 @"fillDuration": [NSNumber numberWithDouble: [stat fillDuration]],
+						 @"isFilled": [NSNumber numberWithBool: [stat isFilled]]
+						 }];
+	}];
+	
+	//Save filled values
+	NSError* errWrite = nil;
+	if ([ser writeToURL:path error:&errWrite] == NO) {
+		//log...
+		return;
+	}
+}
+
+-(NSArray<Statistics*>*) loadStatistics {
+	__block NSMutableArray<Statistics*>* stats = [NSMutableArray<Statistics*> new];
+	
+	//Load content
+	NSURL *path = [self statisticsPath];
+	BOOL isDirectory = NO;
+	if ([[NSFileManager defaultManager] fileExistsAtPath:[path path] isDirectory:&isDirectory] && isDirectory == NO) {
+		NSArray<NSDictionary<NSString*, id>*> *arr = [NSArray arrayWithContentsOfURL:path];
+		[arr enumerateObjectsUsingBlock:^(NSDictionary<NSString *,id> * _Nonnull dict, NSUInteger idx, BOOL * _Nonnull stop) {
+			Statistics *stat = [[Statistics alloc] init];
+
+			[dict enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, id _Nonnull obj, BOOL * _Nonnull stop) {
+				if ([key isEqualToString:@"failCount"]) {
+					NSNumber *num = (NSNumber*)obj;
+					[stat setFailCount: [num unsignedIntValue]];
+				} else if ([key isEqualToString:@"hintCount"]) {
+					NSNumber *num = (NSNumber*)obj;
+					[stat setHintCount: [num unsignedIntValue]];
+				} else if ([key isEqualToString:@"fillRatio"]) {
+					NSNumber *num = (NSNumber*)obj;
+					[stat setFillRatio: [num doubleValue]];
+				} else if ([key isEqualToString:@"fillDuration"]) {
+					NSNumber *num = (NSNumber*)obj;
+					[stat setFillDuration: [num doubleValue]];
+				} else if ([key isEqualToString:@"isFilled"]) {
+					NSNumber *num = (NSNumber*)obj;
+					[stat setIsFilled: [num boolValue]];
+				}
+			}];
+			
+			[stats addObject:stat];
+		}];
+	}
+	
+	return stats;
+}
+
+-(void) mergeStatistics:(uint32_t)failCount hintCount:(uint32_t)hintCount fillRatio:(double)fillRatio isFilled:(BOOL)isFilled fillDuration:(NSTimeInterval)fillDuration {
+	//Obtain current statistic
+	NSMutableArray<Statistics*>* stats = (NSMutableArray<Statistics*>*) [self loadStatistics];
+	Statistics *currentStat = [self getCurrentStatistics:stats];
+	
+	//Merge values to the current statistic
+	currentStat.failCount += failCount;
+	currentStat.hintCount += hintCount;
+	currentStat.fillRatio = fillRatio;
+	currentStat.fillDuration += fillDuration;
+	currentStat.isFilled = isFilled;
+	
+	//Save statistics
+	[self saveStatistics:stats];
+}
+
+-(void) resetStatistics {
+	//Obtain current statistic
+	NSMutableArray<Statistics*>* stats = (NSMutableArray<Statistics*>*) [self loadStatistics];
+	Statistics *currentStat = [self getCurrentStatistics:stats];
+	
+	//Reset current statistics
+	currentStat.failCount = 0;
+	currentStat.hintCount = 0;
+	currentStat.fillRatio = 0.0;
+	currentStat.fillDuration = 0.0;
+	currentStat.isFilled = NO;
+	
+	//Save statistics
+	[self saveStatistics:stats];
 }
 
 -(std::shared_ptr<Cell>) getCell:(uint32_t)row col:(uint32_t)col {
