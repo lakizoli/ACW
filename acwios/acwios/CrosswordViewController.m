@@ -10,6 +10,7 @@
 #import "CrosswordCell.h"
 #import "CrosswordLayout.h"
 #import "KeyboardViewController.h"
+#import "EmitterEffect.h"
 
 //TODO: implement zoom on pinch gesture!
 //TODO: implement statistics!
@@ -41,6 +42,9 @@
 	uint32_t _hintCount;
 	NSDate* _startTime;
 	BOOL _isFilled;
+	
+	//Win screen effects
+	EmitterEffect *_emitter;
 }
 
 #pragma mark - Implementation
@@ -513,6 +517,18 @@
 	
 	//Highlight the word have to be enter
 	[_crosswordView reloadData];
+	
+	//TEST
+	if (_emitter == nil) {
+		_emitter = [[EmitterEffect alloc] init];
+		[_emitter startFireWorks:[self view] pt:CGPointMake (256, 128)];
+	} else {
+//		[_emitter moveTo:CGPointMake (512, 200)];
+//		[_emitter stop];
+		[_emitter remove];
+		_emitter = nil;
+	}
+	//END TEST
 }
 
 #pragma mark - UICollectionViewDelegate

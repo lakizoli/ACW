@@ -18,6 +18,7 @@
 		F0C91BA4210C690000B06070 /* ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = F0C91BA3210C690000B06070 /* ProgressView.m */; };
 		FD2197BB214110E900E6D396 /* KeyboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD2197BA214110E900E6D396 /* KeyboardViewController.m */; };
 		FD2197BF2142605200E6D396 /* KeyboardConfigs.m in Sources */ = {isa = PBXBuildFile; fileRef = FD2197BE2142605200E6D396 /* KeyboardConfigs.m */; };
+		FD2197C3214AB59100E6D396 /* EmitterEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = FD2197C2214AB59100E6D396 /* EmitterEffect.m */; };
 		FD6CE9B3213E6D8B00A0E27A /* GameTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FD6CE9B2213E6D8B00A0E27A /* GameTableCell.m */; };
 		FD6ED59321382C3B00FCCAC7 /* DrawingCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = FD6ED58F21382C3A00FCCAC7 /* DrawingCommon.m */; };
 		FD6ED59421382C3B00FCCAC7 /* GlossyButton.m in Sources */ = {isa = PBXBuildFile; fileRef = FD6ED59021382C3A00FCCAC7 /* GlossyButton.m */; };
@@ -76,6 +77,8 @@
 		FD2197BA214110E900E6D396 /* KeyboardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KeyboardViewController.m; sourceTree = "<group>"; };
 		FD2197BE2142605200E6D396 /* KeyboardConfigs.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KeyboardConfigs.m; sourceTree = "<group>"; };
 		FD2197C02142606100E6D396 /* KeyboardConfigs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KeyboardConfigs.h; sourceTree = "<group>"; };
+		FD2197C1214AB59100E6D396 /* EmitterEffect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EmitterEffect.h; sourceTree = "<group>"; };
+		FD2197C2214AB59100E6D396 /* EmitterEffect.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EmitterEffect.m; sourceTree = "<group>"; };
 		FD6CE9B1213E6D8B00A0E27A /* GameTableCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameTableCell.h; sourceTree = "<group>"; };
 		FD6CE9B2213E6D8B00A0E27A /* GameTableCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GameTableCell.m; sourceTree = "<group>"; };
 		FD6ED58F21382C3A00FCCAC7 /* DrawingCommon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawingCommon.m; sourceTree = "<group>"; };
@@ -141,6 +144,8 @@
 				F0C91BA3210C690000B06070 /* ProgressView.m */,
 				FD6CE9B1213E6D8B00A0E27A /* GameTableCell.h */,
 				FD6CE9B2213E6D8B00A0E27A /* GameTableCell.m */,
+				FD2197C1214AB59100E6D396 /* EmitterEffect.h */,
+				FD2197C2214AB59100E6D396 /* EmitterEffect.m */,
 			);
 			name = UIClasses;
 			sourceTree = "<group>";
@@ -322,6 +327,7 @@
 				F09B2056210D742B00398B2E /* SubscriptionManager.m in Sources */,
 				FD2197BB214110E900E6D396 /* KeyboardViewController.m in Sources */,
 				FDCD521C21084C860081FE4D /* MainViewController.m in Sources */,
+				FD2197C3214AB59100E6D396 /* EmitterEffect.m in Sources */,
 				F09B205C210D7D3B00398B2E /* Package.mm in Sources */,
 				F0C91BA4210C690000B06070 /* ProgressView.m in Sources */,
 				FDCD52B92112DB070081FE4D /* CWConfiguratorViewController.m in Sources */,
