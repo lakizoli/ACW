@@ -79,7 +79,7 @@
 	_emitter.emitterCells = [NSArray arrayWithObject:fire];
 	[view.layer addSublayer:_emitter];
 	
-	dispatch_after (dispatch_time (DISPATCH_TIME_NOW, (int64_t)(100 * 1000000)), dispatch_get_main_queue (), ^{
+	dispatch_after (dispatch_time (DISPATCH_TIME_NOW, (int64_t)(500 * 1000000)), dispatch_get_main_queue (), ^{
 		[self stop];
 	});
 }

@@ -44,7 +44,8 @@
 	BOOL _isFilled;
 	
 	//Win screen effects
-	EmitterEffect *_emitter;
+	NSTimer *_timerWin;
+	EmitterEffect *_emitterWin[4];
 }
 
 #pragma mark - Implementation
@@ -153,7 +154,10 @@
 			//Determine filled state
 			[self calculateFillRatio:&_isFilled];
 			
-			//TODO: handle win screen transition...
+			//Go to win, if all field filled
+			if (_isFilled) {
+				[self showWinScreen];
+			}
 		} else {
 			++_failCount;
 		}
@@ -209,6 +213,71 @@
 	NSTimeInterval duration = [[NSDate date] timeIntervalSinceDate:_startTime];
 	[_savedCrossword mergeStatistics:_failCount hintCount:_hintCount fillRatio:fillRatio isFilled:isFilled fillDuration:duration];
 	[self resetStatistics];
+}
+
+-(void) showWinScreen {
+	[self resetInput];
+	
+	CGRect frame = [[self view] frame];
+	__block CGSize size = CGSizeMake (frame.size.width / 2.0 * 0.8, 2.0 * frame.size.height / 3.0 * 0.8);
+
+	__block CGPoint ptStart0 = CGPointMake (frame.origin.x + frame.size.width * 0.1, frame.origin.y + frame.size.height);
+	_emitterWin[0] = [[EmitterEffect alloc] init];
+	[_emitterWin[0] startFire:[self view] pt:ptStart0];
+
+	__block CGPoint ptStart1 = CGPointMake (frame.origin.x + frame.size.width * 0.9, frame.origin.y + frame.size.height);
+	_emitterWin[1] = [[EmitterEffect alloc] init];
+	[_emitterWin[1] startFire:[self view] pt:ptStart1];
+
+	_emitterWin[2] = [[EmitterEffect alloc] init];
+	_emitterWin[3] = [[EmitterEffect alloc] init];
+	
+	__block NSDate* start = nil;
+	_timerWin = [NSTimer scheduledTimerWithTimeInterval:0.05
+												repeats:YES
+												  block:^(NSTimer * _Nonnull timer)
+	{
+		const CGFloat duration = 2.0;
+		if (start == nil) {
+			start = [NSDate date];
+		}
+		
+		NSTimeInterval dT = [[NSDate date] timeIntervalSinceDate:start]; //Elapsed time: [sec]
+
+		//The function of the fireball is: y=x*x
+		const CGFloat velocity = 100.0; //velocity: [dx / sec]
+		const CGFloat maxX = duration * velocity;
+		const CGFloat maxY = maxX * maxX;
+		
+		CGFloat xPos = velocity * (duration - dT);
+		CGFloat yPos = xPos * xPos;
+		xPos /= maxX;
+		yPos /= maxY;
+		
+		xPos = 1.0 - xPos;
+		yPos = 1.0 - yPos;
+		
+//		NSLog (@"xPos: %.3f, yPos: %.3f", xPos, yPos);
+		
+		CGPoint pt0 = CGPointMake (ptStart0.x + xPos * size.width, ptStart0.y - yPos * size.height);
+		CGPoint pt1 = CGPointMake (ptStart1.x - xPos * size.width, ptStart1.y - yPos * size.height);
+//		NSLog (@"ptF: %@, ptS: %@", NSStringFromCGPoint (pt0), NSStringFromCGPoint (pt1));
+		
+		[self->_emitterWin[0] moveTo:pt0];
+		[self->_emitterWin[1] moveTo:pt1];
+
+		//End of animation
+		if (dT >= duration * 1.005) {
+			[self->_emitterWin[0] stop];
+			[self->_emitterWin[1] stop];
+			
+			[self->_emitterWin[2] startFireWorks:[self view] pt:pt0];
+			[self->_emitterWin[3] startFireWorks:[self view] pt:pt1];
+			
+			[self->_timerWin invalidate];
+			return;
+		}
+	}];
 }
 
 #pragma mark - Appearance
@@ -519,15 +588,7 @@
 	[_crosswordView reloadData];
 	
 	//TEST
-	if (_emitter == nil) {
-		_emitter = [[EmitterEffect alloc] init];
-		[_emitter startFire:[self view] pt:CGPointMake (256, 128)];
-	} else {
-//		[_emitter moveTo:CGPointMake (512, 200)];
-//		[_emitter stop];
-		[_emitter remove];
-		_emitter = nil;
-	}
+	[self showWinScreen];
 	//END TEST
 }
 
