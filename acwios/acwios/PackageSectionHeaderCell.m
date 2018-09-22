@@ -30,22 +30,22 @@
 }
 
 -(void)setOpened {
-	UIImage *img = [UIImage imageNamed:@"collapse-arrow.png"];
+	UIImage *img = [UIImage imageNamed:@"collapse-arrow"];
 	[_openCloseButton setImage:img forState:UIControlStateNormal];
 }
 
 -(void)setClosed {
-	UIImage *img = [UIImage imageNamed:@"expand-arrow.png"];
+	UIImage *img = [UIImage imageNamed:@"expand-arrow"];
 	[_openCloseButton setImage:img forState:UIControlStateNormal];
 }
 
 -(void)setSelectAll {
-	UIImage *img = [UIImage imageNamed:@"check-all.png"];
+	UIImage *img = [UIImage imageNamed:@"check-all"];
 	[_selectDeselectAllButton setImage:img forState:UIControlStateNormal];
 }
 
 -(void)setDeselectAll {
-	UIImage *img = [UIImage imageNamed:@"uncheck-all.png"];
+	UIImage *img = [UIImage imageNamed:@"uncheck-all"];
 	[_selectDeselectAllButton setImage:img forState:UIControlStateNormal];
 }
 

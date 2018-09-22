@@ -42,7 +42,7 @@
 	particle.emissionRange = 1.1;
 	particle.scaleSpeed = 1.0; // was 0.3
 	particle.color = [[[UIColor purpleColor] colorWithAlphaComponent:0.5f] CGColor];
-	particle.contents = (__bridge id)([UIImage imageNamed:@"arrow-back"].CGImage); //spark.png
+	particle.contents = (__bridge id)([UIImage imageNamed:@"star"].CGImage);
 	particle.name = @"particle";
 	
 	_emitter.emitterCells = [NSArray arrayWithObject:particle];
@@ -65,7 +65,7 @@
 	fire.lifetime = 2.0;
 	fire.lifetimeRange = 0.5;
 	fire.color = [[UIColor colorWithRed:0.8 green:0.4 blue:0.2 alpha:0.6] CGColor];
-	fire.contents = (__bridge id)([UIImage imageNamed:@"arrow-back"].CGImage); //star_icon.png
+	fire.contents = (__bridge id)([UIImage imageNamed:@"star"].CGImage);
 	[fire setName:@"fire"];
 	
 	fire.velocity = 180;
@@ -91,14 +91,14 @@
 	_emitter.emitterMode = kCAEmitterLayerOutline;
 	_emitter.emitterShape = kCAEmitterLayerCircle;
 	_emitter.renderMode = kCAEmitterLayerAdditive;
-	_emitter.emitterSize = CGSizeMake(3, 3);
+	_emitter.emitterSize = CGSizeMake(2, 2);
 	
 	CAEmitterCell* fire = [CAEmitterCell emitterCell];
 	fire.birthRate = 200;
 	fire.lifetime = 3.0;
 	fire.lifetimeRange = 0.5;
 	fire.color = [[UIColor colorWithRed:0.8 green:0.4 blue:0.2 alpha:0.1] CGColor];
-	fire.contents = (id)[[UIImage imageNamed:@"arrow-back"] CGImage];
+	fire.contents = (id)[[UIImage imageNamed:@"star"] CGImage];
 	[fire setName:@"fire"];
 	
 	fire.velocity = 5;

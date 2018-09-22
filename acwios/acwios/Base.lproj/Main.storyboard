@@ -1080,11 +1080,11 @@
         </scene>
     </scenes>
     <resources>
-        <image name="arrow-back" width="32" height="32"/>
+        <image name="arrow-back" width="24" height="24"/>
         <image name="background_pattern_blue" width="1298" height="1298"/>
-        <image name="check-all" width="26" height="26"/>
-        <image name="collapse-arrow" width="30" height="30"/>
-        <image name="delete-all" width="26" height="26"/>
+        <image name="check-all" width="24" height="24"/>
+        <image name="collapse-arrow" width="24" height="24"/>
+        <image name="delete-all" width="24" height="24"/>
         <image name="game_logo" width="426" height="277"/>
     </resources>
 </document>
