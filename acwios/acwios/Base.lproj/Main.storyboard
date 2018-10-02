@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
-        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -144,7 +141,7 @@
                                 <rect key="frame" x="37.5" y="269.5" width="300" height="128"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&lt;progress&gt;" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bSR-CA-Z5W">
-                                        <rect key="frame" x="106" y="21.5" width="89" height="21"/>
+                                        <rect key="frame" x="105.5" y="21.5" width="89" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -272,7 +269,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fsf-id-fLd" customClass="GlossyButton">
-                                                    <rect key="frame" x="5" y="-3" width="70" height="50"/>
+                                                    <rect key="frame" x="5" y="-3.5" width="70" height="50.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="70" id="7D8-Oy-NUJ"/>
                                                         <constraint firstAttribute="height" constant="50" id="fkJ-DZ-yZV"/>
@@ -294,7 +291,7 @@
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bfz-Id-pNZ" customClass="GlossyButton">
-                                                    <rect key="frame" x="300" y="-3" width="70" height="50"/>
+                                                    <rect key="frame" x="300" y="-3.5" width="70" height="50.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="jHu-4Q-ccH"/>
                                                         <constraint firstAttribute="width" constant="70" id="p3E-Ac-Vvu"/>
@@ -316,7 +313,7 @@
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mto-Mi-0WR" customClass="GlossyButton">
-                                                    <rect key="frame" x="225" y="-3" width="70" height="50"/>
+                                                    <rect key="frame" x="225" y="-3.5" width="70" height="50.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="70" id="AbF-mo-lgi"/>
                                                         <constraint firstAttribute="height" constant="50" id="fAL-ED-6Xz"/>
@@ -374,7 +371,7 @@
                                 <rect key="frame" x="0.0" y="537" width="375" height="130"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WDy-pw-Jep">
-                                        <rect key="frame" x="9" y="8" width="358" height="68.5"/>
+                                        <rect key="frame" x="8" y="8" width="359" height="68.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="lessThanOrEqual" constant="359" id="3yx-jK-y2G"/>
                                         </constraints>
@@ -389,7 +386,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xrc-WZ-AAS">
-                                        <rect key="frame" x="144" y="86" width="88" height="36"/>
+                                        <rect key="frame" x="143.5" y="86" width="88" height="36"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <state key="normal" title="Subscribe"/>
                                         <connections>
@@ -538,11 +535,88 @@
                         <outlet property="crosswordLayout" destination="NEG-KQ-SnD" id="AS3-bC-PSv"/>
                         <outlet property="crosswordView" destination="LAi-La-LeM" id="bjW-O0-CRz"/>
                         <outlet property="showHideButton" destination="b2E-oj-GcN" id="YVF-Xy-x3x"/>
+                        <outlet property="winFailCountLabel" destination="JLd-jR-eYg" id="opF-BQ-2YI"/>
+                        <outlet property="winHintCountLabel" destination="ZU1-e2-llS" id="hCd-wU-w9B"/>
+                        <outlet property="winTimeLabel" destination="TjN-0l-kr0" id="0l1-HS-rFQ"/>
+                        <outlet property="winView" destination="32Z-vW-w3O" id="z0H-qr-lUu"/>
+                        <outlet property="winWordCountLabel" destination="qTo-K0-ksM" id="mOA-1W-haR"/>
                     </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HeQ-JF-uUr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <view hidden="YES" contentMode="scaleToFill" id="32Z-vW-w3O">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="LXt-CG-urr">
+                            <rect key="frame" x="62.5" y="228" width="250" height="211"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Congratulation!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TDS-MI-iMd">
+                                    <rect key="frame" x="0.0" y="0.0" width="250" height="35"/>
+                                    <fontDescription key="fontDescription" name="BradleyHandITCTT-Bold" family="Bradley Hand" pointSize="28"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You filled the crossword!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Sx-i8-Vcm">
+                                    <rect key="frame" x="0.0" y="35" width="250" height="50"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="50" id="iNU-D4-JdF"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" name="BradleyHandITCTT-Bold" family="Bradley Hand" pointSize="20"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time: 1:50" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TjN-0l-kr0">
+                                    <rect key="frame" x="0.0" y="85" width="250" height="21.5"/>
+                                    <fontDescription key="fontDescription" name="BradleyHandITCTT-Bold" family="Bradley Hand" pointSize="17"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hint show count: 100" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZU1-e2-llS">
+                                    <rect key="frame" x="0.0" y="106.5" width="250" height="21.5"/>
+                                    <fontDescription key="fontDescription" name="BradleyHandITCTT-Bold" family="Bradley Hand" pointSize="17"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Word count: 42" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qTo-K0-ksM">
+                                    <rect key="frame" x="0.0" y="128" width="250" height="21.5"/>
+                                    <fontDescription key="fontDescription" name="BradleyHandITCTT-Bold" family="Bradley Hand" pointSize="17"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fail count: 10" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JLd-jR-eYg">
+                                    <rect key="frame" x="0.0" y="149.5" width="250" height="21.5"/>
+                                    <fontDescription key="fontDescription" name="BradleyHandITCTT-Bold" family="Bradley Hand" pointSize="17"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y12-7V-CcC" customClass="GlossyButton">
+                                    <rect key="frame" x="0.0" y="171" width="250" height="40"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="40" id="bd4-de-xpf"/>
+                                        <constraint firstAttribute="width" constant="120" id="h37-9l-g0v"/>
+                                    </constraints>
+                                    <state key="normal" title="OK">
+                                        <color key="titleColor" red="0.8980392157" green="0.75686274509999996" blue="0.2784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="congratsButtonPressed:" destination="oYt-3K-Fqm" eventType="touchUpInside" id="sIe-qJ-JJQ"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="250" id="gPq-w4-Qwl"/>
+                            </constraints>
+                        </stackView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="LXt-CG-urr" firstAttribute="centerY" secondItem="32Z-vW-w3O" secondAttribute="centerY" id="QfO-KN-yWA"/>
+                        <constraint firstItem="LXt-CG-urr" firstAttribute="centerX" secondItem="32Z-vW-w3O" secondAttribute="centerX" id="miy-dR-E0N"/>
+                    </constraints>
+                    <viewLayoutGuide key="safeArea" id="rJv-nw-hhl"/>
+                </view>
             </objects>
-            <point key="canvasLocation" x="2694" y="994"/>
+            <point key="canvasLocation" x="2694" y="1734"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="rOj-Eu-ofd">
@@ -621,7 +695,7 @@
                                 <rect key="frame" x="0.0" y="537" width="375" height="130"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ShQ-4t-HxL">
-                                        <rect key="frame" x="9" y="8" width="358" height="68.5"/>
+                                        <rect key="frame" x="8" y="8" width="359" height="68.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="lessThanOrEqual" constant="359" id="Piv-bX-ub9"/>
                                         </constraints>
@@ -636,7 +710,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mO6-uW-gDN">
-                                        <rect key="frame" x="144" y="86" width="88" height="36"/>
+                                        <rect key="frame" x="143.5" y="86" width="88" height="36"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <state key="normal" title="Subscribe"/>
                                         <connections>
@@ -984,7 +1058,7 @@
                                 <rect key="frame" x="37.5" y="279.5" width="300" height="128"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&lt;progress&gt;" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lDb-DS-6Wk">
-                                        <rect key="frame" x="106" y="22" width="89" height="20.5"/>
+                                        <rect key="frame" x="105.5" y="22" width="89" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -1081,10 +1155,10 @@
     </scenes>
     <resources>
         <image name="arrow-back" width="24" height="24"/>
-        <image name="background_pattern_blue" width="1298" height="1298"/>
+        <image name="background_pattern_blue" width="311.51998901367188" height="311.51998901367188"/>
         <image name="check-all" width="24" height="24"/>
         <image name="collapse-arrow" width="24" height="24"/>
         <image name="delete-all" width="24" height="24"/>
-        <image name="game_logo" width="426" height="277"/>
+        <image name="game_logo" width="102.23999786376953" height="66.480003356933594"/>
     </resources>
 </document>

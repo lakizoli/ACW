@@ -22,6 +22,12 @@
 @property (weak, nonatomic) IBOutlet CrosswordLayout *crosswordLayout;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *showHideButton;
 
+@property (weak, nonatomic) IBOutlet UIView *winView;
+@property (weak, nonatomic) IBOutlet UILabel *winTimeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *winHintCountLabel;
+@property (weak, nonatomic) IBOutlet UILabel *winWordCountLabel;
+@property (weak, nonatomic) IBOutlet UILabel *winFailCountLabel;
+
 @end
 
 @implementation CrosswordViewController {
@@ -42,6 +48,7 @@
 	uint32_t _hintCount;
 	NSDate* _startTime;
 	BOOL _isFilled;
+	NSTimeInterval _fillDuration;
 	
 	//Win screen effects
 	NSTimer *_timerWin;
@@ -181,6 +188,7 @@
 	_hintCount = 0;
 	_startTime = [NSDate date];
 	_isFilled = NO;
+	_fillDuration = 0;
 }
 
 -(double) calculateFillRatio:(BOOL*)isFilled {
@@ -210,14 +218,50 @@
 -(void) mergeStatistics {
 	BOOL isFilled = NO;
 	double fillRatio = [self calculateFillRatio:&isFilled];
-	NSTimeInterval duration = [[NSDate date] timeIntervalSinceDate:_startTime];
-	[_savedCrossword mergeStatistics:_failCount hintCount:_hintCount fillRatio:fillRatio isFilled:isFilled fillDuration:duration];
+	[self saveStatistics:fillRatio isFilled:isFilled];
+}
+
+-(void) saveStatistics:(double)fillRatio isFilled:(BOOL)isFilled {
+	_fillDuration = [[NSDate date] timeIntervalSinceDate:_startTime];
+	[_savedCrossword mergeStatistics:_failCount hintCount:_hintCount fillRatio:fillRatio isFilled:isFilled fillDuration:_fillDuration];
 	[self resetStatistics];
+}
+
+-(void) showWinView:(NSTimeInterval)duration {
+	//Fill statistics view
+	NSDate *date = [NSDate dateWithTimeIntervalSince1970:duration];
+	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+	[dateFormatter setDateFormat:@"HH:mm:ss"];
+	[dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
+	NSString *formattedDate = [dateFormatter stringFromDate:date];
+	[self->_winTimeLabel setText:[NSString stringWithFormat:@"Time: %@", formattedDate]];
+	
+	[self->_winHintCountLabel setText:[NSString stringWithFormat:@"Hint show count: %d", self->_hintCount]];
+	[self->_winWordCountLabel setText:[NSString stringWithFormat:@"Word count: %lu", [[self->_savedCrossword words] count]]];
+	[self->_winFailCountLabel setText:[NSString stringWithFormat:@"Fail count: %d", self->_failCount]];
+	
+	//Show statistics view
+	[self->_winView setHidden:NO];
+	[[self->_winView layer] setCornerRadius:5];
+	[[self->_winView layer] setMasksToBounds:YES];
+	[[self->_winView layer] setBorderWidth:1];
+	[[self->_winView layer] setBorderColor: [UIColor blackColor].CGColor];
+	
+	CGRect windowFrame = [[self view] bounds];
+	CGFloat flX = (windowFrame.size.width - 300) / 2;
+	CGFloat flY = (windowFrame.size.height - 250) / 2;
+	[self->_winView setFrame:CGRectMake(flX, flY, 300, 250)];
+	
+	[self->_crosswordView addSubview:self->_winView];
 }
 
 -(void) showWinScreen {
 	[self resetInput];
 	
+	//Save statistics
+	[self saveStatistics:1.0 isFilled:YES];
+	
+	//Start emitters
 	CGRect frame = [[self view] frame];
 	__block CGSize size = CGSizeMake (frame.size.width / 2.0 * 0.8, 2.0 * frame.size.height / 3.0 * 0.8);
 
@@ -275,6 +319,9 @@
 			[self->_emitterWin[3] startFireWorks:[self view] pt:pt1];
 			
 			[self->_timerWin invalidate];
+			
+			[self showWinView:self->_fillDuration];
+
 			return;
 		}
 	}];
@@ -351,6 +398,24 @@
 	//Reset statistics
 	[self resetStatistics];
 	[_savedCrossword resetStatistics];
+}
+
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+	[_winView setHidden:YES];
+	
+	[coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
+		//Nothing to do...
+	} completion:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
+		[self showWinView:self->_fillDuration];
+	}];
+}
+
+- (IBAction)congratsButtonPressed:(id)sender {
+	[self resetButtonPressed:sender];
+	
+	[_winView setHidden:YES];
+	[_savedCrossword unloadDB];
+	[self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - Navigation
