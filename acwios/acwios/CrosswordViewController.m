@@ -14,7 +14,6 @@
 
 //TODO: implement zoom on pinch gesture!
 //TODO: implement statistics!
-//TODO: implement win screen...
 
 @interface CrosswordViewController ()
 
@@ -48,7 +47,6 @@
 	uint32_t _hintCount;
 	NSDate* _startTime;
 	BOOL _isFilled;
-	NSTimeInterval _fillDuration;
 	
 	//Win screen effects
 	NSTimer *_timerWin;
@@ -188,7 +186,6 @@
 	_hintCount = 0;
 	_startTime = [NSDate date];
 	_isFilled = NO;
-	_fillDuration = 0;
 }
 
 -(double) calculateFillRatio:(BOOL*)isFilled {
@@ -222,23 +219,29 @@
 }
 
 -(void) saveStatistics:(double)fillRatio isFilled:(BOOL)isFilled {
-	_fillDuration = [[NSDate date] timeIntervalSinceDate:_startTime];
-	[_savedCrossword mergeStatistics:_failCount hintCount:_hintCount fillRatio:fillRatio isFilled:isFilled fillDuration:_fillDuration];
+	NSTimeInterval duration = [[NSDate date] timeIntervalSinceDate:_startTime];
+	[_savedCrossword mergeStatistics:_failCount hintCount:_hintCount fillRatio:fillRatio isFilled:isFilled fillDuration:duration];
 	[self resetStatistics];
 }
 
--(void) showWinView:(NSTimeInterval)duration {
+-(void) showWinView {
+	NSArray<Statistics*>* stats = [_savedCrossword loadStatistics];
+	Statistics* currentStat = [stats lastObject];
+	if (currentStat == nil) {
+		return;
+	}
+	
 	//Fill statistics view
-	NSDate *date = [NSDate dateWithTimeIntervalSince1970:duration];
+	NSDate *date = [NSDate dateWithTimeIntervalSince1970:currentStat.fillDuration];
 	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
 	[dateFormatter setDateFormat:@"HH:mm:ss"];
 	[dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
 	NSString *formattedDate = [dateFormatter stringFromDate:date];
 	[self->_winTimeLabel setText:[NSString stringWithFormat:@"Time: %@", formattedDate]];
 	
-	[self->_winHintCountLabel setText:[NSString stringWithFormat:@"Hint show count: %d", self->_hintCount]];
+	[self->_winHintCountLabel setText:[NSString stringWithFormat:@"Hint show count: %d", currentStat.hintCount]];
 	[self->_winWordCountLabel setText:[NSString stringWithFormat:@"Word count: %lu", [[self->_savedCrossword words] count]]];
-	[self->_winFailCountLabel setText:[NSString stringWithFormat:@"Fail count: %d", self->_failCount]];
+	[self->_winFailCountLabel setText:[NSString stringWithFormat:@"Fail count: %d", currentStat.failCount]];
 	
 	//Show statistics view
 	[self->_winView setHidden:NO];
@@ -320,7 +323,7 @@
 			
 			[self->_timerWin invalidate];
 			
-			[self showWinView:self->_fillDuration];
+			[self showWinView];
 
 			return;
 		}
@@ -406,7 +409,7 @@
 	[coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
 		//Nothing to do...
 	} completion:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
-		[self showWinView:self->_fillDuration];
+		[self showWinView];
 	}];
 }
 
@@ -653,7 +656,7 @@
 	[_crosswordView reloadData];
 	
 	//TEST
-	[self showWinScreen];
+//	[self showWinScreen];
 	//END TEST
 }
 
