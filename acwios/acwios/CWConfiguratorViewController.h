@@ -11,4 +11,6 @@
 
 @interface CWConfiguratorViewController : UIViewController<UITableViewDelegate>
 
+@property (assign) BOOL isStatisticsView;
+
 @end

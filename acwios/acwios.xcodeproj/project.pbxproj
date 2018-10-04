@@ -16,6 +16,9 @@
 		F0BA0909212ACBC200A7F154 /* CrosswordCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F0BA0908212ACBC200A7F154 /* CrosswordCell.m */; };
 		F0BA090C212AD40F00A7F154 /* CrosswordLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = F0BA090B212AD40F00A7F154 /* CrosswordLayout.m */; };
 		F0C91BA4210C690000B06070 /* ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = F0C91BA3210C690000B06070 /* ProgressView.m */; };
+		F0DEE91C21660BDC0044DA44 /* StatisticsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0DEE91B21660BDC0044DA44 /* StatisticsViewController.m */; };
+		F0DEE95F21661A8C0044DA44 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0DEE95C21661A860044DA44 /* Charts.framework */; };
+		F0DEE96021661A8C0044DA44 /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F0DEE95C21661A860044DA44 /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FD2197BB214110E900E6D396 /* KeyboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD2197BA214110E900E6D396 /* KeyboardViewController.m */; };
 		FD2197BF2142605200E6D396 /* KeyboardConfigs.m in Sources */ = {isa = PBXBuildFile; fileRef = FD2197BE2142605200E6D396 /* KeyboardConfigs.m */; };
 		FD2197C3214AB59100E6D396 /* EmitterEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = FD2197C2214AB59100E6D396 /* EmitterEffect.m */; };
@@ -39,6 +42,30 @@
 		FDDAA330212EA06A000365EF /* PackageSectionHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FDDAA32F212EA06A000365EF /* PackageSectionHeaderCell.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		F0DEE95B21661A860044DA44 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F0DEE95621661A860044DA44 /* Charts.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 65AD9E95D9ED4DC0BD73A743;
+			remoteInfo = Charts;
+		};
+		F0DEE95D21661A860044DA44 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F0DEE95621661A860044DA44 /* Charts.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1CBBC58C6CE1EBEE9852CE41;
+			remoteInfo = ChartsTests;
+		};
+		F0DEE96121661A8C0044DA44 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F0DEE95621661A860044DA44 /* Charts.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = A58A4ED274A941CA248EA921;
+			remoteInfo = Charts;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		FDCD527B210855BA0081FE4D /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -46,6 +73,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				F0DEE96021661A8C0044DA44 /* Charts.framework in Embed Frameworks */,
 				FDCD527A210855B90081FE4D /* adb.framework in Embed Frameworks */,
 				FDCD5278210855B90081FE4D /* cw.framework in Embed Frameworks */,
 			);
@@ -73,6 +101,9 @@
 		F0BA090B212AD40F00A7F154 /* CrosswordLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CrosswordLayout.m; sourceTree = "<group>"; };
 		F0C91BA2210C690000B06070 /* ProgressView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProgressView.h; sourceTree = "<group>"; };
 		F0C91BA3210C690000B06070 /* ProgressView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProgressView.m; sourceTree = "<group>"; };
+		F0DEE91A21660BDC0044DA44 /* StatisticsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StatisticsViewController.h; sourceTree = "<group>"; };
+		F0DEE91B21660BDC0044DA44 /* StatisticsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StatisticsViewController.m; sourceTree = "<group>"; };
+		F0DEE95621661A860044DA44 /* Charts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Charts.xcodeproj; path = ../Charts/Charts.xcodeproj; sourceTree = "<group>"; };
 		FD2197B9214110E900E6D396 /* KeyboardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KeyboardViewController.h; sourceTree = "<group>"; };
 		FD2197BA214110E900E6D396 /* KeyboardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KeyboardViewController.m; sourceTree = "<group>"; };
 		FD2197BE2142605200E6D396 /* KeyboardConfigs.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KeyboardConfigs.m; sourceTree = "<group>"; };
@@ -114,6 +145,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FDCD52862109A6030081FE4D /* WebKit.framework in Frameworks */,
+				F0DEE95F21661A8C0044DA44 /* Charts.framework in Frameworks */,
 				FDCD5279210855B90081FE4D /* adb.framework in Frameworks */,
 				FDCD5277210855B90081FE4D /* cw.framework in Frameworks */,
 			);
@@ -122,6 +154,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F0DEE91921660BA20044DA44 /* StatisticsView */ = {
+			isa = PBXGroup;
+			children = (
+				F0DEE91A21660BDC0044DA44 /* StatisticsViewController.h */,
+				F0DEE91B21660BDC0044DA44 /* StatisticsViewController.m */,
+			);
+			name = StatisticsView;
+			sourceTree = "<group>";
+		};
+		F0DEE95721661A860044DA44 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F0DEE95C21661A860044DA44 /* Charts.framework */,
+				F0DEE95E21661A860044DA44 /* ChartsTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		FD2197BC21425BF000E6D396 /* Keyboard */ = {
 			isa = PBXGroup;
 			children = (
@@ -177,6 +227,7 @@
 		FDCD520B21084C860081FE4D = {
 			isa = PBXGroup;
 			children = (
+				F0DEE95621661A860044DA44 /* Charts.xcodeproj */,
 				FDCD521621084C860081FE4D /* acwios */,
 				FDCD521521084C860081FE4D /* Products */,
 				FDCD5272210855AC0081FE4D /* Frameworks */,
@@ -194,6 +245,7 @@
 		FDCD521621084C860081FE4D /* acwios */ = {
 			isa = PBXGroup;
 			children = (
+				F0DEE91921660BA20044DA44 /* StatisticsView */,
 				FD2197BC21425BF000E6D396 /* Keyboard */,
 				FDC84E88213E6BCF00449F71 /* BLL */,
 				FD6ED58E21382C1100FCCAC7 /* UIClasses */,
@@ -266,6 +318,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				F0DEE96221661A8C0044DA44 /* PBXTargetDependency */,
 			);
 			name = acwios;
 			productName = acwios;
@@ -297,12 +350,35 @@
 			mainGroup = FDCD520B21084C860081FE4D;
 			productRefGroup = FDCD521521084C860081FE4D /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = F0DEE95721661A860044DA44 /* Products */;
+					ProjectRef = F0DEE95621661A860044DA44 /* Charts.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				FDCD521321084C860081FE4D /* acwios */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		F0DEE95C21661A860044DA44 /* Charts.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Charts.framework;
+			remoteRef = F0DEE95B21661A860044DA44 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F0DEE95E21661A860044DA44 /* ChartsTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = ChartsTests.xctest;
+			remoteRef = F0DEE95D21661A860044DA44 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		FDCD521221084C860081FE4D /* Resources */ = {
@@ -340,6 +416,7 @@
 				FDCD52802108682C0081FE4D /* AnkiDownloadViewController.m in Sources */,
 				F09B2053210D67B400398B2E /* ChoosePackageViewController.m in Sources */,
 				FDCD522721084C880081FE4D /* main.m in Sources */,
+				F0DEE91C21660BDC0044DA44 /* StatisticsViewController.m in Sources */,
 				FDCD521921084C860081FE4D /* AppDelegate.m in Sources */,
 				FDCD52C321142FC70081FE4D /* CWGeneratorViewController.m in Sources */,
 				F09B2059210D7C9200398B2E /* PackageManager.mm in Sources */,
@@ -348,6 +425,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F0DEE96221661A8C0044DA44 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Charts;
+			targetProxy = F0DEE96121661A8C0044DA44 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		FDCD521D21084C860081FE4D /* Main.storyboard */ = {
@@ -482,6 +567,7 @@
 		FDCD522B21084C880081FE4D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = H772F9T3GZ;
@@ -503,6 +589,7 @@
 		FDCD522C21084C880081FE4D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = H772F9T3GZ;

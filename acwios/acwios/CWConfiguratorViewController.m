@@ -13,11 +13,13 @@
 #import "PackageManager.h"
 #import "CrosswordViewController.h"
 #import "GameTableCell.h"
+#import "StatisticsViewController.h"
 
 @interface CWConfiguratorViewController ()
 
 @property (weak, nonatomic) IBOutlet UIView *subscribeView;
 @property (weak, nonatomic) IBOutlet UITableView *crosswordTable;
+@property (weak, nonatomic) IBOutlet UINavigationItem *navItem;
 
 @end
 
@@ -87,6 +89,10 @@
     // Do any additional setup after loading the view.
 	_isSubscribed = [[SubscriptionManager sharedInstance] isSubscribed];
 	[[self subscribeView] setHidden:_isSubscribed];
+	
+	if (_isStatisticsView) {
+		_navItem.rightBarButtonItem = nil;
+	}
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -110,7 +116,9 @@
 #pragma mark - Navigation
 
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
-	if ([identifier compare:@"ShowCrosswordView"] == NSOrderedSame) {
+	if ([identifier compare:@"ShowCrosswordView"] == NSOrderedSame ||
+		[identifier compare:@"ShowStatisticsView"] == NSOrderedSame)
+	{
 		NSIndexPath *selectedRow = [_crosswordTable indexPathForSelectedRow];
 		
 		BOOL cwEnabled = ([selectedRow section] < 1 && [selectedRow row] < 1) || self->_isSubscribed;
@@ -137,6 +145,11 @@
 			CrosswordViewController *cwController = (CrosswordViewController*) [navController topViewController];
 			[cwController setSavedCrossword:_selectedCrossword];
 		}
+	} else if ([segue.identifier compare:@"ShowStatisticsView"] == NSOrderedSame &&
+			   [segue.destinationViewController isKindOfClass:[StatisticsViewController class]])
+	{
+		StatisticsViewController *statViewController = (StatisticsViewController*) [segue destinationViewController];
+		[statViewController setSavedCrossword:_selectedCrossword];
 	}
 }
 
