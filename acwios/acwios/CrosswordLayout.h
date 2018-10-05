@@ -10,6 +10,7 @@
 
 @interface CrosswordLayout : UICollectionViewLayout
 
+@property (assign) CGFloat scaleFactor;
 @property (assign) NSUInteger cellWidth;
 @property (assign) NSUInteger cellHeight;
 @property (assign) NSUInteger columnCount;

@@ -12,14 +12,12 @@
 #import "KeyboardViewController.h"
 #import "EmitterEffect.h"
 
-//TODO: implement zoom on pinch gesture!
-//TODO: implement statistics!
-
 @interface CrosswordViewController ()
 
 @property (weak, nonatomic) IBOutlet UICollectionView *crosswordView;
 @property (weak, nonatomic) IBOutlet CrosswordLayout *crosswordLayout;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *showHideButton;
+@property (strong, nonatomic) IBOutlet UIPinchGestureRecognizer *pinchRecognizer;
 
 @property (weak, nonatomic) IBOutlet UIView *winView;
 @property (weak, nonatomic) IBOutlet UILabel *winTimeLabel;
@@ -324,8 +322,6 @@
 			[self->_timerWin invalidate];
 			
 			[self showWinView];
-
-			return;
 		}
 	}];
 }
@@ -346,7 +342,7 @@
     
     // Register cell classes
     //[self.collectionView registerClass:[CrosswordCell class] forCellWithReuseIdentifier:cellReusableIdentifier];
-    
+	
     // Do any additional setup after loading the view.
 	_areAnswersVisible = NO;
 	_cellFilledValues = [NSMutableDictionary<NSIndexPath*, NSString*> new];
@@ -355,6 +351,7 @@
 	[self resetInput];
 	[self registerForKeyboardNotifications];
 	
+	[_crosswordLayout setScaleFactor:1];
 	[_crosswordLayout setCellWidth:50];
 	[_crosswordLayout setCellHeight:50];
 	[_crosswordLayout setRowCount:[_savedCrossword height]];
@@ -370,6 +367,8 @@
 	[kbVC setup];
 	
 	[self resetStatistics];
+	
+	[self.collectionView addGestureRecognizer:_pinchRecognizer];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -404,12 +403,15 @@
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+	__block BOOL winViewHidden = [_winView isHidden];
 	[_winView setHidden:YES];
 	
 	[coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
 		//Nothing to do...
 	} completion:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
-		[self showWinView];
+		if (!winViewHidden) {
+			[self showWinView];
+		}
 	}];
 }
 
@@ -419,6 +421,25 @@
 	[_winView setHidden:YES];
 	[_savedCrossword unloadDB];
 	[self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (IBAction)handlePinch:(UIPinchGestureRecognizer *)sender {
+	if ([sender numberOfTouches] != 2) {
+		return;
+	}
+	
+	CGFloat velocityUp = 0.02;
+	CGFloat velocityDown = 0.1;
+	
+	CGFloat scale = ((sender.scale - 1) * (sender.scale < 1 ? velocityDown : velocityUp) + 1) * [_crosswordLayout scaleFactor];
+	if (scale < 1.0) {
+		scale = 1.0;
+	} else if (scale > 1.75) {
+		scale = 1.75;
+	}
+	
+	[_crosswordLayout setScaleFactor: scale];
+	[_crosswordView reloadData];
 }
 
 #pragma mark - Navigation
@@ -480,7 +501,7 @@
 		}
 	}
 	
-	[cell fillLetter:fillValue value:cellValue highlighted:highlighted currentCell:currentCell];
+	[cell fillLetter:fillValue value:cellValue highlighted:highlighted currentCell:currentCell scale:[_crosswordLayout scaleFactor]];
 }
 
 -(void) fillCellsArrow:(uint32_t)cellType
@@ -497,7 +518,7 @@
 			[self fillLetterForCell:cell row:row col:col highlighted:highlighted currentCell:currentCell];
 			*letterFilled = YES;
 		}
-		[cell fillArrow:checkCellType];
+		[cell fillArrow:checkCellType scale:[_crosswordLayout scaleFactor]];
 	}
 }
 
@@ -544,12 +565,12 @@
 		
 		switch (cellType) {
 			case CWCellType_SingleQuestion:
-				[cell fillOneQuestion: [_savedCrossword getCellsQuestion:row col:col questionIndex:0]];
+				[cell fillOneQuestion: [_savedCrossword getCellsQuestion:row col:col questionIndex:0] scale:[_crosswordLayout scaleFactor]];
 				break;
 			case CWCellType_DoubleQuestion: {
 				NSString* qTop = [_savedCrossword getCellsQuestion:row col:col questionIndex:0];
 				NSString* qBottom = [_savedCrossword getCellsQuestion:row col:col questionIndex:1];
-				[cell fillTwoQuestion:qTop questionBottom:qBottom];
+				[cell fillTwoQuestion:qTop questionBottom:qBottom scale:[_crosswordLayout scaleFactor]];
 				break;
 			}
 			case CWCellType_Spacer:
@@ -557,7 +578,7 @@
 				break;
 			case CWCellType_Letter:
 				[self fillLetterForCell:cell row:row col:col highlighted:isHighlighted currentCell:isCurrentCell];
-				[cell fillSeparator:[_savedCrossword getCellsSeparators:row col:col]];
+				[cell fillSeparator:[_savedCrossword getCellsSeparators:row col:col] scale:[_crosswordLayout scaleFactor]];
 				break;
 			default: {
 				BOOL letterFilled = NO;
@@ -577,7 +598,7 @@
 						 currentCell:isCurrentCell letterFilled:&letterFilled];
 				[self fillCellsArrow:cellType checkCellType:CWCellType_Start_LeftRight_Bottom cell:cell row:row col:col highlighted:isHighlighted
 						 currentCell:isCurrentCell letterFilled:&letterFilled];
-				[cell fillSeparator:[_savedCrossword getCellsSeparators:row col:col]];
+				[cell fillSeparator:[_savedCrossword getCellsSeparators:row col:col] scale:[_crosswordLayout scaleFactor]];
 				break;
 			}
 		}

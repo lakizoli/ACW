@@ -15,12 +15,12 @@
 @property (weak, nonatomic) IBOutlet UILabel *topLabel;
 @property (weak, nonatomic) IBOutlet UILabel *bottomLabel;
 
--(void) fillOneQuestion:(NSString*)question;
--(void) fillTwoQuestion:(NSString*)questionTop questionBottom:(NSString*)questionBottom;
+-(void) fillOneQuestion:(NSString*)question scale:(CGFloat)scale;
+-(void) fillTwoQuestion:(NSString*)questionTop questionBottom:(NSString*)questionBottom scale:(CGFloat)scale;
 
 -(void) fillSpacer;
--(void) fillLetter:(BOOL)showValue value:(NSString*)value highlighted:(BOOL)highlighted currentCell:(BOOL)currentCell;
--(void) fillArrow:(enum CWCellType)cellType;
--(void) fillSeparator:(uint32_t)separators;
+-(void) fillLetter:(BOOL)showValue value:(NSString*)value highlighted:(BOOL)highlighted currentCell:(BOOL)currentCell scale:(CGFloat)scale;
+-(void) fillArrow:(enum CWCellType)cellType scale:(CGFloat)scale;
+-(void) fillSeparator:(uint32_t)separators scale:(CGFloat)scale;
 
 @end

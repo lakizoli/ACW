@@ -476,6 +476,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.83529411764705885" green="0.87779947920000001" blue="0.90000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <gestureRecognizers/>
                         <collectionViewLayout key="collectionViewLayout" id="NEG-KQ-SnD" customClass="CrosswordLayout"/>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CWCell" id="wPI-Sc-f4D" customClass="CrosswordCell">
@@ -563,6 +564,7 @@
                     <connections>
                         <outlet property="crosswordLayout" destination="NEG-KQ-SnD" id="AS3-bC-PSv"/>
                         <outlet property="crosswordView" destination="LAi-La-LeM" id="bjW-O0-CRz"/>
+                        <outlet property="pinchRecognizer" destination="fGr-hK-Ed9" id="yWZ-uB-dH8"/>
                         <outlet property="showHideButton" destination="b2E-oj-GcN" id="YVF-Xy-x3x"/>
                         <outlet property="winFailCountLabel" destination="JLd-jR-eYg" id="opF-BQ-2YI"/>
                         <outlet property="winHintCountLabel" destination="ZU1-e2-llS" id="hCd-wU-w9B"/>
@@ -572,6 +574,11 @@
                     </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HeQ-JF-uUr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <pinchGestureRecognizer id="fGr-hK-Ed9">
+                    <connections>
+                        <action selector="handlePinch:" destination="oYt-3K-Fqm" id="IEG-Np-an0"/>
+                    </connections>
+                </pinchGestureRecognizer>
                 <view hidden="YES" contentMode="scaleToFill" id="32Z-vW-w3O">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>

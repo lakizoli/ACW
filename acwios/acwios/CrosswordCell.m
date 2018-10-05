@@ -52,9 +52,9 @@
 	[self.layer addSublayer:shapeLayer];
 }
 
--(NSAttributedString*) attributedQuestionString:(NSString*)question {
+-(NSAttributedString*) attributedQuestionString:(NSString*)question scale:(CGFloat)scale {
 	//Choose question's font
-	CGFloat fontSize = [UIFont systemFontSize];
+	CGFloat fontSize = [UIFont systemFontSize] * scale;
 	UIFont* font = [UIFont fontWithName:@"AvenirNextCondensed-DemiBold" size:fontSize];
 	if (font == nil) {
 		font = [UIFont fontWithName:@"Baskerville-Bold" size:fontSize];
@@ -68,9 +68,9 @@
 			attributes:@{ NSFontAttributeName: font }];
 }
 
--(NSAttributedString*) attributedValueString:(NSString*)value {
+-(NSAttributedString*) attributedValueString:(NSString*)value scale:(CGFloat)scale {
 	//Choose value font
-	CGFloat fontSize = 26;
+	CGFloat fontSize = 26 * scale;
 	UIFont* font = [UIFont fontWithName:@"BradleyHandITCTT-Bold" size:fontSize];
 	if (font == nil) {
 		font = [UIFont fontWithName:@"Baskerville-BoldItalic" size:fontSize];
@@ -89,18 +89,22 @@
 
 #pragma mark - Interface
 
--(void) fillOneQuestion:(NSString*)question {
+-(void) fillOneQuestion:(NSString*)question scale:(CGFloat)scale {
 	[self clearContent];
 	[self setBorder:self];
 	
 	[self setBackgroundColor:[UIColor whiteColor]];
 	[_fullLabel setTextColor:[UIColor blackColor]];
 	
-	[_fullLabel setAttributedText:[self attributedQuestionString:question]];
+	[_fullLabel setAttributedText:[self attributedQuestionString:question scale:scale]];
 	[self setHiddensForFullHidden:NO topHidden:YES bottomHidden:YES];
+
+	CGRect frame = [self frame];
+	[_fullLabel setFrame:CGRectMake (0, 0, frame.size.width, frame.size.height)];
+	[self setNeedsDisplay];
 }
 
--(void) fillTwoQuestion:(NSString*)questionTop questionBottom:(NSString*)questionBottom {
+-(void) fillTwoQuestion:(NSString*)questionTop questionBottom:(NSString*)questionBottom scale:(CGFloat)scale {
 	[self clearContent];
 	[self setBorder:_topLabel];
 	[self setBorder:_bottomLabel];
@@ -109,9 +113,17 @@
 	[_topLabel setTextColor:[UIColor blackColor]];
 	[_bottomLabel setTextColor:[UIColor blackColor]];
 	
-	[_topLabel setAttributedText:[self attributedQuestionString:questionTop]];
-	[_bottomLabel setAttributedText:[self attributedQuestionString:questionBottom]];
+	[_topLabel setAttributedText:[self attributedQuestionString:questionTop scale:scale]];
+	[_bottomLabel setAttributedText:[self attributedQuestionString:questionBottom scale:scale]];
 	[self setHiddensForFullHidden:YES topHidden:NO bottomHidden:NO];
+
+	[_topLabel setBackgroundColor:[UIColor redColor]];
+	[_bottomLabel setBackgroundColor:[UIColor greenColor]];
+	
+	CGRect frame = [self frame];
+	[_topLabel setFrame:CGRectMake (0, 0, frame.size.width, frame.size.height / 2.0)];
+	[_bottomLabel setFrame:CGRectMake (0, frame.size.height / 2.0, frame.size.width, frame.size.height / 2.0)];
+	[self setNeedsDisplay];
 }
 
 -(void) fillSpacer {
@@ -120,7 +132,7 @@
 	[self setBackgroundColor:[UIColor blackColor]];
 }
 
--(void) fillLetter:(BOOL)showValue value:(NSString*)value highlighted:(BOOL)highlighted currentCell:(BOOL)currentCell {
+-(void) fillLetter:(BOOL)showValue value:(NSString*)value highlighted:(BOOL)highlighted currentCell:(BOOL)currentCell scale:(CGFloat)scale {
 	[self clearContent];
 	[self setBorder:self];
 	if (highlighted) {
@@ -136,14 +148,14 @@
 	}
 	
 	if (showValue) {
-		[_fullLabel setAttributedText:[self attributedValueString:value]];
+		[_fullLabel setAttributedText:[self attributedValueString:value scale:scale]];
 		[self setHiddensForFullHidden:NO topHidden:YES bottomHidden:YES];
 	}
 }
 
--(void) fillArrow:(enum CWCellType)cellType {
-	const CGFloat baseX[] = { 0, 32, 25, 18 };
-	const CGFloat baseY[] = { 3,  3, 10,  3 };
+-(void) fillArrow:(enum CWCellType)cellType scale:(CGFloat)scale {
+	const CGFloat baseX[] = { 0 * scale, 32 * scale, 25 * scale, 18 * scale };
+	const CGFloat baseY[] = { 3 * scale,  3 * scale, 10 * scale,  3 * scale };
 	
 	UIBezierPath *path = nil;
 	switch (cellType) {
@@ -218,8 +230,8 @@
 	}
 }
 
--(void) fillSeparator:(uint32_t)separators {
-	const CGFloat coords[] = { 1, 49 };
+-(void) fillSeparator:(uint32_t)separators scale:(CGFloat)scale {
+	const CGFloat coords[] = { 1 * scale, 49 * scale };
 	
 	if ((separators & CWCellSeparator_Left) == CWCellSeparator_Left) {
 		[self drawSeparatorLine:CGPointMake (coords[0], coords[1])
