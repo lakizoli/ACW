@@ -475,7 +475,7 @@
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="LAi-La-LeM">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.83339843749999998" green="0.87779947920000001" blue="0.90000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.83529411764705885" green="0.87779947920000001" blue="0.90000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <collectionViewLayout key="collectionViewLayout" id="NEG-KQ-SnD" customClass="CrosswordLayout"/>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CWCell" id="wPI-Sc-f4D" customClass="CrosswordCell">
@@ -680,6 +680,7 @@
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ebl-tw-uPx">
                                                 <rect key="frame" x="0.0" y="0.0" width="60" height="30"/>
+                                                <color key="backgroundColor" red="0.83339843749999998" green="0.87779947920000001" blue="0.90000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="60" id="TxF-Rb-OHE"/>
                                                 </constraints>
@@ -704,14 +705,26 @@
                                             </textField>
                                         </subviews>
                                     </stackView>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dhc-n0-3PY" customClass="CombinedChartView" customModule="Charts">
-                                        <rect key="frame" x="0.0" y="30" width="375" height="573"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dhc-n0-3PY" customClass="BarChartView" customModule="Charts">
+                                        <rect key="frame" x="0.0" y="30" width="375" height="191"/>
+                                        <color key="backgroundColor" red="0.83339843749999998" green="0.87779947920000001" blue="0.90000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d7z-U5-BkF" customClass="BarChartView" customModule="Charts">
+                                        <rect key="frame" x="0.0" y="221" width="375" height="191"/>
+                                        <color key="backgroundColor" red="0.83339843749999998" green="0.87779947920000001" blue="0.90000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yS7-iz-NfC" customClass="BarChartView" customModule="Charts">
+                                        <rect key="frame" x="0.0" y="412" width="375" height="191"/>
+                                        <color key="backgroundColor" red="0.83339843749999998" green="0.87779947920000001" blue="0.90000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </view>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="d7z-U5-BkF" firstAttribute="height" secondItem="Dhc-n0-3PY" secondAttribute="height" id="gE5-ER-8Vm"/>
+                                    <constraint firstItem="yS7-iz-NfC" firstAttribute="height" secondItem="d7z-U5-BkF" secondAttribute="height" id="lXh-6D-qXz"/>
+                                </constraints>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="0.83339843749999998" green="0.87779947920000001" blue="0.90000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="CVV-Wt-GxH" firstAttribute="top" secondItem="81I-qd-Nyq" secondAttribute="bottom" id="6Ms-ri-0TX"/>
                             <constraint firstItem="81I-qd-Nyq" firstAttribute="trailing" secondItem="CVV-Wt-GxH" secondAttribute="trailing" id="b5H-KC-Poj"/>
@@ -725,6 +738,8 @@
                     </view>
                     <connections>
                         <outlet property="chart" destination="Dhc-n0-3PY" id="UOB-kU-PNy"/>
+                        <outlet property="chart2" destination="d7z-U5-BkF" id="4rs-1W-iTV"/>
+                        <outlet property="chart3" destination="yS7-iz-NfC" id="ACj-A4-Yvz"/>
                         <outlet property="crosswordName" destination="FCo-V5-bdR" id="cOm-BM-9e1"/>
                     </connections>
                 </viewController>

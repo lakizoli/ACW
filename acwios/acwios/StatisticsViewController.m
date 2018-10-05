@@ -11,7 +11,9 @@
 @interface StatisticsViewController ()
 
 @property (weak, nonatomic) IBOutlet UITextField *crosswordName;
-@property (weak, nonatomic) IBOutlet CombinedChartView *chart;
+@property (weak, nonatomic) IBOutlet BarChartView *chart;
+@property (weak, nonatomic) IBOutlet BarChartView *chart2;
+@property (weak, nonatomic) IBOutlet BarChartView *chart3;
 
 @end
 
@@ -21,63 +23,39 @@
 
 #pragma mark - Implementation
 
-- (void) setupChart:(NSString*)barLabel
-		  lineLabel:(NSString*)lineLabel
-		bubbleLabel:(NSString*)bubbleLabel
-		  barValues:(NSArray<NSNumber*>*)barValues
-		 lineValues:(NSArray<NSNumber*>*)lineValues
-	   bubbleValues:(NSArray<NSNumber*>*)bubbleValues
-{
+- (void) setupChart:(BarChartView*)chart label:(NSString*)label values:(NSArray<NSNumber*>*)values {
 	_stringValues = [NSMutableArray<NSString*> new];
 
 	NSMutableArray<BarChartDataEntry*> *barEntries = [NSMutableArray<BarChartDataEntry*> new];
-	NSMutableArray<ChartDataEntry*> *lineEntries = [NSMutableArray<ChartDataEntry*> new];
-	NSMutableArray<ChartDataEntry*> *bubbleEntries = [NSMutableArray<ChartDataEntry*> new];
-	
-	for (NSInteger idx = 0; idx < [barValues count]; ++idx) {
-		BarChartDataEntry *barEntry = [[BarChartDataEntry alloc] initWithX:idx y:[[barValues objectAtIndex:idx] doubleValue]];
+	for (NSInteger idx = 0; idx < [values count]; ++idx) {
+		BarChartDataEntry *barEntry = [[BarChartDataEntry alloc] initWithX:idx y:[[values objectAtIndex:idx] doubleValue]];
 		[barEntries addObject:barEntry];
-		
-		ChartDataEntry *lineEntry = [[ChartDataEntry alloc] initWithX:idx y:[[lineValues objectAtIndex:idx] doubleValue]];
-		[lineEntries addObject:lineEntry];
-		
-		ChartDataEntry *bubbleEntry = [[ChartDataEntry alloc] initWithX:idx y:[[bubbleValues objectAtIndex:idx] doubleValue]];
-		[bubbleEntries addObject:bubbleEntry];
 		
 		[_stringValues addObject:[NSString stringWithFormat:@"%li", idx + 1]];
 	}
 	
-	BarChartDataSet *barDataSet = [[BarChartDataSet alloc] initWithValues:barEntries label:barLabel];
+	BarChartDataSet *barDataSet = [[BarChartDataSet alloc] initWithValues:barEntries label:label];
+	[barDataSet setColor:[UIColor colorWithRed:40.0 / 255.0 green:80.0 / 255.0 blue:80.0 / 255.0 alpha:1]];
+	
 	BarChartData *barData = [[BarChartData alloc] initWithDataSet:barDataSet];
 	
-	LineChartDataSet *lineDataSet = [[LineChartDataSet alloc] initWithValues:lineEntries label:lineLabel];
-	[lineDataSet setColor:[UIColor colorWithRed:1 green:0 blue:0 alpha:1]];
-	
-	LineChartDataSet *bubbleDataSet = [[LineChartDataSet alloc] initWithValues:bubbleEntries label:bubbleLabel];
-	[bubbleDataSet setColor:[UIColor colorWithRed:0 green:1 blue:0 alpha:1]];
-
-	LineChartData *lineData = [[LineChartData alloc] initWithDataSets:@[lineDataSet, bubbleDataSet]];
-	
-	CombinedChartData *combinedData = [[CombinedChartData alloc] init];
-	combinedData.barData = barData;
-	combinedData.lineData = lineData;
-
-	ChartYAxis *rightAxis = _chart.rightAxis;
+	ChartYAxis *rightAxis = chart.rightAxis;
 	rightAxis.drawGridLinesEnabled = NO;
 	rightAxis.axisMinimum = 0.0; // this replaces startAtZero = YES
 	
-	ChartYAxis *leftAxis = _chart.leftAxis;
+	ChartYAxis *leftAxis = chart.leftAxis;
 	leftAxis.drawGridLinesEnabled = NO;
 	leftAxis.axisMinimum = 0.0; // this replaces startAtZero = YES
 	
-	ChartXAxis *xAxis = _chart.xAxis;
+	ChartXAxis *xAxis = chart.xAxis;
 	xAxis.labelPosition = XAxisLabelPositionBothSided;
 	xAxis.axisMinimum = -0.75;
 	xAxis.granularity = 1.0;
 	xAxis.valueFormatter = self;
-	xAxis.axisMaximum = combinedData.xMax + 0.75;
+	xAxis.axisMaximum = barData.xMax + 0.75;
 
-	[_chart setData:combinedData];
+	[chart setData:barData];
+	[chart setBackgroundColor:[UIColor colorWithRed:213.0 / 255.0 green:224.0 / 255.0 blue:230.0 / 255.0 alpha:1]];
 }
 
 #pragma mark - IAxisValueFormatter
@@ -108,22 +86,19 @@
 	
 	NSArray<Statistics*> *stats = [_savedCrossword loadStatistics];
 	
-	NSMutableArray<NSNumber*> *barValues = [NSMutableArray<NSNumber*> new];
-	NSMutableArray<NSNumber*> *lineValues = [NSMutableArray<NSNumber*> new];
-	NSMutableArray<NSNumber*> *bubbleValues = [NSMutableArray<NSNumber*> new];
+	NSMutableArray<NSNumber*> *timeValues = [NSMutableArray<NSNumber*> new];
+	NSMutableArray<NSNumber*> *failValues = [NSMutableArray<NSNumber*> new];
+	NSMutableArray<NSNumber*> *hintValues = [NSMutableArray<NSNumber*> new];
 	for (NSInteger i = 0; i < [stats count]; ++i) {
 		Statistics *stat = [stats objectAtIndex:i];
-		[barValues addObject:[NSNumber numberWithDouble: stat.fillDuration]];
-		[lineValues addObject:[NSNumber numberWithDouble: stat.failCount]];
-		[bubbleValues addObject:[NSNumber numberWithDouble: stat.hintCount]];
+		[timeValues addObject:[NSNumber numberWithDouble: stat.fillDuration]];
+		[failValues addObject:[NSNumber numberWithDouble: stat.failCount]];
+		[hintValues addObject:[NSNumber numberWithDouble: stat.hintCount]];
 	}
 	
-	[self setupChart:@"Solve time in seconds"
-		   lineLabel:@"Fail count"
-		 bubbleLabel:@"Hint count"
-		   barValues:barValues
-		  lineValues:lineValues
-		bubbleValues:bubbleValues];
+	[self setupChart:_chart label:@"Solve time in seconds" values:timeValues];
+	[self setupChart:_chart2 label:@"Fail count" values:failValues];
+	[self setupChart:_chart3 label:@"Hint count" values:hintValues];
 }
 
 - (IBAction)backButtonPressed:(id)sender {
