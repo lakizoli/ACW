@@ -117,9 +117,6 @@
 	[_bottomLabel setAttributedText:[self attributedQuestionString:questionBottom scale:scale]];
 	[self setHiddensForFullHidden:YES topHidden:NO bottomHidden:NO];
 
-	[_topLabel setBackgroundColor:[UIColor redColor]];
-	[_bottomLabel setBackgroundColor:[UIColor greenColor]];
-	
 	CGRect frame = [self frame];
 	[_topLabel setFrame:CGRectMake (0, 0, frame.size.width, frame.size.height / 2.0)];
 	[_bottomLabel setFrame:CGRectMake (0, frame.size.height / 2.0, frame.size.width, frame.size.height / 2.0)];
