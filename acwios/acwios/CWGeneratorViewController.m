@@ -38,12 +38,9 @@
 
 #pragma mark - Implementation
 
--(void) showSubscription {
-	//TODO: implement subscribtion process in SubScriptionManager...
-	
-	UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Subscribe" message:@"Let's take some subscription..." preferredStyle:UIAlertControllerStyleAlert];
-	
-	[self presentViewController:alert animated:YES completion:nil];
+-(void) showSubscription:(NSInteger)maxSize {
+	NSString *msg = [NSString stringWithFormat:@"You have to subscribe to the application to generate crossword with a size more than %li!", maxSize];
+	[[SubscriptionManager sharedInstance] showSubscriptionAlert:self msg:msg];
 }
 
 -(void) showMaximalSizeAlert:(NSInteger)maxSize {
@@ -244,7 +241,7 @@
 			if (_isSubscribed) { //Size alert
 				[self showMaximalSizeAlert:maxSize];
 			} else { //Subscription alert
-				[self showSubscription];
+				[self showSubscription:maxSize];
 			}
 
 			[textField setText:[NSString stringWithFormat:@"%li", maxSize]];

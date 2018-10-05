@@ -31,11 +31,8 @@
 #pragma mark - Implementation
 
 -(void) showSubscription {
-	//TODO: implement subscribtion process in SubScriptionManager...
-	
-	UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Subscribe" message:@"Let's take some subscription..." preferredStyle:UIAlertControllerStyleAlert];
-	
-	[self presentViewController:alert animated:YES completion:nil];
+	[[SubscriptionManager sharedInstance] showSubscriptionAlert:self
+															msg:@"You have to subscribe to the application to use the disabled decks to generate a crossword!"];
 }
 
 -(void) reloadPackages {

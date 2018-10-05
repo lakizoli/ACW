@@ -7,11 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <StoreKit/StoreKit.h>
 
-@interface SubscriptionManager : NSObject
+@interface SubscriptionManager : NSObject<SKProductsRequestDelegate>
 
 +(SubscriptionManager*) sharedInstance;
 
+-(void) showSubscriptionAlert:(UIViewController*)parent msg:(NSString*)msg;
+
 -(BOOL) isSubscribed;
+-(NSArray<SKProduct*>*) getAvailableProducts;
 
 @end

@@ -19,6 +19,7 @@
 		F0DEE91C21660BDC0044DA44 /* StatisticsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0DEE91B21660BDC0044DA44 /* StatisticsViewController.m */; };
 		F0DEE95F21661A8C0044DA44 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0DEE95C21661A860044DA44 /* Charts.framework */; };
 		F0DEE96021661A8C0044DA44 /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F0DEE95C21661A860044DA44 /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F0DEE96A216791670044DA44 /* StoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0DEE969216791670044DA44 /* StoreViewController.m */; };
 		FD2197BB214110E900E6D396 /* KeyboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD2197BA214110E900E6D396 /* KeyboardViewController.m */; };
 		FD2197BF2142605200E6D396 /* KeyboardConfigs.m in Sources */ = {isa = PBXBuildFile; fileRef = FD2197BE2142605200E6D396 /* KeyboardConfigs.m */; };
 		FD2197C3214AB59100E6D396 /* EmitterEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = FD2197C2214AB59100E6D396 /* EmitterEffect.m */; };
@@ -104,6 +105,8 @@
 		F0DEE91A21660BDC0044DA44 /* StatisticsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StatisticsViewController.h; sourceTree = "<group>"; };
 		F0DEE91B21660BDC0044DA44 /* StatisticsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StatisticsViewController.m; sourceTree = "<group>"; };
 		F0DEE95621661A860044DA44 /* Charts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Charts.xcodeproj; path = ../Charts/Charts.xcodeproj; sourceTree = "<group>"; };
+		F0DEE968216791670044DA44 /* StoreViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StoreViewController.h; sourceTree = "<group>"; };
+		F0DEE969216791670044DA44 /* StoreViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StoreViewController.m; sourceTree = "<group>"; };
 		FD2197B9214110E900E6D396 /* KeyboardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KeyboardViewController.h; sourceTree = "<group>"; };
 		FD2197BA214110E900E6D396 /* KeyboardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KeyboardViewController.m; sourceTree = "<group>"; };
 		FD2197BE2142605200E6D396 /* KeyboardConfigs.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KeyboardConfigs.m; sourceTree = "<group>"; };
@@ -170,6 +173,15 @@
 				F0DEE95E21661A860044DA44 /* ChartsTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		F0DEE9662167914A0044DA44 /* StoreView */ = {
+			isa = PBXGroup;
+			children = (
+				F0DEE968216791670044DA44 /* StoreViewController.h */,
+				F0DEE969216791670044DA44 /* StoreViewController.m */,
+			);
+			name = StoreView;
 			sourceTree = "<group>";
 		};
 		FD2197BC21425BF000E6D396 /* Keyboard */ = {
@@ -245,6 +257,7 @@
 		FDCD521621084C860081FE4D /* acwios */ = {
 			isa = PBXGroup;
 			children = (
+				F0DEE9662167914A0044DA44 /* StoreView */,
 				F0DEE91921660BA20044DA44 /* StatisticsView */,
 				FD2197BC21425BF000E6D396 /* Keyboard */,
 				FDC84E88213E6BCF00449F71 /* BLL */,
@@ -418,6 +431,7 @@
 				FDCD522721084C880081FE4D /* main.m in Sources */,
 				F0DEE91C21660BDC0044DA44 /* StatisticsViewController.m in Sources */,
 				FDCD521921084C860081FE4D /* AppDelegate.m in Sources */,
+				F0DEE96A216791670044DA44 /* StoreViewController.m in Sources */,
 				FDCD52C321142FC70081FE4D /* CWGeneratorViewController.m in Sources */,
 				F09B2059210D7C9200398B2E /* PackageManager.mm in Sources */,
 				FDDAA330212EA06A000365EF /* PackageSectionHeaderCell.m in Sources */,
