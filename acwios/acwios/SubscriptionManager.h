@@ -9,13 +9,13 @@
 #import <Foundation/Foundation.h>
 #import <StoreKit/StoreKit.h>
 
-@interface SubscriptionManager : NSObject<SKProductsRequestDelegate>
+@interface SubscriptionManager : NSObject<SKProductsRequestDelegate, SKPaymentTransactionObserver>
 
 +(SubscriptionManager*) sharedInstance;
 
 -(void) showSubscriptionAlert:(UIViewController*)parent msg:(NSString*)msg;
 
 -(BOOL) isSubscribed;
--(NSArray<SKProduct*>*) getAvailableProducts;
+-(SKProduct*) getSubscribeProduct;
 
 @end

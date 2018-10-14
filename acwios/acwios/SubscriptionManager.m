@@ -49,7 +49,7 @@
 }
 
 - (void)showSubscriptionAlert:(UIViewController *)parent msg:(NSString*)msg {
-	UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Subscribe" message:msg preferredStyle:UIAlertControllerStyleAlert];
+	UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Subscribe Alert!" message:msg preferredStyle:UIAlertControllerStyleAlert];
 	
 	UIAlertAction *actionNo = [UIAlertAction actionWithTitle:@"No"
 													   style:UIAlertActionStyleCancel
@@ -84,8 +84,20 @@
 	//return YES;
 }
 
--(NSArray<SKProduct*>*) getAvailableProducts {
-	return _products;
+-(SKProduct*) getSubscribeProduct {
+	NSArray<NSString*> *ids = [self productIDs];
+	
+	for (NSString *prodID in ids) {
+		for (SKProduct *prod in _products) {
+			if ([prodID compare:prod.productIdentifier] == NSOrderedSame) {
+				return prod;
+			}
+		}
+		
+		break; //We have only one product!
+	}
+	
+	return nil;
 }
 
 #pragma mark - SKProductsRequestDelegate
@@ -108,6 +120,34 @@
 	}
 
 	_productsRequest = nil;
+}
+
+#pragma mark - SKPaymentTransactionObserver
+
+- (void)paymentQueue:(nonnull SKPaymentQueue *)queue updatedTransactions:(nonnull NSArray<SKPaymentTransaction *> *)transactions {
+	for (SKPaymentTransaction* transaction in transactions) {
+		switch ([transaction transactionState]) {
+			case SKPaymentTransactionStatePurchasing:
+				//... Nothing to do here ...
+				break;
+			case SKPaymentTransactionStatePurchased:
+				//TODO: Register purchase
+				break;
+			case SKPaymentTransactionStateFailed:
+				//TODO: show error for user
+				break;
+			case SKPaymentTransactionStateRestored:
+				//TODO: Restore purchase
+				break;
+			case SKPaymentTransactionStateDeferred:
+				//... Nothing to do here ...
+				break;
+			default:
+				// For debugging
+				NSLog (@"Unexpected transaction state %@", @(transaction.transactionState));
+				break;
+		}
+	}
 }
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "SubscriptionManager.h"
 
 @interface AppDelegate ()
 
@@ -21,6 +22,8 @@
 #endif
 	
 	// Override point for customization after application launch.
+	[[SKPaymentQueue defaultQueue] addTransactionObserver:[SubscriptionManager sharedInstance]];
+	
 	return YES;
 }
 

@@ -320,7 +320,7 @@
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bfz-Id-pNZ" customClass="GlossyButton">
-                                                    <rect key="frame" x="592" y="-3.5" width="70" height="50.5"/>
+                                                    <rect key="frame" x="300" y="-3.5" width="70" height="50.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="jHu-4Q-ccH"/>
                                                         <constraint firstAttribute="width" constant="70" id="p3E-Ac-Vvu"/>
@@ -342,7 +342,7 @@
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mto-Mi-0WR" customClass="GlossyButton">
-                                                    <rect key="frame" x="517" y="-3.5" width="70" height="50.5"/>
+                                                    <rect key="frame" x="225" y="-3.5" width="70" height="50.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="70" id="AbF-mo-lgi"/>
                                                         <constraint firstAttribute="height" constant="50" id="fAL-ED-6Xz"/>
@@ -364,7 +364,7 @@
                                                     </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="25Q-Kn-y2h">
-                                                    <rect key="frame" x="80" y="22.5" width="442" height="15"/>
+                                                    <rect key="frame" x="80" y="22.5" width="150" height="15"/>
                                                     <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="13"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
@@ -1000,7 +1000,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lS4-3B-SGS" customClass="GlossyButton">
-                                <rect key="frame" x="100" y="294" width="175" height="91"/>
+                                <rect key="frame" x="100" y="274" width="175" height="91"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="175" id="cub-L7-wO9"/>
                                     <constraint firstAttribute="height" constant="91" id="g8v-V1-qUG"/>
@@ -1024,19 +1024,77 @@
                                     <action selector="buyButtonPressed:" destination="hur-AY-ZF4" eventType="touchUpInside" id="Rbz-9d-v6f"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jrX-80-3my">
+                                <rect key="frame" x="8" y="385" width="359" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="90e-ZA-2hf"/>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="359" id="omQ-iA-wDn"/>
+                                </constraints>
+                                <attributedString key="attributedText">
+                                    <fragment content="If You subscribed already to the application, You can use the button below to restore Your purchase.">
+                                        <attributes>
+                                            <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <font key="NSFont" size="19" name=".AppleSystemUIFont"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HD9-bq-XYI" customClass="GlossyButton">
+                                <rect key="frame" x="100" y="515" width="175" height="91"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="175" id="56F-Ep-Xli"/>
+                                    <constraint firstAttribute="height" constant="91" id="ecB-uB-LZd"/>
+                                </constraints>
+                                <state key="normal" title="Restore purchase">
+                                    <color key="titleColor" red="0.8980392157" green="0.75686274509999996" blue="0.2784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="titleShadowColor" red="0.058823529409999999" green="0.13725490200000001" blue="0.3294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="hue">
+                                        <real key="value" value="0.5"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="saturation">
+                                        <real key="value" value="0.5"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="brightness">
+                                        <real key="value" value="0.5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="buyButtonPressed:" destination="hur-AY-ZF4" eventType="touchUpInside" id="txW-fz-C7Q"/>
+                                    <action selector="restoreButtonPressed:" destination="hur-AY-ZF4" eventType="touchUpInside" id="OoH-Yq-SqJ"/>
+                                </connections>
+                            </button>
+                            <activityIndicatorView opaque="NO" userInteractionEnabled="NO" alpha="0.20000000000000001" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="fe1-mP-INM">
+                                <rect key="frame" x="0.0" y="10" width="375" height="647"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="0.83339843749999998" green="0.87779947920000001" blue="0.90000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="fe1-mP-INM" firstAttribute="centerY" secondItem="Ckz-jf-n0H" secondAttribute="centerY" id="0yW-mx-5rV"/>
                             <constraint firstItem="835-bO-8pJ" firstAttribute="top" secondItem="COQ-0n-jif" secondAttribute="bottom" constant="30" id="8ip-FT-9GQ"/>
+                            <constraint firstItem="jrX-80-3my" firstAttribute="centerX" secondItem="lS4-3B-SGS" secondAttribute="centerX" id="8wg-Ky-e0A"/>
                             <constraint firstItem="COQ-0n-jif" firstAttribute="leading" secondItem="hhd-on-jWA" secondAttribute="leading" id="AHT-JG-8Oy"/>
+                            <constraint firstItem="HD9-bq-XYI" firstAttribute="centerX" secondItem="jrX-80-3my" secondAttribute="centerX" id="CJR-ca-taE"/>
+                            <constraint firstItem="fe1-mP-INM" firstAttribute="height" secondItem="hhd-on-jWA" secondAttribute="height" id="M4K-Ki-O0C"/>
                             <constraint firstItem="COQ-0n-jif" firstAttribute="top" secondItem="hhd-on-jWA" secondAttribute="top" id="NwL-E5-ric"/>
                             <constraint firstItem="835-bO-8pJ" firstAttribute="centerX" secondItem="hhd-on-jWA" secondAttribute="centerX" id="WsM-pi-UvZ"/>
+                            <constraint firstItem="fe1-mP-INM" firstAttribute="centerX" secondItem="Ckz-jf-n0H" secondAttribute="centerX" id="b5i-EY-OXh"/>
+                            <constraint firstItem="jrX-80-3my" firstAttribute="top" secondItem="lS4-3B-SGS" secondAttribute="bottom" constant="20" id="bZx-ui-Anx"/>
                             <constraint firstItem="hhd-on-jWA" firstAttribute="trailing" secondItem="COQ-0n-jif" secondAttribute="trailing" id="iZO-uf-ENk"/>
+                            <constraint firstItem="fe1-mP-INM" firstAttribute="width" secondItem="hhd-on-jWA" secondAttribute="width" id="nel-Oy-hVc"/>
                             <constraint firstItem="lS4-3B-SGS" firstAttribute="centerX" secondItem="835-bO-8pJ" secondAttribute="centerX" id="saz-o5-90i"/>
-                            <constraint firstItem="835-bO-8pJ" firstAttribute="bottom" secondItem="lS4-3B-SGS" secondAttribute="top" constant="-50" id="xzE-pu-XzE"/>
+                            <constraint firstItem="jrX-80-3my" firstAttribute="bottom" secondItem="HD9-bq-XYI" secondAttribute="top" constant="-30" id="uil-3F-TIT"/>
+                            <constraint firstItem="835-bO-8pJ" firstAttribute="bottom" secondItem="lS4-3B-SGS" secondAttribute="top" constant="-30" id="xzE-pu-XzE"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="hhd-on-jWA"/>
                     </view>
+                    <connections>
+                        <outlet property="progressIndicator" destination="fe1-mP-INM" id="5nk-4E-z4a"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ywg-iC-qlv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

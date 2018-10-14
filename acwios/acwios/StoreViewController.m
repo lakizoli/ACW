@@ -7,9 +7,11 @@
 //
 
 #import "StoreViewController.h"
-#import <StoreKit/StoreKit.h>
+#import "SubscriptionManager.h"
 
 @interface StoreViewController ()
+
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *progressIndicator;
 
 @end
 
@@ -21,7 +23,19 @@
     [super viewDidLoad];
 	
     // Do any additional setup after loading the view.
-	//TODO: check product validity...
+	if ([SKPaymentQueue canMakePayments] == YES) {
+		dispatch_async (dispatch_get_global_queue (DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+			SubscriptionManager *man = [SubscriptionManager sharedInstance];
+			SKProduct *product = nil;
+			while ( (product = [man getSubscribeProduct]) == nil ) {
+				//TODO: handle timeout
+			}
+
+			dispatch_async (dispatch_get_main_queue (), ^{
+				[self->_progressIndicator stopAnimating];
+			});
+		});
+	}
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -44,7 +58,13 @@
 }
 
 - (IBAction)buyButtonPressed:(id)sender {
+	NSLog (@"buy");
 	//TODO: buy the subscription product
+}
+
+- (IBAction)restoreButtonPressed:(id)sender {
+	NSLog (@"restore");
+	//TODO: restore the subscription product
 }
 
 - (IBAction)backButtonPressed:(id)sender {
