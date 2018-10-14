@@ -72,6 +72,19 @@
 	[self presentViewController:alert animated:YES completion:nil];
 }
 
+-(void) setup {
+	[[SubscriptionManager sharedInstance] setCallback:self];
+	
+	_isSubscribed = [[SubscriptionManager sharedInstance] isSubscribed];
+	[[self subscribeView] setHidden:_isSubscribed];
+	
+	if (_isStatisticsView) {
+		_navItem.rightBarButtonItem = nil;
+	}
+	
+	[[self crosswordTable] reloadData];
+}
+
 #pragma mark - Appearance
 
 - (BOOL)prefersStatusBarHidden {
@@ -84,12 +97,7 @@
     [super viewDidLoad];
 	
     // Do any additional setup after loading the view.
-	_isSubscribed = [[SubscriptionManager sharedInstance] isSubscribed];
-	[[self subscribeView] setHidden:_isSubscribed];
-	
-	if (_isStatisticsView) {
-		_navItem.rightBarButtonItem = nil;
-	}
+	[self setup];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

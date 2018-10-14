@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "Package.h"
+#import "SubscriptionManager.h"
 
-@interface CWConfiguratorViewController : UIViewController<UITableViewDelegate>
+@interface CWConfiguratorViewController : UIViewController<UITableViewDelegate, SubscriptionManagerAlertSetupCallback>
 
 @property (assign) BOOL isStatisticsView;
 

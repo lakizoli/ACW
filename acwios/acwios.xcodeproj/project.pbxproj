@@ -84,6 +84,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F019C31A217348BA00F83F3B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		F092DB1D210CA5AA006B4DC6 /* Downloader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Downloader.h; sourceTree = "<group>"; };
 		F092DB1E210CA5AA006B4DC6 /* Downloader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Downloader.m; sourceTree = "<group>"; };
 		F09B2051210D67B400398B2E /* ChoosePackageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChoosePackageViewController.h; sourceTree = "<group>"; };
@@ -285,6 +286,7 @@
 		FDCD5272210855AC0081FE4D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F019C31A217348BA00F83F3B /* Security.framework */,
 				FDCD52852109A6030081FE4D /* WebKit.framework */,
 				FDCD5273210855AC0081FE4D /* adb.framework */,
 				FDCD5275210855AC0081FE4D /* cw.framework */,

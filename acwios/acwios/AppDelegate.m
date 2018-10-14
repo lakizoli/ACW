@@ -22,6 +22,10 @@
 #endif
 	
 	// Override point for customization after application launch.
+#ifdef TEST_PURCHASE
+	[[SubscriptionManager sharedInstance] deletePurchase];
+#endif //TEST_PURCHASE
+
 	[[SKPaymentQueue defaultQueue] addTransactionObserver:[SubscriptionManager sharedInstance]];
 	
 	return YES;

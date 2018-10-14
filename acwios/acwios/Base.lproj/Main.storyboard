@@ -1067,14 +1067,13 @@
                                     <action selector="restoreButtonPressed:" destination="hur-AY-ZF4" eventType="touchUpInside" id="OoH-Yq-SqJ"/>
                                 </connections>
                             </button>
-                            <activityIndicatorView opaque="NO" userInteractionEnabled="NO" alpha="0.20000000000000001" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="fe1-mP-INM">
-                                <rect key="frame" x="0.0" y="10" width="375" height="647"/>
+                            <activityIndicatorView opaque="NO" userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="fe1-mP-INM">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="0.83339843749999998" green="0.87779947920000001" blue="0.90000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="fe1-mP-INM" firstAttribute="centerY" secondItem="Ckz-jf-n0H" secondAttribute="centerY" id="0yW-mx-5rV"/>
                             <constraint firstItem="835-bO-8pJ" firstAttribute="top" secondItem="COQ-0n-jif" secondAttribute="bottom" constant="30" id="8ip-FT-9GQ"/>
                             <constraint firstItem="jrX-80-3my" firstAttribute="centerX" secondItem="lS4-3B-SGS" secondAttribute="centerX" id="8wg-Ky-e0A"/>
                             <constraint firstItem="COQ-0n-jif" firstAttribute="leading" secondItem="hhd-on-jWA" secondAttribute="leading" id="AHT-JG-8Oy"/>
@@ -1088,12 +1087,16 @@
                             <constraint firstItem="fe1-mP-INM" firstAttribute="width" secondItem="hhd-on-jWA" secondAttribute="width" id="nel-Oy-hVc"/>
                             <constraint firstItem="lS4-3B-SGS" firstAttribute="centerX" secondItem="835-bO-8pJ" secondAttribute="centerX" id="saz-o5-90i"/>
                             <constraint firstItem="jrX-80-3my" firstAttribute="bottom" secondItem="HD9-bq-XYI" secondAttribute="top" constant="-30" id="uil-3F-TIT"/>
+                            <constraint firstItem="hhd-on-jWA" firstAttribute="top" secondItem="fe1-mP-INM" secondAttribute="top" id="wDG-Xy-EaP"/>
                             <constraint firstItem="835-bO-8pJ" firstAttribute="bottom" secondItem="lS4-3B-SGS" secondAttribute="top" constant="-30" id="xzE-pu-XzE"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="hhd-on-jWA"/>
                     </view>
                     <connections>
+                        <outlet property="backButton" destination="OZP-2g-HyB" id="WbA-yP-s4y"/>
+                        <outlet property="buyButton" destination="lS4-3B-SGS" id="CNu-rc-i1Q"/>
                         <outlet property="progressIndicator" destination="fe1-mP-INM" id="5nk-4E-z4a"/>
+                        <outlet property="restoreButton" destination="HD9-bq-XYI" id="wDg-vD-LXu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ywg-iC-qlv" userLabel="First Responder" sceneMemberID="firstResponder"/>
