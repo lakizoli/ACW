@@ -134,7 +134,6 @@
     [super viewDidLoad];
 	
     // Do any additional setup after loading the view.
-	_isSubscribed = [[SubscriptionManager sharedInstance] isSubscribed];
 	_generatorInfo = [[PackageManager sharedInstance] collectGeneratorInfo:_decks];
 	
 	if ([[_generatorInfo decks] count] > 0) {
@@ -147,6 +146,10 @@
 	
 	_questionFieldIndex = 0;
 	_solutionFieldIndex = 0;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+	_isSubscribed = [[SubscriptionManager sharedInstance] isSubscribed];
 }
 
 - (void)viewDidAppear:(BOOL)animated {

@@ -10,7 +10,7 @@
 #import "Package.h"
 #import "SubscriptionManager.h"
 
-@interface CWConfiguratorViewController : UIViewController<UITableViewDelegate, SubscriptionManagerAlertSetupCallback>
+@interface CWConfiguratorViewController : UIViewController<UITableViewDelegate>
 
 @property (assign) BOOL isStatisticsView;
 

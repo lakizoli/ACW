@@ -8,7 +8,7 @@
 
 #import "SubscriptionManager.h"
 
-//TODO: fix reload after purchase bugs on all viewcontroller
+//TODO: implement restore purchase
 
 #ifdef TEST_PURCHASE
 @interface TestPaymentTransaction : SKPaymentTransaction
@@ -302,14 +302,12 @@
 				if ([self storePurchaseDate:transaction.transactionDate]) {
 					[queue finishTransaction:transaction];
 					[self showOKAlert:@"Subscription purchased successfully!" title:@"Success"];
-					[[self callback] setup];
 				}
 				break;
 			case SKPaymentTransactionStateRestored:
 				if ([self storePurchaseDate:transaction.transactionDate]) {
 					[queue finishTransaction:transaction];
 					[self showOKAlert:@"Subscription restored successfully!" title:@"Success"];
-					[[self callback] setup];
 				}
 				break;
 			case SKPaymentTransactionStateFailed:

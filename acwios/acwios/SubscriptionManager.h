@@ -22,16 +22,9 @@
 
 @end
 
-@protocol SubscriptionManagerAlertSetupCallback <NSObject>
-
-@required -(void)setup;
-
-@end
-
 @interface SubscriptionManager : NSObject<SKProductsRequestDelegate, SKPaymentTransactionObserver>
 
 @property (weak) id<SubscriptionManagerDelegate> delegate;
-@property (weak) id<SubscriptionManagerAlertSetupCallback> callback;
 
 #ifdef TEST_PURCHASE
 - (void)deletePurchase;

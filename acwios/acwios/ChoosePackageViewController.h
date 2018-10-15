@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "SubscriptionManager.h"
 
-@interface ChoosePackageViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, SubscriptionManagerAlertSetupCallback>
+@interface ChoosePackageViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 
 @end

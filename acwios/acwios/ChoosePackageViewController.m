@@ -120,22 +120,6 @@
 	[self presentViewController:alert animated:YES completion:nil];
 }
 
-- (void)setup {
-	[[SubscriptionManager sharedInstance] setCallback:self];
-	
-	_isSubscribed = [[SubscriptionManager sharedInstance] isSubscribed];
-	[_subscribeView setHidden:_isSubscribed];
-	
-	[_configureButton setEnabled:NO];
-	
-	[self reloadPackages];
-	
-	_openStateOfPackages = [NSMutableDictionary<NSURL*, NSNumber*> new];
-	[_packages enumerateObjectsUsingBlock:^(Package * _Nonnull package, NSUInteger idx, BOOL * _Nonnull stop) {
-		[self->_openStateOfPackages setObject:[NSNumber numberWithBool:YES] forKey:[package path]];
-	}];
-}
-
 #pragma mark - Appearance
 
 - (BOOL)prefersStatusBarHidden {
@@ -148,7 +132,21 @@
     [super viewDidLoad];
 	
     // Do any additional setup after loading the view.
-	[self setup];
+	[self reloadPackages];
+	
+	_openStateOfPackages = [NSMutableDictionary<NSURL*, NSNumber*> new];
+	[_packages enumerateObjectsUsingBlock:^(Package * _Nonnull package, NSUInteger idx, BOOL * _Nonnull stop) {
+		[self->_openStateOfPackages setObject:[NSNumber numberWithBool:YES] forKey:[package path]];
+	}];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+	_isSubscribed = [[SubscriptionManager sharedInstance] isSubscribed];
+	[_subscribeView setHidden:_isSubscribed];
+
+	[_configureButton setEnabled:NO];
+	
+	[_packageTable reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
