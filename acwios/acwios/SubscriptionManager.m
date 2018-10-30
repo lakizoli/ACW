@@ -264,6 +264,33 @@
 
 //TODO: implement restore of purchases
 
+-(void) restoreProducts {
+#ifdef TEST_PURCHASE
+	//////////////////////////
+	// Test restore
+	//////////////////////////
+	
+	SKPaymentQueue *queue = nil;
+#	ifdef TEST_PURCHASE_RESTORE_SUCCEEDED
+	TestPaymentTransaction *testTransaction = [[TestPaymentTransaction alloc] init];
+	testTransaction.transactionDate = [NSDate new];
+	testTransaction.transactionState = SKPaymentTransactionStateRestored;
+	[self paymentQueue:queue updatedTransactions:@[testTransaction]];
+#	elif defined(TEST_PURCHASE_RESTORE_FAILED)
+	NSError* error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorBadURL userInfo:nil];
+	[self paymentQueue:queue restoreCompletedTransactionsFailedWithError:error];
+#	endif //TEST_PURCHASE_RESTORE_SUCCEEDED
+	
+#else //TEST_PURCHASE
+	//////////////////////////
+	// Production restore
+	//////////////////////////
+	
+	[[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
+	
+#endif //TEST_PURCHASE
+}
+
 #pragma mark - SKProductsRequestDelegate
 
 -(void) productsRequest:(nonnull SKProductsRequest *)request didReceiveResponse:(nonnull SKProductsResponse *)response {

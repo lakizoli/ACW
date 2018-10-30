@@ -113,8 +113,8 @@
 }
 
 - (IBAction)restoreButtonPressed:(id)sender {
-	NSLog (@"restore");
-	//TODO: restore the subscription product
+	[self enableStore:NO];
+	[[SubscriptionManager sharedInstance] restoreProducts];
 }
 
 - (IBAction)backButtonPressed:(id)sender {

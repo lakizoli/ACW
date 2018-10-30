@@ -9,8 +9,11 @@
 #import <Foundation/Foundation.h>
 #import <StoreKit/StoreKit.h>
 
-#define TEST_PURCHASE
-#define TEST_PURCHASE_SUCCEEDED
+// Testing in app purchase
+//#define TEST_PURCHASE
+
+// Answer types of in app purchase test
+//#define TEST_PURCHASE_SUCCEEDED
 //#define TEST_PURCHASE_FAILED
 //#define TEST_PURCHASE_RESTORE_SUCCEEDED
 //#define TEST_PURCHASE_RESTORE_FAILED
@@ -37,5 +40,6 @@
 -(BOOL) isSubscribed;
 -(SKProduct*) getSubscribeProduct;
 -(void) buyProduct:(SKProduct*)product;
+-(void) restoreProducts;
 
 @end
