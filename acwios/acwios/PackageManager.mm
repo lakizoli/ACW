@@ -279,7 +279,11 @@
 			if ([child getResourceValue:&packageName forKey:NSURLNameKey error:NULL] == YES) {
 				NSArray<SavedCrossword*> *packageCrosswords = [self collectSavedCrosswordsOfPackage:packageName packageDir:child];
 				if ([packageCrosswords count] > 0) {
-					[res setObject:packageCrosswords forKey:packageName];
+					NSArray<SavedCrossword*> *sortedCWs = [packageCrosswords sortedArrayUsingComparator:
+						^NSComparisonResult(SavedCrossword*  _Nonnull cw1, SavedCrossword*  _Nonnull cw2) {
+							return [[cw1 name] compare:[cw2 name]];
+						}];
+					[res setObject:sortedCWs forKey:packageName];
 				}
 			}
 		}
