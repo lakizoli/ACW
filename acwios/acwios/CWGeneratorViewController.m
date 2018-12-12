@@ -22,6 +22,7 @@
 @property (weak, nonatomic) IBOutlet UIPickerView *pickerSolution;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *doneButton;
 @property (weak, nonatomic) IBOutlet ProgressView *progressView;
+@property (weak, nonatomic) IBOutlet UISwitch *switchGenerateAllVariations;
 
 @end
 
@@ -209,22 +210,49 @@
 	[_generatorInfo setSolutionFieldIndex: _solutionFieldIndex];
 	
 	//Generate crossword
+	__block BOOL generateAllVariations = [_switchGenerateAllVariations isOn];
 	dispatch_async (dispatch_get_global_queue (DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
 		__block int32_t lastPercent = -1;
-		[[PackageManager sharedInstance] generateWithInfo:self->_generatorInfo progressCallback:^(float percent, BOOL *stop) {
-			int32_t percentVal = (int32_t) (percent * 100.0f + 0.5f);
-			if (percentVal != lastPercent) {
-				lastPercent = percentVal;
+
+		NSString *baseName;
+		if (generateAllVariations) {
+			baseName = [self->_generatorInfo crosswordName];
+		}
+
+		BOOL genRes = YES;
+		int32_t idx = 0;
+		while (genRes) {
+			if (generateAllVariations) {
+				lastPercent = -1;
 				
-				dispatch_async (dispatch_get_main_queue (), ^(void) {
-					[self->_progressView setProgressValue:percent];
-				});
+				//Reload used words
+				NSURL *packagePath = [[[self->_decks objectAtIndex:0] package] path];
+				[[PackageManager sharedInstance] reloadUsedWords:packagePath info:self->_generatorInfo];
+
+				//Add counted name to info
+				NSString *countedName = [baseName stringByAppendingString:[NSString stringWithFormat:@" - {%d}", ++idx]];
+				[self->_generatorInfo setCrosswordName:countedName];
 			}
 			
-			if (isGenerationCancelled) {
-				*stop = YES;
+			genRes = [[PackageManager sharedInstance] generateWithInfo:self->_generatorInfo progressCallback:^(float percent, BOOL *stop) {
+				int32_t percentVal = (int32_t) (percent * 100.0f + 0.5f);
+				if (percentVal != lastPercent) {
+					lastPercent = percentVal;
+					
+					dispatch_async (dispatch_get_main_queue (), ^(void) {
+						[self->_progressView setProgressValue:percent];
+					});
+				}
+				
+				if (isGenerationCancelled) {
+					*stop = YES;
+				}
+			}];
+			
+			if (generateAllVariations == NO) {
+				break;
 			}
-		}];
+		}
 
 		dispatch_async (dispatch_get_main_queue (), ^(void) {
 			__block UIViewController *parent = [self presentingViewController];

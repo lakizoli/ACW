@@ -406,6 +406,20 @@
 	return info;
 }
 
+-(void) reloadUsedWords:(NSURL*)packagePath info:(GeneratorInfo*)info {
+	[info.usedWords removeAllObjects];
+	
+	std::shared_ptr<UsedWords> usedWords = UsedWords::Create ([[packagePath path] UTF8String]);
+	
+	if (usedWords != nullptr) {
+		for (const std::wstring& word : usedWords->GetWords ()) {
+			NSUInteger len = word.length () * sizeof (wchar_t);
+			NSString *nsWord = [[NSString alloc] initWithBytes:word.c_str () length:len encoding:NSUTF32LittleEndianStringEncoding];
+			[info.usedWords addObject:nsWord];
+		}
+	}
+}
+
 #pragma mark - Generate crossword based on info
 
 -(NSString*) trimQuestionField:(NSString*)questionField {
@@ -576,6 +590,10 @@
 	
 	std::shared_ptr<Crossword> cw = gen->Generate ();
 	if (cw == nullptr) {
+		return NO;
+	}
+	
+	if (cw->GetWords().size () <= 0) { //We generated an empty crossword...
 		return NO;
 	}
 	
