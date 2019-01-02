@@ -159,7 +159,25 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 	if (section >= 0 && section < [_savedCrosswords count]) {
 		NSString *packageName = [[_savedCrosswords allKeys] objectAtIndex:section];
-		return [NSString stringWithFormat:@"Package: %@", packageName];
+		
+		NSArray<SavedCrossword*> *cws = [_savedCrosswords objectForKey:packageName];
+		__block NSUInteger sumWordCount = 0;
+		__block NSUInteger sumFilledWordCount = 0;
+		[cws enumerateObjectsUsingBlock:^(SavedCrossword * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+			sumWordCount += [[obj words] count];
+			
+			NSArray<Statistics*> *stats = [obj loadStatistics];
+			if ([stats count] > 1) {
+				sumFilledWordCount += [[obj words] count];
+			} else if ([stats count] > 0) {
+				Statistics *stat = [stats lastObject];
+				if ([stat fillRatio] > 0.1) {
+					sumFilledWordCount += [[obj words] count];
+				}
+			}
+		}];
+		
+		return [NSString stringWithFormat:@"Package: %@ (sum: %lu cards, filled: %lu cards)", packageName, sumWordCount, sumFilledWordCount];
 	}
 	
 	return @"";
