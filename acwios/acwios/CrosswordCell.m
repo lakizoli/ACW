@@ -8,7 +8,10 @@
 
 #import "CrosswordCell.h"
 
-@implementation CrosswordCell
+@implementation CrosswordCell {
+	__weak CAShapeLayer *_separatorShapeLayer;
+	__weak CAShapeLayer *_arrowShapeLayer;
+}
 
 #pragma mark - Implementation
 
@@ -27,15 +30,12 @@
 	//Set all content to hidden
 	[self setHiddensForFullHidden:YES topHidden:YES bottomHidden:YES];
 	
-	//Clear arrows
-	__block NSMutableArray<CALayer*> *sublayers = [NSMutableArray<CALayer*> new];
-	[[[self layer] sublayers] enumerateObjectsUsingBlock:^(CALayer * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-		if (![obj isKindOfClass:[CAShapeLayer class]]) {
-			[sublayers addObject:obj];
-		}
-	}];
+	//Clear arrows and separators
+	[_separatorShapeLayer removeFromSuperlayer];
+	_separatorShapeLayer = nil;
 	
-	[[self layer] setSublayers:sublayers];
+	[_arrowShapeLayer removeFromSuperlayer];
+	_arrowShapeLayer = nil;
 }
 
 -(void) drawSeparatorLine:(CGPoint)ptStart ptEnd:(CGPoint)ptEnd {
@@ -49,6 +49,7 @@
 	shapeLayer.lineWidth = 2.0f;
 	shapeLayer.fillColor = [[UIColor whiteColor] CGColor];
 	
+	_separatorShapeLayer = shapeLayer;
 	[self.layer addSublayer:shapeLayer];
 }
 
@@ -110,9 +111,10 @@
 	[self setBorder:_bottomLabel];
 	
 	[self setBackgroundColor:[UIColor whiteColor]];
+
 	[_topLabel setTextColor:[UIColor blackColor]];
 	[_bottomLabel setTextColor:[UIColor blackColor]];
-	
+
 	[_topLabel setAttributedText:[self attributedQuestionString:questionTop scale:scale]];
 	[_bottomLabel setAttributedText:[self attributedQuestionString:questionBottom scale:scale]];
 	[self setHiddensForFullHidden:YES topHidden:NO bottomHidden:NO];
@@ -147,6 +149,10 @@
 	if (showValue) {
 		[_fullLabel setAttributedText:[self attributedValueString:value scale:scale]];
 		[self setHiddensForFullHidden:NO topHidden:YES bottomHidden:YES];
+		
+		CGRect frame = [self frame];
+		[_fullLabel setFrame:CGRectMake (0, 0, frame.size.width, frame.size.height)];
+		[self setNeedsDisplay];
 	}
 }
 
@@ -223,6 +229,7 @@
 		shapeLayer.lineWidth = 2.0f;
 		shapeLayer.fillColor = [[UIColor whiteColor] CGColor];
 		
+		_arrowShapeLayer = shapeLayer;
 		[self.layer addSublayer:shapeLayer];
 	}
 }

@@ -347,7 +347,7 @@
 	_areAnswersVisible = NO;
 	_cellFilledValues = [NSMutableDictionary<NSIndexPath*, NSString*> new];
 	[_savedCrossword loadFilledValuesInto:_cellFilledValues];
-	
+
 	[self resetInput];
 	[self registerForKeyboardNotifications];
 	
@@ -428,14 +428,13 @@
 		return;
 	}
 	
-	CGFloat velocityUp = 0.02;
-	CGFloat velocityDown = 0.1;
+	CGFloat scale = sender.scale * [_crosswordLayout scaleFactor];
+	sender.scale = 1.0;
 	
-	CGFloat scale = ((sender.scale - 1) * (sender.scale < 1 ? velocityDown : velocityUp) + 1) * [_crosswordLayout scaleFactor];
 	if (scale < 1.0) {
 		scale = 1.0;
-	} else if (scale > 1.75) {
-		scale = 1.75;
+	} else if (scale > 5) {
+		scale = 5;
 	}
 	
 	[_crosswordLayout setScaleFactor: scale];
@@ -565,7 +564,7 @@
 		
 		switch (cellType) {
 			case CWCellType_SingleQuestion:
-				[cell fillOneQuestion: [_savedCrossword getCellsQuestion:row col:col questionIndex:0] scale:[_crosswordLayout scaleFactor]];
+				[cell fillOneQuestion:[_savedCrossword getCellsQuestion:row col:col questionIndex:0] scale:[_crosswordLayout scaleFactor]];
 				break;
 			case CWCellType_DoubleQuestion: {
 				NSString* qTop = [_savedCrossword getCellsQuestion:row col:col questionIndex:0];
