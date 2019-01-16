@@ -249,8 +249,9 @@
 	[[self->_winView layer] setBorderColor: [UIColor blackColor].CGColor];
 	
 	CGRect windowFrame = [[self view] bounds];
-	CGFloat flX = (windowFrame.size.width - 300) / 2;
-	CGFloat flY = (windowFrame.size.height - 250) / 2;
+	CGPoint scrollPos = [self->_crosswordView contentOffset];
+	CGFloat flX = (windowFrame.size.width - 300) / 2 + scrollPos.x;
+	CGFloat flY = (windowFrame.size.height - 250) / 2 + scrollPos.y;
 	[self->_winView setFrame:CGRectMake(flX, flY, 300, 250)];
 	
 	[self->_crosswordView addSubview:self->_winView];
@@ -259,6 +260,10 @@
 -(void) showWinScreen {
 	[self resetInput];
 	
+	[self->_crosswordView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]
+								 atScrollPosition:UICollectionViewScrollPositionTop | UICollectionViewScrollPositionLeft
+										 animated:NO];
+
 	//Save statistics
 	[self saveStatistics:1.0 isFilled:YES];
 	
