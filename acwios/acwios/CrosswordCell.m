@@ -8,10 +8,7 @@
 
 #import "CrosswordCell.h"
 
-@implementation CrosswordCell {
-	__weak CAShapeLayer *_separatorShapeLayer;
-	__weak CAShapeLayer *_arrowShapeLayer;
-}
+@implementation CrosswordCell
 
 #pragma mark - Implementation
 
@@ -31,11 +28,14 @@
 	[self setHiddensForFullHidden:YES topHidden:YES bottomHidden:YES];
 	
 	//Clear arrows and separators
-	[_separatorShapeLayer removeFromSuperlayer];
-	_separatorShapeLayer = nil;
+	__block NSMutableArray<CALayer*> *sublayers = [NSMutableArray<CALayer*> new];
+	[[[self layer] sublayers] enumerateObjectsUsingBlock:^(CALayer * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		if (![obj isKindOfClass:[CAShapeLayer class]]) {
+			[sublayers addObject:obj];
+		}
+	}];
 	
-	[_arrowShapeLayer removeFromSuperlayer];
-	_arrowShapeLayer = nil;
+	[[self layer] setSublayers:sublayers];
 }
 
 -(void) drawSeparatorLine:(CGPoint)ptStart ptEnd:(CGPoint)ptEnd {
@@ -49,7 +49,6 @@
 	shapeLayer.lineWidth = 2.0f;
 	shapeLayer.fillColor = [[UIColor whiteColor] CGColor];
 	
-	_separatorShapeLayer = shapeLayer;
 	[self.layer addSublayer:shapeLayer];
 }
 
@@ -229,7 +228,6 @@
 		shapeLayer.lineWidth = 2.0f;
 		shapeLayer.fillColor = [[UIColor whiteColor] CGColor];
 		
-		_arrowShapeLayer = shapeLayer;
 		[self.layer addSublayer:shapeLayer];
 	}
 }
