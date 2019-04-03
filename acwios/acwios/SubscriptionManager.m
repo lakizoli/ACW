@@ -141,8 +141,7 @@
 	NSDate *purchaseDate = [NSDate dateWithTimeIntervalSince1970:unixValue];
 	
 	NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
-	[dateComponents setMonth:1];
-	[dateComponents setDay:14]; //+ 2 weeks lease
+	[dateComponents setDay:3]; //+ 3 days lease
 	
 	NSCalendar *calendar = [NSCalendar currentCalendar];
 	NSDate *expirationDatePlusLease = [calendar dateByAddingComponents:dateComponents toDate:purchaseDate options:0];
