@@ -141,7 +141,16 @@
 	NSDate *purchaseDate = [NSDate dateWithTimeIntervalSince1970:unixValue];
 	
 	NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
+#ifdef TEST_SANDBOX_PURCHASE
+	[dateComponents setMinute:5];
+#else //TEST_SANDBOX_PURCHASE
+	//////////////////////////////
+	// Real purchase expiration date (1 month + 3 day lease time)
+	//////////////////////////////
+	
+	[dateComponents setMonth:1];
 	[dateComponents setDay:3]; //+ 3 days lease
+#endif //TEST_SANDBOX_PURCHASE
 	
 	NSCalendar *calendar = [NSCalendar currentCalendar];
 	NSDate *expirationDatePlusLease = [calendar dateByAddingComponents:dateComponents toDate:purchaseDate options:0];
@@ -338,6 +347,7 @@
 				break;
 			case SKPaymentTransactionStateFailed:
 				[errors addObject:[transaction error]];
+				[queue finishTransaction:transaction]; //Consume transactions with error!
 				break;
 			default:
 				// For debugging

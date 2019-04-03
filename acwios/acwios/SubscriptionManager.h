@@ -11,6 +11,7 @@
 
 // Testing in app purchase
 //#define TEST_PURCHASE
+//#define TEST_SANDBOX_PURCHASE //5 minute purchase limit
 
 // Answer types of in app purchase test
 //#define TEST_PURCHASE_SUCCEEDED
