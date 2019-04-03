@@ -40,7 +40,7 @@
 #pragma mark - Implementation
 
 -(NSArray<NSString*>*) productIDs {
-	return @[ @"com.zapp.acwios.subscription" ];
+	return @[ @"com.zapp.acw.monthlysubscription" ];
 }
 
 -(void) validateProductIDs:(NSArray<NSString*>*)productIDs {
