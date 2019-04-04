@@ -39,10 +39,37 @@
 
 #pragma mark - Implementation
 
+#define MONTH_INDEX 0
+#define YEAR_INDEX 1
+
 -(NSArray<NSString*>*) productIDs {
-	//NOTE: keep in order or change expirationDate() call!
+	//NOTE: keep in order or change expirationDate() and getSubscribedProduct...() calls!
 	return @[ @"com.zapp.acw.monthlysubscription",
 			  @"com.zapp.acw.yearlysubscription" ];
+}
+
+-(SKProduct*) getSubscribedProductWithID:(NSString*)productID {
+#ifdef TEST_PURCHASE
+	//////////////////////////
+	// Test purchases
+	//////////////////////////
+	
+	return [[SKProduct alloc] init];
+	
+#else //TEST_PURCHASE
+	//////////////////////////
+	// Production purchase
+	//////////////////////////
+	
+	for (SKProduct *prod in _products) {
+		if ([productID compare:prod.productIdentifier] == NSOrderedSame) {
+			return prod;
+		}
+	}
+	
+	return nil;
+	
+#endif //TEST_PURCHASE
 }
 
 -(void) validateProductIDs:(NSArray<NSString*>*)productIDs {
@@ -152,9 +179,9 @@
 
 	NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
 #ifdef TEST_SANDBOX_PURCHASE
-	if ([productID compare:[usedProductIDs objectAtIndex:0]] == NSOrderedSame) { //Monthly subscription
+	if ([productID compare:[usedProductIDs objectAtIndex:MONTH_INDEX]] == NSOrderedSame) { //Monthly subscription
 		[dateComponents setMinute:5];
-	} else if ([productID compare:[usedProductIDs objectAtIndex:2]] == NSOrderedSame) { //Yearly subscription
+	} else if ([productID compare:[usedProductIDs objectAtIndex:YEAR_INDEX]] == NSOrderedSame) { //Yearly subscription
 		[dateComponents setMinute:60];
 	} else {
 		return nil;
@@ -164,9 +191,9 @@
 	// Real purchase expiration date (1 month + 3 day lease time)
 	//////////////////////////////
 	
-	if ([productID compare:[usedProductIDs objectAtIndex:0]] == NSOrderedSame) { //Monthly subscription
+	if ([productID compare:[usedProductIDs objectAtIndex:MONTH_INDEX]] == NSOrderedSame) { //Monthly subscription
 		[dateComponents setMonth:1];
-	} else if ([productID compare:[usedProductIDs objectAtIndex:2]] == NSOrderedSame) { //Yearly subscription
+	} else if ([productID compare:[usedProductIDs objectAtIndex:YEAR_INDEX]] == NSOrderedSame) { //Yearly subscription
 		[dateComponents setYear:1];
 	} else {
 		return nil;
@@ -233,32 +260,16 @@
 	return NO;
 }
 
--(SKProduct*) getSubscribeProduct {
-#ifdef TEST_PURCHASE
-	//////////////////////////
-	// Test purchases
-	//////////////////////////
-	
-	return [[SKProduct alloc] init];
-	
-#else //TEST_PURCHASE
-	//////////////////////////
-	// Production purchase
-	//////////////////////////
-	
+-(SKProduct*) getSubscribedProductForMonth {
 	NSArray<NSString*> *ids = [self productIDs];
-	
-	for (NSString *prodID in ids) {
-		for (SKProduct *prod in _products) {
-			if ([prodID compare:prod.productIdentifier] == NSOrderedSame) {
-				return prod;
-			}
-		}
-	}
-	
-	return nil;
-	
-#endif //TEST_PURCHASE
+	NSString *productID = [ids count] > 1 ? [ids objectAtIndex:MONTH_INDEX] : nil;
+	return [self getSubscribedProductWithID:productID];
+}
+
+-(SKProduct*) getSubscribedProductForYear {
+	NSArray<NSString*> *ids = [self productIDs];
+	NSString *productID = [ids count] > 1 ? [ids objectAtIndex:YEAR_INDEX] : nil;
+	return [self getSubscribedProductWithID:productID];
 }
 
 -(void) buyProduct:(SKProduct*)product {

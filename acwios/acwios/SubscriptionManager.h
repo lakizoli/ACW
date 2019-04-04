@@ -39,7 +39,8 @@
 -(void) showSubscriptionAlert:(UIViewController*)parent msg:(NSString*)msg;
 
 -(BOOL) isSubscribed;
--(SKProduct*) getSubscribeProduct;
+-(SKProduct*) getSubscribedProductForMonth;
+-(SKProduct*) getSubscribedProductForYear;
 -(void) buyProduct:(SKProduct*)product;
 -(void) restoreProducts;
 

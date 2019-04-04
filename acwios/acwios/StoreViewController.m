@@ -13,14 +13,16 @@
 @interface StoreViewController ()
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *backButton;
-@property (weak, nonatomic) IBOutlet GlossyButton *buyButton;
+@property (weak, nonatomic) IBOutlet GlossyButton *buyMonthButton;
+@property (weak, nonatomic) IBOutlet GlossyButton *buyYearButton;
 @property (weak, nonatomic) IBOutlet GlossyButton *restoreButton;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *progressIndicator;
 
 @end
 
 @implementation StoreViewController {
-	SKProduct *_product;
+	SKProduct *_productMonth;
+	SKProduct *_productYear;
 }
 
 #pragma mark - Implementation
@@ -28,7 +30,8 @@
 - (void)enableStore:(BOOL)enable {
 	[_backButton setEnabled:enable];
 	[_restoreButton setEnabled:enable];
-	[_buyButton setEnabled:enable];
+	[_buyMonthButton setEnabled:enable];
+	[_buyYearButton setEnabled:enable];
 	if (enable) {
 		[_progressIndicator stopAnimating];
 	} else {
@@ -53,7 +56,15 @@
 		dispatch_async (dispatch_get_global_queue (DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
 			SubscriptionManager *man = [SubscriptionManager sharedInstance];
 			NSDate *start = [NSDate new];
-			while ( (self->_product = [man getSubscribeProduct]) == nil ) {
+			while (self->_productMonth == nil || self->_productYear == nil) {
+				if (self->_productMonth == nil) {
+					self->_productMonth = [man getSubscribedProductForMonth];
+				}
+				
+				if (self->_productYear == nil) {
+					self->_productYear = [man getSubscribedProductForYear];
+				}
+				
 				NSDate *cur = [NSDate new];
 				NSTimeInterval duration = [cur timeIntervalSinceDate:start];
 				if (duration > 30) { //Timeout is 30 seconds
@@ -75,7 +86,7 @@
 				}
 			}
 
-			if (self->_product) {
+			if (self->_productMonth && self->_productYear) {
 				dispatch_async (dispatch_get_main_queue (), ^{
 					[self enableStore:YES];
 				});
@@ -107,9 +118,14 @@
 	}
 }
 
-- (IBAction)buyButtonPressed:(id)sender {
+- (IBAction)buyMonthPressed:(id)sender {
 	[self enableStore:NO];
-	[[SubscriptionManager sharedInstance] buyProduct:_product];
+	[[SubscriptionManager sharedInstance] buyProduct:_productMonth];
+}
+
+- (IBAction)buyYearPressed:(id)sender {
+	[self enableStore:NO];
+	[[SubscriptionManager sharedInstance] buyProduct:_productYear];
 }
 
 - (IBAction)restoreButtonPressed:(id)sender {
