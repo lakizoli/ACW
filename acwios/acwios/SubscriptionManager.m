@@ -40,7 +40,9 @@
 #pragma mark - Implementation
 
 -(NSArray<NSString*>*) productIDs {
-	return @[ @"com.zapp.acw.monthlysubscription" ];
+	//NOTE: keep in order or change expirationDate() call!
+	return @[ @"com.zapp.acw.monthlysubscription",
+			  @"com.zapp.acw.yearlysubscription" ];
 }
 
 -(void) validateProductIDs:(NSArray<NSString*>*)productIDs {
@@ -118,8 +120,8 @@
 }
 #endif //TEST_PURCHASE
 
--(BOOL) storePurchaseDate:(NSDate*)purchaseDate {
-	NSString *str = [NSString stringWithFormat:@"%lli", (int64_t) [purchaseDate timeIntervalSince1970]];
+-(BOOL) storePurchaseDate:(NSDate*)purchaseDate productID:(NSString*)productID {
+	NSString *str = [NSString stringWithFormat:@"%lli:%@", (int64_t) [purchaseDate timeIntervalSince1970], productID];
 	
 	NSError *err = nil;
 	if (![str writeToURL:[self purchasePath] atomically:YES encoding:NSUTF8StringEncoding error:&err]) {
@@ -132,23 +134,43 @@
 
 -(NSDate*) expirationDate {
 	NSError *err = nil;
-	NSString *strDate = [NSString stringWithContentsOfURL:[self purchasePath] encoding:NSUTF8StringEncoding error:&err];
-	if (strDate == nil) {
+	NSString *strDateAndProductID = [NSString stringWithContentsOfURL:[self purchasePath] encoding:NSUTF8StringEncoding error:&err];
+	if (strDateAndProductID == nil) {
 		return nil;
 	}
 	
-	int64_t unixValue = [strDate longLongValue];
+	NSArray *values = [strDateAndProductID componentsSeparatedByString:@":"];
+	if ([values count] < 2) {
+		return nil;
+	}
+	
+	int64_t unixValue = [[values objectAtIndex:0] longLongValue];
 	NSDate *purchaseDate = [NSDate dateWithTimeIntervalSince1970:unixValue];
 	
+	NSString *productID = [values objectAtIndex:1];
+	NSArray<NSString*> *usedProductIDs = [self productIDs];
+
 	NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
 #ifdef TEST_SANDBOX_PURCHASE
-	[dateComponents setMinute:5];
+	if ([productID compare:[usedProductIDs objectAtIndex:0]] == NSOrderedSame) { //Monthly subscription
+		[dateComponents setMinute:5];
+	} else if ([productID compare:[usedProductIDs objectAtIndex:2]] == NSOrderedSame) { //Yearly subscription
+		[dateComponents setMinute:60];
+	} else {
+		return nil;
+	}
 #else //TEST_SANDBOX_PURCHASE
 	//////////////////////////////
 	// Real purchase expiration date (1 month + 3 day lease time)
 	//////////////////////////////
 	
-	[dateComponents setMonth:1];
+	if ([productID compare:[usedProductIDs objectAtIndex:0]] == NSOrderedSame) { //Monthly subscription
+		[dateComponents setMonth:1];
+	} else if ([productID compare:[usedProductIDs objectAtIndex:2]] == NSOrderedSame) { //Yearly subscription
+		[dateComponents setYear:1];
+	} else {
+		return nil;
+	}
 	[dateComponents setDay:3]; //+ 3 days lease
 #endif //TEST_SANDBOX_PURCHASE
 	
@@ -232,8 +254,6 @@
 				return prod;
 			}
 		}
-		
-		break; //We have only one product!
 	}
 	
 	return nil;
@@ -334,13 +354,13 @@
 				//... Nothing to do here ...
 				break;
 			case SKPaymentTransactionStatePurchased:
-				if ([self storePurchaseDate:transaction.transactionDate]) {
+				if ([self storePurchaseDate:transaction.transactionDate productID:transaction.payment.productIdentifier]) {
 					[queue finishTransaction:transaction];
 					[self showOKAlert:@"Subscription purchased successfully!" title:@"Success"];
 				}
 				break;
 			case SKPaymentTransactionStateRestored:
-				if ([self storePurchaseDate:transaction.transactionDate]) {
+				if ([self storePurchaseDate:transaction.transactionDate productID:transaction.payment.productIdentifier]) {
 					[queue finishTransaction:transaction];
 					[self showOKAlert:@"Subscription restored successfully!" title:@"Success"];
 				}
