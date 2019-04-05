@@ -14,13 +14,31 @@
 @interface TestPaymentTransaction : SKPaymentTransaction
 @property(nonatomic, strong) NSDate *transactionDate;
 @property(nonatomic, assign) SKPaymentTransactionState transactionState;
+@property(nonatomic, assign) SKPayment *payment;
 @property(nonatomic, strong) NSError *error;
 @end
 
 @implementation TestPaymentTransaction
 @synthesize transactionDate;
 @synthesize transactionState;
+@synthesize payment;
 @synthesize error;
+@end
+
+@interface TestPayment : SKMutablePayment
+@property(nonatomic, copy) NSString *productIdentifier;
+@end
+
+@implementation TestPayment
+@synthesize productIdentifier;
+@end
+
+@interface TestProduct : SKProduct
+@property(nonatomic, strong) NSString *productIdentifier;
+@end
+
+@implementation TestProduct
+@synthesize productIdentifier;
 @end
 #endif //TEST_PURCHASE
 
@@ -54,7 +72,9 @@
 	// Test purchases
 	//////////////////////////
 	
-	return [[SKProduct alloc] init];
+	TestProduct *prod = [[TestProduct alloc] init];
+	prod.productIdentifier = productID;
+	return prod;
 	
 #else //TEST_PURCHASE
 	//////////////////////////
@@ -281,6 +301,10 @@
 	TestPaymentTransaction *testTransaction = [[TestPaymentTransaction alloc] init];
 	SKPaymentQueue *queue = nil;
 	testTransaction.transactionDate = [NSDate new];
+	
+	TestPayment *payment = [[TestPayment alloc] init];
+	payment.productIdentifier = product.productIdentifier;
+	testTransaction.payment = payment;
 #	ifdef TEST_PURCHASE_SUCCEEDED
 	testTransaction.transactionState = SKPaymentTransactionStatePurchased;
 #	elif defined(TEST_PURCHASE_FAILED)

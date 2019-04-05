@@ -32,7 +32,7 @@
 
 -(void) showSubscription {
 	[[SubscriptionManager sharedInstance] showSubscriptionAlert:self
-															msg:@"You have to subscribe to the application to use the disabled decks to generate a crossword!"];
+															msg:@"You have to subscribe to the application to use the disabled decks to generate a crossword! If You press Yes, then we take You to Our store screen to do that."];
 }
 
 -(void) reloadPackages {

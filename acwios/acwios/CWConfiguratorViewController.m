@@ -33,7 +33,7 @@
 
 -(void) showSubscription {
 	[[SubscriptionManager sharedInstance] showSubscriptionAlert:self
-															msg:@"You have to subscribe to the application to play the disabled crosswords!"];
+															msg:@"You have to subscribe to the application to play the disabled crosswords! If You press Yes, then we take You to our store screen to do that."];
 }
 
 -(SavedCrossword*) savedCWFromIndexPath:(NSIndexPath*)indexPath {
