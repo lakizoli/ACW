@@ -8,8 +8,6 @@
 
 #import "SubscriptionManager.h"
 
-//TODO: implement restore purchase
-
 #ifdef TEST_PURCHASE
 @interface TestPaymentTransaction : SKPaymentTransaction
 @property(nonatomic, strong) NSDate *transactionDate;
