@@ -20,6 +20,8 @@
 @property (weak, nonatomic) IBOutlet UIView *subscribeView;
 @property (weak, nonatomic) IBOutlet UITableView *crosswordTable;
 @property (weak, nonatomic) IBOutlet UINavigationItem *navItem;
+@property (weak, nonatomic) IBOutlet UIView *helpOfPlusButton;
+@property (weak, nonatomic) IBOutlet UIView *helpOfBackButton;
 
 @end
 
@@ -93,7 +95,23 @@
 	_isSubscribed = [[SubscriptionManager sharedInstance] isSubscribed];
 	[[self subscribeView] setHidden:_isSubscribed];
 
-	_savedCrosswords = [[PackageManager sharedInstance] collectSavedCrosswords];
+	PackageManager *man = [PackageManager sharedInstance];
+	BOOL hasSomePackages = [[man collectPackages] count] > 0;
+	[_helpOfBackButton setHidden:hasSomePackages];
+	[_navItem.rightBarButtonItem setEnabled:hasSomePackages];
+	
+	_savedCrosswords = [man collectSavedCrosswords];
+	__block BOOL hasSomeCrossword = NO;
+	if (hasSomePackages) {
+		[_savedCrosswords enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSArray<SavedCrossword *> * _Nonnull obj, BOOL * _Nonnull stop) {
+			if ([obj count] > 0) {
+				hasSomeCrossword = YES;
+				*stop = YES;
+			}
+		}];
+	}
+	[_helpOfPlusButton setHidden:!hasSomePackages || hasSomeCrossword];
+	
 	[_crosswordTable reloadData];
 }
 
