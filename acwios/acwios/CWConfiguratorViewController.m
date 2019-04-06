@@ -97,22 +97,25 @@
 
 	PackageManager *man = [PackageManager sharedInstance];
 	BOOL hasSomePackages = [[man collectPackages] count] > 0;
-	[_helpOfBackButton setHidden:hasSomePackages];
-	[_navItem.rightBarButtonItem setEnabled:hasSomePackages];
 	
+	_savedCrosswords = [man collectSavedCrosswords];
+	__block BOOL hasSomeCrossword = NO;
+	if (hasSomePackages) {
+		[_savedCrosswords enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSArray<SavedCrossword *> * _Nonnull obj, BOOL * _Nonnull stop) {
+			if ([obj count] > 0) {
+				hasSomeCrossword = YES;
+				*stop = YES;
+			}
+		}];
+	}
+
 	if(_isStatisticsView) {
+		[_helpOfBackButton setHidden:hasSomeCrossword];
+		[_navItem.rightBarButtonItem setEnabled:NO];
 		[_helpOfPlusButton setHidden:YES];
 	} else {
-		_savedCrosswords = [man collectSavedCrosswords];
-		__block BOOL hasSomeCrossword = NO;
-		if (hasSomePackages) {
-			[_savedCrosswords enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSArray<SavedCrossword *> * _Nonnull obj, BOOL * _Nonnull stop) {
-				if ([obj count] > 0) {
-					hasSomeCrossword = YES;
-					*stop = YES;
-				}
-			}];
-		}
+		[_helpOfBackButton setHidden:hasSomePackages];
+		[_navItem.rightBarButtonItem setEnabled:hasSomePackages];
 		[_helpOfPlusButton setHidden:!hasSomePackages || hasSomeCrossword];
 	}
 	
