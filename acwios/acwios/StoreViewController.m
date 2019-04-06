@@ -102,7 +102,7 @@
 	if ([SKPaymentQueue canMakePayments] == NO) {
 #endif //TEST_PURCHASE
 		UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error"
-																	   message:@"In app purchase is disabled, so You cannot subscribe to this application!"
+																	   message:@"In app purchase is disabled, so you cannot subscribe to this application!"
 																preferredStyle:UIAlertControllerStyleAlert];
 		
 		UIAlertAction *actionOK = [UIAlertAction actionWithTitle:@"OK"

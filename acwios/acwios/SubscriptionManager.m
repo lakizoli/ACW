@@ -170,7 +170,7 @@
 	
 	NSError *err = nil;
 	if (![str writeToURL:[self purchasePath] atomically:YES encoding:NSUTF8StringEncoding error:&err]) {
-		[self showOKAlert:@"Cannot store Your purchase on local storage!" title:@"Error"];
+		[self showOKAlert:@"Cannot store your purchase on local storage!" title:@"Error"];
 		return NO;
 	}
 	

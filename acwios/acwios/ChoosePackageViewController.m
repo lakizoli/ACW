@@ -32,7 +32,7 @@
 
 -(void) showSubscription {
 	[[SubscriptionManager sharedInstance] showSubscriptionAlert:self
-															msg:@"You have to subscribe to the application to use the disabled decks to generate a crossword! If You press Yes, then we take You to Our store screen to do that."];
+															msg:@"You have to subscribe to the application to use the disabled decks to generate a crossword! If you press yes, then we take you to our store screen to do that."];
 }
 
 -(void) reloadPackages {
@@ -89,8 +89,8 @@
 }
 
 -(void) deletePackage:(Package*)package {
-	UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Do You want to delete this package?"
-																   message:@"All of Your already generated crosswords in this package will be deleted too! You cannot undo this action."
+	UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Do you want to delete this package?"
+																   message:@"All of your already generated crosswords in this package will be deleted too! You cannot undo this action."
 															preferredStyle:UIAlertControllerStyleAlert];
 	
 	UIAlertAction *actionNo = [UIAlertAction actionWithTitle:@"Cancel"

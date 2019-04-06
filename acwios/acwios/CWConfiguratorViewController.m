@@ -35,7 +35,7 @@
 
 -(void) showSubscription {
 	[[SubscriptionManager sharedInstance] showSubscriptionAlert:self
-															msg:@"You have to subscribe to the application to play the disabled crosswords! If You press Yes, then we take You to our store screen to do that."];
+															msg:@"You have to subscribe to the application to play the disabled crosswords! If you press yes, then we take you to our store screen to do that."];
 }
 
 -(SavedCrossword*) savedCWFromIndexPath:(NSIndexPath*)indexPath {
@@ -45,7 +45,7 @@
 }
 
 -(void) deleteCrosswordAt:(NSIndexPath*)indexPath {
-	UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Do You want to delete this crossword?"
+	UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Do you want to delete this crossword?"
 																   message:@"You cannot undo this action."
 															preferredStyle:UIAlertControllerStyleAlert];
 	
@@ -100,17 +100,21 @@
 	[_helpOfBackButton setHidden:hasSomePackages];
 	[_navItem.rightBarButtonItem setEnabled:hasSomePackages];
 	
-	_savedCrosswords = [man collectSavedCrosswords];
-	__block BOOL hasSomeCrossword = NO;
-	if (hasSomePackages) {
-		[_savedCrosswords enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSArray<SavedCrossword *> * _Nonnull obj, BOOL * _Nonnull stop) {
-			if ([obj count] > 0) {
-				hasSomeCrossword = YES;
-				*stop = YES;
-			}
-		}];
+	if(_isStatisticsView) {
+		[_helpOfPlusButton setHidden:YES];
+	} else {
+		_savedCrosswords = [man collectSavedCrosswords];
+		__block BOOL hasSomeCrossword = NO;
+		if (hasSomePackages) {
+			[_savedCrosswords enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSArray<SavedCrossword *> * _Nonnull obj, BOOL * _Nonnull stop) {
+				if ([obj count] > 0) {
+					hasSomeCrossword = YES;
+					*stop = YES;
+				}
+			}];
+		}
+		[_helpOfPlusButton setHidden:!hasSomePackages || hasSomeCrossword];
 	}
-	[_helpOfPlusButton setHidden:!hasSomePackages || hasSomeCrossword];
 	
 	[_crosswordTable reloadData];
 }

@@ -40,7 +40,7 @@
 #pragma mark - Implementation
 
 -(void) showSubscription:(NSInteger)maxSize {
-	NSString *msg = [NSString stringWithFormat:@"You have to subscribe to the application to generate crossword with a size more than %li! If You press Yes, then we take You to our store screen to do that.", maxSize];
+	NSString *msg = [NSString stringWithFormat:@"You have to subscribe to the application to generate crossword with a size more than %li! If you press yes, then we take you to our store screen to do that.", maxSize];
 	[[SubscriptionManager sharedInstance] showSubscriptionAlert:self msg:msg];
 }
 
