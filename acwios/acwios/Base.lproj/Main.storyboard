@@ -405,7 +405,7 @@
                                             <constraint firstAttribute="width" relation="lessThanOrEqual" constant="359" id="3yx-jK-y2G"/>
                                         </constraints>
                                         <attributedString key="attributedText">
-                                            <fragment content="You can use only the first deck from the first package without a subscription. Choose the button below to take it...">
+                                            <fragment content="You have to subscribe to the application to use the disabled decks to generate a crossword!">
                                                 <attributes>
                                                     <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <font key="NSFont" size="19" name="BradleyHandITCTT-Bold"/>
@@ -417,9 +417,9 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xrc-WZ-AAS">
-                                        <rect key="frame" x="112.5" y="82" width="95" height="40"/>
+                                        <rect key="frame" x="89" y="82" width="142" height="40"/>
                                         <fontDescription key="fontDescription" name="BradleyHandITCTT-Bold" family="Bradley Hand" pointSize="22"/>
-                                        <state key="normal" title="Subscribe"/>
+                                        <state key="normal" title="Subscribe Now"/>
                                         <connections>
                                             <action selector="subscribeButtonPressed:" destination="zRY-u3-jNH" eventType="touchUpInside" id="8Ns-qO-QMt"/>
                                         </connections>
@@ -760,7 +760,7 @@
             <objects>
                 <navigationController id="Ua7-2S-ojo" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="hcO-N4-a9V">
-                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.15680609810000001" green="0.31361219620000003" blue="0.31230547870000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">
@@ -892,19 +892,58 @@
                                             <constraint firstAttribute="width" relation="lessThanOrEqual" constant="359" id="Piv-bX-ub9"/>
                                         </constraints>
                                         <attributedString key="attributedText">
-                                            <fragment content="You can use only the first crossword without a subscription. Choose the button below to take it...">
+                                            <fragment content="You have to subscribe to the application to play the disabled crosswords!">
                                                 <attributes>
                                                     <font key="NSFont" size="19" name="BradleyHandITCTT-Bold"/>
-                                                    <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                                        <tabStops>
+                                                            <textTab alignment="left" location="28">
+                                                                <options/>
+                                                            </textTab>
+                                                            <textTab alignment="left" location="56">
+                                                                <options/>
+                                                            </textTab>
+                                                            <textTab alignment="left" location="84">
+                                                                <options/>
+                                                            </textTab>
+                                                            <textTab alignment="left" location="112">
+                                                                <options/>
+                                                            </textTab>
+                                                            <textTab alignment="left" location="140">
+                                                                <options/>
+                                                            </textTab>
+                                                            <textTab alignment="left" location="168">
+                                                                <options/>
+                                                            </textTab>
+                                                            <textTab alignment="left" location="196">
+                                                                <options/>
+                                                            </textTab>
+                                                            <textTab alignment="left" location="224">
+                                                                <options/>
+                                                            </textTab>
+                                                            <textTab alignment="left" location="252">
+                                                                <options/>
+                                                            </textTab>
+                                                            <textTab alignment="left" location="280">
+                                                                <options/>
+                                                            </textTab>
+                                                            <textTab alignment="left" location="308">
+                                                                <options/>
+                                                            </textTab>
+                                                            <textTab alignment="left" location="336">
+                                                                <options/>
+                                                            </textTab>
+                                                        </tabStops>
+                                                    </paragraphStyle>
                                                 </attributes>
                                             </fragment>
                                         </attributedString>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mO6-uW-gDN">
-                                        <rect key="frame" x="112.5" y="82" width="95" height="40"/>
+                                        <rect key="frame" x="89" y="82" width="142" height="40"/>
                                         <fontDescription key="fontDescription" name="BradleyHandITCTT-Bold" family="Bradley Hand" pointSize="22"/>
-                                        <state key="normal" title="Subscribe"/>
+                                        <state key="normal" title="Subscribe Now"/>
                                         <connections>
                                             <action selector="subscribeButtonPressed:" destination="zRY-u3-jNH" eventType="touchUpInside" id="X3i-tn-cBc"/>
                                             <action selector="subscribeButtonPressed:" destination="8Gq-Af-vIq" eventType="touchUpInside" id="o3q-as-BeU"/>
@@ -1630,7 +1669,7 @@
                                             <constraint firstAttribute="width" relation="lessThanOrEqual" constant="359" id="gVD-cM-Ys2"/>
                                         </constraints>
                                         <attributedString key="attributedText">
-                                            <fragment content="You can use only the first crossword without a subscription. Choose the button below to take it...">
+                                            <fragment content="You have to subscribe to the application to play the disabled crosswords!">
                                                 <attributes>
                                                     <font key="NSFont" size="19" name="BradleyHandITCTT-Bold"/>
                                                     <font key="NSOriginalFont" size="19" name="BradleyHandITCTT-Bold"/>
@@ -1641,9 +1680,9 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wcY-Qy-MWk">
-                                        <rect key="frame" x="112.5" y="82" width="95" height="40"/>
+                                        <rect key="frame" x="89" y="82" width="142" height="40"/>
                                         <fontDescription key="fontDescription" name="BradleyHandITCTT-Bold" family="Bradley Hand" pointSize="22"/>
-                                        <state key="normal" title="Subscribe"/>
+                                        <state key="normal" title="Subscribe Now"/>
                                         <connections>
                                             <action selector="subscribeButtonPressed:" destination="zRY-u3-jNH" eventType="touchUpInside" id="Aoe-t3-WfY"/>
                                             <action selector="subscribeButtonPressed:" destination="xH0-FC-OGI" eventType="touchUpInside" id="VOR-io-IAk"/>

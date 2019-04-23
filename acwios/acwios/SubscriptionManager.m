@@ -244,6 +244,16 @@
 	return instance;
 }
 
+- (void)showStore:(UIViewController *)parent {
+	UIViewController *storeVC = [parent.storyboard instantiateViewControllerWithIdentifier:@"StoreVC"];
+	
+	dispatch_async (dispatch_get_global_queue (DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+		[self validateProductIDs:[self productIDs]];
+	});
+	
+	[parent presentViewController:storeVC animated:YES completion:nil];
+}
+
 - (void)showSubscriptionAlert:(UIViewController *)parent msg:(NSString*)msg {
 	UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Subscribe Alert!" message:msg preferredStyle:UIAlertControllerStyleAlert];
 	
@@ -260,13 +270,14 @@
 														style:UIAlertActionStyleDestructive
 													  handler:^(UIAlertAction * _Nonnull action)
 	{
-		UIViewController *storeVC = [parent.storyboard instantiateViewControllerWithIdentifier:@"StoreVC"];
-		
-		dispatch_async (dispatch_get_global_queue (DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
-			[self validateProductIDs:[self productIDs]];
-		});
-		
-		[parent presentViewController:storeVC animated:YES completion:nil];
+		[self showStore:parent];
+//		UIViewController *storeVC = [parent.storyboard instantiateViewControllerWithIdentifier:@"StoreVC"];
+//
+//		dispatch_async (dispatch_get_global_queue (DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+//			[self validateProductIDs:[self productIDs]];
+//		});
+//
+//		[parent presentViewController:storeVC animated:YES completion:nil];
 	}];
 
 	[alert addAction:actionYes];

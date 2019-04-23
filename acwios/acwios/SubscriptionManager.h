@@ -36,6 +36,7 @@
 
 +(SubscriptionManager*) sharedInstance;
 
+-(void) showStore:(UIViewController *)parent;
 -(void) showSubscriptionAlert:(UIViewController*)parent msg:(NSString*)msg;
 
 -(BOOL) isSubscribed;

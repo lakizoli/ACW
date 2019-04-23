@@ -159,7 +159,7 @@
 }
 
 - (IBAction)subscribeButtonPressed:(id)sender {
-	[self showSubscription];
+	[[SubscriptionManager sharedInstance] showStore:self];
 }
 
 #pragma mark - Navigation
