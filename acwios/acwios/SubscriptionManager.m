@@ -32,10 +32,14 @@
 @end
 
 @interface TestProduct : SKProduct
+@property(nonatomic, strong) NSDecimalNumber *price;
+@property(nonatomic, strong) NSLocale *priceLocale;
 @property(nonatomic, strong) NSString *productIdentifier;
 @end
 
 @implementation TestProduct
+@synthesize price;
+@synthesize priceLocale;
 @synthesize productIdentifier;
 @end
 #endif //TEST_PURCHASE
@@ -72,6 +76,12 @@
 	
 	TestProduct *prod = [[TestProduct alloc] init];
 	prod.productIdentifier = productID;
+	prod.priceLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
+	if ([productID isEqualToString:@"com.zapp.acw.monthlysubscription"]) {
+		prod.price = [NSDecimalNumber decimalNumberWithString:@"0.99"];
+	} else {
+		prod.price = [NSDecimalNumber decimalNumberWithString:@"9.99"];
+	}
 	return prod;
 	
 #else //TEST_PURCHASE

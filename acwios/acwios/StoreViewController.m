@@ -27,12 +27,27 @@
 
 #pragma mark - Implementation
 
+- (NSString*)priceForProduct:(SKProduct*)product postFix:(NSString*)postFix {
+	NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+	[numberFormatter setFormatterBehavior:NSNumberFormatterBehavior10_4];
+	[numberFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+	[numberFormatter setLocale:product.priceLocale];
+	NSString *formattedPriceString = [numberFormatter stringFromNumber:product.price];
+	return [formattedPriceString stringByAppendingString:postFix];
+}
+
 - (void)enableStore:(BOOL)enable {
 	[_backButton setEnabled:enable];
 	[_restoreButton setEnabled:enable];
 	[_buyMonthButton setEnabled:enable];
 	[_buyYearButton setEnabled:enable];
 	if (enable) {
+		NSString *priceMonth = [self priceForProduct:_productMonth postFix:@" / Month"];
+		[_buyMonthButton setTitle:priceMonth forState:UIControlStateNormal];
+		
+		NSString *priceYear = [self priceForProduct:_productYear postFix:@" / Year"];
+		[_buyYearButton setTitle:priceYear forState:UIControlStateNormal];
+		
 		[_progressIndicator stopAnimating];
 	} else {
 		[_progressIndicator startAnimating];
