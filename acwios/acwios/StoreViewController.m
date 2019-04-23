@@ -9,6 +9,8 @@
 #import "StoreViewController.h"
 #import "SubscriptionManager.h"
 #import "GlossyButton.h"
+#import "NSAttributedString+Search.h"
+#import "UITapGestureRecognizer+LinkInLabel.h"
 
 @interface StoreViewController ()
 
@@ -17,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet GlossyButton *buyYearButton;
 @property (weak, nonatomic) IBOutlet GlossyButton *restoreButton;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *progressIndicator;
+@property (weak, nonatomic) IBOutlet UILabel *considerations;
 
 @end
 
@@ -26,6 +29,13 @@
 }
 
 #pragma mark - Implementation
+
+- (void) setLinkToContentOfString:(NSMutableAttributedString*)attrString content:(NSString*)content link:(NSURL*)link {
+	NSRange range = [attrString rangeOfFirstOccurence:content];
+	if (range.location != NSNotFound) {
+		[attrString addAttribute:NSLinkAttributeName value:link range:range];
+	}
+}
 
 - (NSString*)priceForProduct:(SKProduct*)product postFix:(NSString*)postFix {
 	NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
@@ -68,6 +78,11 @@
     // Do any additional setup after loading the view.
 	[[SubscriptionManager sharedInstance] setDelegate:self];
 	[self enableStore:NO];
+	
+	NSMutableAttributedString *considerationContent = [[_considerations attributedText] mutableCopy];
+	[self setLinkToContentOfString:considerationContent content:@"privacy policy" link:[NSURL URLWithString:@"https://github.com/lakizoli/ACW/blob/master/docs/privacy_policy.md"]];
+	[self setLinkToContentOfString:considerationContent content:@"terms of use" link:[NSURL URLWithString:@"https://github.com/lakizoli/ACW/blob/master/docs/terms_of_use.md"]];
+	[_considerations setAttributedText:considerationContent];
 	
 #ifdef TEST_PURCHASE
 	if (1) {
@@ -156,6 +171,21 @@
 
 - (IBAction)backButtonPressed:(id)sender {
 	[self dismissViewControllerAnimated:YES completion:nil];
+}
+	
+- (IBAction)considerationsTapped:(UITapGestureRecognizer*)gesture {
+	NSAttributedString *text = _considerations.attributedText;
+	NSRange termsRange = [text rangeOfFirstOccurence:@"terms of use"];
+	NSRange privacyRange = [text rangeOfFirstOccurence:@"privacy policy"];
+	
+	if ([gesture didTapAttributedTextInLabel:_considerations inRange:termsRange]) {
+		NSLog (@"Tapped terms");
+	} else if ([gesture didTapAttributedTextInLabel:_considerations inRange:privacyRange]) {
+		NSLog (@"Tapped privacy");
+	} else {
+		NSLog (@"Tapped none");
+	}
+
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
