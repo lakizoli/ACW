@@ -45,7 +45,7 @@
 		NSString *priceMonth = [self priceForProduct:_productMonth postFix:@" / Month"];
 		[_buyMonthButton setTitle:priceMonth forState:UIControlStateNormal];
 		
-		NSString *priceYear = [self priceForProduct:_productYear postFix:@" / Year"];
+		NSString *priceYear = [self priceForProduct:_productYear postFix:@" / Year (Save 20%)"];
 		[_buyYearButton setTitle:priceYear forState:UIControlStateNormal];
 		
 		[_progressIndicator stopAnimating];
@@ -150,6 +150,33 @@
 
 - (IBAction)backButtonPressed:(id)sender {
 	[self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+	if (UI_USER_INTERFACE_IDIOM () == UIUserInterfaceIdiomPad) {
+		return [super supportedInterfaceOrientations];
+	}
+	
+	[super supportedInterfaceOrientations];
+	return UIInterfaceOrientationMaskPortrait;
+}
+
+- (BOOL)shouldAutorotate {
+	if (UI_USER_INTERFACE_IDIOM () == UIUserInterfaceIdiomPad) {
+		return [super shouldAutorotate];
+	}
+	
+	[super shouldAutorotate];
+	return NO;
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+	if (UI_USER_INTERFACE_IDIOM () == UIUserInterfaceIdiomPad) {
+		return [super preferredInterfaceOrientationForPresentation];
+	}
+	
+	[super preferredInterfaceOrientationForPresentation];
+	return UIInterfaceOrientationPortrait;
 }
 
 /*
