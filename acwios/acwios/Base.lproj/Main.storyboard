@@ -1042,7 +1042,7 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Suc-u1-lD8">
+                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Suc-u1-lD8">
                                 <rect key="frame" x="3" y="70" width="314" height="407"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New Subscriber?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1hr-ro-g1u">
@@ -1117,29 +1117,19 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="OOP-qk-ORT">
+                                    <wkWebView opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="749" ambiguous="YES" allowsLinkPreview="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XHG-Pa-gNu">
                                         <rect key="frame" x="0.0" y="215" width="314" height="104.5"/>
-                                        <gestureRecognizers/>
                                         <constraints>
-                                            <constraint firstAttribute="height" relation="lessThanOrEqual" constant="160" id="5dO-R6-WYf"/>
-                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="100" id="FHf-KZ-WT8"/>
+                                            <constraint firstAttribute="height" relation="lessThanOrEqual" constant="160" id="AxQ-kd-ayK"/>
+                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="100" id="ePG-sJ-QaN"/>
                                         </constraints>
-                                        <attributedString key="attributedText">
-                                            <fragment>
-                                                <string key="content">Payment will be charged to your Apple ID account at the confirmation of purchase. The subscription automatically renews unless it is canceled at least 24 hours before the end of the current period. Your account will be charged for renewal within 24 hours prior to the end of the current period. You can manage and cancel your subscriptions by going to your App Store account settings after purchase. For further details please read our privacy policy and terms of use.</string>
-                                                <attributes>
-                                                    <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <font key="NSFont" size="16" name="BradleyHandITCTT-Bold"/>
-                                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="truncatingTail" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
-                                                </attributes>
-                                            </fragment>
-                                        </attributedString>
-                                        <nil key="highlightedColor"/>
-                                        <connections>
-                                            <outletCollection property="gestureRecognizers" destination="xvh-bK-0zB" appends="YES" id="EdA-hQ-pTc"/>
-                                        </connections>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Subscribed already?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HBW-u5-x1c">
+                                        <wkWebViewConfiguration key="configuration" allowsAirPlayForMediaPlayback="NO" allowsPictureInPictureMediaPlayback="NO" suppressesIncrementalRendering="YES">
+                                            <dataDetectorTypes key="dataDetectorTypes"/>
+                                            <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                            <wkPreferences key="preferences" javaScriptEnabled="NO"/>
+                                        </wkWebViewConfiguration>
+                                    </wkWebView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Subscribed already?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HBW-u5-x1c">
                                         <rect key="frame" x="0.0" y="319.5" width="314" height="31.5"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="31.5" id="Lbo-74-tLO"/>
@@ -1148,7 +1138,7 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Press the button below to restore Your purchase!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="jrX-80-3my">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Press the button below to restore Your purchase!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="jrX-80-3my">
                                         <rect key="frame" x="0.0" y="351" width="314" height="20"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="20" id="s7O-iy-XEs"/>
@@ -1157,7 +1147,7 @@
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HD9-bq-XYI" customClass="GlossyButton">
+                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HD9-bq-XYI" customClass="GlossyButton">
                                         <rect key="frame" x="0.0" y="371" width="314" height="36"/>
                                         <fontDescription key="fontDescription" name="BradleyHandITCTT-Bold" family="Bradley Hand" pointSize="19"/>
                                         <state key="normal" title="Restore purchase">
@@ -1180,13 +1170,13 @@
                                     </button>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="XHG-Pa-gNu" firstAttribute="width" secondItem="Suc-u1-lD8" secondAttribute="width" id="Bsq-9w-K9v"/>
                                     <constraint firstItem="nWc-mm-vqY" firstAttribute="height" secondItem="lS4-3B-SGS" secondAttribute="height" id="HlA-f9-ecr"/>
                                     <constraint firstItem="jrX-80-3my" firstAttribute="width" secondItem="Suc-u1-lD8" secondAttribute="width" id="MYK-HB-W0b"/>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="375" id="SJ6-iG-3vf"/>
                                     <constraint firstItem="835-bO-8pJ" firstAttribute="width" secondItem="Suc-u1-lD8" secondAttribute="width" id="e5Q-8W-cPm"/>
                                     <constraint firstAttribute="height" relation="lessThanOrEqual" constant="750" id="t1L-r2-JmG"/>
                                     <constraint firstItem="HD9-bq-XYI" firstAttribute="height" secondItem="lS4-3B-SGS" secondAttribute="height" id="uR8-Rb-oig"/>
-                                    <constraint firstItem="OOP-qk-ORT" firstAttribute="width" secondItem="Suc-u1-lD8" secondAttribute="width" id="wj2-4J-Dgl"/>
                                     <constraint firstItem="HBW-u5-x1c" firstAttribute="width" secondItem="Suc-u1-lD8" secondAttribute="width" id="yqR-nb-cIr"/>
                                 </constraints>
                             </stackView>
@@ -1196,7 +1186,7 @@
                                 <gestureRecognizers/>
                             </activityIndicatorView>
                         </subviews>
-                        <color key="backgroundColor" red="0.83339843749999998" green="0.87779947920000001" blue="0.90000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.83529411764705885" green="0.87779947920000001" blue="0.90000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="fe1-mP-INM" firstAttribute="top" secondItem="hhd-on-jWA" secondAttribute="top" id="28W-ah-W0K"/>
                             <constraint firstItem="COQ-0n-jif" firstAttribute="top" secondItem="hhd-on-jWA" secondAttribute="top" id="3KC-FO-OrE"/>
@@ -1216,17 +1206,12 @@
                         <outlet property="backButton" destination="OZP-2g-HyB" id="WbA-yP-s4y"/>
                         <outlet property="buyMonthButton" destination="lS4-3B-SGS" id="a2t-Ig-bti"/>
                         <outlet property="buyYearButton" destination="nWc-mm-vqY" id="R3s-Z1-Y9e"/>
-                        <outlet property="considerations" destination="OOP-qk-ORT" id="QJ9-gU-fg9"/>
+                        <outlet property="considerationWebView" destination="XHG-Pa-gNu" id="k8E-Fl-hOo"/>
                         <outlet property="progressIndicator" destination="fe1-mP-INM" id="5nk-4E-z4a"/>
                         <outlet property="restoreButton" destination="HD9-bq-XYI" id="wDg-vD-LXu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ywg-iC-qlv" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="xvh-bK-0zB">
-                    <connections>
-                        <action selector="considerationsTapped:" destination="hur-AY-ZF4" id="gkq-YC-wVw"/>
-                    </connections>
-                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="2693.5999999999999" y="-447.52623688155927"/>
         </scene>

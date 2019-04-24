@@ -10,11 +10,11 @@
 #import <StoreKit/StoreKit.h>
 
 // Testing in app purchase
-#define TEST_PURCHASE
+//#define TEST_PURCHASE
 //#define TEST_SANDBOX_PURCHASE //5, 30, 60 minute purchase limit
 
 // Answer types of in app purchase test
-#define TEST_PURCHASE_SUCCEEDED
+//#define TEST_PURCHASE_SUCCEEDED
 //#define TEST_PURCHASE_FAILED
 //#define TEST_PURCHASE_RESTORE_SUCCEEDED
 //#define TEST_PURCHASE_RESTORE_FAILED

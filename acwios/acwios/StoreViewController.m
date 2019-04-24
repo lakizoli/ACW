@@ -9,8 +9,6 @@
 #import "StoreViewController.h"
 #import "SubscriptionManager.h"
 #import "GlossyButton.h"
-#import "NSAttributedString+Search.h"
-#import "UITapGestureRecognizer+LinkInLabel.h"
 
 @interface StoreViewController ()
 
@@ -19,7 +17,7 @@
 @property (weak, nonatomic) IBOutlet GlossyButton *buyYearButton;
 @property (weak, nonatomic) IBOutlet GlossyButton *restoreButton;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *progressIndicator;
-@property (weak, nonatomic) IBOutlet UILabel *considerations;
+@property (weak, nonatomic) IBOutlet WKWebView *considerationWebView;
 
 @end
 
@@ -29,13 +27,6 @@
 }
 
 #pragma mark - Implementation
-
-- (void) setLinkToContentOfString:(NSMutableAttributedString*)attrString content:(NSString*)content link:(NSURL*)link {
-	NSRange range = [attrString rangeOfFirstOccurence:content];
-	if (range.location != NSNotFound) {
-		[attrString addAttribute:NSLinkAttributeName value:link range:range];
-	}
-}
 
 - (NSString*)priceForProduct:(SKProduct*)product postFix:(NSString*)postFix {
 	NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
@@ -79,10 +70,16 @@
 	[[SubscriptionManager sharedInstance] setDelegate:self];
 	[self enableStore:NO];
 	
-	NSMutableAttributedString *considerationContent = [[_considerations attributedText] mutableCopy];
-	[self setLinkToContentOfString:considerationContent content:@"privacy policy" link:[NSURL URLWithString:@"https://github.com/lakizoli/ACW/blob/master/docs/privacy_policy.md"]];
-	[self setLinkToContentOfString:considerationContent content:@"terms of use" link:[NSURL URLWithString:@"https://github.com/lakizoli/ACW/blob/master/docs/terms_of_use.md"]];
-	[_considerations setAttributedText:considerationContent];
+	NSString *html = @"<html>"
+		@"<body style='background-color:#D5E0E5;overflow:hidden;'>"
+		@"<div style='font-family:Bradley Hand;font-size:3vw;text-align:center;'>"
+		@"Payment will be charged to your Apple ID account at the confirmation of purchase. The subscription automatically renews unless it is canceled at least 24 hours before the end of the current period. Your account will be charged for renewal within 24 hours prior to the end of the current period. You can manage and cancel your subscriptions by going to your App Store account settings after purchase. For further details please read our <a href='https://github.com/lakizoli/ACW/blob/master/docs/privacy_policy.md'>privacy policy</a> and <a href='https://github.com/lakizoli/ACW/blob/master/docs/terms_of_use.md'>terms of use</a>."
+		@"</div>"
+		@"</body>"
+		@"</html>";
+	[_considerationWebView loadHTMLString:html baseURL:nil];
+	[_considerationWebView.scrollView setScrollEnabled:NO];
+	[_considerationWebView setNavigationDelegate:self];
 	
 #ifdef TEST_PURCHASE
 	if (1) {
@@ -130,7 +127,7 @@
 		});
 	}
 }
-
+	
 - (void)viewDidAppear:(BOOL)animated {
 #ifdef TEST_PURCHASE
 	if (0) {
@@ -173,21 +170,6 @@
 	[self dismissViewControllerAnimated:YES completion:nil];
 }
 	
-- (IBAction)considerationsTapped:(UITapGestureRecognizer*)gesture {
-	NSAttributedString *text = _considerations.attributedText;
-	NSRange termsRange = [text rangeOfFirstOccurence:@"terms of use"];
-	NSRange privacyRange = [text rangeOfFirstOccurence:@"privacy policy"];
-	
-	if ([gesture didTapAttributedTextInLabel:_considerations inRange:termsRange]) {
-		NSLog (@"Tapped terms");
-	} else if ([gesture didTapAttributedTextInLabel:_considerations inRange:privacyRange]) {
-		NSLog (@"Tapped privacy");
-	} else {
-		NSLog (@"Tapped none");
-	}
-
-}
-
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
 	if (UI_USER_INTERFACE_IDIOM () == UIUserInterfaceIdiomPad) {
 		return [super supportedInterfaceOrientations];
@@ -233,6 +215,20 @@
 
 - (void)dismissVC {
 	[self dismissViewControllerAnimated:YES completion:nil];
+}
+	
+#pragma mark - WKNavigationDelegate
+	
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
+{
+	NSURL *url = navigationAction.request.URL;
+	if ([[url host] hasPrefix:@"github.com"]) {
+		[[UIApplication sharedApplication] openURL:url];
+		decisionHandler (WKNavigationActionPolicyCancel);
+		return;
+	}
+	
+	decisionHandler (WKNavigationActionPolicyAllow);
 }
 	
 @end
