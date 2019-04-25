@@ -72,7 +72,7 @@
 	
 	NSString *html = @"<html>"
 		@"<body style='background-color:#D5E0E5;overflow:hidden;'>"
-		@"<div style='font-family:Bradley Hand;font-size:3vw;text-align:center;'>"
+		@"<div style='font-family:Bradley Hand;font-size:2.9vw;text-align:center;'>"
 		@"Payment will be charged to your Apple ID account at the confirmation of purchase. The subscription automatically renews unless it is canceled at least 24 hours before the end of the current period. Your account will be charged for renewal within 24 hours prior to the end of the current period. You can manage and cancel your subscriptions by going to your App Store account settings after purchase. For further details please read our <a href='https://github.com/lakizoli/ACW/blob/master/docs/privacy_policy.md'>privacy policy</a> and <a href='https://github.com/lakizoli/ACW/blob/master/docs/terms_of_use.md'>terms of use</a>."
 		@"</div>"
 		@"</body>"
