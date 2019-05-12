@@ -1,7 +1,145 @@
 <html>
-<body style='background-color: #D5E0E5;overflow:hidden;'>
-	<div style="font-family:Bradley Hand;font-size:3vw;text-align:center;">
-		Payment will be charged to your Apple ID account at the confirmation of purchase. The subscription automatically renews unless it is canceled at least 24 hours before the end of the current period. Your account will be charged for renewal within 24 hours prior to the end of the current period. You can manage and cancel your subscriptions by going to your App Store account settings after purchase. For further details please read our <a href="https://github.com/lakizoli/ACW/blob/master/docs/privacy_policy.md">privacy policy</a> and <a href="https://github.com/lakizoli/ACW/blob/master/docs/terms_of_use.md">terms of use</a>.
+<head>
+	<style type="text/css">
+	body {
+		background-color: #D5E0E5;
+		overflow: hidden;
+		font-family: Bradley Hand;
+	}
+	li {
+		font-size: 2.5vw;
+	}
+	.title {
+		margin-top: 2vw;
+		font-size: 6vw;
+		text-align: center;
+	}
+	.table {
+		width: 90%;
+		margin-top: 2vw;
+		padding-top: 1vw;
+		padding-bottom: 0.1vw;
+		margin-left: auto;
+		margin-right: auto;
+		background-color: #EBEBEB;
+	}
+	.subtitle {
+		background-color: #285050;
+		color: #E5C147;
+		font-size: 3vw;
+		width: 98%;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	.desc {
+		margin-top: 2vw;
+		font-size: 3.5vw;
+		text-align: center;
+	}
+	.desc_small {
+		margin-top: 2vw;
+		font-size: 2.5vw;
+		text-align: center;
+	}
+	.buttons {
+		display: table;
+		text-align: center;
+		padding-top: 2vw;
+		padding-bottom: 2vw;
+		width: 100%;
+		font-size: 4vw;
+	}
+	.buttons_row {
+		display: table-row;		
+	}
+	.spacer {
+		display: table-cell;
+		width: 2vw;		
+	}
+	.button_base {
+		display: table-cell;
+		border-radius: 10px;
+		color: #E5C147;
+		text-decoration: none;
+		vertical-align: middle;
+		border-width: 2px;
+		border-style: solid;
+		border-color: #000000;
+		box-shadow: inset 0 0 3px #FFFFFF;
+		background: rgb(24,47,47);
+		background: linear-gradient(0deg, rgba(24,47,47,1) 0%, rgba(40,80,80,1) 50%, rgba(81,159,159,1) 100%);
+	}
+	.monthly_button {
+		width: 45%;
+		height: 14vw;
+	}
+	.yearly_button {
+		position: relative;
+		width: 45%;
+		height: 14vw;
+	}
+	.save_icon {
+		position: absolute;
+		top: -20px;
+		right: -20px;
+		background: red;
+		padding:10px;
+		box-sizing: border-box;
+		border-radius: 100%;
+	}
+	.restore_button {
+		width: 90%;
+		height: 8vw;
+	}
+	</style>
+</head>
+<body>
+	<div class="title">Upgrade to Anki Crossword Premium</div>
+	<div class="desc">
+		Get a subscription to Anki Crossword Premium enabling these premium features:
+	</div>
+	<div class="table">
+		<div class="subtitle">Included for all Anki Crossword users:</div>
+		<ul>
+			<li>One Anki package to generate crossword from</li>
+			<li>One deck to generate crossword from</li>
+			<li>Maximal crossword size is 10x10</li>
+		</ul>
+		<div class="subtitle">Features in Anki Crossword Premium:</div>
+		<ul>
+			<li>Unlimited number of Anki packages to generate crossword from</li>
+			<li>Unlimited number of decks to generate crossword from</li>
+			<li>Maximal crossword size is 99x99</li>
+		</ul>
+	</div>
+	<div class="buttons">
+		<div class="buttons_row">
+			<div class="spacer">&nbsp;</div>
+			<a class="monthly_button button_base" href="https://ankibuy.com/monthly">
+				<div>##MonthlyPrice##</div>
+				<div>for one month</div>
+			</a>
+			<div class="spacer">&nbsp;</div>
+			<a class="yearly_button button_base" href="https://ankibuy.com/yearly">
+				<div class="save_icon">
+					<div>Save</div>
+					<div>20%</div>
+				</div>
+				<div>##YearlyPrice##</div>
+				<div>for one year</div>
+			</a>
+			<div class="spacer">&nbsp;</div>
+		</div>
+	</div>
+	<div class="desc_small">
+		Subscriptions will be charged to your credit card through your iTunes account. Your subscription will automatically renew unless canceled at least 24 hours before the end of the current period. Your credit card will be charged for renewal within 24 hours prior to the end of the current period. You will not be able to cancel the subscription once activated. Manage your subscriptions in Account Settings after purchase. For further details please read our <a href="https://ankidoc.com/privacy_policy">privacy policy</a> and <a href="https://ankidoc.com/terms_of_use">terms of use</a>.
+	</div>
+	<div class="title">Subscribed already?</div>
+	<div class="desc">Press the button below to restore Your purchase!</div>
+	<div class="buttons">
+		<div class="buttons_row">
+			<a class="restore_button button_base" href="https://ankibuy.com/restore">Restore purchase</a>
+		</div>
 	</div>
 </body>
 </html>

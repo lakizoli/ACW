@@ -13,15 +13,14 @@
 @interface StoreViewController ()
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *backButton;
-@property (weak, nonatomic) IBOutlet GlossyButton *buyMonthButton;
-@property (weak, nonatomic) IBOutlet GlossyButton *buyYearButton;
-@property (weak, nonatomic) IBOutlet GlossyButton *restoreButton;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *progressIndicator;
-@property (weak, nonatomic) IBOutlet WKWebView *considerationWebView;
+@property (weak, nonatomic) IBOutlet WKWebView *contentWebView;
+@property (weak, nonatomic) IBOutlet UINavigationBar *navBar;
 
 @end
 
 @implementation StoreViewController {
+	BOOL _isInInnerDocument; //Terms of use, or privacy policy
 	SKProduct *_productMonth;
 	SKProduct *_productYear;
 }
@@ -39,16 +38,21 @@
 
 - (void)enableStore:(BOOL)enable {
 	[_backButton setEnabled:enable];
-	[_restoreButton setEnabled:enable];
-	[_buyMonthButton setEnabled:enable];
-	[_buyYearButton setEnabled:enable];
 	if (enable) {
+		[_navBar.topItem setTitle:@"Store"];
+		_isInInnerDocument = NO;
+		
 		NSString *priceMonth = [self priceForProduct:_productMonth postFix:@" / Month"];
-		[_buyMonthButton setTitle:priceMonth forState:UIControlStateNormal];
-		
-		NSString *priceYear = [self priceForProduct:_productYear postFix:@" / Year (Save 20%)"];
-		[_buyYearButton setTitle:priceYear forState:UIControlStateNormal];
-		
+		NSString *priceYear = [self priceForProduct:_productYear postFix:@" / Year"];
+
+		NSURL *url = [[NSBundle mainBundle] URLForResource:@"considerations" withExtension:@"html"];
+		NSString *html = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
+		html = [html stringByReplacingOccurrencesOfString:@"##MonthlyPrice##" withString:priceMonth];
+		html = [html stringByReplacingOccurrencesOfString:@"##YearlyPrice##" withString:priceYear];
+		[_contentWebView loadHTMLString:html baseURL:nil];
+		[_contentWebView.scrollView setScrollEnabled:NO];
+		[_contentWebView setNavigationDelegate:self];
+
 		[_progressIndicator stopAnimating];
 	} else {
 		[_progressIndicator startAnimating];
@@ -67,19 +71,10 @@
     [super viewDidLoad];
 	
     // Do any additional setup after loading the view.
+	_isInInnerDocument = NO;
+	
 	[[SubscriptionManager sharedInstance] setDelegate:self];
 	[self enableStore:NO];
-	
-	NSString *html = @"<html>"
-		@"<body style='background-color:#D5E0E5;overflow:hidden;'>"
-		@"<div style='font-family:Bradley Hand;font-size:2.9vw;text-align:center;'>"
-		@"Payment will be charged to your Apple ID account at the confirmation of purchase. The subscription automatically renews unless it is canceled at least 24 hours before the end of the current period. Your account will be charged for renewal within 24 hours prior to the end of the current period. You can manage and cancel your subscriptions by going to your App Store account settings after purchase. For further details please read our <a href='https://github.com/lakizoli/ACW/blob/master/docs/privacy_policy.md'>privacy policy</a> and <a href='https://github.com/lakizoli/ACW/blob/master/docs/terms_of_use.md'>terms of use</a>."
-		@"</div>"
-		@"</body>"
-		@"</html>";
-	[_considerationWebView loadHTMLString:html baseURL:nil];
-	[_considerationWebView.scrollView setScrollEnabled:NO];
-	[_considerationWebView setNavigationDelegate:self];
 	
 #ifdef TEST_PURCHASE
 	if (1) {
@@ -151,47 +146,37 @@
 	}
 }
 
-- (IBAction)buyMonthPressed:(id)sender {
-	[self enableStore:NO];
-	[[SubscriptionManager sharedInstance] buyProduct:_productMonth];
-}
-
-- (IBAction)buyYearPressed:(id)sender {
-	[self enableStore:NO];
-	[[SubscriptionManager sharedInstance] buyProduct:_productYear];
-}
-
-- (IBAction)restoreButtonPressed:(id)sender {
-	[self enableStore:NO];
-	[[SubscriptionManager sharedInstance] restoreProducts];
-}
-
 - (IBAction)backButtonPressed:(id)sender {
+	if (_isInInnerDocument) {
+		[self enableStore:YES];
+		return;
+	}
+	
 	[self dismissViewControllerAnimated:YES completion:nil];
 }
 	
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-	if (UI_USER_INTERFACE_IDIOM () == UIUserInterfaceIdiomPad) {
-		return [super supportedInterfaceOrientations];
-	}
+//	if (UI_USER_INTERFACE_IDIOM () == UIUserInterfaceIdiomPad) {
+//		return [super supportedInterfaceOrientations];
+//	}
 	
 	[super supportedInterfaceOrientations];
 	return UIInterfaceOrientationMaskPortrait;
 }
 
 - (BOOL)shouldAutorotate {
-	if (UI_USER_INTERFACE_IDIOM () == UIUserInterfaceIdiomPad) {
-		return [super shouldAutorotate];
-	}
+//	if (UI_USER_INTERFACE_IDIOM () == UIUserInterfaceIdiomPad) {
+//		return [super shouldAutorotate];
+//	}
 	
 	[super shouldAutorotate];
 	return NO;
 }
 
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
-	if (UI_USER_INTERFACE_IDIOM () == UIUserInterfaceIdiomPad) {
-		return [super preferredInterfaceOrientationForPresentation];
-	}
+//	if (UI_USER_INTERFACE_IDIOM () == UIUserInterfaceIdiomPad) {
+//		return [super preferredInterfaceOrientationForPresentation];
+//	}
 	
 	[super preferredInterfaceOrientationForPresentation];
 	return UIInterfaceOrientationPortrait;
@@ -222,8 +207,38 @@
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
 {
 	NSURL *url = navigationAction.request.URL;
-	if ([[url host] hasPrefix:@"github.com"]) {
-		[[UIApplication sharedApplication] openURL:url];
+	if ([[url host] hasPrefix:@"ankidoc.com"]) {
+		__block NSURL *doc = nil;
+		if ([[url path] hasSuffix:@"privacy_policy"]) {
+			[_navBar.topItem setTitle:@"Privacy Policy"];
+			doc = [[NSBundle mainBundle] URLForResource:@"privacy_policy" withExtension:@"html"];
+		} else if ([[url path] hasSuffix:@"terms_of_use"]) {
+			[_navBar.topItem setTitle:@"Terms Of Use"];
+			doc = [[NSBundle mainBundle] URLForResource:@"terms_of_use" withExtension:@"html"];
+		}
+		
+		if (doc) {
+			_isInInnerDocument = YES;
+			
+			NSString *html = [NSString stringWithContentsOfURL:doc encoding:NSUTF8StringEncoding error:nil];
+			[_contentWebView loadHTMLString:html baseURL:nil];
+			[_contentWebView.scrollView setScrollEnabled:YES];
+		}
+
+		decisionHandler (WKNavigationActionPolicyCancel);
+		return;
+	} else if ([[url host] hasPrefix:@"ankibuy.com"]) {
+		if ([[url path] hasSuffix:@"monthly"]) {
+			[self enableStore:NO];
+			[[SubscriptionManager sharedInstance] buyProduct:_productMonth];
+		} else if ([[url path] hasSuffix:@"yearly"]) {
+			[self enableStore:NO];
+			[[SubscriptionManager sharedInstance] buyProduct:_productYear];
+		} else if ([[url path] hasSuffix:@"restore"]) {
+			[self enableStore:NO];
+			[[SubscriptionManager sharedInstance] restoreProducts];
+		}
+					
 		decisionHandler (WKNavigationActionPolicyCancel);
 		return;
 	}

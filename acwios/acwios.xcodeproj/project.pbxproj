@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F06399412288662400DD12D1 /* considerations.html in Resources */ = {isa = PBXBuildFile; fileRef = F063993F2288662400DD12D1 /* considerations.html */; };
+		F063994422886DAE00DD12D1 /* privacy_policy.html in Resources */ = {isa = PBXBuildFile; fileRef = F063994222886DAD00DD12D1 /* privacy_policy.html */; };
+		F063994522886DAE00DD12D1 /* terms_of_use.html in Resources */ = {isa = PBXBuildFile; fileRef = F063994322886DAE00DD12D1 /* terms_of_use.html */; };
 		F092DB1F210CA5AA006B4DC6 /* Downloader.m in Sources */ = {isa = PBXBuildFile; fileRef = F092DB1E210CA5AA006B4DC6 /* Downloader.m */; };
 		F09B2053210D67B400398B2E /* ChoosePackageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F09B2052210D67B400398B2E /* ChoosePackageViewController.m */; };
 		F09B2056210D742B00398B2E /* SubscriptionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F09B2055210D742B00398B2E /* SubscriptionManager.m */; };
@@ -86,6 +89,9 @@
 
 /* Begin PBXFileReference section */
 		F019C31A217348BA00F83F3B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		F063993F2288662400DD12D1 /* considerations.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = considerations.html; path = ../../docs/considerations.html; sourceTree = "<group>"; };
+		F063994222886DAD00DD12D1 /* privacy_policy.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = privacy_policy.html; path = ../../docs/privacy_policy.html; sourceTree = "<group>"; };
+		F063994322886DAE00DD12D1 /* terms_of_use.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = terms_of_use.html; path = ../../docs/terms_of_use.html; sourceTree = "<group>"; };
 		F092DB1D210CA5AA006B4DC6 /* Downloader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Downloader.h; sourceTree = "<group>"; };
 		F092DB1E210CA5AA006B4DC6 /* Downloader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Downloader.m; sourceTree = "<group>"; };
 		F09B2051210D67B400398B2E /* ChoosePackageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChoosePackageViewController.h; sourceTree = "<group>"; };
@@ -182,6 +188,9 @@
 		F0DEE9662167914A0044DA44 /* StoreView */ = {
 			isa = PBXGroup;
 			children = (
+				F063994222886DAD00DD12D1 /* privacy_policy.html */,
+				F063994322886DAE00DD12D1 /* terms_of_use.html */,
+				F063993F2288662400DD12D1 /* considerations.html */,
 				F0DEE968216791670044DA44 /* StoreViewController.h */,
 				F0DEE969216791670044DA44 /* StoreViewController.m */,
 			);
@@ -410,8 +419,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				FDCD522421084C880081FE4D /* LaunchScreen.storyboard in Resources */,
+				F063994522886DAE00DD12D1 /* terms_of_use.html in Resources */,
+				F063994422886DAE00DD12D1 /* privacy_policy.html in Resources */,
 				FDCD522121084C880081FE4D /* Assets.xcassets in Resources */,
 				FDCD521F21084C860081FE4D /* Main.storyboard in Resources */,
+				F06399412288662400DD12D1 /* considerations.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

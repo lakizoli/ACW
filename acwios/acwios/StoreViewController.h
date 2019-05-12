@@ -15,9 +15,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface StoreViewController : UIViewController<SubscriptionManagerDelegate, WKNavigationDelegate>
 
 
-- (IBAction)buyMonthPressed:(id)sender;
-- (IBAction)buyYearPressed:(id)sender;
-- (IBAction)restoreButtonPressed:(id)sender;
 - (IBAction)backButtonPressed:(id)sender;
 
 @end
