@@ -7,6 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F0B785BB22DC354E0081128E /* cw.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FDCD526A2108556B0081FE4D /* cw.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		F0B785BC22DC355A0081128E /* prefix.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FDCD52CC21199C1F0081FE4D /* prefix.hpp */; };
+		F0B785BD22DC355F0081128E /* Crossword.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDCD52C821199BE10081FE4D /* Crossword.cpp */; };
+		F0B785BE22DC35640081128E /* Crossword.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FDCD52C921199BE10081FE4D /* Crossword.hpp */; };
+		F0B785BF22DC35690081128E /* Generator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDCD52CE21199C770081FE4D /* Generator.cpp */; };
+		F0B785C022DC356C0081128E /* Generator.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FDCD52CF21199C770081FE4D /* Generator.hpp */; };
+		F0B785C122DC35700081128E /* Grid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDDC83E32123FD73008C3B18 /* Grid.cpp */; };
+		F0B785C222DC35740081128E /* Grid.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FDDC83E42123FD73008C3B18 /* Grid.hpp */; };
+		F0B785C322DC357A0081128E /* Cell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDDC83E72123FD80008C3B18 /* Cell.cpp */; };
+		F0B785C422DC357E0081128E /* Cell.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FDDC83E82123FD80008C3B18 /* Cell.hpp */; };
+		F0B785C522DC35880081128E /* QuestionInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDDC83EB212402DA008C3B18 /* QuestionInfo.cpp */; };
+		F0B785C622DC358C0081128E /* QuestionInfo.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FDDC83EC212402DA008C3B18 /* QuestionInfo.hpp */; };
+		F0B785C722DC35910081128E /* WordBank.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDDC83F021240C8A008C3B18 /* WordBank.cpp */; };
+		F0B785C822DC35950081128E /* WordBank.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FDDC83F121240C8A008C3B18 /* WordBank.hpp */; };
+		F0B785C922DC35990081128E /* BinarySerializer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F0BA0902212AA30100A7F154 /* BinarySerializer.hpp */; };
 		F0BA0903212AA30100A7F154 /* BinarySerializer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F0BA0902212AA30100A7F154 /* BinarySerializer.hpp */; };
 		FDCD526C2108556B0081FE4D /* cw.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FDCD526A2108556B0081FE4D /* cw.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		FDCD52CA21199BE10081FE4D /* Crossword.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDCD52C821199BE10081FE4D /* Crossword.cpp */; };
@@ -25,6 +40,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F0B785A422DC34FA0081128E /* cwmac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = cwmac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F0B785A722DC34FA0081128E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F0BA0902212AA30100A7F154 /* BinarySerializer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BinarySerializer.hpp; sourceTree = "<group>"; };
 		FDCD52672108556B0081FE4D /* cw.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = cw.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDCD526A2108556B0081FE4D /* cw.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = cw.hpp; sourceTree = "<group>"; };
@@ -48,6 +65,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		F0B785A122DC34FA0081128E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FDCD52632108556B0081FE4D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -58,10 +82,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F0B785A522DC34FA0081128E /* cwmac */ = {
+			isa = PBXGroup;
+			children = (
+				F0B785A722DC34FA0081128E /* Info.plist */,
+			);
+			path = cwmac;
+			sourceTree = "<group>";
+		};
 		FDCD525D2108556B0081FE4D = {
 			isa = PBXGroup;
 			children = (
 				FDCD52692108556B0081FE4D /* cw */,
+				F0B785A522DC34FA0081128E /* cwmac */,
 				FDCD52682108556B0081FE4D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -70,6 +103,7 @@
 			isa = PBXGroup;
 			children = (
 				FDCD52672108556B0081FE4D /* cw.framework */,
+				F0B785A422DC34FA0081128E /* cwmac.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -103,6 +137,22 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		F0B7859F22DC34FA0081128E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F0B785BC22DC355A0081128E /* prefix.hpp in Headers */,
+				F0B785BE22DC35640081128E /* Crossword.hpp in Headers */,
+				F0B785C922DC35990081128E /* BinarySerializer.hpp in Headers */,
+				F0B785C822DC35950081128E /* WordBank.hpp in Headers */,
+				F0B785C622DC358C0081128E /* QuestionInfo.hpp in Headers */,
+				F0B785C022DC356C0081128E /* Generator.hpp in Headers */,
+				F0B785BB22DC354E0081128E /* cw.hpp in Headers */,
+				F0B785C422DC357E0081128E /* Cell.hpp in Headers */,
+				F0B785C222DC35740081128E /* Grid.hpp in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FDCD52642108556B0081FE4D /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -122,6 +172,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		F0B785A322DC34FA0081128E /* cwmac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F0B785B922DC34FA0081128E /* Build configuration list for PBXNativeTarget "cwmac" */;
+			buildPhases = (
+				F0B7859F22DC34FA0081128E /* Headers */,
+				F0B785A022DC34FA0081128E /* Sources */,
+				F0B785A122DC34FA0081128E /* Frameworks */,
+				F0B785A222DC34FA0081128E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = cwmac;
+			productName = cwmac;
+			productReference = F0B785A422DC34FA0081128E /* cwmac.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		FDCD52662108556B0081FE4D /* cw */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = FDCD526F2108556B0081FE4D /* Build configuration list for PBXNativeTarget "cw" */;
@@ -149,6 +217,9 @@
 				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = ZApp;
 				TargetAttributes = {
+					F0B785A322DC34FA0081128E = {
+						CreatedOnToolsVersion = 10.2;
+					};
 					FDCD52662108556B0081FE4D = {
 						CreatedOnToolsVersion = 9.4.1;
 					};
@@ -167,11 +238,19 @@
 			projectRoot = "";
 			targets = (
 				FDCD52662108556B0081FE4D /* cw */,
+				F0B785A322DC34FA0081128E /* cwmac */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		F0B785A222DC34FA0081128E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FDCD52652108556B0081FE4D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -182,6 +261,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		F0B785A022DC34FA0081128E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F0B785C122DC35700081128E /* Grid.cpp in Sources */,
+				F0B785C522DC35880081128E /* QuestionInfo.cpp in Sources */,
+				F0B785C322DC357A0081128E /* Cell.cpp in Sources */,
+				F0B785C722DC35910081128E /* WordBank.cpp in Sources */,
+				F0B785BD22DC355F0081128E /* Crossword.cpp in Sources */,
+				F0B785BF22DC35690081128E /* Generator.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FDCD52622108556B0081FE4D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -198,6 +290,61 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		F0B785B522DC34FA0081128E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = cwmac/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zapp.cwmac;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		F0B785B622DC34FA0081128E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = cwmac/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zapp.cwmac;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 		FDCD526D2108556B0081FE4D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -371,6 +518,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		F0B785B922DC34FA0081128E /* Build configuration list for PBXNativeTarget "cwmac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F0B785B522DC34FA0081128E /* Debug */,
+				F0B785B622DC34FA0081128E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		FDCD52612108556B0081FE4D /* Build configuration list for PBXProject "cw" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
