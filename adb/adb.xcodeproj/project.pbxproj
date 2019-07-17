@@ -7,6 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F08CBB2522DFCCEB0090A246 /* DBHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDCD52C4211432750081FE4D /* DBHandler.cpp */; };
+		F08CBB2622DFCCEB0090A246 /* BasicInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F09B2153210DADF700F26BFA /* BasicInfo.cpp */; };
+		F08CBB2722DFCCEB0090A246 /* CardList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDCD52BA2112EE510081FE4D /* CardList.cpp */; };
+		F08CBB2822DFCCEB0090A246 /* UsedWords.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD6ED58521354A9700FCCAC7 /* UsedWords.cpp */; };
+		F08CBB2922DFCD000090A246 /* adb.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FDCD5255210855490081FE4D /* adb.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		F08CBB2A22DFCD120090A246 /* DBHandler.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FDCD52C5211432750081FE4D /* DBHandler.hpp */; };
+		F08CBB2B22DFCD120090A246 /* BasicInfo.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F09B2154210DADF700F26BFA /* BasicInfo.hpp */; };
+		F08CBB2C22DFCD120090A246 /* CardList.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FDCD52BB2112EE510081FE4D /* CardList.hpp */; };
+		F08CBB2D22DFCD120090A246 /* UsedWords.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FD6ED58621354A9700FCCAC7 /* UsedWords.hpp */; };
+		F08CBB2E22DFCD120090A246 /* BinarySerializer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FD6ED58921354CB300FCCAC7 /* BinarySerializer.hpp */; };
+		F08CBB3022DFCD3A0090A246 /* libsqlite3mac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F08CBB2F22DFCD3A0090A246 /* libsqlite3mac.a */; };
+		F08CBB3222DFCD430090A246 /* libminizipmac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F08CBB3122DFCD430090A246 /* libminizipmac.a */; };
+		F08CBB3322DFCDC30090A246 /* JsonArray.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FDCD52AD21104A6C0081FE4D /* JsonArray.hpp */; };
+		F08CBB3422DFCDC30090A246 /* JsonDataType.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FDCD52AE21104A6C0081FE4D /* JsonDataType.hpp */; };
+		F08CBB3522DFCDC30090A246 /* JsonImpl.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FDCD52AF21104A6C0081FE4D /* JsonImpl.hpp */; };
+		F08CBB3622DFCDC30090A246 /* JsonObject.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FDCD52B021104A6C0081FE4D /* JsonObject.hpp */; };
+		F08CBB3722DFCDC70090A246 /* JsonImpl.mm in Sources */ = {isa = PBXBuildFile; fileRef = FDCD52AC21104A6B0081FE4D /* JsonImpl.mm */; };
 		F09B2155210DADF700F26BFA /* BasicInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F09B2153210DADF700F26BFA /* BasicInfo.cpp */; };
 		F09B2156210DADF700F26BFA /* BasicInfo.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F09B2154210DADF700F26BFA /* BasicInfo.hpp */; };
 		F09B219E210DB64A00F26BFA /* libminizip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F09B219D210DB64A00F26BFA /* libminizip.a */; };
@@ -27,6 +44,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F08CBB0E22DFCCAB0090A246 /* adbmac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = adbmac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F08CBB1122DFCCAB0090A246 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F08CBB2F22DFCD3A0090A246 /* libsqlite3mac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libsqlite3mac.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F08CBB3122DFCD430090A246 /* libminizipmac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libminizipmac.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F09B2153210DADF700F26BFA /* BasicInfo.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BasicInfo.cpp; sourceTree = "<group>"; };
 		F09B2154210DADF700F26BFA /* BasicInfo.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BasicInfo.hpp; sourceTree = "<group>"; };
 		F09B2157210DAEC500F26BFA /* prefix.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = prefix.hpp; sourceTree = "<group>"; };
@@ -51,6 +72,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		F08CBB0B22DFCCAB0090A246 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F08CBB3222DFCD430090A246 /* libminizipmac.a in Frameworks */,
+				F08CBB3022DFCD3A0090A246 /* libsqlite3mac.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FDCD524E210855490081FE4D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -63,9 +93,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F08CBB0F22DFCCAB0090A246 /* adbmac */ = {
+			isa = PBXGroup;
+			children = (
+				F08CBB1122DFCCAB0090A246 /* Info.plist */,
+			);
+			path = adbmac;
+			sourceTree = "<group>";
+		};
 		F09B219C210DB64A00F26BFA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F08CBB3122DFCD430090A246 /* libminizipmac.a */,
+				F08CBB2F22DFCD3A0090A246 /* libsqlite3mac.a */,
 				FDCD52AA210F0DBE0081FE4D /* libsqlite3.a */,
 				F09B219D210DB64A00F26BFA /* libminizip.a */,
 			);
@@ -76,6 +116,7 @@
 			isa = PBXGroup;
 			children = (
 				FDCD5254210855490081FE4D /* adb */,
+				F08CBB0F22DFCCAB0090A246 /* adbmac */,
 				FDCD5253210855490081FE4D /* Products */,
 				F09B219C210DB64A00F26BFA /* Frameworks */,
 			);
@@ -85,6 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				FDCD5252210855490081FE4D /* adb.framework */,
+				F08CBB0E22DFCCAB0090A246 /* adbmac.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -125,6 +167,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		F08CBB0922DFCCAB0090A246 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F08CBB2D22DFCD120090A246 /* UsedWords.hpp in Headers */,
+				F08CBB2C22DFCD120090A246 /* CardList.hpp in Headers */,
+				F08CBB2922DFCD000090A246 /* adb.hpp in Headers */,
+				F08CBB3622DFCDC30090A246 /* JsonObject.hpp in Headers */,
+				F08CBB2B22DFCD120090A246 /* BasicInfo.hpp in Headers */,
+				F08CBB3422DFCDC30090A246 /* JsonDataType.hpp in Headers */,
+				F08CBB3322DFCDC30090A246 /* JsonArray.hpp in Headers */,
+				F08CBB2A22DFCD120090A246 /* DBHandler.hpp in Headers */,
+				F08CBB2E22DFCD120090A246 /* BinarySerializer.hpp in Headers */,
+				F08CBB3522DFCDC30090A246 /* JsonImpl.hpp in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FDCD524F210855490081FE4D /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -145,6 +204,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		F08CBB0D22DFCCAB0090A246 /* adbmac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F08CBB2322DFCCAB0090A246 /* Build configuration list for PBXNativeTarget "adbmac" */;
+			buildPhases = (
+				F08CBB0922DFCCAB0090A246 /* Headers */,
+				F08CBB0A22DFCCAB0090A246 /* Sources */,
+				F08CBB0B22DFCCAB0090A246 /* Frameworks */,
+				F08CBB0C22DFCCAB0090A246 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = adbmac;
+			productName = adbmac;
+			productReference = F08CBB0E22DFCCAB0090A246 /* adbmac.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		FDCD5251210855490081FE4D /* adb */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = FDCD525A210855490081FE4D /* Build configuration list for PBXNativeTarget "adb" */;
@@ -172,6 +249,9 @@
 				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = ZApp;
 				TargetAttributes = {
+					F08CBB0D22DFCCAB0090A246 = {
+						CreatedOnToolsVersion = 10.2;
+					};
 					FDCD5251210855490081FE4D = {
 						CreatedOnToolsVersion = 9.4.1;
 					};
@@ -190,11 +270,19 @@
 			projectRoot = "";
 			targets = (
 				FDCD5251210855490081FE4D /* adb */,
+				F08CBB0D22DFCCAB0090A246 /* adbmac */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		F08CBB0C22DFCCAB0090A246 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FDCD5250210855490081FE4D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -205,6 +293,18 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		F08CBB0A22DFCCAB0090A246 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F08CBB2622DFCCEB0090A246 /* BasicInfo.cpp in Sources */,
+				F08CBB3722DFCDC70090A246 /* JsonImpl.mm in Sources */,
+				F08CBB2722DFCCEB0090A246 /* CardList.cpp in Sources */,
+				F08CBB2822DFCCEB0090A246 /* UsedWords.cpp in Sources */,
+				F08CBB2522DFCCEB0090A246 /* DBHandler.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FDCD524D210855490081FE4D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -220,6 +320,61 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		F08CBB1F22DFCCAB0090A246 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = adbmac/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zapp.adbmac;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		F08CBB2022DFCCAB0090A246 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = adbmac/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zapp.adbmac;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 		FDCD5258210855490081FE4D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -401,6 +556,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		F08CBB2322DFCCAB0090A246 /* Build configuration list for PBXNativeTarget "adbmac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F08CBB1F22DFCCAB0090A246 /* Debug */,
+				F08CBB2022DFCCAB0090A246 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		FDCD524C210855480081FE4D /* Build configuration list for PBXProject "adb" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
