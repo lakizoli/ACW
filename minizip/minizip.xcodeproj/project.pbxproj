@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F08CBAF522DFCB8A0090A246 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = F09B2190210DB55C00F26BFA /* ioapi.c */; };
+		F08CBAF622DFCB8E0090A246 /* miniunz.c in Sources */ = {isa = PBXBuildFile; fileRef = F09B2191210DB55C00F26BFA /* miniunz.c */; };
+		F08CBAF722DFCB950090A246 /* minizip.c in Sources */ = {isa = PBXBuildFile; fileRef = F09B2194210DB55C00F26BFA /* minizip.c */; };
+		F08CBAF822DFCB950090A246 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = F09B2193210DB55C00F26BFA /* mztools.c */; };
+		F08CBAF922DFCB9A0090A246 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = F09B2188210DB55B00F26BFA /* unzip.c */; };
+		F08CBAFA22DFCB9E0090A246 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = F09B218F210DB55C00F26BFA /* zip.c */; };
 		F09B2195210DB55C00F26BFA /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = F09B2188210DB55B00F26BFA /* unzip.c */; };
 		F09B2197210DB55C00F26BFA /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = F09B218F210DB55C00F26BFA /* zip.c */; };
 		F09B2198210DB55C00F26BFA /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = F09B2190210DB55C00F26BFA /* ioapi.c */; };
@@ -28,6 +34,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F08CBAEC22DFCB5A0090A246 /* libminizipmac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libminizipmac.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F09B217C210DB50D00F26BFA /* libminizip.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libminizip.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F09B2188210DB55B00F26BFA /* unzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unzip.c; sourceTree = "<group>"; };
 		F09B218B210DB55B00F26BFA /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
@@ -43,6 +50,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		F08CBAEA22DFCB5A0090A246 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F09B2179210DB50D00F26BFA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -65,6 +79,7 @@
 			isa = PBXGroup;
 			children = (
 				F09B217C210DB50D00F26BFA /* libminizip.a */,
+				F08CBAEC22DFCB5A0090A246 /* libminizipmac.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -89,7 +104,34 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		F08CBAE822DFCB5A0090A246 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
+		F08CBAEB22DFCB5A0090A246 /* minizipmac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F08CBAF422DFCB5A0090A246 /* Build configuration list for PBXNativeTarget "minizipmac" */;
+			buildPhases = (
+				F08CBAE822DFCB5A0090A246 /* Headers */,
+				F08CBAE922DFCB5A0090A246 /* Sources */,
+				F08CBAEA22DFCB5A0090A246 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = minizipmac;
+			productName = minizipmac;
+			productReference = F08CBAEC22DFCB5A0090A246 /* libminizipmac.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		F09B217B210DB50D00F26BFA /* minizip */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F09B2185210DB50D00F26BFA /* Build configuration list for PBXNativeTarget "minizip" */;
@@ -116,6 +158,9 @@
 				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = "Laki Zoltán";
 				TargetAttributes = {
+					F08CBAEB22DFCB5A0090A246 = {
+						CreatedOnToolsVersion = 10.2;
+					};
 					F09B217B210DB50D00F26BFA = {
 						CreatedOnToolsVersion = 9.4.1;
 					};
@@ -134,11 +179,25 @@
 			projectRoot = "";
 			targets = (
 				F09B217B210DB50D00F26BFA /* minizip */,
+				F08CBAEB22DFCB5A0090A246 /* minizipmac */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
+		F08CBAE922DFCB5A0090A246 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F08CBAF922DFCB9A0090A246 /* unzip.c in Sources */,
+				F08CBAF522DFCB8A0090A246 /* ioapi.c in Sources */,
+				F08CBAF722DFCB950090A246 /* minizip.c in Sources */,
+				F08CBAFA22DFCB9E0090A246 /* zip.c in Sources */,
+				F08CBAF622DFCB8E0090A246 /* miniunz.c in Sources */,
+				F08CBAF822DFCB950090A246 /* mztools.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F09B2178210DB50D00F26BFA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -155,6 +214,37 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		F08CBAF222DFCB5A0090A246 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				EXECUTABLE_PREFIX = lib;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		F08CBAF322DFCB5A0090A246 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				EXECUTABLE_PREFIX = lib;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 		F09B2183210DB50D00F26BFA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -290,6 +380,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		F08CBAF422DFCB5A0090A246 /* Build configuration list for PBXNativeTarget "minizipmac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F08CBAF222DFCB5A0090A246 /* Debug */,
+				F08CBAF322DFCB5A0090A246 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		F09B2177210DB50D00F26BFA /* Build configuration list for PBXProject "minizip" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
