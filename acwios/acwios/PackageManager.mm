@@ -52,7 +52,10 @@
 
 #pragma mark - PackageManager
 
-@implementation PackageManager
+@implementation PackageManager {
+	NSURL *_overriddenDocURL;
+	NSURL *_overriddenDatabaseURL;
+}
 
 -(id)init {
 	self = [super init];
@@ -71,6 +74,14 @@
 }
 
 #pragma mark - Collecting packages
+
+-(void)setOverriddenDocumentPath:(NSURL*)url {
+	_overriddenDocURL = url;
+}
+
+-(void)setOverriddenDatabasePath:(NSURL*)url {
+	_overriddenDatabaseURL = url;
+}
 
 - (BOOL) ensureDirExists:(NSURL*)dir {
 	NSFileManager *fileManager = [NSFileManager defaultManager];
@@ -102,14 +113,23 @@
 }
 
 - (NSURL*) documentPath {
+	if (_overriddenDocURL) {
+		return _overriddenDocURL;
+	}
+	
 	NSFileManager *fileManager = [NSFileManager defaultManager];
 	return [[fileManager URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
 - (NSURL*) databasePath {
-	NSFileManager *fileManager = [NSFileManager defaultManager];
-	NSURL *docDir = [[fileManager URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
-	NSURL *dbDir = [docDir URLByAppendingPathComponent:@"packages" isDirectory:YES];
+	NSURL *dbDir = nil;
+	if (_overriddenDatabaseURL) {
+		dbDir = _overriddenDatabaseURL;
+	} else {
+		NSFileManager *fileManager = [NSFileManager defaultManager];
+		NSURL *docDir = [[fileManager URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+		dbDir = [docDir URLByAppendingPathComponent:@"packages" isDirectory:YES];
+	}
 	
 	if (![self ensureDirExists:dbDir]) {
 		return nil;

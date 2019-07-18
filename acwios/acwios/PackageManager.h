@@ -13,6 +13,9 @@
 
 +(PackageManager*) sharedInstance;
 
+-(void)setOverriddenDocumentPath:(NSURL*)url;
+-(void)setOverriddenDatabasePath:(NSURL*)url;
+
 -(NSArray<Package*>*)collectPackages;
 -(NSDictionary<NSString*, NSArray<SavedCrossword*>*>*)collectSavedCrosswords;
 -(GeneratorInfo*)collectGeneratorInfo:(NSArray<Deck*>*)decks;

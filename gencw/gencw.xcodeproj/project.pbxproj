@@ -9,7 +9,9 @@
 /* Begin PBXBuildFile section */
 		F0B785CC22DC35A80081128E /* cwmac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0B785CB22DC35A80081128E /* cwmac.framework */; };
 		F0C5381E22E05C3200224C57 /* adbmac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0C5381D22E05C3200224C57 /* adbmac.framework */; };
-		F0E794F222DC323A009548E7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F0E794F122DC323A009548E7 /* main.m */; };
+		F0C5382922E0650300224C57 /* Package.mm in Sources */ = {isa = PBXBuildFile; fileRef = F0C5382722E0650300224C57 /* Package.mm */; };
+		F0C5382C22E06B0600224C57 /* PackageManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = F0C5382B22E06B0600224C57 /* PackageManager.mm */; };
+		F0E794F222DC323A009548E7 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = F0E794F122DC323A009548E7 /* main.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -27,8 +29,12 @@
 /* Begin PBXFileReference section */
 		F0B785CB22DC35A80081128E /* cwmac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = cwmac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F0C5381D22E05C3200224C57 /* adbmac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = adbmac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F0C5382722E0650300224C57 /* Package.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Package.mm; path = ../../acwios/acwios/Package.mm; sourceTree = "<group>"; };
+		F0C5382822E0650300224C57 /* Package.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Package.h; path = ../../acwios/acwios/Package.h; sourceTree = "<group>"; };
+		F0C5382A22E06B0600224C57 /* PackageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PackageManager.h; path = ../../acwios/acwios/PackageManager.h; sourceTree = "<group>"; };
+		F0C5382B22E06B0600224C57 /* PackageManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = PackageManager.mm; path = ../../acwios/acwios/PackageManager.mm; sourceTree = "<group>"; };
 		F0E794EE22DC323A009548E7 /* gencw */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = gencw; sourceTree = BUILT_PRODUCTS_DIR; };
-		F0E794F122DC323A009548E7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		F0E794F122DC323A009548E7 /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,7 +79,11 @@
 		F0E794F022DC323A009548E7 /* gencw */ = {
 			isa = PBXGroup;
 			children = (
-				F0E794F122DC323A009548E7 /* main.m */,
+				F0C5382822E0650300224C57 /* Package.h */,
+				F0C5382722E0650300224C57 /* Package.mm */,
+				F0C5382A22E06B0600224C57 /* PackageManager.h */,
+				F0C5382B22E06B0600224C57 /* PackageManager.mm */,
+				F0E794F122DC323A009548E7 /* main.mm */,
 			);
 			path = gencw;
 			sourceTree = "<group>";
@@ -134,7 +144,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F0E794F222DC323A009548E7 /* main.m in Sources */,
+				F0C5382922E0650300224C57 /* Package.mm in Sources */,
+				F0C5382C22E06B0600224C57 /* PackageManager.mm in Sources */,
+				F0E794F222DC323A009548E7 /* main.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,6 +268,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../adb/adb",
+					"$(PROJECT_DIR)/../cw/cw",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -264,6 +280,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../adb/adb",
+					"$(PROJECT_DIR)/../cw/cw",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

@@ -7,7 +7,47 @@
 //
 
 #import "Package.h"
-#import <UIKit/UIKit.h>
+
+////////////////////////////////////////////////////////////////////////////////////
+// NSIndexPath class specialization for OSX and iOS compatibility
+////////////////////////////////////////////////////////////////////////////////////
+#include "TargetConditionals.h"
+#if TARGET_OS_OSX
+#	import <AppKit/AppKit.h>
+
+@interface NSIndexPath (UIKitAccessor)
+
+@property (nonatomic, readonly) NSInteger section;
+@property (nonatomic, readonly) NSInteger row;
+
++(id) indexPathForRow:(NSInteger)row inSection:(NSInteger)section;
+
+@end
+
+@implementation NSIndexPath (UIKitAccessor)
+
+-(NSInteger)section {
+	return [self indexAtPosition:0];
+}
+
+-(NSInteger)row {
+	return [self indexAtPosition:1];
+}
+
++(id) indexPathForRow:(NSInteger)row inSection:(NSInteger)section {
+	NSUInteger indices[] = { (NSUInteger) section, (NSUInteger) row };
+	return [NSIndexPath indexPathWithIndexes:indices length:2];
+}
+
+@end
+
+#else
+#	import <UIKit/UIKit.h>
+#endif
+
+////////////////////////////////////////////////////////////////////////////////////
+// Package implementation
+////////////////////////////////////////////////////////////////////////////////////
 #include <cw.hpp>
 #include <adb.hpp>
 
