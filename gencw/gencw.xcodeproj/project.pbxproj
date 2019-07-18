@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		F0B785CC22DC35A80081128E /* cwmac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0B785CB22DC35A80081128E /* cwmac.framework */; };
+		F0C5381E22E05C3200224C57 /* adbmac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0C5381D22E05C3200224C57 /* adbmac.framework */; };
 		F0E794F222DC323A009548E7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F0E794F122DC323A009548E7 /* main.m */; };
 /* End PBXBuildFile section */
 
@@ -25,6 +26,7 @@
 
 /* Begin PBXFileReference section */
 		F0B785CB22DC35A80081128E /* cwmac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = cwmac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F0C5381D22E05C3200224C57 /* adbmac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = adbmac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F0E794EE22DC323A009548E7 /* gencw */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = gencw; sourceTree = BUILT_PRODUCTS_DIR; };
 		F0E794F122DC323A009548E7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -34,6 +36,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F0C5381E22E05C3200224C57 /* adbmac.framework in Frameworks */,
 				F0B785CC22DC35A80081128E /* cwmac.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -44,6 +47,7 @@
 		F0B785CA22DC35A80081128E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F0C5381D22E05C3200224C57 /* adbmac.framework */,
 				F0B785CB22DC35A80081128E /* cwmac.framework */,
 			);
 			name = Frameworks;
