@@ -11,6 +11,8 @@
 		F0C5381E22E05C3200224C57 /* adbmac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0C5381D22E05C3200224C57 /* adbmac.framework */; };
 		F0C5382922E0650300224C57 /* Package.mm in Sources */ = {isa = PBXBuildFile; fileRef = F0C5382722E0650300224C57 /* Package.mm */; };
 		F0C5382C22E06B0600224C57 /* PackageManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = F0C5382B22E06B0600224C57 /* PackageManager.mm */; };
+		F0C5383622E1C14800224C57 /* Config.mm in Sources */ = {isa = PBXBuildFile; fileRef = F0C5383522E1C14800224C57 /* Config.mm */; };
+		F0C5383822E1E74E00224C57 /* libminizipmac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F0C5383722E1E74E00224C57 /* libminizipmac.a */; };
 		F0E794F222DC323A009548E7 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = F0E794F122DC323A009548E7 /* main.mm */; };
 /* End PBXBuildFile section */
 
@@ -33,6 +35,9 @@
 		F0C5382822E0650300224C57 /* Package.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Package.h; path = ../../acwios/acwios/Package.h; sourceTree = "<group>"; };
 		F0C5382A22E06B0600224C57 /* PackageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PackageManager.h; path = ../../acwios/acwios/PackageManager.h; sourceTree = "<group>"; };
 		F0C5382B22E06B0600224C57 /* PackageManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = PackageManager.mm; path = ../../acwios/acwios/PackageManager.mm; sourceTree = "<group>"; };
+		F0C5383422E1C14800224C57 /* Config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
+		F0C5383522E1C14800224C57 /* Config.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Config.mm; sourceTree = "<group>"; };
+		F0C5383722E1E74E00224C57 /* libminizipmac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libminizipmac.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F0E794EE22DC323A009548E7 /* gencw */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = gencw; sourceTree = BUILT_PRODUCTS_DIR; };
 		F0E794F122DC323A009548E7 /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -42,6 +47,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F0C5383822E1E74E00224C57 /* libminizipmac.a in Frameworks */,
 				F0C5381E22E05C3200224C57 /* adbmac.framework in Frameworks */,
 				F0B785CC22DC35A80081128E /* cwmac.framework in Frameworks */,
 			);
@@ -53,6 +59,7 @@
 		F0B785CA22DC35A80081128E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F0C5383722E1E74E00224C57 /* libminizipmac.a */,
 				F0C5381D22E05C3200224C57 /* adbmac.framework */,
 				F0B785CB22DC35A80081128E /* cwmac.framework */,
 			);
@@ -84,6 +91,8 @@
 				F0C5382A22E06B0600224C57 /* PackageManager.h */,
 				F0C5382B22E06B0600224C57 /* PackageManager.mm */,
 				F0E794F122DC323A009548E7 /* main.mm */,
+				F0C5383422E1C14800224C57 /* Config.h */,
+				F0C5383522E1C14800224C57 /* Config.mm */,
 			);
 			path = gencw;
 			sourceTree = "<group>";
@@ -145,6 +154,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F0C5382922E0650300224C57 /* Package.mm in Sources */,
+				F0C5383622E1C14800224C57 /* Config.mm in Sources */,
 				F0C5382C22E06B0600224C57 /* PackageManager.mm in Sources */,
 				F0E794F222DC323A009548E7 /* main.mm in Sources */,
 			);
@@ -271,6 +281,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../adb/adb",
 					"$(PROJECT_DIR)/../cw/cw",
+					"$(PROJECT_DIR)/../minizip/minizip",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -283,6 +294,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../adb/adb",
 					"$(PROJECT_DIR)/../cw/cw",
+					"$(PROJECT_DIR)/../minizip/minizip",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
