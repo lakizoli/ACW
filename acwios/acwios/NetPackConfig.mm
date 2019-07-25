@@ -8,6 +8,10 @@
 
 #import "NetPackConfig.h"
 
+@implementation NetPackConfigItem
+
+@end
+
 @implementation NetPackConfig {
 	NSArray *_json;
 }
@@ -30,7 +34,7 @@
 	return [_json count];
 }
 
--(void)enumerateLanguagesWihtBlock:(void(^)(NSString *label, NSString* fileID))block {
+-(void)enumerateLanguagesWihtBlock:(void(^)(NetPackConfigItem*))block {
 	if (block == nil) {
 		return;
 	}
@@ -38,7 +42,12 @@
 	for (NSUInteger i = 0, iEnd = [_json count]; i < iEnd; ++i) {
 		NSDictionary *item = [_json objectAtIndex:i];
 		if (item) {
-			block ([item objectForKey:@"name"], [item objectForKey:@"fileID"]);
+			NetPackConfigItem *configItem = [[NetPackConfigItem alloc] init];
+			configItem.label = [item objectForKey:@"name"];
+			configItem.fileID = [item objectForKey:@"fileID"];
+			configItem.size = [[item objectForKey:@"size"] unsignedIntegerValue];
+			
+			block (configItem);
 		}
 	}
 }
