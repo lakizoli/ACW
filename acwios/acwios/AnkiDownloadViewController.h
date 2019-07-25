@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import <WebKit/WebKit.h>
 
-@interface AnkiDownloadViewController : UIViewController<UITabBarDelegate, WKNavigationDelegate>
+@interface AnkiDownloadViewController : UIViewController<UITabBarDelegate, UITableViewDelegate, UITableViewDataSource, WKNavigationDelegate>
 
 @end

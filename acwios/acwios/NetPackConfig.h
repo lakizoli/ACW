@@ -10,12 +10,20 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@interface NetPackConfigItem : NSObject
+
+@property (nonatomic) NSString *label;
+@property (nonatomic) NSString *fileID;
+@property (nonatomic) NSUInteger size;
+
+@end
+
 @interface NetPackConfig : NSObject
 
 -(id)initWithURL:(NSURL*)url;
 
 -(NSUInteger)countOfLanguages;
--(void)enumerateLanguagesWihtBlock:(void(^)(NSString *label, NSString* fileID))block;
+-(void)enumerateLanguagesWihtBlock:(void(^)(NetPackConfigItem*))block;
 
 @end
 
