@@ -159,13 +159,17 @@
                                 </items>
                             </navigationBar>
                             <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Isi-1n-eoC">
-                                <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                                <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
                                     <wkPreferences key="preferences"/>
                                 </wkWebViewConfiguration>
                             </wkWebView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="a8x-qE-wTz">
+                                <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6OM-z7-1Pn" customClass="ProgressView">
                                 <rect key="frame" x="10" y="176" width="300" height="128"/>
                                 <subviews>
@@ -217,25 +221,42 @@
                                     <outlet property="progressView" destination="pd1-SS-eqE" id="4nK-7e-dlQ"/>
                                 </connections>
                             </view>
+                            <tabBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oC5-f2-3MT">
+                                <rect key="frame" x="0.0" y="431" width="320" height="49"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <items>
+                                    <tabBarItem tag="1" title="" systemItem="featured" id="Usv-ii-GMC"/>
+                                    <tabBarItem tag="2" systemItem="search" id="o7W-y1-8Wa"/>
+                                </items>
+                            </tabBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="s5g-5g-7Vf" firstAttribute="trailing" secondItem="a8x-qE-wTz" secondAttribute="trailing" id="0Yj-uv-nWj"/>
                             <constraint firstItem="6OM-z7-1Pn" firstAttribute="leading" secondItem="s5g-5g-7Vf" secondAttribute="leading" priority="900" constant="200" id="1Bn-Up-eSD"/>
+                            <constraint firstItem="oC5-f2-3MT" firstAttribute="leading" secondItem="s5g-5g-7Vf" secondAttribute="leading" id="1F2-op-gLt"/>
                             <constraint firstItem="6OM-z7-1Pn" firstAttribute="centerX" secondItem="mMN-GM-AJH" secondAttribute="centerX" id="6qh-6w-U3M"/>
+                            <constraint firstItem="oC5-f2-3MT" firstAttribute="trailing" secondItem="s5g-5g-7Vf" secondAttribute="trailing" id="7oD-a8-Pnq"/>
                             <constraint firstItem="s5g-5g-7Vf" firstAttribute="trailing" secondItem="6OM-z7-1Pn" secondAttribute="trailing" priority="900" constant="200" id="D88-zs-GrA"/>
                             <constraint firstItem="Isi-1n-eoC" firstAttribute="top" secondItem="oiq-Er-m9g" secondAttribute="bottom" id="Hr7-v1-kc0"/>
                             <constraint firstItem="6OM-z7-1Pn" firstAttribute="centerY" secondItem="mMN-GM-AJH" secondAttribute="centerY" id="LjE-jL-8yd"/>
                             <constraint firstItem="oiq-Er-m9g" firstAttribute="leading" secondItem="Isi-1n-eoC" secondAttribute="leading" id="MWV-sj-hsj"/>
+                            <constraint firstItem="a8x-qE-wTz" firstAttribute="leading" secondItem="s5g-5g-7Vf" secondAttribute="leading" id="OmR-JD-vrd"/>
                             <constraint firstItem="Isi-1n-eoC" firstAttribute="trailing" secondItem="s5g-5g-7Vf" secondAttribute="trailing" id="Pa2-jR-u0c"/>
-                            <constraint firstItem="Isi-1n-eoC" firstAttribute="bottom" secondItem="s5g-5g-7Vf" secondAttribute="bottom" id="Ttj-po-YOP"/>
+                            <constraint firstItem="Isi-1n-eoC" firstAttribute="bottom" secondItem="oC5-f2-3MT" secondAttribute="top" id="Ttj-po-YOP"/>
                             <constraint firstItem="oiq-Er-m9g" firstAttribute="trailing" secondItem="Isi-1n-eoC" secondAttribute="trailing" id="Wkx-et-osM"/>
                             <constraint firstItem="Isi-1n-eoC" firstAttribute="leading" secondItem="s5g-5g-7Vf" secondAttribute="leading" id="b3s-d1-LwM"/>
+                            <constraint firstItem="a8x-qE-wTz" firstAttribute="top" secondItem="oiq-Er-m9g" secondAttribute="bottom" id="bPN-YH-lPX"/>
                             <constraint firstItem="oiq-Er-m9g" firstAttribute="top" secondItem="s5g-5g-7Vf" secondAttribute="top" id="cBj-x5-cRd"/>
+                            <constraint firstItem="oC5-f2-3MT" firstAttribute="bottom" secondItem="s5g-5g-7Vf" secondAttribute="bottom" id="rLI-mq-fGa"/>
+                            <constraint firstItem="a8x-qE-wTz" firstAttribute="bottom" secondItem="oC5-f2-3MT" secondAttribute="top" id="xqf-bx-asA"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="s5g-5g-7Vf"/>
                     </view>
                     <connections>
                         <outlet property="progressView" destination="6OM-z7-1Pn" id="8gX-0v-Q4S"/>
+                        <outlet property="tabBar" destination="oC5-f2-3MT" id="qdo-P9-HUF"/>
+                        <outlet property="tableView" destination="a8x-qE-wTz" id="7SE-zj-wXF"/>
                         <outlet property="webView" destination="Isi-1n-eoC" id="537-mz-8rQ"/>
                     </connections>
                 </viewController>
@@ -320,7 +341,7 @@
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bfz-Id-pNZ" customClass="GlossyButton">
-                                                    <rect key="frame" x="693" y="-3.5" width="70" height="50.5"/>
+                                                    <rect key="frame" x="245" y="-3.5" width="70" height="50.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="jHu-4Q-ccH"/>
                                                         <constraint firstAttribute="width" constant="70" id="p3E-Ac-Vvu"/>
@@ -342,7 +363,7 @@
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mto-Mi-0WR" customClass="GlossyButton">
-                                                    <rect key="frame" x="618" y="-3.5" width="70" height="50.5"/>
+                                                    <rect key="frame" x="170" y="-3.5" width="70" height="50.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="70" id="AbF-mo-lgi"/>
                                                         <constraint firstAttribute="height" constant="50" id="fAL-ED-6Xz"/>
@@ -364,7 +385,7 @@
                                                     </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="25Q-Kn-y2h">
-                                                    <rect key="frame" x="80" y="22.5" width="543" height="15"/>
+                                                    <rect key="frame" x="80" y="22.5" width="95" height="15"/>
                                                     <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="13"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
@@ -664,7 +685,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="81I-qd-Nyq">
-                                <rect key="frame" x="0.0" y="20" width="320" height="0.0"/>
+                                <rect key="frame" x="0.0" y="20" width="320" height="1"/>
                                 <color key="barTintColor" red="0.15680609810000001" green="0.31361219620000003" blue="0.31230547870000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <textAttributes key="titleTextAttributes">
                                     <color key="textColor" red="0.8980392157" green="0.75686274509999996" blue="0.2784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -681,7 +702,7 @@
                                 </items>
                             </navigationBar>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="CVV-Wt-GxH">
-                                <rect key="frame" x="0.0" y="20" width="320" height="460"/>
+                                <rect key="frame" x="0.0" y="21" width="320" height="459"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hAH-qv-6j0">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="30"/>
@@ -714,15 +735,15 @@
                                         </subviews>
                                     </stackView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dhc-n0-3PY" customClass="BarChartView" customModule="Charts">
-                                        <rect key="frame" x="0.0" y="30" width="320" height="143.5"/>
+                                        <rect key="frame" x="0.0" y="30" width="320" height="143"/>
                                         <color key="backgroundColor" red="0.83339843749999998" green="0.87779947920000001" blue="0.90000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d7z-U5-BkF" customClass="BarChartView" customModule="Charts">
-                                        <rect key="frame" x="0.0" y="173.5" width="320" height="143"/>
+                                        <rect key="frame" x="0.0" y="173" width="320" height="143"/>
                                         <color key="backgroundColor" red="0.83339843749999998" green="0.87779947920000001" blue="0.90000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yS7-iz-NfC" customClass="BarChartView" customModule="Charts">
-                                        <rect key="frame" x="0.0" y="316.5" width="320" height="143.5"/>
+                                        <rect key="frame" x="0.0" y="316" width="320" height="143"/>
                                         <color key="backgroundColor" red="0.83339843749999998" green="0.87779947920000001" blue="0.90000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </view>
                                 </subviews>
