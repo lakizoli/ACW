@@ -302,7 +302,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	NSString *reuseID = @"LanguageCell";
+	NSString *reuseID = @"NetPackageCell";
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseID];
 	if (cell == nil) {
 		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseID];
