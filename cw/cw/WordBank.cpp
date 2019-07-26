@@ -9,6 +9,7 @@
 #include "prefix.hpp"
 #include "WordBank.hpp"
 #include "QueryWords.hpp"
+#include "BinarySerializer.hpp"
 
 uint32_t WordBank::WordList::IntersectionCount (const std::wstring& w1, const std::wstring& w2) {
 	uint32_t count = 0;
@@ -132,6 +133,103 @@ std::shared_ptr<WordBank> WordBank::Create (std::shared_ptr<QueryWords> words, s
 	}
 	
 	return bank;
+}
+
+std::shared_ptr<WordBank> WordBank::Load (const std::string& path, std::shared_ptr<QueryWords> words, std::function<bool (float)> progressCallback) {
+	//Load wordbank from file
+	std::fstream in (path, std::ios::in | std::ios::binary | std::ios::ate);
+	if (!in) {
+		return nullptr;
+	}
+	
+	size_t len = in.tellg ();
+	if (!in) {
+		return nullptr;
+	}
+	
+	if (len <= 0) {
+		return nullptr;
+	}
+	
+	in.seekg (0, std::ios::beg);
+	if (!in) {
+		return nullptr;
+	}
+	
+	std::vector<uint8_t> data (len);
+	in.read ((char*) &data[0], data.size ());
+	if (!in) {
+		return nullptr;
+	}
+	
+	in.close ();
+	if (!in) {
+		return nullptr;
+	}
+	
+	//Deserialize wordbank
+	std::shared_ptr<WordBank> bank (new WordBank ());
+	bank->_words = words;
+	
+	BinaryReader reader (data);
+
+	reader.ReadArray ([bank] (const BinaryReader& reader) -> void {
+		uint32_t searchKey = reader.ReadUInt32 ();
+		
+		std::shared_ptr<WordList> wordList (new WordList ());
+		reader.ReadArray ([wordList] (const BinaryReader& reader) -> void {
+			uint32_t indexKey = reader.ReadUInt32 ();
+			
+			std::vector<uint32_t> indices;
+			reader.ReadArray ([&indices] (const BinaryReader& reader) -> void {
+				indices.push_back (reader.ReadUInt32 ());
+			});
+			
+			wordList->_indices.emplace (indexKey, indices);
+		});
+		
+		bank->_search.emplace (searchKey, wordList);
+	});
+	
+	if (progressCallback) {
+		progressCallback (1.0f);
+	}
+	
+	return bank;
+}
+
+bool WordBank::Save (const std::string& path) const {
+	std::vector<uint8_t> data;
+	BinaryWriter writer (data);
+	
+	//Serialize wordbank
+	writer.WriteArray (_search, [] (BinaryWriter& writer, const std::pair<uint32_t, std::shared_ptr<WordList>>& searchItem) -> void {
+		writer.WriteUInt32 (searchItem.first);
+		writer.WriteArray (searchItem.second->_indices, [] (BinaryWriter& writer, const std::pair<uint32_t, std::vector<uint32_t>>& indexItem) -> void {
+			writer.WriteUInt32 (indexItem.first);
+			writer.WriteArray (indexItem.second, [] (BinaryWriter& writer, uint32_t val) -> void {
+				writer.WriteUInt32 (val);
+			});
+		});
+	});
+	
+	//Save wordbank to file
+	std::fstream out (path, std::ios::out | std::ios::binary | std::ios::trunc);
+	if (!out) {
+		return false;
+	}
+	
+	out.write ((const char*) &data[0], data.size ());
+	if (!out) {
+		return false;
+	}
+	
+	out.close ();
+	if (!out) {
+		return false;
+	}
+	
+	return true;
 }
 
 uint32_t WordBank::GetMinLength () const {
