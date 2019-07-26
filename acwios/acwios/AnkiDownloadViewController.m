@@ -10,6 +10,7 @@
 #import "ProgressView.h"
 #import "Downloader.h"
 #import "NetPackConfig.h"
+#import "PackageManager.h"
 
 #define NETPACK_CFG_ID				@"1DRdHyx9Pj6XtdPrKlpBmGo4BMz9ecbUR"
 
@@ -321,8 +322,8 @@
 							handleEnd:YES
 					   contentHandler:^(NSURL *downloadedFile, NSString *fileName)
 	{
-		//TODO: implement
-		NSLog (@"Juhu");
+		//Unzip downloaded file to packages
+		[[PackageManager sharedInstance] unzipDownloadedPackage:downloadedFile packageName:[fileName stringByDeletingPathExtension]];
 	} progressHandler:^(uint64_t pos, uint64_t size) {
 		if (size <= 0) {
 			size = configItem.size;
