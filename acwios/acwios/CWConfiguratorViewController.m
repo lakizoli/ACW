@@ -14,6 +14,7 @@
 #import "CrosswordViewController.h"
 #import "GameTableCell.h"
 #import "StatisticsViewController.h"
+#import <Flurry.h>
 
 @interface CWConfiguratorViewController ()
 
@@ -85,6 +86,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
+	[Flurry logEvent:@"ChooseCW_ShowView"];
+
     // Do any additional setup after loading the view.
 	if (_isStatisticsView) {
 		_navItem.rightBarButtonItem = nil;

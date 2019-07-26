@@ -12,6 +12,8 @@
 		F063994522886DAE00DD12D1 /* terms_of_use.html in Resources */ = {isa = PBXBuildFile; fileRef = F063994322886DAE00DD12D1 /* terms_of_use.html */; };
 		F086ACEB22EA0B8E003BBA88 /* NetPackConfig.mm in Sources */ = {isa = PBXBuildFile; fileRef = F086ACEA22EA0B8E003BBA88 /* NetPackConfig.mm */; };
 		F086ACEE22EADB10003BBA88 /* libminizip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F086ACED22EADB10003BBA88 /* libminizip.a */; };
+		F086ACF022EB09B1003BBA88 /* libFlurry_9.3.1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F086ACEF22EB09B1003BBA88 /* libFlurry_9.3.1.a */; };
+		F086ACF222EB0E0D003BBA88 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F086ACF122EB0E0C003BBA88 /* SystemConfiguration.framework */; };
 		F092DB1F210CA5AA006B4DC6 /* Downloader.m in Sources */ = {isa = PBXBuildFile; fileRef = F092DB1E210CA5AA006B4DC6 /* Downloader.m */; };
 		F09B2053210D67B400398B2E /* ChoosePackageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F09B2052210D67B400398B2E /* ChoosePackageViewController.m */; };
 		F09B2056210D742B00398B2E /* SubscriptionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F09B2055210D742B00398B2E /* SubscriptionManager.m */; };
@@ -97,6 +99,8 @@
 		F086ACE922EA0B8E003BBA88 /* NetPackConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetPackConfig.h; sourceTree = "<group>"; };
 		F086ACEA22EA0B8E003BBA88 /* NetPackConfig.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = NetPackConfig.mm; sourceTree = "<group>"; };
 		F086ACED22EADB10003BBA88 /* libminizip.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libminizip.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F086ACEF22EB09B1003BBA88 /* libFlurry_9.3.1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFlurry_9.3.1.a; path = ../flurry/libFlurry_9.3.1.a; sourceTree = "<group>"; };
+		F086ACF122EB0E0C003BBA88 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		F092DB1D210CA5AA006B4DC6 /* Downloader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Downloader.h; sourceTree = "<group>"; };
 		F092DB1E210CA5AA006B4DC6 /* Downloader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Downloader.m; sourceTree = "<group>"; };
 		F09B2051210D67B400398B2E /* ChoosePackageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChoosePackageViewController.h; sourceTree = "<group>"; };
@@ -161,6 +165,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F086ACF222EB0E0D003BBA88 /* SystemConfiguration.framework in Frameworks */,
+				F086ACF022EB09B1003BBA88 /* libFlurry_9.3.1.a in Frameworks */,
 				F086ACEE22EADB10003BBA88 /* libminizip.a in Frameworks */,
 				FDCD52862109A6030081FE4D /* WebKit.framework in Frameworks */,
 				F0DEE95F21661A8C0044DA44 /* Charts.framework in Frameworks */,
@@ -306,6 +312,8 @@
 		FDCD5272210855AC0081FE4D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F086ACF122EB0E0C003BBA88 /* SystemConfiguration.framework */,
+				F086ACEF22EB09B1003BBA88 /* libFlurry_9.3.1.a */,
 				F086ACED22EADB10003BBA88 /* libminizip.a */,
 				F0E7DE402252B7C600F8A4C5 /* StoreKit.framework */,
 				F019C31A217348BA00F83F3B /* Security.framework */,
@@ -622,12 +630,14 @@
 					"$(PROJECT_DIR)/../adb/adb",
 					"$(PROJECT_DIR)/../cw/cw",
 					"$(PROJECT_DIR)/../minizip/minizip",
+					"$(PROJECT_DIR)/../flurry",
 				);
 				INFOPLIST_FILE = acwios/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/../flurry";
 				PRODUCT_BUNDLE_IDENTIFIER = com.zapp.acw;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -645,12 +655,14 @@
 					"$(PROJECT_DIR)/../adb/adb",
 					"$(PROJECT_DIR)/../cw/cw",
 					"$(PROJECT_DIR)/../minizip/minizip",
+					"$(PROJECT_DIR)/../flurry",
 				);
 				INFOPLIST_FILE = acwios/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/../flurry";
 				PRODUCT_BUNDLE_IDENTIFIER = com.zapp.acw;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
