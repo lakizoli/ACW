@@ -7,6 +7,7 @@
 //
 
 #import "StatisticsViewController.h"
+#import <Flurry.h>
 
 @interface StatisticsViewController ()
 
@@ -74,6 +75,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+	
+	[Flurry logEvent:@"Statistics_ShowView"];
 	
     // Do any additional setup after loading the view.
 	NSString *label = [NSString stringWithFormat:@"[%dx%d] (%lu cards) - %@",

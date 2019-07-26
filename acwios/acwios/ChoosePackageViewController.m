@@ -12,6 +12,7 @@
 #import "CWGeneratorViewController.h"
 #import "PackageSectionHeaderCell.h"
 #import "GameTableCell.h"
+#import <Flurry.h>
 
 @interface ChoosePackageViewController ()
 
@@ -130,6 +131,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+	
+	[Flurry logEvent:@"ChoosePackage_ShowView"];
 	
     // Do any additional setup after loading the view.
 	[self reloadPackages];

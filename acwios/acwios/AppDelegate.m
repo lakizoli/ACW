@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "SubscriptionManager.h"
+#import <Flurry.h>
 
 @interface AppDelegate ()
 
@@ -17,6 +18,14 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+	FlurrySessionBuilder* builder = [[[[[FlurrySessionBuilder new]
+										withLogLevel:FlurryLogLevelCriticalOnly]
+									   withCrashReporting:YES]
+									  withSessionContinueSeconds:10]
+									 withAppVersion:@"1.1.1"];
+	
+	[Flurry startSession:@"9P9572XC7M7B686598VW" withSessionBuilder:builder];
+	
 #if TARGET_IPHONE_SIMULATOR
 	NSLog (@"Simulator : %@", NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask, YES)[0]);
 #endif

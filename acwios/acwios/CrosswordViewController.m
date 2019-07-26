@@ -11,6 +11,7 @@
 #import "CrosswordLayout.h"
 #import "KeyboardViewController.h"
 #import "EmitterEffect.h"
+#import <Flurry.h>
 
 @interface CrosswordViewController ()
 
@@ -341,6 +342,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+	
+	[Flurry logEvent:@"Crossword_ShowView"];
 	
     // Uncomment the following line to preserve selection between presentations
     // self.clearsSelectionOnViewWillAppear = NO;
