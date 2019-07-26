@@ -16,6 +16,8 @@
 -(void)setOverriddenDocumentPath:(NSURL*)url;
 -(void)setOverriddenDatabasePath:(NSURL*)url;
 
+-(void)unzipDownloadedPackage:(NSURL*)downloadedPackagePath packageName:(NSString*)packageName;
+
 -(NSArray<Package*>*)collectPackages;
 -(NSDictionary<NSString*, NSArray<SavedCrossword*>*>*)collectSavedCrosswords;
 -(GeneratorInfo*)collectGeneratorInfo:(NSArray<Deck*>*)decks;
