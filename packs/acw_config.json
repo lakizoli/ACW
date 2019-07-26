@@ -1,0 +1,144 @@
+{
+	"outputPath":"/Users/zoli/work/work/git_repos/ACW/packs",
+
+	"Erwin_Tschirner_Angol_szkincs_-_en-hu" : {
+		"basename": "en -> hu",
+		"width": 20,
+		"height": 20,
+		"question": 0,
+		"solution": 6
+	},
+	"Erwin_Tschirner_Angol_szkincs_-_hu-en" : {
+		"basename": "hu -> en",
+		"width": 20,
+		"height": 20,
+		"question": 6,
+		"solution": 0
+	},
+	"Spanish_Top_5000_Vocabulary_en_sp" : {
+		"basename": "en -> sp",
+		"width": 20,
+		"height": 20,
+		"question": 2,
+		"solution": 0
+	},
+	"Spanish_Top_5000_Vocabulary_sp_en" : {
+		"basename": "sp -> en",
+		"width": 20,
+		"height": 20,
+		"question": 0,
+		"solution": 2
+	},
+	"ChineseEnglish_-_Comprehensive_Compilation_-_With_Examples_ch_en" : {
+		"basename": "ch -> en",
+		"width": 20,
+		"height": 20,
+		"question": 0,
+		"solution": 2
+	},
+	"ChineseEnglish_-_Comprehensive_Compilation_-_With_Examples_en_ch" : {
+		"basename": "en -> ch",
+		"width": 20,
+		"height": 20,
+		"question": 2,
+		"solution": 0
+	},
+	"German_Top_4000_vocabulary_en-ge" : {
+		"basename": "en -> ge",
+		"width": 20,
+		"height": 20,
+		"question": 2,
+		"solution": 0
+	},
+	"German_Top_4000_vocabulary_ge-en" : {
+		"basename": "ge -> en",
+		"width": 20,
+		"height": 20,
+		"question": 0,
+		"solution": 2
+	},
+	"FrenchEnglish_-_Top_5000_French_-_With_Examples_fr-en" : {
+		"basename": "fr -> en",
+		"width": 20,
+		"height": 20,
+		"question": 0,
+		"solution": 1
+	},
+	"FrenchEnglish_-_Top_5000_French_-_With_Examples_en-fr" : {
+		"basename": "en -> fr",
+		"width": 20,
+		"height": 20,
+		"question": 1,
+		"solution": 0
+	},
+	"Hindi-English_en-hindi" : {
+		"basename": "en -> hindi",
+		"width": 20,
+		"height": 20,
+		"question": 1,
+		"solution": 0
+	},
+	"Hindi-English_hindi-en" : {
+		"basename": "hindi -> en",
+		"width": 20,
+		"height": 20,
+		"question": 0,
+		"solution": 1
+	},
+	"RussianEnglish_-_Top_5000_Russian_-_With_Examples_en-ru" : {
+		"basename": "en -> ru",
+		"width": 20,
+		"height": 20,
+		"question": 2,
+		"solution": 1
+	},
+	"RussianEnglish_-_Top_5000_Russian_-_With_Examples_ru-en" : {
+		"basename": "ru -> en",
+		"width": 20,
+		"height": 20,
+		"question": 1,
+		"solution": 2
+	},
+	"Japanese_Basic_Hiragana_en-jp" : {
+		"basename": "en -> jp",
+		"width": 20,
+		"height": 20,
+		"question": 1,
+		"solution": 0
+	},
+	"Japanese_Basic_Hiragana_jp-en" : {
+		"basename": "jp -> en",
+		"width": 20,
+		"height": 20,
+		"question": 0,
+		"solution": 1
+	},
+	"Most_Used_English_Words_to_Brazilian_Portuguese_en-pt" : {
+		"basename": "en -> pt",
+		"width": 20,
+		"height": 20,
+		"question": 0,
+		"solution": 1
+	},
+	"Most_Used_English_Words_to_Brazilian_Portuguese_pt-en" : {
+		"basename": "pt -> en",
+		"width": 20,
+		"height": 20,
+		"question": 1,
+		"solution": 0
+	},
+	"Zertifikat_Deutsch_-_B1_pldkkal_--_nmet-magyar_ge-hu" : {
+		"basename": "ge -> hu",
+		"width": 20,
+		"height": 20,
+		"question": 1,
+		"solution": 2
+	},
+	"Zertifikat_Deutsch_-_B1_pldkkal_--_nmet-magyar_hu-ge" : {
+		"basename": "hu -> ge",
+		"width": 20,
+		"height": 20,
+		"question": 2,
+		"solution": 1
+	}
+}
