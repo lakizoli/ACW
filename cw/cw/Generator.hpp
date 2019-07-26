@@ -15,7 +15,6 @@ class QueryWords;
 class Cell;
 
 class Generator {
-	std::string _path;
 	std::string _name;
 	uint32_t _width = 0;
 	uint32_t _height = 0;

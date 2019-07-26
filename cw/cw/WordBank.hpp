@@ -39,6 +39,9 @@ private:
 public:
 	static std::shared_ptr<WordBank> Create (std::shared_ptr<QueryWords> words, std::function<bool (float)> progressCallback);
 	
+	static std::shared_ptr<WordBank> Load (const std::string& path, std::shared_ptr<QueryWords> words, std::function<bool (float)> progressCallback);
+	bool Save (const std::string& path) const;
+	
 //Interface
 public:
 	uint32_t GetMinLength () const;

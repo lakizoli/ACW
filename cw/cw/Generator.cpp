@@ -131,12 +131,20 @@ std::shared_ptr<Generator> Generator::Create (const std::string& path, const std
 											  std::shared_ptr<QueryWords> usedWords, ProgressCallback progressCallback)
 {
 	std::shared_ptr<Generator> gen (new Generator ());
-	gen->_path = path;
 	gen->_name = name;
 	gen->_width = width;
 	gen->_height = height;
 	gen->_questions = questions;
-	gen->_answers = WordBank::Create (answers, progressCallback);
+	
+	std::string wordBankPath = path + "/answers.wb";
+	gen->_answers = WordBank::Load (wordBankPath, answers, progressCallback);
+	if (gen->_answers == nullptr) {
+		gen->_answers = WordBank::Create (answers, progressCallback);
+		if (gen->_answers) {
+			gen->_answers->Save (wordBankPath);
+		}
+	}
+	
 	if (gen->_answers == nullptr) {
 		return nullptr;
 	}
