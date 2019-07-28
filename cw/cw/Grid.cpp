@@ -111,7 +111,7 @@ void Grid::Dump () const {
 				ss << ",";
 			}
 			
-			ss << "=Col=";
+			ss << "=Col(_)=";
 		}
 		
 		std::cout << ss.str () << std::endl;
@@ -129,11 +129,17 @@ void Grid::Dump () const {
 			
 			std::shared_ptr<Cell> cell = _cells[CellIndex (row, col)];
 			if (cell->IsEmpty ()) {
-				ss << "<nil>";
+				ss << "<nil(_)>";
 			} else if (cell->IsFlagSet (CellFlags::Question)) {
-				ss << "=Que=";
+				ss << "=Que(_)=";
 			} else {
-				ss << "==" << (char)cell->GetValue () << "==";
+				uint8_t ch = (uint8_t) cell->GetValue ();
+				if (ch > 128) {
+					ch = '?';
+				}
+				
+				uint32_t refCount = cell->GetValueRefCount ();
+				ss << "= " << (char) ch << " (" << (refCount > 1 ? std::to_string (refCount) : "_") << ")=";
 			}
 		}
 		
@@ -153,20 +159,17 @@ bool Grid::AllCellsAreFilled () const {
 	return true;
 }
 
-void Grid::AdvanceToTheNextAvailablePos (uint32_t& row, uint32_t& col) {
+void Grid::AdvanceToTheNextAvailablePos (uint32_t& row, uint32_t& col, bool& wasDiag) {
 	while (row < _height && col < _width && !IsEmpty (row, col)) {
-		if (col == 0) { //First col
-			col = row + 1;
-			if (col >= _width) { //After last col
-				row = col - _width + 1;
-				col = _width - 1;
-			} else {
-				row = 0;
+		if (wasDiag) { //We take the diagonal value first
+			col = row = col + 2;
+			if (row >= _height || col >= _width) {
+				wasDiag = false;
+				row = col = 1;
 			}
-		} else {
-			++row;
-			if (row >= _height) { //After last row
-				col = col + row;
+		} else { //We take the normal values either
+			if (col == 0) { //First col
+				col = row + 1;
 				if (col >= _width) { //After last col
 					row = col - _width + 1;
 					col = _width - 1;
@@ -174,7 +177,18 @@ void Grid::AdvanceToTheNextAvailablePos (uint32_t& row, uint32_t& col) {
 					row = 0;
 				}
 			} else {
-				--col;
+				++row;
+				if (row >= _height) { //After last row
+					col = col + row;
+					if (col >= _width) { //After last col
+						row = col - _width + 1;
+						col = _width - 1;
+					} else {
+						row = 0;
+					}
+				} else {
+					--col;
+				}
 			}
 		}
 	}
