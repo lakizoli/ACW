@@ -582,7 +582,9 @@
 	switch (row) {
 		case 0:
 			if (page == PAGE_ALPHA) {
-				*outKeys    = @[@"\u0439", @"\u0446", @"\u0443", @"\u043a", @"\u0435", @"\u043d", @"\u0433", @"\u0448", @"\u0449", @"\u0437", @"\u0445", BACKSPACE];
+				*outKeys    = @[[@"\u0439" uppercaseString], [@"\u0446" uppercaseString], [@"\u0443" uppercaseString], [@"\u043a" uppercaseString],
+								[@"\u0435" uppercaseString], [@"\u043d" uppercaseString], [@"\u0433" uppercaseString], [@"\u0448" uppercaseString],
+								[@"\u0449" uppercaseString], [@"\u0437" uppercaseString], [@"\u0445" uppercaseString], BACKSPACE];
 				*outWeights = @[     @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @2.0];
 				return YES;
 			} else if (page == PAGE_NUM) {
@@ -593,7 +595,9 @@
 			break;
 		case 1:
 			if (page == PAGE_ALPHA) {
-				*outKeys    = @[@"\u0444", @"\u044b", @"\u0432", @"\u0430", @"\u043f", @"\u0440", @"\u043e", @"\u043b", @"\u0434", @"\u0436", @"\u044d", ENTER];
+				*outKeys    = @[[@"\u0444" uppercaseString], [@"\u044b" uppercaseString], [@"\u0432" uppercaseString], [@"\u0430" uppercaseString],
+								[@"\u043f" uppercaseString], [@"\u0440" uppercaseString], [@"\u043e" uppercaseString], [@"\u043b" uppercaseString],
+								[@"\u0434" uppercaseString], [@"\u0436" uppercaseString], [@"\u044d" uppercaseString], ENTER];
 				*outWeights = @[     @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,     @1.0,   @2.0];
 				return YES;
 			} else if (page == PAGE_NUM) {
@@ -604,7 +608,9 @@
 			break;
 		case 2:
 			if (page == PAGE_ALPHA) {
-				*outKeys    = @[@"\u044f", @"\u0447", @"\u0441", @"\u043c", @"\u0438", @"\u0442", @"\u044c", @"\u0431", @"\u044e", @"\u0451", @"\u044a"];
+				*outKeys    = @[[@"\u044f" uppercaseString], [@"\u0447" uppercaseString], [@"\u0441" uppercaseString], [@"\u043c" uppercaseString],
+								[@"\u0438" uppercaseString], [@"\u0442" uppercaseString], [@"\u044c" uppercaseString], [@"\u0431" uppercaseString],
+								[@"\u044e" uppercaseString], [@"\u0451" uppercaseString], [@"\u044a" uppercaseString]];
 				*outWeights = @[     @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0,      @1.0];
 				return YES;
 			} else if (page == PAGE_NUM) {
