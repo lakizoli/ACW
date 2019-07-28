@@ -44,7 +44,7 @@ public:
 //Generation interface
 public:
 	bool AllCellsAreFilled () const;
-	void AdvanceToTheNextAvailablePos (uint32_t& row, uint32_t& col);
+	void AdvanceToTheNextAvailablePos (uint32_t& row, uint32_t& col, bool& wasDiag);
 	
 	struct FindQuestionResult {
 		std::shared_ptr<Cell> questionCell;

@@ -163,6 +163,7 @@ std::shared_ptr<Crossword> Generator::Generate () const {
 	std::shared_ptr<Grid> grid = cw->GetGrid ();
 	uint32_t lastRow, row = 1; //The current free cell's row index
 	uint32_t lastCol, col = 1; //The current free cell's col index
+	bool wasDiag = true; //The current cell is diagonal cell or not
 	std::set<std::wstring> usedWords; //The used words of the whole package
 	std::set<std::wstring> usedWordsOfCrossword; //The used words in crossword
 	std::set<wchar_t> usedCharsOfCrossword; //The used characters in crossword
@@ -173,6 +174,13 @@ std::shared_ptr<Crossword> Generator::Generate () const {
 		}
 	}
 	
+//	uint32_t r1 = 1, c1 = 1;
+//	bool wasDiag1 = true;
+//	while (c1 < _width && r1 < _height) {
+//		grid->AdvanceToTheNextAvailablePos (r1, c1, wasDiag1);
+//		printf ("row: %d, col: %d\n", r1, c1);
+//	}
+
 	for (uint32_t col = 0; col < _width; col += 2) {
 		grid->SetCellToFreeQuestionCell (0, col);
 	}
@@ -199,7 +207,7 @@ std::shared_ptr<Crossword> Generator::Generate () const {
 			}
 
 			//Advance to the next empty pos...
-			grid->AdvanceToTheNextAvailablePos (row, col);
+			grid->AdvanceToTheNextAvailablePos (row, col, wasDiag);
 			continue;
 		}
 
@@ -219,9 +227,14 @@ std::shared_ptr<Crossword> Generator::Generate () const {
 			std::shared_ptr<Cell> secondLetterCell = vQ.cellsAvailable.size () > 1 ? vQ.cellsAvailable[1] : nullptr;
 			ConfigureQuestionInCell (vQ.questionCell, vQ.cellsAvailable[0], secondLetterCell, vWord.insertedWordIndex);
 		}
+		
+//		grid->Dump ();
+//		printf ("\n");
+//		printf ("row: %d, col: %d\n", row, col);
+//		printf ("\n");
 
 		//Advance to the next available position
-		grid->AdvanceToTheNextAvailablePos (row, col);
+		grid->AdvanceToTheNextAvailablePos (row, col, wasDiag);
 		
 		//Handle stuck into cell
 		if (row == lastRow && col == lastCol) {
@@ -229,7 +242,7 @@ std::shared_ptr<Crossword> Generator::Generate () const {
 				return nullptr;
 			}
 			
-			grid->AdvanceToTheNextAvailablePos (row, col);
+			grid->AdvanceToTheNextAvailablePos (row, col, wasDiag);
 		}
 	}
 	
