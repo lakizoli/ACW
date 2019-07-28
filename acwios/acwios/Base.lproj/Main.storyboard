@@ -22,14 +22,14 @@
                                 <rect key="frame" x="-40" y="-20" width="400" height="540"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bbn-wA-I5E" customClass="GlossyButton">
-                                <rect key="frame" x="25" y="244.5" width="270" height="60"/>
+                                <rect key="frame" x="15" y="244.5" width="290" height="60"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="270" id="CjX-Qy-11W"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="290" id="CjX-Qy-11W"/>
                                     <constraint firstAttribute="height" constant="60" id="Hhu-hk-pFM"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="BradleyHandITCTT-Bold" family="Bradley Hand" pointSize="23"/>
                                 <size key="titleShadowOffset" width="1" height="1"/>
-                                <state key="normal" title="Obtain ANKI Packages">
+                                <state key="normal" title="1. Obtain ANKI Packages">
                                     <color key="titleColor" red="0.89803921568627454" green="0.75686274509803919" blue="0.27843137254901962" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" red="0.058823529411764705" green="0.13725490196078433" blue="0.32941176470588235" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
@@ -49,14 +49,14 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k1a-W5-XBY" customClass="GlossyButton">
-                                <rect key="frame" x="25" y="313" width="270" height="60"/>
+                                <rect key="frame" x="15" y="313" width="290" height="60"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="270" id="fEA-ae-56m"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="290" id="fEA-ae-56m"/>
                                     <constraint firstAttribute="height" constant="60" id="mP8-wD-uqk"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="BradleyHandITCTT-Bold" family="Bradley Hand" pointSize="23"/>
                                 <size key="titleShadowOffset" width="1" height="1"/>
-                                <state key="normal" title="Play Crossword">
+                                <state key="normal" title="2. Play Crossword">
                                     <color key="titleColor" red="0.8980392157" green="0.75686274509999996" blue="0.2784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" red="0.058823529409999999" green="0.13725490200000001" blue="0.3294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
@@ -83,14 +83,14 @@
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M4B-eE-F7X" customClass="GlossyButton">
-                                <rect key="frame" x="25" y="381.5" width="270" height="60"/>
+                                <rect key="frame" x="15" y="381.5" width="290" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="OBS-bA-V5h"/>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="270" id="xpJ-4t-5rv"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="290" id="xpJ-4t-5rv"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="BradleyHandITCTT-Bold" family="Bradley Hand" pointSize="23"/>
                                 <size key="titleShadowOffset" width="1" height="1"/>
-                                <state key="normal" title="Show Statistics">
+                                <state key="normal" title="3. Show Statistics">
                                     <color key="titleColor" red="0.8980392157" green="0.75686274509999996" blue="0.2784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" red="0.058823529409999999" green="0.13725490200000001" blue="0.3294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
