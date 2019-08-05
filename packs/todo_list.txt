@@ -1,0 +1,6 @@
+- Új kínai készlet feltöltése
+- Feltöltött csomagok méretének javítása a packs.json-ben
+- gencw: Generáláskor szógyűjtési szabályok felülvizsgálata (lásd kínai nyelvek separator problémái)
+- németben a szavak névelőinek szeparálása
+- Csomagok kicsontozása gencw-ben (hogy ne foglaljon akkor tárhelyet a drive-on)
+-

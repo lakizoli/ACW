@@ -1,5 +1,5 @@
 {
-	"outputPath":"/Users/zoli/work/work/git_repos/ACW/packs",
+	"outputPath":"/Users/zoli/work/temp/acw_packs",
 
 	"Erwin_Tschirner_Angol_szkincs_-_en-hu" : {
 		"basename": "en -> hu",
@@ -30,14 +30,14 @@
 		"solution": 2
 	},
 	"ChineseEnglish_-_Comprehensive_Compilation_-_With_Examples_ch_en" : {
-		"basename": "ch -> en",
+		"basename": "cn -> en",
 		"width": 20,
 		"height": 20,
 		"question": 0,
 		"solution": 2
 	},
 	"ChineseEnglish_-_Comprehensive_Compilation_-_With_Examples_en_ch" : {
-		"basename": "en -> ch",
+		"basename": "en -> cn",
 		"width": 20,
 		"height": 20,
 		"question": 2,
@@ -140,5 +140,19 @@
 		"height": 20,
 		"question": 2,
 		"solution": 1
+	},
+	"Chinese_english_Voabulary_Pofile_cn-en" : {
+		"basename": "cn -> en",
+		"width": 20,
+		"height": 20,
+		"question": 11,
+		"solution": 2
+	},
+	"Chinese_english_Voabulary_Pofile_en-cn" : {
+		"basename": "en -> cn",
+		"width": 20,
+		"height": 20,
+		"question": 2,
+		"solution": 11
 	}
 }
