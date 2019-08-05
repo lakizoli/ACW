@@ -2,111 +2,111 @@
 	{
 		"name" : "Chinese -> English (9169 words)",
 		"fileID" : "1JrLJISOVUmxyJVc-WZJmOXaStxM16lQT",
-		"size" : 10493249
+		"size" : 10320353
 	},
 	{
 		"name" : "Chinese -> English v2 (12481 words)",
 		"fileID" : "1Q2wU-vT1bdFd-D253IibdirAxYqJtMvG",
-		"size" : 10248971
+		"size" : 45913007
 	},
 	{
 		"name" : "English -> Chinese (9169 words)",
 		"fileID" : "1xRPpGnvZGT_PQEn_fYXQoOjTLIknFekB",
-		"size" : 10248971
+		"size" : 10546381
 	},
 	{
 		"name" : "English -> Chinese v2 (12481 words)",
 		"fileID" : "1fPD4rgnETkUj5qo801vQ4IeZzlYnq6S8",
-		"size" : 10248971
+		"size" : 46767848
 	},
 	{
 		"name" : "Hungarian -> English (4303 words)",
 		"fileID" : "1t7kHllpJ1Emyu2EcwiiQvdzuvBoJo5jh",
-		"size" : 115527909
+		"size" : 115570389
 	},
 	{
 		"name" : "English -> Hungarian (4303 words)",
 		"fileID" : "1OAEf53aZX5Y-w9m_hqicjkUs06ZVniNH",
-		"size" : 115496873 
+		"size" : 115539070 
 	},
 	{
 		"name" : "French -> English (5000 words)",
 		"fileID" : "1ph-csaarvK1W0FGOxAkAc2ezfn9uvlKx",
-		"size" : 6680582
+		"size" : 6731048
 	},
 	{
 		"name" : "English -> French (5000 words)",
 		"fileID" : "1BN2UrzNk2pYZ9iTOdOI8es493M5U6Hlf",
-		"size" : 6836190
+		"size" : 6903679
 	},
 	{
 		"name" : "German -> English (4214 words)",
 		"fileID" : "1aKbSq56mRLth7O1rLbMuRAOy9dNnhskv",
-		"size" : 90179603
+		"size" : 90212212
 	},
 	{
 		"name" : "English -> German (4214 words)",
 		"fileID" : "1Cgm--SjY5dliegKANeb_l_KEPkymW33h",
-		"size" : 90378859
+		"size" : 90429232
 	},
 	{
 		"name" : "Hindi -> English (16297 words)",
 		"fileID" : "1BkZfcmHx_fTRnG26CLNOVfSk_M1kWbsm",
-		"size" : 4312526
+		"size" : 4382693
 	},
 	{
 		"name" : "English -> Hindi (16297 words)",
 		"fileID" : "1sGR3Q8fmP-QeotaZ97Ia3FQ1---VJMlx",
-		"size" : 4885489
+		"size" : 5005908
 	},
 	{
 		"name" : "Japanese Basic Hiragana -> Voice (46 words)",
 		"fileID" : "1Ax0JzfZR_5Sl3GOqQzqd8UKiIOGL6jDp",
-		"size" : 360272
+		"size" : 360497
 	},
 	{
 		"name" : "Voice -> Japanese Basic Hiragana (46 words)",
 		"fileID" : "1FkEACahJXacpaEO9Tm4nsq6vVlpkZwSp",
-		"size" : 360607
+		"size" : 360784
 	},
 	{
 		"name" : "Portuguese -> English (4349 words)",
 		"fileID" : "1qZJOOriMGSm9jxAIXEMovOt8ddG2PTH_",
-		"size" : 945371
+		"size" : 975978
 	},
 	{
 		"name" : "English -> Portuguese (4349 words)",
 		"fileID" : "1XjOEf1daQy1aL1WB3YHKozKgkPs8XY6F",
-		"size" : 917208
+		"size" : 948670
 	},
 	{
 		"name" : "Russian -> English (5000 words)",
 		"fileID" : "1LQm1F8eJUjKqLyzBNFa5gS78pYZ8IuIT",
-		"size" : 6954776
+		"size" : 7001578
 	},
 	{
 		"name" : "English -> Russian (5000 words)",
 		"fileID" : "1Oef0g0VIFHeSJvKulWkyg8jEfR3jqJUl",
-		"size" : 7120398
+		"size" : 7180153
 	},
 	{
 		"name" : "Spanish -> English (5748 words)",
 		"fileID" : "150pzKOLt16GE3jJ7eMV9PVXOyYidQxht",
-		"size" : 67073341
+		"size" : 67113110
 	},
 	{
 		"name" : "English -> Spanish (5748 words)",
 		"fileID" : "16br6npcTRo8i1QCglXGEaI8STi3t16eQ",
-		"size" : 67208932
+		"size" : 67260642
 	},
 	{
 		"name" : "Hungarian -> German (3539 words)",
 		"fileID" : "1cwJ_jLoTHgcZyNsr4dT-bW7CYUhC7PK4",
-		"size" : 1107043
+		"size" : 1132315
 	},
 	{
 		"name" : "German -> Hungarian (3539 words)",
 		"fileID" : "1R0xh825io5Rrv0VjECDrZhIZabV32zEG",
-		"size" : 1075117
+		"size" : 1095658
 	}
 ]
