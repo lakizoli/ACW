@@ -9,9 +9,10 @@ OK - Feltöltött csomagok méretének javítása a packs.json-ben
 - meg kell oldani, hogy csak egy cw-t lehessen demo-ként megnézni egy csomagban. Ha letörlik, akkor ne lehessen másik elérhető...
 - keresés berakása a top rated nézetbe (flurry-vel, hogy mire kerestek)
 - wished language view berakása az obtain nézetbe (ahol flurry-ben elküldheti, milyen nyelvet szeretne látni)
-- gencw: elnevezések sorszámainak javítása, hogy jó legyen a sorrend.
+OK - gencw: elnevezések sorszámainak javítása, hogy jó legyen a sorrend.
 - gencw: generáláskor szógyűjtési szabályok felülvizsgálata (lásd kínai nyelvek separator problémái)
 	- itt esetleg lehetne nyelvfüggő szabályokat tenni az acw_config.json-be is.
 - németben a szavak névelőinek szeparálása
-- Csomagok kicsontozása gencw-ben (hogy ne foglaljon akkora tárhelyet a drive-on)
+OK - Csomagok kicsontozása gencw-ben (hogy ne foglaljon akkora tárhelyet a drive-on)
+- Csomagok újragenerálása a kicsontozás fejlesztése után
 -

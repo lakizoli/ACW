@@ -10,7 +10,9 @@
 #import "PackageManager.h"
 #import "Config.h"
 #include <zip.h>
+#include <unzip.h>
 #include <vector>
+#include <cstdio>
 
 #define GEN_SUCCEEDED	0
 #define GEN_FAILED		1
@@ -46,7 +48,7 @@ static void GenerateCrosswords (NSString* baseName, Package *package, GeneratorI
 			[man reloadUsedWords:packagePath info:generatorInfo];
 			
 			//Add counted name to info
-			NSString *countedName = [baseName stringByAppendingString:[NSString stringWithFormat:@" - {%d}", ++cwIndex]];
+			NSString *countedName = [baseName stringByAppendingString:[NSString stringWithFormat:@" - {%4d}", ++cwIndex]];
 			[generatorInfo setCrosswordName:countedName];
 			
 			printf ("Generating crossword: %s\n", [countedName UTF8String]);
@@ -68,6 +70,99 @@ static void GenerateCrosswords (NSString* baseName, Package *package, GeneratorI
 	}
 	
 	printf ("\nPackage: %s - Generation succeeded!\n\n", [[package name] UTF8String]);
+}
+
+static int UncompressFileToFolder (NSURL* packageURL, NSURL* targetPath, NSString* fileName) {
+	unzFile pack = unzOpen ([[packageURL path] UTF8String]);
+	if (pack) {
+		if (unzLocateFile (pack, [fileName UTF8String], 2) != UNZ_OK) {
+			return GEN_FAILED;
+		}
+		
+		unz_file_info info;
+		if (unzGetCurrentFileInfo (pack, &info, nullptr, 0, nullptr, 0, nullptr, 0) != UNZ_OK) {
+			return GEN_FAILED;
+		}
+		
+		if (unzOpenCurrentFile (pack) != UNZ_OK) {
+			return GEN_FAILED;
+		}
+		
+		uint32_t chunkSize = 1024*1024;
+		uint32_t chunkCount = (uint32_t) info.uncompressed_size / chunkSize;
+		if (info.uncompressed_size % chunkSize > 0) {
+			++chunkCount;
+		}
+		
+		NSURL* targetFilePath = [targetPath URLByAppendingPathComponent:fileName];
+		std::FILE* dest = std::fopen ([[targetFilePath path] UTF8String], "wb");
+		if (dest == nullptr) {
+			return GEN_FAILED;
+		}
+		
+		struct AutoCloseDest {
+			std::FILE*& dest;
+			AutoCloseDest (std::FILE*& dest) : dest (dest) {}
+			~AutoCloseDest () { std::fclose (dest); dest = nullptr; }
+		} autoCloseDest (dest);
+		
+		std::vector<uint8_t> buffer (chunkSize);
+		for (uint32_t chunk = 0; chunk < chunkCount; ++chunk) {
+			uint32_t readCount = chunk == chunkCount - 1 ? (uint32_t) info.uncompressed_size - chunk * chunkSize : chunkSize;
+			
+			if (unzReadCurrentFile (pack, &buffer[0], readCount) != readCount) {
+				return GEN_FAILED;
+			}
+			
+			if (std::fwrite (&buffer[0], sizeof (uint8_t), readCount, dest) != readCount) {
+				return GEN_FAILED;
+			}
+		}
+		
+		unzCloseCurrentFile (pack);
+		unzClose (pack);
+	}
+	return GEN_SUCCEEDED;
+}
+
+static int CompressFolder (NSString *name, NSURL *sourcePath, NSURL *targetPath);
+
+static int ShrinkPackage (NSURL* packageURL, NSString* name) {
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	NSURL* uncompressPath = [packageURL URLByDeletingLastPathComponent];
+	uncompressPath = [uncompressPath URLByAppendingPathComponent:[name stringByDeletingPathExtension]];
+	if ([fileManager createDirectoryAtURL:uncompressPath
+			  withIntermediateDirectories:YES
+							   attributes:nil
+									error:nil] != YES) {
+		return GEN_FAILED;
+	}
+	
+	if (UncompressFileToFolder (packageURL, uncompressPath, @"collection.anki2") != GEN_SUCCEEDED) {
+		printf ("Error trimming package.apkg!\n");
+		return GEN_FAILED;
+	}
+	
+	if ([fileManager removeItemAtURL:packageURL error:nil] != YES) {
+		return GEN_FAILED;
+	}
+	
+	NSURL* targetPath = [packageURL URLByDeletingLastPathComponent];
+	if (CompressFolder (name, uncompressPath, targetPath) != GEN_SUCCEEDED) {
+		return GEN_FAILED;
+	}
+	
+	NSURL *compressedPack = [targetPath URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip",name]];
+	NSURL *apkgPath = [compressedPack URLByDeletingPathExtension];
+	if ([fileManager moveItemAtURL:compressedPack toURL:apkgPath error:nil] != YES) {
+		return GEN_FAILED;
+	}
+	
+	if ([fileManager removeItemAtURL:uncompressPath error:nil] != YES) {
+		return GEN_FAILED;
+	}
+	
+	return GEN_SUCCEEDED;
 }
 
 static int CompressFolder (NSString *name, NSURL *sourcePath, NSURL *targetPath) {
@@ -94,7 +189,12 @@ static int CompressFolder (NSString *name, NSURL *sourcePath, NSURL *targetPath)
 					[fileURL getResourceValue:&size forKey:NSURLFileSizeKey error:nil] == YES)
 				{
 					if ([[name pathExtension] isEqualToString:@"apkg"]) {
-						//TODO: remove all media files from package.apkg! Only collection2.anki have to be remaining...
+						if (ShrinkPackage (fileURL, name) != GEN_SUCCEEDED) {
+							printf ("Error shrinking package.apkg!\n");
+							return GEN_FAILED;
+						}
+						
+						size = [[fileManager attributesOfItemAtPath:[fileURL path] error:nil] objectForKey:NSFileSize];
 					}
 					
 					zip_fileinfo zi;
