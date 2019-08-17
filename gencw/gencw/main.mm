@@ -93,6 +93,10 @@ static int CompressFolder (NSString *name, NSURL *sourcePath, NSURL *targetPath)
 					[fileURL getResourceValue:&date forKey:NSURLCreationDateKey error:nil] == YES &&
 					[fileURL getResourceValue:&size forKey:NSURLFileSizeKey error:nil] == YES)
 				{
+					if ([[name pathExtension] isEqualToString:@"apkg"]) {
+						//TODO: remove all media files from package.apkg! Only collection2.anki have to be remaining...
+					}
+					
 					zip_fileinfo zi;
 					memset (&zi, 0, sizeof (zi));
 				
