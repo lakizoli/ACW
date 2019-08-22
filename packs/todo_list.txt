@@ -1,3 +1,11 @@
+- A játék átalakítása úgy, hogy flow-ban jöjjenek a beépített nyelvekből generált keresztrejtvények.
+	- Egy keresztrejtvényen csak akkor szabad engedni túljutni a játékost, ha megfelelően kevés hibarátával képes megoldani a cw-t
+	- A lehetséges nyelvek listájának bővítése
+	- Előfizetés nélkül csak az első pályát lehet megoldani
+	- A generálásba az egyedi szabályok támogatásának megoldása (szópárok kilistázása, és a gyanús szavak egyedi szabályozása)
+	- A keresztrejtvényben a jelek felvétele, és megjelenítése előre, mint fix cella érték
+	- A gyakorlás elősegítése céljából minden korábban lejátszott, és jól megoldott keresztrejtvény (level) legyen újrajátszható
+	- Hall of fame bevezetése esetleg
 OK - Új kínai készlet feltöltése
 OK - Feltöltött csomagok méretének javítása a packs.json-ben
 - flurry üzenetek kiszedése a szimulátorból (osztályba rakás, és feltételes futás)
@@ -6,8 +14,8 @@ OK - Feltöltött csomagok méretének javítása a packs.json-ben
 	- crossword show üzenetben a cw nevét át kell küldeni
 	- crossword show nézetben részletes üzenetek küldése (játék vége, első szó kitöltése, betűk írása)
 	- wished language view
-- meg kell oldani, hogy csak egy cw-t lehessen demo-ként megnézni egy csomagban. Ha letörlik, akkor ne lehessen másik elérhető...
-- keresés berakása a top rated nézetbe (flurry-vel, hogy mire kerestek)
+NemKell - meg kell oldani, hogy csak egy cw-t lehessen demo-ként megnézni egy csomagban. Ha letörlik, akkor ne lehessen másik elérhető...
+NemKell - keresés berakása a top rated nézetbe (flurry-vel, hogy mire kerestek)
 - wished language view berakása az obtain nézetbe (ahol flurry-ben elküldheti, milyen nyelvet szeretne látni)
 OK - gencw: elnevezések sorszámainak javítása, hogy jó legyen a sorrend.
 - gencw: generáláskor szógyűjtési szabályok felülvizsgálata (lásd kínai nyelvek separator problémái)
