@@ -24,3 +24,4 @@ OK - gencw: elnevezések sorszámainak javítása, hogy jó legyen a sorrend.
 OK - Csomagok kicsontozása gencw-ben (hogy ne foglaljon akkora tárhelyet a drive-on)
 - Csomagok újragenerálása a kicsontozás fejlesztése után
 -
+-
