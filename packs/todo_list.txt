@@ -3,7 +3,7 @@
 	- A lehetséges nyelvek listájának bővítése
 	- Előfizetés nélkül csak az első pályát lehet megoldani
 	- A generálásba az egyedi szabályok támogatásának megoldása (szópárok kilistázása, és a gyanús szavak egyedi szabályozása)
-	- A keresztrejtvényben a jelek felvétele, és megjelenítése előre, mint fix cella érték
+OK	- A keresztrejtvényben a jelek felvétele, és megjelenítése előre, mint fix cella érték
 	- A gyakorlás elősegítése céljából minden korábban lejátszott, és jól megoldott keresztrejtvény (level) legyen újrajátszható
 	- Hall of fame bevezetése esetleg
 OK - Új kínai készlet feltöltése
@@ -21,7 +21,7 @@ NemKell - keresés berakása a top rated nézetbe (flurry-vel, hogy mire kereste
 OK - gencw: elnevezések sorszámainak javítása, hogy jó legyen a sorrend.
 - gencw: generáláskor szógyűjtési szabályok felülvizsgálata (lásd kínai nyelvek separator problémái)
 	- itt esetleg lehetne nyelvfüggő szabályokat tenni az acw_config.json-be is.
-- németben a szavak névelőinek szeparálása
+OK - németben a szavak névelőinek szeparálása
 OK - Csomagok kicsontozása gencw-ben (hogy ne foglaljon akkora tárhelyet a drive-on)
 - Csomagok újragenerálása a kicsontozás fejlesztése után
 -

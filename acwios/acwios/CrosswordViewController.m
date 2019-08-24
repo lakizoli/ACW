@@ -498,12 +498,19 @@
 	return res;
 }
 
+-(BOOL)isAplhaNumericValue:(NSString*)value {
+	NSCharacterSet *charSet = [NSCharacterSet alphanumericCharacterSet];
+	NSRange r = [value rangeOfCharacterFromSet:charSet];
+	return r.location != NSNotFound;
+}
+
 -(void) fillLetterForCell:(CrosswordCell*)cell row:(uint32_t)row col:(uint32_t)col highlighted:(BOOL)highlighted currentCell:(BOOL)currentCell {
 	BOOL fillValue = NO;
+	NSString* cellOrigValue = [_savedCrossword getCellsValue:row col:col];
 	NSString* cellValue;
-	if (_areAnswersVisible) {
+	if (_areAnswersVisible || ![self isAplhaNumericValue:cellOrigValue]) {
 		fillValue = YES;
-		cellValue = [_savedCrossword getCellsValue:row col:col];
+		cellValue = cellOrigValue;
 	} else {
 		//Get value from current answer if available
 		if (_currentAnswer != nil) {
@@ -703,6 +710,14 @@
 	//Ensure visibility of value is under entering
 	[self ensureVisibleRow:selRow col:selCol];
 	
+	//Add next non alphanumeric char automatically
+	if (isNewStart) {
+		NSString *nextVal = [_savedCrossword getCellsValue:_startCellRow col:_startCellCol];
+		if (![self isAplhaNumericValue:nextVal]) {
+			[self insertText:nextVal];
+		}
+	}
+
 	//Highlight the word have to be enter
 	[_crosswordView reloadData];
 	
@@ -800,17 +815,33 @@
 			_currentAnswer = text;
 		}
 		
+		//Calculate next cell's coords
+		BOOL isHorizontalInput = [self isInputInHorizontalDirection];
+		uint32_t nextCol = 0;
+		uint32_t nextRow = 0;
+		if (isHorizontalInput) {
+			nextRow = _startCellRow;
+			nextCol = _startCellCol + (uint32_t) [_currentAnswer length];
+		} else {
+			nextRow = _startCellRow + (uint32_t) [_currentAnswer length];
+			nextCol = _startCellCol;
+		}
+		
 		//Ensure visibility of next char
-		if ([self isInputInHorizontalDirection]) {
-			uint32_t nextCol = _startCellCol + (uint32_t) [_currentAnswer length];
+		if (isHorizontalInput) {
 			if (nextCol < [_savedCrossword width]) {
 				[self ensureVisibleRow:_startCellRow col:nextCol];
 			}
 		} else {
-			uint32_t nextRow = _startCellRow + (uint32_t) [_currentAnswer length];
 			if (nextRow < [_savedCrossword height]) {
 				[self ensureVisibleRow:nextRow col:_startCellCol];
 			}
+		}
+		
+		//Add next non alphanumeric char automatically
+		NSString *nextVal = [_savedCrossword getCellsValue:nextRow col:nextCol];
+		if (![self isAplhaNumericValue:nextVal]) {
+			[self insertText:nextVal];
 		}
 	}
 	
