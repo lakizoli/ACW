@@ -11,7 +11,7 @@
 #import "Downloader.h"
 #import "NetPackConfig.h"
 #import "PackageManager.h"
-#import <Flurry.h>
+#import "NetLogger.h"
 
 #define NETPACK_CFG_ID				@"1DRdHyx9Pj6XtdPrKlpBmGo4BMz9ecbUR"
 
@@ -32,7 +32,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	[Flurry logEvent:@"Obtain_ShowView"];
+	[NetLogger logEvent:@"Obtain_ShowView"];
 	
 	//Init tab bar
 	[_tabBar setDelegate:self];
@@ -321,13 +321,13 @@
 	__block NetPackConfigItem *configItem = [_packageConfigs objectAtIndex:indexPath.row];
 	NSURL *url = [self getDownloadLinkForGoogleDrive:configItem.fileID];
 	
-	[Flurry logEvent:@"Obtain_NetPackage_Selected" withParameters:@{ @"label" : configItem.label, @"url" : [url absoluteString] }];
+	[NetLogger logEvent:@"Obtain_NetPackage_Selected" withParameters:@{ @"label" : configItem.label, @"url" : [url absoluteString] }];
 
 	[self downloadFileFromGoogleDrive:url
 							handleEnd:YES
 					   contentHandler:^(NSURL *downloadedFile, NSString *fileName)
 	{
-		[Flurry logEvent:@"Obtain_NetPackage_Downloaded" withParameters:@{ @"label" : configItem.label, @"url" : [url absoluteString], @"fileName" : fileName }];
+		[NetLogger logEvent:@"Obtain_NetPackage_Downloaded" withParameters:@{ @"label" : configItem.label, @"url" : [url absoluteString], @"fileName" : fileName }];
 
 		//Unzip downloaded file to packages
 		[[PackageManager sharedInstance] unzipDownloadedPackage:downloadedFile packageName:[fileName stringByDeletingPathExtension]];
@@ -362,12 +362,12 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
 		{
 			NSURL *url = [[navigationAction request] URL];
 			
-			[Flurry logEvent:@"Obtain_AnkiPackage_Selected" withParameters:@{ @"url" : [url absoluteString] }];
+			[NetLogger logEvent:@"Obtain_AnkiPackage_Selected" withParameters:@{ @"url" : [url absoluteString] }];
 
 			_downloader = [Downloader downloadFile:url progressHandler:^(uint64_t pos, uint64_t size) {
 				[self updateProgress:pos size:size];
 			} completionHandler:^(enum DownloadResult resultCode, NSURL *downloadedFile, NSString *fileName) {
-				[Flurry logEvent:@"Obtain_AnkiPackage_Downloaded" withParameters:@{ @"url" : [url absoluteString],
+				[NetLogger logEvent:@"Obtain_AnkiPackage_Downloaded" withParameters:@{ @"url" : [url absoluteString],
 																					@"fileName" : fileName,
 																					@"resultCode" : [NSNumber numberWithInt:resultCode] }];
 

@@ -7,7 +7,7 @@
 //
 
 #import "SubscriptionManager.h"
-#import <Flurry.h>
+#import "NetLogger.h"
 
 #ifdef TEST_PURCHASE
 @interface TestPaymentTransaction : SKPaymentTransaction
@@ -291,7 +291,7 @@
 	if (expiration == nil) {
 		static BOOL isSended1 = NO;
 		if (!isSended1) {
-			[Flurry logEvent:@"Subscription_NotSubscribed" withParameters:@{ @"expirationDate" : @"nil"  }];
+			[NetLogger logEvent:@"Subscription_NotSubscribed" withParameters:@{ @"expirationDate" : @"nil"  }];
 			isSended1 = YES;
 		}
 		
@@ -302,7 +302,7 @@
 	if ([expiration compare:cur] == NSOrderedDescending) {
 		static BOOL isSended2 = NO;
 		if (!isSended2) {
-			[Flurry logEvent:@"Subscription_Subscribed" withParameters:@{ @"expirationDate" : [expiration description], @"currentDate" : [cur description] }];
+			[NetLogger logEvent:@"Subscription_Subscribed" withParameters:@{ @"expirationDate" : [expiration description], @"currentDate" : [cur description] }];
 			isSended2 = YES;
 		}
 		
@@ -311,7 +311,7 @@
 	
 	static BOOL isSended3 = NO;
 	if (!isSended3) {
-		[Flurry logEvent:@"Subscription_NotSubscribed" withParameters:@{ @"expirationDate" : [expiration description] }];
+		[NetLogger logEvent:@"Subscription_NotSubscribed" withParameters:@{ @"expirationDate" : [expiration description] }];
 		isSended3 = YES;
 	}
 	
@@ -331,7 +331,7 @@
 }
 
 -(void) buyProduct:(SKProduct*)product {
-	[Flurry logEvent:@"Subscription_Buy" withParameters:@{ @"productIdentifier" : product.productIdentifier }];
+	[NetLogger logEvent:@"Subscription_Buy" withParameters:@{ @"productIdentifier" : product.productIdentifier }];
 
 #ifdef TEST_PURCHASE
 	//////////////////////////
@@ -368,7 +368,7 @@
 //TODO: implement restore of purchases
 
 -(void) restoreProducts {
-	[Flurry logEvent:@"Subscription_Restore"];
+	[NetLogger logEvent:@"Subscription_Restore"];
 
 #ifdef TEST_PURCHASE
 	//////////////////////////

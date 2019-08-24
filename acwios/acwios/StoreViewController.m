@@ -9,7 +9,7 @@
 #import "StoreViewController.h"
 #import "SubscriptionManager.h"
 #import "GlossyButton.h"
-#import <Flurry.h>
+#import "NetLogger.h"
 
 @interface StoreViewController ()
 
@@ -71,7 +71,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	[Flurry logEvent:@"Store_ShowView"];
+	[NetLogger logEvent:@"Store_ShowView"];
 	
     // Do any additional setup after loading the view.
 	_isInInnerDocument = NO;

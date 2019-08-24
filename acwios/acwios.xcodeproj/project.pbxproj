@@ -22,6 +22,7 @@
 		F0BA0906212AC97900A7F154 /* CrosswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0BA0905212AC97900A7F154 /* CrosswordViewController.m */; };
 		F0BA0909212ACBC200A7F154 /* CrosswordCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F0BA0908212ACBC200A7F154 /* CrosswordCell.m */; };
 		F0BA090C212AD40F00A7F154 /* CrosswordLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = F0BA090B212AD40F00A7F154 /* CrosswordLayout.m */; };
+		F0C30E0B2311019100D5DD67 /* NetLogger.mm in Sources */ = {isa = PBXBuildFile; fileRef = F0C30E0A2311019100D5DD67 /* NetLogger.mm */; };
 		F0C91BA4210C690000B06070 /* ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = F0C91BA3210C690000B06070 /* ProgressView.m */; };
 		F0DEE91C21660BDC0044DA44 /* StatisticsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0DEE91B21660BDC0044DA44 /* StatisticsViewController.m */; };
 		F0DEE95F21661A8C0044DA44 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0DEE95C21661A860044DA44 /* Charts.framework */; };
@@ -117,6 +118,8 @@
 		F0BA0908212ACBC200A7F154 /* CrosswordCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CrosswordCell.m; sourceTree = "<group>"; };
 		F0BA090A212AD40F00A7F154 /* CrosswordLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CrosswordLayout.h; sourceTree = "<group>"; };
 		F0BA090B212AD40F00A7F154 /* CrosswordLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CrosswordLayout.m; sourceTree = "<group>"; };
+		F0C30E092311019100D5DD67 /* NetLogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetLogger.h; sourceTree = "<group>"; };
+		F0C30E0A2311019100D5DD67 /* NetLogger.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = NetLogger.mm; sourceTree = "<group>"; };
 		F0C91BA2210C690000B06070 /* ProgressView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProgressView.h; sourceTree = "<group>"; };
 		F0C91BA3210C690000B06070 /* ProgressView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProgressView.m; sourceTree = "<group>"; };
 		F0DEE91A21660BDC0044DA44 /* StatisticsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StatisticsViewController.h; sourceTree = "<group>"; };
@@ -259,6 +262,8 @@
 				F09B2058210D7C9200398B2E /* PackageManager.mm */,
 				F086ACE922EA0B8E003BBA88 /* NetPackConfig.h */,
 				F086ACEA22EA0B8E003BBA88 /* NetPackConfig.mm */,
+				F0C30E092311019100D5DD67 /* NetLogger.h */,
+				F0C30E0A2311019100D5DD67 /* NetLogger.mm */,
 			);
 			name = BLL;
 			sourceTree = "<group>";
@@ -452,6 +457,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F0BA090C212AD40F00A7F154 /* CrosswordLayout.m in Sources */,
+				F0C30E0B2311019100D5DD67 /* NetLogger.mm in Sources */,
 				FD6ED59321382C3B00FCCAC7 /* DrawingCommon.m in Sources */,
 				F09B2056210D742B00398B2E /* SubscriptionManager.m in Sources */,
 				FD2197BB214110E900E6D396 /* KeyboardViewController.m in Sources */,
@@ -526,7 +532,6 @@
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
@@ -584,7 +589,6 @@
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;

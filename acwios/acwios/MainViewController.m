@@ -8,7 +8,7 @@
 
 #import "MainViewController.h"
 #import "CWConfiguratorViewController.h"
-#import <Flurry.h>
+#import "NetLogger.h"
 
 @interface MainViewController ()
 
@@ -21,7 +21,7 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
-	[Flurry logEvent:@"Main_ShowView"];
+	[NetLogger logEvent:@"Main_ShowView"];
 	
 	// Do any additional setup after loading the view, typically from a nib.
 	// Set vertical effect

@@ -10,7 +10,7 @@
 #import "SubscriptionManager.h"
 #import "PackageManager.h"
 #import "ProgressView.h"
-#import <Flurry.h>
+#import "NetLogger.h"
 
 @interface CWGeneratorViewController ()
 
@@ -135,7 +135,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	[Flurry logEvent:@"GenCW_ShowView"];
+	[NetLogger logEvent:@"GenCW_ShowView"];
 	
     // Do any additional setup after loading the view.
 	_generatorInfo = [[PackageManager sharedInstance] collectGeneratorInfo:_decks];
@@ -176,13 +176,13 @@
 }
 
 - (IBAction)backButtorPressed:(id)sender {
-	[Flurry logEvent:@"GenCW_BackPressed"];
+	[NetLogger logEvent:@"GenCW_BackPressed"];
 
 	[self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)doneButtonPressed:(id)sender {
-	[Flurry logEvent:@"GenCW_DonePressed"];
+	[NetLogger logEvent:@"GenCW_DonePressed"];
 
 	//Resign first responders
 	if ([_textCrosswordName isFirstResponder]) {
