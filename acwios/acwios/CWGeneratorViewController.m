@@ -241,7 +241,7 @@
 				[[PackageManager sharedInstance] reloadUsedWords:packagePath info:self->_generatorInfo];
 
 				//Add counted name to info
-				NSString *countedName = [baseName stringByAppendingString:[NSString stringWithFormat:@" - {%d}", ++idx]];
+				NSString *countedName = [baseName stringByAppendingString:[NSString stringWithFormat:@" - {%4d}", ++idx]];
 				[self->_generatorInfo setCrosswordName:countedName];
 			}
 			
