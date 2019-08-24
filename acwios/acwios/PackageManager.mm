@@ -412,8 +412,6 @@
 		return nil;
 	}
 	
-	//TODO: ... filter available question and solution fields for the easyly usability into the picker ...
-	
 	//Collect most decks with same modelID (all of them have to be the same, but not guaranteed!)
 	__block NSURL *packagePath;
 	__block std::vector<std::shared_ptr<CardList>> cardListsOfDecks;
@@ -463,9 +461,9 @@
 
 	//Collect generator info
 	GeneratorInfo *info = [[GeneratorInfo alloc] init];
-	info.splitArray = @[@";", @"<br", @"/>", @"<div>", @"</div>",
-						@"<span>", @"</span>", @"*", @"\r", @"\n", @",", @"(", @")",
-						@"[", @"]", @"{", @"}"];
+	info.splitArray = @[@";", @"\uff1b", @"<br", @"/>", @"<div>", @"</div>",
+						@"<span>", @"</span>", @"*", @"\r", @"\n", @",", @"\uff0c", @"(", @"\uff08", @")", @"\uff09",
+						@"[", @"\uff3b", @"]", @"\uff3d", @"{", @"\uff5b", @"}", @"\uff5d"];
 	info.solutionsFixes = [NSDictionary new];
 
 	auto itDeckIndices = deckIndicesByModelID.find (choosenModelID);
