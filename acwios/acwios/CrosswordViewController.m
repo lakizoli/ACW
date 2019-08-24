@@ -148,13 +148,18 @@
 				
 				//Save filled values
 				[_savedCrossword saveFilledValues:_cellFilledValues];
-				
+
 				//Sign committed result
 				answerCommitted = YES;
 			}
 		}
 		
 		if (answerCommitted) {
+			//Send netlog
+			if ([_cellFilledValues count] == 1) { //First word committed
+				[NetLogger logEvent:@"Crossword_FirstFilled"];
+			}
+
 			//Determine filled state
 			[self calculateFillRatio:&_isFilled];
 			
@@ -268,6 +273,9 @@
 	//Save statistics
 	[self saveStatistics:1.0 isFilled:YES];
 	
+	//Send netlog
+	[NetLogger logEvent:@"Crossword_Win"];
+	
 	//Start emitters
 	CGRect frame = [[self view] frame];
 	__block CGSize size = CGSizeMake (frame.size.width / 2.0 * 0.8, 2.0 * frame.size.height / 3.0 * 0.8);
@@ -343,7 +351,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	[NetLogger logEvent:@"Crossword_ShowView"];
+	[NetLogger logEvent:@"Crossword_ShowView" withParameters:@{ @"package" : [_savedCrossword packageName],
+																@"name" : [_savedCrossword name] }];
 	
     // Uncomment the following line to preserve selection between presentations
     // self.clearsSelectionOnViewWillAppear = NO;

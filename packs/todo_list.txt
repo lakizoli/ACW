@@ -8,11 +8,11 @@
 	- Hall of fame bevezetése esetleg
 OK - Új kínai készlet feltöltése
 OK - Feltöltött csomagok méretének javítása a packs.json-ben
-- flurry üzenetek kiszedése a szimulátorból (osztályba rakás, és feltételes futás)
+OK - flurry üzenetek kiszedése a szimulátorból (osztályba rakás, és feltételes futás)
 - flurry üzenet rakása a következő helyekre:
-	- vásárlás eredményeihez
-	- crossword show üzenetben a cw nevét át kell küldeni
-	- crossword show nézetben részletes üzenetek küldése (játék vége, első szó kitöltése, betűk írása)
+OK	- vásárlás eredményeihez
+OK	- crossword show üzenetben a cw nevét át kell küldeni
+OK	- crossword show nézetben részletes üzenetek küldése (játék vége, első szó kitöltése, betűk írása)
 	- wished language view
 NemKell - meg kell oldani, hogy csak egy cw-t lehessen demo-ként megnézni egy csomagban. Ha letörlik, akkor ne lehessen másik elérhető...
 NemKell - keresés berakása a top rated nézetbe (flurry-vel, hogy mire kerestek)

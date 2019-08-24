@@ -433,18 +433,21 @@
 			case SKPaymentTransactionStatePurchased:
 				if ([self storePurchaseDate:transaction.transactionDate productID:transaction.payment.productIdentifier]) {
 					[queue finishTransaction:transaction];
+					[NetLogger logEvent:@"Subscription_End_Purchased" withParameters:@{ @"productIdentifier" : transaction.payment.productIdentifier }];
 					[self showOKAlert:@"Subscription purchased successfully!" title:@"Success"];
 				}
 				break;
 			case SKPaymentTransactionStateRestored:
 				if ([self storePurchaseDate:transaction.transactionDate productID:transaction.payment.productIdentifier]) {
 					[queue finishTransaction:transaction];
+					[NetLogger logEvent:@"Subscription_End_Restored" withParameters:@{ @"productIdentifier" : transaction.payment.productIdentifier }];
 					[self showOKAlert:@"Subscription restored successfully!" title:@"Success"];
 				}
 				break;
 			case SKPaymentTransactionStateFailed:
 				[errors addObject:[transaction error]];
 				[queue finishTransaction:transaction]; //Consume transactions with error!
+				[NetLogger logEvent:@"Subscription_End_Failed" withParameters:@{ @"error" : [transaction error] }];
 				break;
 			default:
 				// For debugging
