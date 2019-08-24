@@ -13,3 +13,6 @@ spiderchase.VC.VC.opendb
 **/xcuserdata
 Pods
 PodFile.lock
+**/*.zip
+**/*.apkg
+
