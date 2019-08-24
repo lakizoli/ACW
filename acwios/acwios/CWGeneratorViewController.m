@@ -167,7 +167,11 @@
 	[self updatePickerLabel:_labelQuestion withText:@"Question field:" andExample:[pacMan trimQuestionField: fieldValue]];
 	
 	fieldValue = [self getFieldValue:_solutionFieldIndex];
-	[self updatePickerLabel:_labelSolution withText:@"Solution field:" andExample:[pacMan trimSolutionField: fieldValue]];
+	[self updatePickerLabel:_labelSolution
+				   withText:@"Solution field:"
+				 andExample:[pacMan trimSolutionField: fieldValue
+											 splitArr:_generatorInfo.splitArray
+										solutionFixes:_generatorInfo.solutionsFixes]];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -356,7 +360,11 @@
 		_questionFieldIndex = row;
 	} else if (pickerView == _pickerSolution) {
 		NSString *fieldValue = [self getFieldValue:row];
-		[self updatePickerLabel:_labelSolution withText:@"Solution field:" andExample:[[PackageManager sharedInstance] trimSolutionField:fieldValue]];
+		[self updatePickerLabel:_labelSolution
+					   withText:@"Solution field:"
+					 andExample:[[PackageManager sharedInstance] trimSolutionField:fieldValue
+																		  splitArr:_generatorInfo.splitArray
+																	 solutionFixes:_generatorInfo.solutionsFixes]];
 		_solutionFieldIndex = row;
 	}
 }

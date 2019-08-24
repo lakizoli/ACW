@@ -24,7 +24,7 @@
 -(void)reloadUsedWords:(NSURL*)packagePath info:(GeneratorInfo*)info;
 
 -(NSString*)trimQuestionField:(NSString*)questionField;
--(NSString*)trimSolutionField:(NSString*)solutionField;
+-(NSString*)trimSolutionField:(NSString*)solutionField splitArr:(NSArray<NSString*>*)splitArr solutionFixes:(NSDictionary<NSString*, NSString*>*)solutionFixes;
 -(BOOL)generateWithInfo:(GeneratorInfo*)info progressCallback:(void(^)(float, BOOL*))progressCallback;
 
 @end
