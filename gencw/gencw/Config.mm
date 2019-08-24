@@ -40,6 +40,26 @@
 	return [[_json objectForKey:@"solution"] unsignedIntegerValue];
 }
 
+-(BOOL)hasSplitArray {
+	return [[self getSplitArray] count] > 0;
+}
+
+-(NSArray<NSString*>*) getSplitArray {
+	NSArray<NSString*> *splitArr = [_json objectForKey:@"splitArray"];
+	if (splitArr) {
+		return splitArr;
+	}
+	return [NSArray new];
+}
+
+-(NSDictionary<NSString*,NSString*>*)getSolutionFixes {
+	NSDictionary<NSString*,NSString*>* res = [_json objectForKey:@"solutionFixes"];
+	if (res) {
+		return res;
+	}
+	return [NSDictionary new];
+}
+
 @end
 
 @implementation Config {

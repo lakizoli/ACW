@@ -285,6 +285,10 @@ int main (int argc, const char * argv[]) {
 			[generatorInfo setHeight:[packageConfig getHeight]];
 			[generatorInfo setQuestionFieldIndex:[packageConfig getQuestionIndex]];
 			[generatorInfo setSolutionFieldIndex:[packageConfig getSolutionIndex]];
+			if ([packageConfig hasSplitArray]) {
+				[generatorInfo setSplitArray:[packageConfig getSplitArray]];
+			}
+			[generatorInfo setSolutionsFixes:[packageConfig getSolutionFixes]];
 			
 			//Generate crosswords
 			GenerateCrosswords (baseName, package, generatorInfo);

@@ -463,7 +463,11 @@
 
 	//Collect generator info
 	GeneratorInfo *info = [[GeneratorInfo alloc] init];
-	
+	info.splitArray = @[@";", @"<br", @"/>", @"<div>", @"</div>",
+						@"<span>", @"</span>", @"*", @"\r", @"\n", @",", @"(", @")",
+						@"[", @"]", @"{", @"}"];
+	info.solutionsFixes = [NSDictionary new];
+
 	auto itDeckIndices = deckIndicesByModelID.find (choosenModelID);
 	if (itDeckIndices == deckIndicesByModelID.end ()) {
 		return nil;
@@ -570,7 +574,15 @@
 	return field;
 }
 
--(NSString*) trimSolutionField:(NSString*)solutionField {
+-(NSString*) trimSolutionField:(NSString*)solutionField
+					  splitArr:(NSArray<NSString*>*)splitArr
+				 solutionFixes:(NSDictionary<NSString*, NSString*>*)solutionFixes
+{
+	NSString* fixedSolution = [solutionFixes objectForKey:solutionField];
+	if (fixedSolution) {
+		return fixedSolution;
+	}
+	
 	__block NSString *field = [solutionField stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 	
 	//Try to detect HTML content
@@ -585,24 +597,22 @@
 		}
 	}
 	
+	//Replace chars in word
+	NSDictionary<NSString*, NSString*> *replacePairs = @{ @"&nbsp;" : @" ",
+														  @"  " : @" "
+														  };
+	[replacePairs enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull obj, BOOL * _Nonnull stop) {
+		field = [field stringByReplacingOccurrencesOfString:key withString:obj];
+	}];
+	
 	//Pull word out from garbage
-	NSArray<NSString*> *splitArr = @[@" ", @"&nbsp;", @";", @"<br", @"/>", @"<div>", @"</div>",
-									 @"<span>", @"</span>", @"*", @"\r", @"\n", @",", @"(", @")",
-									 @"[", @"]", @"{", @"}"];
+//	NSArray<NSString*> *splitArr = @[@";", @"<br", @"/>", @"<div>", @"</div>",
+//									 @"<span>", @"</span>", @"*", @"\r", @"\n", @",", @"(", @")",
+//									 @"[", @"]", @"{", @"}"];
 	[splitArr enumerateObjectsUsingBlock:^(NSString*  _Nonnull splitStr, NSUInteger idx, BOOL * _Nonnull stop) {
 		NSString *trimmed = [field stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 		NSArray<NSString*> *items = [trimmed componentsSeparatedByString:splitStr];
 		if ([items count] > 0) {
-			if ([items count] > 1) { //Test german content
-				NSString *prefix = [items objectAtIndex:0];
-				if ([prefix isEqualToString:@"der"] || [prefix isEqualToString:@"die"] || [prefix isEqualToString:@"das"] ||
-					[prefix isEqualToString:@"den"] || [prefix isEqualToString:@"dem"] || [prefix isEqualToString:@"des"])
-				{
-					field = [prefix stringByAppendingString:[items objectAtIndex:1]];
-					return;
-				}
-			}
-			
 			field = [items objectAtIndex:0];
 		} else {
 			field = trimmed;
@@ -632,9 +642,10 @@
 	
 	__block std::vector<std::wstring> questionFieldValues;
 	__block std::vector<std::wstring> solutionFieldValues;
+	__block NSMutableSet<NSString*> *solutionFieldFilter = [NSMutableSet new];
 	[[info cards] enumerateObjectsUsingBlock:^(Card * _Nonnull card, NSUInteger idx, BOOL * _Nonnull stop) {
-		NSString *solutionVal = [[[card fieldValues] objectAtIndex:[info solutionFieldIndex]] lowercaseString];
-		solutionVal = [self trimSolutionField:solutionVal];
+		NSString *origSolutionVal = [[[card fieldValues] objectAtIndex:[info solutionFieldIndex]] lowercaseString];
+		NSString *solutionVal = [self trimSolutionField:origSolutionVal splitArr:info.splitArray solutionFixes:info.solutionsFixes];
 		if ([solutionVal length] <= 0) {
 			return;
 		}
@@ -644,10 +655,16 @@
 		if ([questionVal length] <= 0) {
 			return;
 		}
+		
+		if ([solutionFieldFilter containsObject: solutionVal]) { //Filter duplicated solution values
+			return;
+		}
+		[solutionFieldFilter addObject:solutionVal];
+//		NSLog (@"%@ -> %@", origSolutionVal, solutionVal);
 
 		NSData *valData = [solutionVal dataUsingEncoding:NSUTF32LittleEndianStringEncoding];
 		solutionFieldValues.push_back (std::wstring ((const wchar_t*) [valData bytes], [valData length] / sizeof (wchar_t)));
-
+		
 		valData = [questionVal dataUsingEncoding:NSUTF32LittleEndianStringEncoding];
 		questionFieldValues.push_back (std::wstring ((const wchar_t*) [valData bytes], [valData length] / sizeof (wchar_t)));
 	}];

@@ -17,6 +17,9 @@ NS_ASSUME_NONNULL_BEGIN
 -(NSUInteger)getHeight;
 -(NSUInteger)getQuestionIndex;
 -(NSUInteger)getSolutionIndex;
+-(BOOL)hasSplitArray;
+-(NSArray<NSString*>*) getSplitArray;
+-(NSDictionary<NSString*,NSString*>*)getSolutionFixes;
 
 @end
 

@@ -1,19 +1,58 @@
 {
-	"outputPath":"/Users/zoli/work/temp/acw_packs",
+	"outputPath":"/Users/zoli/work/temp/packs",
 
 	"Erwin_Tschirner_Angol_szkincs_-_en-hu" : {
 		"basename": "en -> hu",
 		"width": 20,
 		"height": 20,
 		"question": 0,
-		"solution": 6
+		"solution": 6,
+		"solutionFixes": {
+			"-hat, -het<br />lehet/szabad (vmit tennie)" : "-hat -het",
+			"-na, -ne, -ná, -né": "-na -ne -ná -né",
+			"akár..., akár nem<br />ha..., ha nem" : "akár",
+			"vkitől/vmitől&nbsp;eltérően" : "valamitől eltérően",
+			"-val, -vel" : "-val -vel",
+			"-ról, -ról" : "-ról -ről",
+			"ami ...-t illeti" : "ami (azt) illeti",
+			"-ból, -ből<br />-tól,&nbsp;-től<br />-ról, ről" : "-ból -ből -tól -től -ról -ről",
+			"-ba, -be<br />bele" : "-ba -be",
+			"-ra, -re<br />rá" : "-ra -re",
+			"... éves korú" : "(x) éves korú",
+			"mű-<br />utánzott<br />mesterséges" : "mesterséges",
+			"kitesz vmnek" : "kitesz valaminek",
+			"tömeg-<br />köz-" : "tömeg- köz-",
+			"elnök-<br />elnöki" : "elnöki",
+			"választó-<br />választói" : "választói",
+			"halló!<br />hello!<br />szia!" : "szia!",
+			"szüksége&nbsp;van vmire" : "szüksége van valamire",
+			"eleget tesz vminek<br />kielégít vmit" : "eleget tesz valaminek",
+			"keresztülmegy vmin<br />aláveti magát vminek" : "keresztülmegy valamin",
+			"elme-<br />értelmi<br />szellemi" : "értelmi",
+			"test-<br />testi<br />fizikai" : "testi",
+			"az ő vmijük" : "az ő valamijük",
+			"aki(k)nek a" : "akinek a valamije",
+			"a te vmid<br />a ti vmitek" : "a te valamid",
+			"az én vmim" : "az én valamim",
+			"a mi vmink" : "a mi valamink",
+			"az ő (nőnemű) vmije" : "az ő valamije",
+			"-ban<br />-ben" : "-ban -ben",
+			"tenger-<br />tengeri" : "tengeri",
+			"környezet-<br />környezeti" : "környezeti",
+			"bent, a házban<br />be, a házba" : "bent, a házban",
+			"iker-<br />ikertestvér" : "ikertestvér",
+			"szülő-<br />anya-" : "anya-"
+		}
 	},
 	"Erwin_Tschirner_Angol_szkincs_-_hu-en" : {
 		"basename": "hu -> en",
 		"width": 20,
 		"height": 20,
 		"question": 6,
-		"solution": 0
+		"solution": 0,
+		"solutionFixes": {
+			"there is/are" : "there is"
+		}
 	},
 	"Spanish_Top_5000_Vocabulary_en_sp" : {
 		"basename": "en -> sp",

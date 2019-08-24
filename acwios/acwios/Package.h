@@ -44,6 +44,8 @@
 @property (assign) NSUInteger height;
 @property (assign) NSUInteger questionFieldIndex;
 @property (assign) NSUInteger solutionFieldIndex;
+@property (strong) NSArray<NSString*> *splitArray;
+@property (strong) NSDictionary<NSString*, NSString*> *solutionsFixes;
 
 @end
 
