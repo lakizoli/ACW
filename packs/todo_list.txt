@@ -13,6 +13,7 @@ OK - flurry üzenetek kiszedése a szimulátorból (osztályba rakás, és felt�
 OK	- vásárlás eredményeihez
 OK	- crossword show üzenetben a cw nevét át kell küldeni
 OK	- crossword show nézetben részletes üzenetek küldése (játék vége, első szó kitöltése, betűk írása)
+OK	- package, ill. cw törlés
 	- wished language view
 NemKell - meg kell oldani, hogy csak egy cw-t lehessen demo-ként megnézni egy csomagban. Ha letörlik, akkor ne lehessen másik elérhető...
 NemKell - keresés berakása a top rated nézetbe (flurry-vel, hogy mire kerestek)
@@ -23,5 +24,4 @@ OK - gencw: elnevezések sorszámainak javítása, hogy jó legyen a sorrend.
 - németben a szavak névelőinek szeparálása
 OK - Csomagok kicsontozása gencw-ben (hogy ne foglaljon akkora tárhelyet a drive-on)
 - Csomagok újragenerálása a kicsontozás fejlesztése után
--
 -

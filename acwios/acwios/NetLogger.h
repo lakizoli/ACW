@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NetLogger : NSObject
 
++(void)startSession;
 +(void)logEvent:(NSString *)eventName;
 +(void)logEvent:(NSString *)eventName withParameters:(NSDictionary<NSString *,NSObject *> *)params;
 

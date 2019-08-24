@@ -100,6 +100,11 @@
 			}
 			
 			if (answerLen == len && validAnswerFound) { //We have a valid answer
+				//Send netlog
+				if ([_cellFilledValues count] == 0) { //First word committed
+					[NetLogger logEvent:@"Crossword_FirstFilled"];
+				}
+				
 				//Copy values to grid
 				for (NSUInteger i = 0; i < len; ++i) {
 					NSString *val = [NSString stringWithFormat: @"%C", [_currentAnswer characterAtIndex:i]];
@@ -139,6 +144,11 @@
 			}
 			
 			if (answerLen == len && validAnswerFound) { //We have a valid answer
+				//Send netlog
+				if ([_cellFilledValues count] == 0) { //First word committed
+					[NetLogger logEvent:@"Crossword_FirstFilled"];
+				}
+
 				//Copy values to grid
 				for (NSUInteger i = 0; i < len; ++i) {
 					NSString *val = [NSString stringWithFormat: @"%C", [_currentAnswer characterAtIndex:i]];
@@ -155,11 +165,6 @@
 		}
 		
 		if (answerCommitted) {
-			//Send netlog
-			if ([_cellFilledValues count] == 1) { //First word committed
-				[NetLogger logEvent:@"Crossword_FirstFilled"];
-			}
-
 			//Determine filled state
 			[self calculateFillRatio:&_isFilled];
 			
@@ -397,6 +402,9 @@
 	[self mergeStatistics];
 	[_savedCrossword unloadDB];
 	[self dismissViewControllerAnimated:YES completion:nil];
+	
+	//Send netlog
+	[NetLogger logEvent:@"Crossword_BackPressed"];
 }
 
 - (IBAction)showHideButtonPressed:(id)sender {
@@ -406,6 +414,9 @@
 	
 	if (_areAnswersVisible) {
 		++_hintCount;
+		
+		//Send netlog
+		[NetLogger logEvent:@"Crossword_HintShow"];
 	}
 }
 
@@ -417,6 +428,9 @@
 	//Reset statistics
 	[self resetStatistics];
 	[_savedCrossword resetStatistics];
+	
+	//Send netlog
+	[NetLogger logEvent:@"Crossword_ResetPressed"];
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {

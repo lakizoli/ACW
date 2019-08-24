@@ -66,6 +66,9 @@
 			SavedCrossword *cw = [self savedCWFromIndexPath:indexPath];
 			[cw eraseFromDisk];
 			
+			[NetLogger logEvent:@"ChooseCW_DeleteCW" withParameters:@{ @"packageName" : [cw packageName],
+																	   @"name" : [cw name] }];
+			
 			self->_savedCrosswords = [[PackageManager sharedInstance] collectSavedCrosswords];
 			[self->_crosswordTable reloadData];
 		}];

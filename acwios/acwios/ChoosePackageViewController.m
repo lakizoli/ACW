@@ -107,6 +107,8 @@
 														style:UIAlertActionStyleDestructive
 													  handler:^(UIAlertAction * _Nonnull action)
 		{
+			[NetLogger logEvent:@"ChoosePackage_DeletePackage" withParameters:@{ @"package" : [[package path] lastPathComponent] }];
+
 			NSError *err = nil;
 			if ([[NSFileManager defaultManager] removeItemAtURL:[package path] error:&err] != YES) {
 				NSLog (@"Cannot remove package at path: %@, error: %@", [package path], err);

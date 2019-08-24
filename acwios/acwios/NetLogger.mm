@@ -12,6 +12,20 @@
 
 @implementation NetLogger
 
++(void)startSession {
+#if TARGET_OS_SIMULATOR
+	NSLog (@"Netlogger started");
+#else
+	FlurrySessionBuilder* builder = [[[[[FlurrySessionBuilder new]
+										withLogLevel:FlurryLogLevelCriticalOnly]
+									   withCrashReporting:YES]
+									  withSessionContinueSeconds:10]
+									 withAppVersion:@"1.1.1"];
+	
+	[Flurry startSession:@"9P9572XC7M7B686598VW" withSessionBuilder:builder];
+#endif
+}
+
 +(void)logEvent:(NSString *)eventName {
 #if TARGET_OS_SIMULATOR
 	NSLog (@"NetLogger event: %@", eventName);

@@ -235,9 +235,13 @@
 			}
 			case DownloadResult_Failed:
 				showFailedAlert = YES;
+				[NetLogger logEvent:@"Obtain_NetPackage_Failed" withParameters:@{ @"url" : [url absoluteString] }];
 				break;
 			case DownloadResult_Cancelled:
+				[NetLogger logEvent:@"Obtain_NetPackage_Cancelled" withParameters:@{ @"url" : [url absoluteString] }];
+				break;
 			default:
+				[NetLogger logEvent:@"Obtain_NetPackage_Unknown" withParameters:@{ @"url" : [url absoluteString] }];
 				break;
 		}
 		
@@ -390,9 +394,13 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
 					}
 					case DownloadResult_Failed:
 						showFailedAlert = YES;
+						[NetLogger logEvent:@"Obtain_AnkiPackage_Failed" withParameters:@{ @"url" : [url absoluteString] }];
 						break;
 					case DownloadResult_Cancelled:
+						[NetLogger logEvent:@"Obtain_AnkiPackage_Cancelled" withParameters:@{ @"url" : [url absoluteString] }];
+						break;
 					default:
+						[NetLogger logEvent:@"Obtain_AnkiPackage_Unknown" withParameters:@{ @"url" : [url absoluteString] }];
 						break;
 				}
 				
