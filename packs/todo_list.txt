@@ -19,9 +19,9 @@ NemKell - meg kell oldani, hogy csak egy cw-t lehessen demo-ként megnézni egy 
 NemKell - keresés berakása a top rated nézetbe (flurry-vel, hogy mire kerestek)
 - wished language view berakása az obtain nézetbe (ahol flurry-ben elküldheti, milyen nyelvet szeretne látni)
 OK - gencw: elnevezések sorszámainak javítása, hogy jó legyen a sorrend.
-- gencw: generáláskor szógyűjtési szabályok felülvizsgálata (lásd kínai nyelvek separator problémái)
-	- itt esetleg lehetne nyelvfüggő szabályokat tenni az acw_config.json-be is.
+OK - gencw: generáláskor szógyűjtési szabályok felülvizsgálata (lásd kínai nyelvek separator problémái)
+OK	- itt esetleg lehetne nyelvfüggő szabályokat tenni az acw_config.json-be is.
 OK - németben a szavak névelőinek szeparálása
 OK - Csomagok kicsontozása gencw-ben (hogy ne foglaljon akkora tárhelyet a drive-on)
-- Csomagok újragenerálása a kicsontozás fejlesztése után
+OK - Csomagok újragenerálása a kicsontozás fejlesztése után
 -

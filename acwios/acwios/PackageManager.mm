@@ -658,7 +658,7 @@
 			return;
 		}
 		[solutionFieldFilter addObject:solutionVal];
-//		NSLog (@"%@ -> %@", origSolutionVal, solutionVal);
+//		NSLog (@"%@ |||| %@", origSolutionVal, solutionVal);
 
 		NSData *valData = [solutionVal dataUsingEncoding:NSUTF32LittleEndianStringEncoding];
 		solutionFieldValues.push_back (std::wstring ((const wchar_t*) [valData bytes], [valData length] / sizeof (wchar_t)));
