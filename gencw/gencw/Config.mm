@@ -20,6 +20,10 @@
 	return self;
 }
 
+-(NSString*)getPackageTitle {
+	return [_json objectForKey:@"packageTitle"];
+}
+
 -(NSString*)getBaseName {
 	return [_json objectForKey:@"basename"];
 }

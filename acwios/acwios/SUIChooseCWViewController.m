@@ -167,12 +167,18 @@
 	CWCell *cell = (CWCell*) [tableView dequeueReusableCellWithIdentifier:@"CWCell" forIndexPath:indexPath];
 	if (cell && indexPath.row >= 0 && indexPath.row < [_sortedPackageNames count]) {
 		NSString *packageName = [_sortedPackageNames objectAtIndex:indexPath.row];
+		Package *pack = [_packages objectForKey:packageName];
 		
 		BOOL cwEnabled = indexPath.row < 1 || _isSubscribed;
 		[cell setSubscribed:cwEnabled];
 		
-		[cell.packageName setText:packageName];
-		[cell.statistics setText:[NSString stringWithFormat:@"%lu of %lu levels (%lu of %lu words) solved", 0ul, 0ul, 0ul, 0ul]];
+		NSString *title = [pack.state.overriddenPackageName length] > 0 ? pack.state.overriddenPackageName : packageName;
+		[cell.packageName setText:title];
+		[cell.statistics setText:[NSString stringWithFormat:@"%lu of %lu levels (%lu of %lu words) solved",
+								  pack.state.filledLevel,
+								  pack.state.levelCount,
+								  pack.state.filledWordCount,
+								  pack.state.wordCount]];
 
 		if (cwEnabled) {
 			[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];

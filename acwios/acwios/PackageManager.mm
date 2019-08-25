@@ -288,6 +288,10 @@
 	return result;
 }
 
+-(NSURL*)packageStateURL:(NSURL*)packURL {
+	return [packURL URLByAppendingPathComponent:@"gamestate.json"];
+}
+
 -(NSArray<Package*>*) collectPackages {
 	NSURL *docDir = [self documentPath];
 	NSURL *dbDir = [self databasePath];
@@ -315,10 +319,18 @@
 			[[pack decks] addObject:deck];
 		}
 		
+		GameState *state = [[GameState alloc] init];
+		[state loadFromURL:[self packageStateURL:[pack path]]];
+		[pack setState:state];
+		
 		[result addObject:pack];
 	}
 	
 	return result;
+}
+
+-(void)savePackageState:(Package*)pack {
+	[[pack state] saveToURL:[self packageStateURL:[pack path]]];
 }
 
 #pragma mark - Collecting saved crosswords of package

@@ -19,6 +19,7 @@
 -(void)unzipDownloadedPackage:(NSURL*)downloadedPackagePath packageName:(NSString*)packageName;
 
 -(NSArray<Package*>*)collectPackages;
+-(void)savePackageState:(Package*)pack;
 -(NSDictionary<NSString*, NSArray<SavedCrossword*>*>*)collectSavedCrosswords;
 -(GeneratorInfo*)collectGeneratorInfo:(NSArray<Deck*>*)decks;
 -(void)reloadUsedWords:(NSURL*)packagePath info:(GeneratorInfo*)info;

@@ -105,6 +105,60 @@
 
 @end
 
+@implementation GameState
+
+-(id) init {
+	self = [super init];
+	if (self) {
+		_filledWordCount = 0;
+		_wordCount = 0;
+		_filledLevel = 0;
+		_levelCount = 0;
+	}
+	return self;
+}
+
+-(void) loadFromURL:(NSURL*)url {
+	NSData *data = [NSData dataWithContentsOfURL:url];
+	if (data == nil) {
+		return;
+	}
+	
+	NSError* error = nil;
+	NSDictionary* json = [NSJSONSerialization JSONObjectWithData:data
+														 options:0
+														   error:&error];
+	if (error != nil) {
+		return;
+	}
+
+	_crosswordName = [json objectForKey:@"crosswordName"];
+	_overriddenPackageName = [json objectForKey:@"overriddenPackageName"];
+	_filledWordCount = [[json objectForKey:@"filledWordCount"] unsignedIntegerValue];
+	_wordCount = [[json objectForKey:@"wordCount"] unsignedIntegerValue];
+	_filledLevel = [[json objectForKey:@"filledLevel"] unsignedIntegerValue];
+	_levelCount = [[json objectForKey:@"levelCount"] unsignedIntegerValue];
+}
+
+-(void) saveToURL:(NSURL*)url {
+	NSDictionary *json = @{@"crosswordName" : _crosswordName,
+						   @"overriddenPackageName" : _overriddenPackageName,
+						   @"filledWordCount" : [NSNumber numberWithUnsignedInteger:_filledWordCount],
+						   @"wordCount" : [NSNumber numberWithUnsignedInteger:_wordCount],
+						   @"filledLevel" : [NSNumber numberWithUnsignedInteger:_filledLevel],
+						   @"levelCount" : [NSNumber numberWithUnsignedInteger:_levelCount] };
+	
+	NSError *error = nil;
+	NSData *data = [NSJSONSerialization dataWithJSONObject:json options:0 error:&error];
+	if (error != nil) {
+		return;
+	}
+	
+	[data writeToURL:url atomically:YES];
+}
+
+@end
+
 @implementation Package
 
 -(id) init {

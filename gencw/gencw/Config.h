@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PackageConfig : NSObject
 
+-(NSString*)getPackageTitle;
 -(NSString*)getBaseName;
 -(NSUInteger)getWidth;
 -(NSUInteger)getHeight;

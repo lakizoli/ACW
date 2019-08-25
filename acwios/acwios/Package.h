@@ -57,11 +57,26 @@
 
 @end
 
+@interface GameState : NSObject
+
+@property (strong) NSString* crosswordName;
+@property (strong) NSString* overriddenPackageName;
+@property (assign) NSUInteger filledWordCount;
+@property (assign) NSUInteger wordCount;
+@property (assign) NSUInteger filledLevel;
+@property (assign) NSUInteger levelCount;
+
+-(void) loadFromURL:(NSURL*)url;
+-(void) saveToURL:(NSURL*)url;
+
+@end
+
 @interface Package : NSObject
 
 @property (strong) NSURL *path;
 @property (strong) NSString *name;
 @property (strong) NSMutableArray<Deck*> *decks;
+@property (strong) GameState* state;
 
 @end
 

@@ -2,6 +2,7 @@
 	"outputPath":"/Users/zoli/work/temp/packs",
 
 	"Erwin_Tschirner_Angol_szkincs_-_en-hu" : {
+		"packageTitle" : "English -> Hungarian",
 		"basename": "en -> hu",
 		"width": 20,
 		"height": 20,
@@ -45,6 +46,7 @@
 		}
 	},
 	"Erwin_Tschirner_Angol_szkincs_-_hu-en" : {
+		"packageTitle" : "Hungarian -> English",
 		"basename": "hu -> en",
 		"width": 20,
 		"height": 20,
@@ -55,6 +57,7 @@
 		}
 	},
 	"Spanish_Top_5000_Vocabulary_en_sp" : {
+		"packageTitle" : "English -> Spanish",
 		"basename": "en -> sp",
 		"width": 20,
 		"height": 20,
@@ -70,6 +73,7 @@
 		}
 	},
 	"Spanish_Top_5000_Vocabulary_sp_en" : {
+		"packageTitle" : "Spanish -> English",
 		"basename": "sp -> en",
 		"width": 20,
 		"height": 20,
@@ -93,6 +97,7 @@
 		}
 	},
 	"ChineseEnglish_-_Comprehensive_Compilation_-_With_Examples_ch_en" : {
+		"packageTitle" : "Chinese -> English",
 		"basename": "cn -> en",
 		"width": 20,
 		"height": 20,
@@ -100,6 +105,7 @@
 		"solution": 2
 	},
 	"ChineseEnglish_-_Comprehensive_Compilation_-_With_Examples_en_ch" : {
+		"packageTitle" : "English -> Chinese",
 		"basename": "en -> cn",
 		"width": 20,
 		"height": 20,
@@ -107,6 +113,7 @@
 		"solution": 0
 	},
 	"German_Top_4000_vocabulary_en-ge" : {
+		"packageTitle" : "English -> German",
 		"basename": "en -> ge",
 		"width": 20,
 		"height": 20,
@@ -124,6 +131,7 @@
 		}
 	},
 	"German_Top_4000_vocabulary_ge-en" : {
+		"packageTitle" : "German -> English",
 		"basename": "ge -> en",
 		"width": 20,
 		"height": 20,
@@ -134,6 +142,7 @@
 		}
 	},
 	"FrenchEnglish_-_Top_5000_French_-_With_Examples_fr-en" : {
+		"packageTitle" : "French -> English",
 		"basename": "fr -> en",
 		"width": 20,
 		"height": 20,
@@ -141,6 +150,7 @@
 		"solution": 1
 	},
 	"FrenchEnglish_-_Top_5000_French_-_With_Examples_en-fr" : {
+		"packageTitle" : "English -> French",
 		"basename": "en -> fr",
 		"width": 20,
 		"height": 20,
@@ -148,6 +158,7 @@
 		"solution": 0
 	},
 	"Hindi-English_en-hindi" : {
+		"packageTitle" : "Hindi -> English",
 		"basename": "en -> hindi",
 		"width": 20,
 		"height": 20,
@@ -155,6 +166,7 @@
 		"solution": 0
 	},
 	"Hindi-English_hindi-en" : {
+		"packageTitle" : "English -> Hindi",
 		"basename": "hindi -> en",
 		"width": 20,
 		"height": 20,
@@ -203,6 +215,7 @@
 		}
 	},
 	"RussianEnglish_-_Top_5000_Russian_-_With_Examples_en-ru" : {
+		"packageTitle" : "English -> Russian",
 		"basename": "en -> ru",
 		"width": 20,
 		"height": 20,
@@ -210,6 +223,7 @@
 		"solution": 1
 	},
 	"RussianEnglish_-_Top_5000_Russian_-_With_Examples_ru-en" : {
+		"packageTitle" : "Russian -> English",
 		"basename": "ru -> en",
 		"width": 20,
 		"height": 20,
@@ -217,6 +231,7 @@
 		"solution": 2
 	},
 	"Japanese_Basic_Hiragana_en-jp" : {
+		"packageTitle" : "Voice -> Japanese Basic Hiragana",
 		"basename": "en -> jp",
 		"width": 20,
 		"height": 20,
@@ -224,6 +239,7 @@
 		"solution": 0
 	},
 	"Japanese_Basic_Hiragana_jp-en" : {
+		"packageTitle" : "Japanese Basic Hiragana -> Voice",
 		"basename": "jp -> en",
 		"width": 20,
 		"height": 20,
@@ -231,6 +247,7 @@
 		"solution": 1
 	},
 	"Most_Used_English_Words_to_Brazilian_Portuguese_en-pt" : {
+		"packageTitle" : "English -> Portuguese",
 		"basename": "en -> pt",
 		"width": 20,
 		"height": 20,
@@ -238,6 +255,7 @@
 		"solution": 1
 	},
 	"Most_Used_English_Words_to_Brazilian_Portuguese_pt-en" : {
+		"packageTitle" : "Portuguese -> English",
 		"basename": "pt -> en",
 		"width": 20,
 		"height": 20,
@@ -245,6 +263,7 @@
 		"solution": 0
 	},
 	"Zertifikat_Deutsch_-_B1_pldkkal_--_nmet-magyar_ge-hu" : {
+		"packageTitle" : "German -> Hungarian",
 		"basename": "ge -> hu",
 		"width": 20,
 		"height": 20,
@@ -252,6 +271,7 @@
 		"solution": 2
 	},
 	"Zertifikat_Deutsch_-_B1_pldkkal_--_nmet-magyar_hu-ge" : {
+		"packageTitle" : "Hungarian -> German",
 		"basename": "hu -> ge",
 		"width": 20,
 		"height": 20,
@@ -345,6 +365,7 @@
 		}
 	},
 	"Chinese_english_Voabulary_Pofile_cn-en" : {
+		"packageTitle" : "Chinese -> English v2",
 		"basename": "cn -> en",
 		"width": 20,
 		"height": 20,
@@ -352,6 +373,7 @@
 		"solution": 2
 	},
 	"Chinese_english_Voabulary_Pofile_en-cn" : {
+		"packageTitle" : "English -> Chinese v2",
 		"basename": "en -> cn",
 		"width": 20,
 		"height": 20,

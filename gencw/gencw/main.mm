@@ -37,6 +37,7 @@ static void GenerateCrosswords (NSString* baseName, Package *package, GeneratorI
 	
 	printf ("Generating crosswords for package: %s\n", [[package name] UTF8String]);
 	
+	NSString *firstCWName = nil;
 	BOOL genRes = YES;
 	int32_t cwIndex = 0;
 	while (genRes) {
@@ -56,6 +57,10 @@ static void GenerateCrosswords (NSString* baseName, Package *package, GeneratorI
 			[generatorInfo setCrosswordName:baseName];
 		}
 		
+		if (firstCWName == nil) {
+			firstCWName = generatorInfo.crosswordName;
+		}
+		
 		genRes = [man generateWithInfo:generatorInfo progressCallback:^(float percent, BOOL *stop) {
 			int32_t percentVal = (int32_t) (percent * 100.0f + 0.5f);
 			if (percentVal != lastPercent) {
@@ -68,6 +73,13 @@ static void GenerateCrosswords (NSString* baseName, Package *package, GeneratorI
 			break;
 		}
 	}
+	
+	[package.state setCrosswordName:firstCWName];
+	[package.state setFilledLevel:0];
+	[package.state setLevelCount:generateAllVariations ? cwIndex : 1];
+	[package.state setFilledWordCount:0];
+	[package.state setWordCount:[generatorInfo.usedWords count]];
+	[man savePackageState:package];
 	
 	printf ("\nPackage: %s - Generation succeeded!\n\n", [[package name] UTF8String]);
 }
@@ -278,6 +290,7 @@ int main (int argc, const char * argv[]) {
 			//Configure generation
 			NSString *packageFileName = [[package path] lastPathComponent];
 			PackageConfig *packageConfig = [cfg getPackageConfig:packageFileName];
+			[package.state setOverriddenPackageName:[packageConfig getPackageTitle]];
 			NSString *baseName = [packageConfig getBaseName];
 
 			GeneratorInfo *generatorInfo = [man collectGeneratorInfo:[package decks]];
