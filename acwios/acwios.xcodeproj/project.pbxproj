@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F062D63F231201ED00738348 /* SimpleUI.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F062D641231201ED00738348 /* SimpleUI.storyboard */; };
+		F062D645231202E100738348 /* SUIMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F062D644231202E100738348 /* SUIMainViewController.m */; };
 		F06399412288662400DD12D1 /* considerations.html in Resources */ = {isa = PBXBuildFile; fileRef = F063993F2288662400DD12D1 /* considerations.html */; };
 		F063994422886DAE00DD12D1 /* privacy_policy.html in Resources */ = {isa = PBXBuildFile; fileRef = F063994222886DAD00DD12D1 /* privacy_policy.html */; };
 		F063994522886DAE00DD12D1 /* terms_of_use.html in Resources */ = {isa = PBXBuildFile; fileRef = F063994322886DAE00DD12D1 /* terms_of_use.html */; };
@@ -94,6 +96,9 @@
 
 /* Begin PBXFileReference section */
 		F019C31A217348BA00F83F3B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		F062D640231201ED00738348 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/SimpleUI.storyboard; sourceTree = "<group>"; };
+		F062D643231202E100738348 /* SUIMainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SUIMainViewController.h; sourceTree = "<group>"; };
+		F062D644231202E100738348 /* SUIMainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SUIMainViewController.m; sourceTree = "<group>"; };
 		F063993F2288662400DD12D1 /* considerations.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = considerations.html; path = ../../docs/considerations.html; sourceTree = "<group>"; };
 		F063994222886DAD00DD12D1 /* privacy_policy.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = privacy_policy.html; path = ../../docs/privacy_policy.html; sourceTree = "<group>"; };
 		F063994322886DAE00DD12D1 /* terms_of_use.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = terms_of_use.html; path = ../../docs/terms_of_use.html; sourceTree = "<group>"; };
@@ -182,6 +187,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F062D642231202A000738348 /* SimpleUI */ = {
+			isa = PBXGroup;
+			children = (
+				F062D643231202E100738348 /* SUIMainViewController.h */,
+				F062D644231202E100738348 /* SUIMainViewController.m */,
+			);
+			name = SimpleUI;
+			sourceTree = "<group>";
+		};
 		F0DEE91921660BA20044DA44 /* StatisticsView */ = {
 			isa = PBXGroup;
 			children = (
@@ -297,6 +311,7 @@
 				FDDAA329212E9EA3000365EF /* CrosswordView */,
 				FDDAA334212EB75F000365EF /* ChoosePackageView */,
 				FD6ED595213E6A5100FCCAC7 /* ChooseCrosswordView */,
+				F062D642231202A000738348 /* SimpleUI */,
 				FDCD521D21084C860081FE4D /* Main.storyboard */,
 				FDCD522021084C880081FE4D /* Assets.xcassets */,
 				FDCD522221084C880081FE4D /* LaunchScreen.storyboard */,
@@ -310,6 +325,7 @@
 				FDCD527F2108682C0081FE4D /* AnkiDownloadViewController.m */,
 				FDCD52C121142FC70081FE4D /* CWGeneratorViewController.h */,
 				FDCD52C221142FC70081FE4D /* CWGeneratorViewController.m */,
+				F062D641231201ED00738348 /* SimpleUI.storyboard */,
 			);
 			path = acwios;
 			sourceTree = "<group>";
@@ -443,6 +459,7 @@
 				FDCD522421084C880081FE4D /* LaunchScreen.storyboard in Resources */,
 				F063994522886DAE00DD12D1 /* terms_of_use.html in Resources */,
 				F063994422886DAE00DD12D1 /* privacy_policy.html in Resources */,
+				F062D63F231201ED00738348 /* SimpleUI.storyboard in Resources */,
 				FDCD522121084C880081FE4D /* Assets.xcassets in Resources */,
 				FDCD521F21084C860081FE4D /* Main.storyboard in Resources */,
 				F06399412288662400DD12D1 /* considerations.html in Resources */,
@@ -467,6 +484,7 @@
 				F0C91BA4210C690000B06070 /* ProgressView.m in Sources */,
 				FDCD52B92112DB070081FE4D /* CWConfiguratorViewController.m in Sources */,
 				F0BA0906212AC97900A7F154 /* CrosswordViewController.m in Sources */,
+				F062D645231202E100738348 /* SUIMainViewController.m in Sources */,
 				FD6ED59421382C3B00FCCAC7 /* GlossyButton.m in Sources */,
 				F0BA0909212ACBC200A7F154 /* CrosswordCell.m in Sources */,
 				FD6CE9B3213E6D8B00A0E27A /* GameTableCell.m in Sources */,
@@ -496,6 +514,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		F062D641231201ED00738348 /* SimpleUI.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F062D640231201ED00738348 /* Base */,
+			);
+			name = SimpleUI.storyboard;
+			sourceTree = "<group>";
+		};
 		FDCD521D21084C860081FE4D /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
