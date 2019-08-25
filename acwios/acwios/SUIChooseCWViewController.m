@@ -25,10 +25,11 @@
 
 @implementation SUIChooseCWViewController {
 	BOOL _isSubscribed;
-	NSMutableArray<NSString*> *_sortedPackageKeys;
+	NSMutableArray<NSString*> *_sortedPackageKeys; ///< The keys of the packages sorted by package name
 	NSMutableDictionary<NSString*, Package*> *_packages;
-	NSMutableDictionary<NSString*, NSNumber*> *_currentSavedCrosswordIndices;
-	NSDictionary<NSString*, NSArray<SavedCrossword*>*> *_savedCrosswords;
+	NSMutableDictionary<NSString*, NSNumber*> *_currentSavedCrosswordIndices; ///< The index of the currently played crossword of packages
+	NSMutableDictionary<NSString*, NSNumber*> *_filledWordCounts; ///< The filled word counts of packages
+	NSDictionary<NSString*, NSArray<SavedCrossword*>*> *_savedCrosswords; ///< All of the generated crosswords of packages
 	SavedCrossword *_selectedCrossword;
 }
 
@@ -72,11 +73,12 @@
 	}];
 	
 	_currentSavedCrosswordIndices = [NSMutableDictionary new];
+	_filledWordCounts = [NSMutableDictionary new];
 	[_sortedPackageKeys enumerateObjectsUsingBlock:^(NSString * _Nonnull packageKey, NSUInteger idx, BOOL * _Nonnull stop) {
 		__block Package *package = [self->_packages objectForKey:packageKey];
 		NSArray<SavedCrossword*> *cws = [self->_savedCrosswords objectForKey:packageKey];
 		
-		NSUInteger currentIdx = [cws indexOfObjectPassingTest:^BOOL(SavedCrossword * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		__block NSUInteger currentIdx = [cws indexOfObjectPassingTest:^BOOL(SavedCrossword * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 			if ([[obj name] compare:package.state.crosswordName] == NSOrderedSame) {
 				return YES;
 			}
@@ -87,6 +89,18 @@
 		}
 		
 		[self->_currentSavedCrosswordIndices setObject:[NSNumber numberWithUnsignedInteger:currentIdx] forKey:packageKey];
+		
+		__block NSUInteger sumWordCount = 0;
+		[cws enumerateObjectsUsingBlock:^(SavedCrossword * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+			if (idx == currentIdx) {
+				*stop = YES;
+				return;
+			}
+			
+			sumWordCount += [[obj words] count];
+		}];
+		
+		[self->_filledWordCounts setObject:[NSNumber numberWithUnsignedInteger:sumWordCount] forKey:packageKey];
 	}];
 }
 
@@ -226,6 +240,9 @@
 	CWCell *cell = (CWCell*) [tableView dequeueReusableCellWithIdentifier:@"CWCell" forIndexPath:indexPath];
 	if (cell && indexPath.row >= 0 && indexPath.row < [_sortedPackageKeys count]) {
 		NSString *packageKey = [_sortedPackageKeys objectAtIndex:indexPath.row];
+		NSUInteger filledLevelCount = [[_currentSavedCrosswordIndices objectForKey:cell.packageKey] unsignedIntegerValue];
+		NSUInteger filledWordCount = [[_filledWordCounts objectForKey:cell.packageKey] unsignedIntegerValue];
+
 		cell.parent = self;
 		cell.packageKey = packageKey;
 		
@@ -240,9 +257,9 @@
 		}
 		[cell.packageName setText:title];
 		[cell.statistics setText:[NSString stringWithFormat:@"%lu of %lu levels (%lu of %lu words) solved",
-								  pack.state.filledLevel,
+								  filledLevelCount,
 								  pack.state.levelCount,
-								  pack.state.filledWordCount,
+								  filledWordCount,
 								  pack.state.wordCount]];
 
 		if (cwEnabled) {
