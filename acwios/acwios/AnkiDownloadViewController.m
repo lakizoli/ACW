@@ -27,7 +27,9 @@
 
 @end
 
-@implementation AnkiDownloadViewController
+@implementation AnkiDownloadViewController {
+	NSString *_backButtonSegueID;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -95,6 +97,18 @@
 	});
 }
 
+- (void) setBackButtonSegue:(NSString*)segueID {
+	_backButtonSegueID = segueID;
+}
+
+-(void)dismissView {
+	if (_backButtonSegueID) {
+		[self performSegueWithIdentifier:_backButtonSegueID sender:self];
+	} else {
+		[self dismissViewControllerAnimated:YES completion:nil];
+	}
+}
+
 -(void)endOfDownload:(BOOL)showFailedAlert downloadedFile:(NSURL*)downloadedFile {
 	dispatch_async (dispatch_get_main_queue (), ^{
 		[self->_progressView setHidden:YES];
@@ -111,13 +125,13 @@
 			UIAlertAction* okButton = [UIAlertAction actionWithTitle:@"OK"
 															   style:UIAlertActionStyleDefault
 															 handler:^(UIAlertAction * action) {
-																 [self dismissViewControllerAnimated:YES completion:nil];
+																 [self dismissView];
 															 }];
 			
 			[alert addAction:okButton];
 			[self presentViewController:alert animated:YES completion:nil];
 		} else {
-			[self dismissViewControllerAnimated:YES completion:nil];
+			[self dismissView];
 		}
 	});
 }
@@ -280,7 +294,7 @@
 #pragma mark - Event handlers
 
 - (IBAction)backButtonPressed:(id)sender {
-	[self dismissViewControllerAnimated:YES completion:nil];
+	[self dismissView];
 }
 
 #pragma mark - Tab Bar navigation

@@ -7,6 +7,7 @@
 //
 
 #import "SUIMainViewController.h"
+#import "AnkiDownloadViewController.h"
 #import "NetLogger.h"
 #import "PackageManager.h"
 
@@ -52,22 +53,11 @@
 			[timer invalidate];
 			
 			if ([self->_collectedPackages count] > 0) { //There are some package already downloaded
+				[self performSegueWithIdentifier:@"ShowChooseCW" sender:self];
 			} else { // No packages found
+				[self performSegueWithIdentifier:@"ShowDownload" sender:self];
 			}
 		} else {
-			switch (animCounter % 3) {
-				case 0:
-					[self->_labelStarting setText:@"Starting.  "];
-					break;
-				case 1:
-					[self->_labelStarting setText:@"Starting.. "];
-					break;
-				case 2:
-					[self->_labelStarting setText:@"Starting..."];
-					break;
-				default:
-					break;
-			}
 			++animCounter;
 		}
 	}];
@@ -110,14 +100,15 @@
 	return UIInterfaceOrientationPortrait;
 }
 
-/*
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+	if ([segue.identifier compare:@"ShowDownload"] == NSOrderedSame &&
+		[segue.destinationViewController isKindOfClass:[AnkiDownloadViewController class]])
+	{
+		AnkiDownloadViewController *downloadView = (AnkiDownloadViewController*) segue.destinationViewController;
+		[downloadView setBackButtonSegue:@"ShowChooseCW"];
+	}
 }
-*/
 
 @end
