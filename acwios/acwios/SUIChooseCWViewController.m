@@ -7,10 +7,12 @@
 //
 
 #import "SUIChooseCWViewController.h"
+#import "CrosswordViewController.h"
 #import "SubscriptionManager.h"
 #import "PackageManager.h"
 #import "CWCell.h"
 #import "NetLogger.h"
+#include <stdlib.h>
 
 @interface SUIChooseCWViewController ()
 
@@ -23,8 +25,9 @@
 
 @implementation SUIChooseCWViewController {
 	BOOL _isSubscribed;
-	NSMutableArray<NSString*> *_sortedPackageNames;
+	NSMutableArray<NSString*> *_sortedPackageKeys;
 	NSMutableDictionary<NSString*, Package*> *_packages;
+	NSMutableDictionary<NSString*, NSNumber*> *_currentSavedCrosswordIndices;
 	NSDictionary<NSString*, NSArray<SavedCrossword*>*> *_savedCrosswords;
 	SavedCrossword *_selectedCrossword;
 }
@@ -39,19 +42,52 @@
 -(void)reloadPackages {
 	PackageManager *man = [PackageManager sharedInstance];
 	NSArray<Package*> *packs = [man collectPackages];
-	
-	_sortedPackageNames = [NSMutableArray new];
+	_savedCrosswords = [man collectSavedCrosswords];
+
+	_sortedPackageKeys = [NSMutableArray new];
 	_packages = [NSMutableDictionary new];
 	[packs enumerateObjectsUsingBlock:^(Package * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-		[self->_sortedPackageNames addObject:[obj name]];
-		[self->_packages setObject:obj forKey:[obj name]];
+		NSString *packageKey = [[obj path] lastPathComponent];
+		if ([[self->_savedCrosswords objectForKey:packageKey] count] > 0) {
+			[self->_sortedPackageKeys addObject:packageKey];
+			[self->_packages setObject:obj forKey:packageKey];
+		}
 	}];
 	
-	[_sortedPackageNames sortUsingComparator:^NSComparisonResult(NSString*  _Nonnull obj1, NSString*  _Nonnull obj2) {
-		return [obj1 compare:obj2];
+	[_sortedPackageKeys sortUsingComparator:^NSComparisonResult(NSString*  _Nonnull obj1, NSString*  _Nonnull obj2) {
+		Package *pack1 = [self->_packages objectForKey:obj1];
+		Package *pack2 = [self->_packages objectForKey:obj2];
+		
+		NSString *name1 = pack1.state.overriddenPackageName;
+		if ([name1 length] <= 0) {
+			name1 = pack1.name;
+		}
+		
+		NSString *name2 = pack2.state.overriddenPackageName;
+		if ([name2 length] <= 0) {
+			name2 = pack2.name;
+		}
+		
+		return [name1 compare:name2];
 	}];
 	
-	_savedCrosswords = [man collectSavedCrosswords];
+	_currentSavedCrosswordIndices = [NSMutableDictionary new];
+	[_sortedPackageKeys enumerateObjectsUsingBlock:^(NSString * _Nonnull packageKey, NSUInteger idx, BOOL * _Nonnull stop) {
+		__block Package *package = [self->_packages objectForKey:packageKey];
+		NSArray<SavedCrossword*> *cws = [self->_savedCrosswords objectForKey:packageKey];
+		
+		NSUInteger currentIdx = [cws indexOfObjectPassingTest:^BOOL(SavedCrossword * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+			if ([[obj name] compare:package.state.crosswordName] == NSOrderedSame) {
+				return YES;
+			}
+			return NO;
+		}];
+		if (currentIdx == NSNotFound) {
+			currentIdx = 0;
+		}
+		
+		[self->_currentSavedCrosswordIndices setObject:[NSNumber numberWithUnsignedInteger:currentIdx] forKey:packageKey];
+	}];
 }
 
 -(void) deleteCrosswordAt:(NSIndexPath*)indexPath {
@@ -72,8 +108,8 @@
 														style:UIAlertActionStyleDestructive
 													  handler:^(UIAlertAction * _Nonnull action)
 	{
-		NSString *packageName = [self->_sortedPackageNames objectAtIndex:indexPath.row];
-		Package *package = [self->_packages objectForKey:packageName];
+		NSString *packageKey = [self->_sortedPackageKeys objectAtIndex:indexPath.row];
+		Package *package = [self->_packages objectForKey:packageKey];
 		[NetLogger logEvent:@"SUIChooseCW_DeleteCW" withParameters:@{ @"package" : [[package path] lastPathComponent] }];
 
 		NSError *err = nil;
@@ -111,26 +147,38 @@
 	[[self subscribeView] setHidden:_isSubscribed];
 	
 	[self reloadPackages];
-	BOOL hasSomePackages = [_sortedPackageNames count] > 0;
-
-	__block BOOL hasSomeCrossword = NO;
-	if (hasSomePackages) {
-		[_savedCrosswords enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSArray<SavedCrossword *> * _Nonnull obj, BOOL * _Nonnull stop) {
-			if ([obj count] > 0) {
-				hasSomeCrossword = YES;
-				*stop = YES;
-			}
-		}];
-	}
+	BOOL hasSomePackages = [_sortedPackageKeys count] > 0;
 	
-	[_navItem.rightBarButtonItem setEnabled:hasSomePackages];
-	[_helpOfPlusButton setHidden:!hasSomePackages || hasSomeCrossword];
+	[_navItem.rightBarButtonItem setEnabled:YES];
+	[_helpOfPlusButton setHidden:hasSomePackages];
 	
 	[_crosswordTable reloadData];
 }
 
 - (IBAction)subscribeButtonPressed:(id)sender {
 	[[SubscriptionManager sharedInstance] showStore:self];
+}
+
+- (void)randomButtonPressed:(id)sender {
+	UIView *view = (UIView*)sender;
+	while (![view isKindOfClass:[CWCell class]]) {
+		view = [view superview];
+	}
+	
+	CWCell *cell = (CWCell*)view;
+	BOOL cwEnabled = [[_sortedPackageKeys objectAtIndex:0] compare:cell.packageKey] == NSOrderedSame || _isSubscribed;
+	if (!cwEnabled) {
+		[self showSubscription];
+		return;
+	}
+	
+	NSUInteger idx = [[_currentSavedCrosswordIndices objectForKey:cell.packageKey] unsignedIntegerValue];
+	NSArray<SavedCrossword*> *cws = [self->_savedCrosswords objectForKey:cell.packageKey];
+	
+	uint32_t randIdx = arc4random_uniform ((uint32_t) idx);
+	_selectedCrossword = [cws objectAtIndex:randIdx];
+	
+	[self performSegueWithIdentifier:@"ShowCW" sender:self];
 }
 
 #pragma mark - Navigation
@@ -143,9 +191,11 @@
 		if (!cwEnabled) {
 			[self showSubscription];
 		} else {
-//			NSString* packageName = [[_savedCrosswords allKeys] objectAtIndex:[selectedRow section]];
-//			_selectedCrossword = [[_savedCrosswords objectForKey:packageName] objectAtIndex:[selectedRow row]];
-//			return YES;
+			NSString *packageKey = [_sortedPackageKeys objectAtIndex:selectedRow.row];
+			NSUInteger idx = [[_currentSavedCrosswordIndices objectForKey:packageKey] unsignedIntegerValue];
+			NSArray<SavedCrossword*> *cws = [self->_savedCrosswords objectForKey:packageKey];
+			_selectedCrossword = [cws objectAtIndex:idx];
+			return YES;
 		}
 	} else if ([identifier compare:@"ShowDownload"] == NSOrderedSame) {
 		return YES;
@@ -155,24 +205,39 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+	if ([segue.identifier compare:@"ShowCW"] == NSOrderedSame &&
+		[segue.destinationViewController isKindOfClass:[UINavigationController class]])
+	{
+		UINavigationController *navController = (UINavigationController*) [segue destinationViewController];
+		if ([[navController topViewController] isKindOfClass:[CrosswordViewController class]]) {
+			CrosswordViewController *cwController = (CrosswordViewController*) [navController topViewController];
+			[cwController setSavedCrossword:_selectedCrossword];
+		}
+	}
 }
 
 #pragma mark - Package Table DataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return [_sortedPackageNames count];
+	return [_sortedPackageKeys count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	CWCell *cell = (CWCell*) [tableView dequeueReusableCellWithIdentifier:@"CWCell" forIndexPath:indexPath];
-	if (cell && indexPath.row >= 0 && indexPath.row < [_sortedPackageNames count]) {
-		NSString *packageName = [_sortedPackageNames objectAtIndex:indexPath.row];
-		Package *pack = [_packages objectForKey:packageName];
+	if (cell && indexPath.row >= 0 && indexPath.row < [_sortedPackageKeys count]) {
+		NSString *packageKey = [_sortedPackageKeys objectAtIndex:indexPath.row];
+		cell.parent = self;
+		cell.packageKey = packageKey;
+		
+		Package *pack = [_packages objectForKey:packageKey];
 		
 		BOOL cwEnabled = indexPath.row < 1 || _isSubscribed;
 		[cell setSubscribed:cwEnabled];
 		
-		NSString *title = [pack.state.overriddenPackageName length] > 0 ? pack.state.overriddenPackageName : packageName;
+		NSString *title = pack.state.overriddenPackageName;
+		if ([title length] <= 0) {
+			title = pack.name;
+		}
 		[cell.packageName setText:title];
 		[cell.statistics setText:[NSString stringWithFormat:@"%lu of %lu levels (%lu of %lu words) solved",
 								  pack.state.filledLevel,

@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SUIChooseCWViewController : UIViewController<UITableViewDelegate>
 
+- (void)randomButtonPressed:(id)sender;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -7,6 +7,7 @@
 //
 
 #import "CWCell.h"
+#import "SUIChooseCWViewController.h"
 
 @implementation CWCell {
 	UIColor *_disabledPackColor;
@@ -32,6 +33,8 @@
 	
 	[self setMultipleSelectionBackgroundView:[[UIView alloc] init]];
 	[[self multipleSelectionBackgroundView] setBackgroundColor:[UIColor colorWithRed:40.0f / 255.0f green:80.0f / 255.0f blue:80.0f / 255.0f alpha:1]];
+	
+	[_randomButton addTarget:_parent action:@selector (randomButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)setRandomButtonColor:(UIColor*)col {
