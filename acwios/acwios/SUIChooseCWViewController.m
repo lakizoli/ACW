@@ -31,6 +31,8 @@
 	NSMutableDictionary<NSString*, NSNumber*> *_filledWordCounts; ///< The filled word counts of packages
 	NSDictionary<NSString*, NSArray<SavedCrossword*>*> *_savedCrosswords; ///< All of the generated crosswords of packages
 	SavedCrossword *_selectedCrossword;
+	NSUInteger _selectedCrosswordIndex;
+	BOOL _isRandomGame;
 }
 
 #pragma mark - Implementation
@@ -41,6 +43,10 @@
 }
 
 -(void)reloadPackages {
+	_selectedCrossword = nil;
+	_selectedCrosswordIndex = 0;
+	_isRandomGame = NO;
+	
 	PackageManager *man = [PackageManager sharedInstance];
 	NSArray<Package*> *packs = [man collectPackages];
 	_savedCrosswords = [man collectSavedCrosswords];
@@ -191,6 +197,8 @@
 	
 	uint32_t randIdx = arc4random_uniform ((uint32_t) idx);
 	_selectedCrossword = [cws objectAtIndex:randIdx];
+	_selectedCrosswordIndex = randIdx;
+	_isRandomGame = YES;
 	
 	[self performSegueWithIdentifier:@"ShowCW" sender:self];
 }
@@ -209,6 +217,8 @@
 			NSUInteger idx = [[_currentSavedCrosswordIndices objectForKey:packageKey] unsignedIntegerValue];
 			NSArray<SavedCrossword*> *cws = [self->_savedCrosswords objectForKey:packageKey];
 			_selectedCrossword = [cws objectAtIndex:idx];
+			_selectedCrosswordIndex = idx;
+			_isRandomGame = NO;
 			return YES;
 		}
 	} else if ([identifier compare:@"ShowDownload"] == NSOrderedSame) {
@@ -226,6 +236,8 @@
 		if ([[navController topViewController] isKindOfClass:[CrosswordViewController class]]) {
 			CrosswordViewController *cwController = (CrosswordViewController*) [navController topViewController];
 			[cwController setSavedCrossword:_selectedCrossword];
+			[cwController setCurrentCrosswordIndex:_selectedCrosswordIndex];
+			[cwController setIsMultiLevelGame:!_isRandomGame];
 		}
 	}
 }

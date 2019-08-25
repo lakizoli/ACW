@@ -641,11 +641,13 @@
                         <outlet property="crosswordView" destination="2cv-y5-ykh" id="GFF-b3-dpf"/>
                         <outlet property="pinchRecognizer" destination="BCc-vj-Zb6" id="TJD-kf-IOc"/>
                         <outlet property="showHideButton" destination="HKg-DE-Fbq" id="rLh-0v-bQq"/>
+                        <outlet property="winCloseButton" destination="miu-40-5ZJ" id="zze-di-wog"/>
                         <outlet property="winFailCountLabel" destination="sJn-aa-aNK" id="g8F-ib-m3i"/>
                         <outlet property="winHintCountLabel" destination="iUw-Mc-dWJ" id="Mhq-q9-xXk"/>
                         <outlet property="winTimeLabel" destination="qcq-q0-0eI" id="T8n-gV-cL3"/>
                         <outlet property="winView" destination="jXZ-7s-hbO" id="WxA-8k-8Ii"/>
                         <outlet property="winWordCountLabel" destination="9tX-1x-B3Y" id="ynl-Lx-daM"/>
+                        <segue destination="pK3-3b-RQF" kind="custom" identifier="ShowCW" customClass="SwitchCWSegue" id="dun-09-81M"/>
                     </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nr3-O3-cCq" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1092,7 +1094,7 @@
             <objects>
                 <navigationController id="pK3-3b-RQF" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="O9s-dZ-CCR">
-                        <rect key="frame" x="0.0" y="20" width="320" height="50"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.15680609810000001" green="0.31361219620000003" blue="0.31230547870000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">
@@ -1115,6 +1117,7 @@
         <image name="help-arrow-right" width="596" height="596"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="dun-09-81M"/>
         <segue reference="Cr4-IC-9mz"/>
         <segue reference="HFo-hg-Wad"/>
     </inferredMetricsTieBreakers>

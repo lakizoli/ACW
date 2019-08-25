@@ -172,6 +172,7 @@
 		if ([[navController topViewController] isKindOfClass:[CrosswordViewController class]]) {
 			CrosswordViewController *cwController = (CrosswordViewController*) [navController topViewController];
 			[cwController setSavedCrossword:_selectedCrossword];
+			[cwController setIsMultiLevelGame:NO];
 		}
 	} else if ([segue.identifier compare:@"ShowStatisticsView"] == NSOrderedSame &&
 			   [segue.destinationViewController isKindOfClass:[StatisticsViewController class]])

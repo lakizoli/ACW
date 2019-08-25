@@ -12,6 +12,8 @@
 #import "KeyboardViewController.h"
 #import "EmitterEffect.h"
 #import "NetLogger.h"
+#import "GlossyButton.h"
+#import "PackageManager.h"
 
 @interface CrosswordViewController ()
 
@@ -25,6 +27,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *winHintCountLabel;
 @property (weak, nonatomic) IBOutlet UILabel *winWordCountLabel;
 @property (weak, nonatomic) IBOutlet UILabel *winFailCountLabel;
+@property (weak, nonatomic) IBOutlet GlossyButton *winCloseButton;
 
 @end
 
@@ -50,6 +53,9 @@
 	//Win screen effects
 	NSTimer *_timerWin;
 	EmitterEffect *_emitterWin[4];
+	
+	//Multilevel game data
+	NSArray<SavedCrossword*>* _allSavedCrossword;
 }
 
 #pragma mark - Implementation
@@ -265,6 +271,26 @@
 	CGFloat flY = (windowFrame.size.height - 250) / 2 + scrollPos.y;
 	[self->_winView setFrame:CGRectMake(flX, flY, 300, 250)];
 	
+	//Handle multilevel gameplay
+	//TODO: add three star to the win screen (score have to be based upon the fill statistics)
+	//TODO: handle all multi level game needs (the game can advance to the next level only, when the user got three stars!)
+	//TODO: after the last filled crossword, have to handle the win screen. (Congrats for fullfill all of the levels!)
+	
+	if (_isMultiLevelGame) {
+		BOOL hasThreeStar = NO; //TODO: ...
+		
+		if (hasThreeStar) { //Go to the next level, or end of all levels
+			NSUInteger nextCWIdx = _currentCrosswordIndex + 1;
+			BOOL hasMoreLevel = nextCWIdx < [_allSavedCrossword count];
+
+			if (hasMoreLevel) {
+				[self->_winCloseButton setTitle:@"Next Level" forState:UIControlStateNormal];
+			} else {
+				[self->_winCloseButton setTitle:@"OK" forState:UIControlStateNormal];
+			}
+		}
+	}
+	
 	[self->_crosswordView addSubview:self->_winView];
 }
 
@@ -366,6 +392,12 @@
     //[self.collectionView registerClass:[CrosswordCell class] forCellWithReuseIdentifier:cellReusableIdentifier];
 	
     // Do any additional setup after loading the view.
+	if (_isMultiLevelGame) {
+		PackageManager *man = [PackageManager sharedInstance];
+		NSDictionary<NSString*, NSArray<SavedCrossword*>*> *allSavedCrosswords = [man collectSavedCrosswords];
+		_allSavedCrossword = [allSavedCrosswords objectForKey:[_savedCrossword packageName]];
+	}
+	
 	_areAnswersVisible = NO;
 	_cellFilledValues = [NSMutableDictionary<NSIndexPath*, NSString*> new];
 	[_savedCrossword loadFilledValuesInto:_cellFilledValues];
@@ -451,7 +483,18 @@
 	
 	[_winView setHidden:YES];
 	[_savedCrossword unloadDB];
-	[self dismissViewControllerAnimated:YES completion:nil];
+	if (_isMultiLevelGame) {
+		NSUInteger nextCWIdx = _currentCrosswordIndex + 1;
+		BOOL hasMoreLevel = nextCWIdx < [_allSavedCrossword count];
+		
+		if (hasMoreLevel) {
+			[self performSegueWithIdentifier:@"ShowCW" sender:self];
+		} else { //No more level
+			[self dismissViewControllerAnimated:YES completion:nil];
+		}
+	} else { //Single level game
+		[self dismissViewControllerAnimated:YES completion:nil];
+	}
 }
 
 - (IBAction)handlePinch:(UIPinchGestureRecognizer *)sender {
@@ -474,13 +517,21 @@
 
 #pragma mark - Navigation
 
-/*
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+	if ([segue.identifier compare:@"ShowCW"] == NSOrderedSame &&
+		[segue.destinationViewController isKindOfClass:[UINavigationController class]])
+	{
+		UINavigationController *navController = (UINavigationController*) [segue destinationViewController];
+		if ([[navController topViewController] isKindOfClass:[CrosswordViewController class]]) {
+			CrosswordViewController *cwController = (CrosswordViewController*) [navController topViewController];
+			NSUInteger nextCWIdx = _currentCrosswordIndex + 1;
+			SavedCrossword *nextCW = [_allSavedCrossword objectAtIndex:nextCWIdx];
+			[cwController setSavedCrossword:nextCW];
+			[cwController setCurrentCrosswordIndex:nextCWIdx];
+			[cwController setIsMultiLevelGame:YES];
+		}
+	}
 }
-*/
 
 #pragma mark - UICollectionViewDataSource
 

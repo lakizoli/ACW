@@ -17,4 +17,8 @@
 //Property of the choosen crossword
 @property (strong) SavedCrossword *savedCrossword;
 
+//Properties of the new game new workflow
+@property (assign) BOOL isMultiLevelGame;
+@property (assign) NSUInteger currentCrosswordIndex;
+
 @end

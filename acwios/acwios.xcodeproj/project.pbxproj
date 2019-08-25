@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		F01F60CC231260DF00896397 /* SUIChooseCWViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F01F60CB231260DF00896397 /* SUIChooseCWViewController.m */; };
 		F01F60D02312743700896397 /* CWCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F01F60CF2312743700896397 /* CWCell.m */; };
+		F02697C623130B500034D6B6 /* SwitchCWSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = F02697C523130B500034D6B6 /* SwitchCWSegue.m */; };
 		F062D63F231201ED00738348 /* SimpleUI.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F062D641231201ED00738348 /* SimpleUI.storyboard */; };
 		F062D645231202E100738348 /* SUIMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F062D644231202E100738348 /* SUIMainViewController.m */; };
 		F06399412288662400DD12D1 /* considerations.html in Resources */ = {isa = PBXBuildFile; fileRef = F063993F2288662400DD12D1 /* considerations.html */; };
@@ -102,6 +103,8 @@
 		F01F60CB231260DF00896397 /* SUIChooseCWViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SUIChooseCWViewController.m; sourceTree = "<group>"; };
 		F01F60CE2312743700896397 /* CWCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CWCell.h; sourceTree = "<group>"; };
 		F01F60CF2312743700896397 /* CWCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CWCell.m; sourceTree = "<group>"; };
+		F02697C423130B500034D6B6 /* SwitchCWSegue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwitchCWSegue.h; sourceTree = "<group>"; };
+		F02697C523130B500034D6B6 /* SwitchCWSegue.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SwitchCWSegue.m; sourceTree = "<group>"; };
 		F062D640231201ED00738348 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/SimpleUI.storyboard; sourceTree = "<group>"; };
 		F062D643231202E100738348 /* SUIMainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SUIMainViewController.h; sourceTree = "<group>"; };
 		F062D644231202E100738348 /* SUIMainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SUIMainViewController.m; sourceTree = "<group>"; };
@@ -202,6 +205,8 @@
 				F01F60CB231260DF00896397 /* SUIChooseCWViewController.m */,
 				F01F60CE2312743700896397 /* CWCell.h */,
 				F01F60CF2312743700896397 /* CWCell.m */,
+				F02697C423130B500034D6B6 /* SwitchCWSegue.h */,
+				F02697C523130B500034D6B6 /* SwitchCWSegue.m */,
 			);
 			name = SimpleUI;
 			sourceTree = "<group>";
@@ -496,6 +501,7 @@
 				F0BA0906212AC97900A7F154 /* CrosswordViewController.m in Sources */,
 				F062D645231202E100738348 /* SUIMainViewController.m in Sources */,
 				FD6ED59421382C3B00FCCAC7 /* GlossyButton.m in Sources */,
+				F02697C623130B500034D6B6 /* SwitchCWSegue.m in Sources */,
 				F0BA0909212ACBC200A7F154 /* CrosswordCell.m in Sources */,
 				FD6CE9B3213E6D8B00A0E27A /* GameTableCell.m in Sources */,
 				F092DB1F210CA5AA006B4DC6 /* Downloader.m in Sources */,
