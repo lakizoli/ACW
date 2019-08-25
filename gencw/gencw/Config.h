@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface PackageConfig : NSObject
 
 -(NSString*)getPackageTitle;
+-(NSString*)getGoogleDriveID;
 -(NSString*)getBaseName;
 -(NSUInteger)getWidth;
 -(NSUInteger)getHeight;

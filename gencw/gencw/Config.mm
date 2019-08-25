@@ -24,6 +24,10 @@
 	return [_json objectForKey:@"packageTitle"];
 }
 
+-(NSString*)getGoogleDriveID {
+	return [_json objectForKey:@"googleDriveID"];
+}
+
 -(NSString*)getBaseName {
 	return [_json objectForKey:@"basename"];
 }

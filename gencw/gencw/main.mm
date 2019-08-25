@@ -137,7 +137,7 @@ static int UncompressFileToFolder (NSURL* packageURL, NSURL* targetPath, NSStrin
 	return GEN_SUCCEEDED;
 }
 
-static int CompressFolder (NSString *name, NSURL *sourcePath, NSURL *targetPath);
+static int CompressFolder (NSString *name, NSURL *sourcePath, NSURL *targetPath, NSNumber** packageSize);
 
 static int ShrinkPackage (NSURL* packageURL, NSString* name) {
 	NSFileManager *fileManager = [NSFileManager defaultManager];
@@ -159,8 +159,9 @@ static int ShrinkPackage (NSURL* packageURL, NSString* name) {
 		return GEN_FAILED;
 	}
 	
+	NSNumber *targetSize = nil;
 	NSURL* targetPath = [packageURL URLByDeletingLastPathComponent];
-	if (CompressFolder (name, uncompressPath, targetPath) != GEN_SUCCEEDED) {
+	if (CompressFolder (name, uncompressPath, targetPath, &targetSize) != GEN_SUCCEEDED) {
 		return GEN_FAILED;
 	}
 	
@@ -177,7 +178,7 @@ static int ShrinkPackage (NSURL* packageURL, NSString* name) {
 	return GEN_SUCCEEDED;
 }
 
-static int CompressFolder (NSString *name, NSURL *sourcePath, NSURL *targetPath) {
+static int CompressFolder (NSString *name, NSURL *sourcePath, NSURL *targetPath, NSNumber** packageSize) {
 	NSFileManager *fileManager = [NSFileManager defaultManager];
 	NSDirectoryEnumerationOptions options = NSDirectoryEnumerationSkipsSubdirectoryDescendants |
 		NSDirectoryEnumerationSkipsPackageDescendants |
@@ -261,6 +262,12 @@ static int CompressFolder (NSString *name, NSURL *sourcePath, NSURL *targetPath)
 		zipClose (pack, NULL);
 	}
 	
+	if (packageSize) {
+		if ([target getResourceValue:packageSize forKey:NSURLFileSizeKey error:nil] != YES) {
+			return GEN_FAILED;
+		}
+	}
+	
 	return GEN_SUCCEEDED;
 }
 
@@ -280,38 +287,94 @@ int main (int argc, const char * argv[]) {
 			return GEN_FAILED;
 		}
 		
+		struct AutoTime {
+			NSDate *start = [NSDate date];
+			~AutoTime () {
+				NSTimeInterval duration = [[NSDate date] timeIntervalSinceDate:start];
+				printf ("Generation time: %.3f seconds\n\n", duration);
+			}
+		} autoTime;
+		
 		PackageManager *man = [PackageManager sharedInstance];
 		[man setOverriddenDocumentPath:docPath];
 		[man setOverriddenDatabasePath:dbPath];
 		
 		NSArray<Package*> *packages = [man collectPackages];
+		__block dispatch_group_t dispatchGroup = dispatch_group_create ();
+		__block dispatch_queue_t bgQueue = dispatch_get_global_queue (DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+		__block NSMutableDictionary<NSString*, NSNumber*> *packageSizes = [NSMutableDictionary new];
 		__block BOOL succeeded = YES;
+		__block NSObject *sync = [NSObject new];
 		[packages enumerateObjectsUsingBlock:^(Package * _Nonnull package, NSUInteger idx, BOOL * _Nonnull stop) {
-			//Configure generation
-			NSString *packageFileName = [[package path] lastPathComponent];
-			PackageConfig *packageConfig = [cfg getPackageConfig:packageFileName];
-			[package.state setOverriddenPackageName:[packageConfig getPackageTitle]];
-			NSString *baseName = [packageConfig getBaseName];
-
-			GeneratorInfo *generatorInfo = [man collectGeneratorInfo:[package decks]];
-			[generatorInfo setWidth:[packageConfig getWidth]];
-			[generatorInfo setHeight:[packageConfig getHeight]];
-			[generatorInfo setQuestionFieldIndex:[packageConfig getQuestionIndex]];
-			[generatorInfo setSolutionFieldIndex:[packageConfig getSolutionIndex]];
-			if ([packageConfig hasSplitArray]) {
-				[generatorInfo setSplitArray:[packageConfig getSplitArray]];
-			}
-			[generatorInfo setSolutionsFixes:[packageConfig getSolutionFixes]];
-			
-			//Generate crosswords
-			GenerateCrosswords (baseName, package, generatorInfo);
-			
-			//Compress contents of the package and move it to the output
-			if (CompressFolder (packageFileName, [package path], [NSURL fileURLWithPath:[cfg getOutputPath]]) != GEN_SUCCEEDED) {
-				succeeded = NO;
+			if (!succeeded) { //Stop on error
 				*stop = YES;
+				return;
 			}
+			
+			dispatch_group_async (dispatchGroup, bgQueue, ^(void) {
+				//Configure generation
+				NSString *packageFileName = [[package path] lastPathComponent];
+				PackageConfig *packageConfig = [cfg getPackageConfig:packageFileName];
+				[package.state setOverriddenPackageName:[packageConfig getPackageTitle]];
+				NSString *baseName = [packageConfig getBaseName];
+
+				GeneratorInfo *generatorInfo = [man collectGeneratorInfo:[package decks]];
+				[generatorInfo setWidth:[packageConfig getWidth]];
+				[generatorInfo setHeight:[packageConfig getHeight]];
+				[generatorInfo setQuestionFieldIndex:[packageConfig getQuestionIndex]];
+				[generatorInfo setSolutionFieldIndex:[packageConfig getSolutionIndex]];
+				if ([packageConfig hasSplitArray]) {
+					[generatorInfo setSplitArray:[packageConfig getSplitArray]];
+				}
+				[generatorInfo setSolutionsFixes:[packageConfig getSolutionFixes]];
+				
+				//Generate crosswords
+				GenerateCrosswords (baseName, package, generatorInfo);
+				
+				//Compress contents of the package and move it to the output
+				__block NSNumber *packageSize = nil;
+				if (CompressFolder (packageFileName, [package path], [NSURL fileURLWithPath:[cfg getOutputPath]], &packageSize) != GEN_SUCCEEDED) {
+					@synchronized (sync) {
+						if (succeeded) {
+							succeeded = NO;
+						}
+					}
+				} else { //Succeeded compression
+					@synchronized (sync) {
+						[packageSizes setObject:packageSize forKey:[package name]];
+					};
+				}
+			});
 		}];
+		
+		dispatch_group_wait (dispatchGroup, DISPATCH_TIME_FOREVER);
+		
+		//Write packs.json besides the packs
+		if (succeeded) {
+			packages = [packages sortedArrayUsingComparator:^NSComparisonResult(Package*  _Nonnull pack1, Package*  _Nonnull pack2) {
+				return [pack1.name compare:pack2.name];
+			}];
+			
+			__block NSMutableArray *json = [NSMutableArray new];
+			[packages enumerateObjectsUsingBlock:^(Package * _Nonnull package, NSUInteger idx, BOOL * _Nonnull stop) {
+				NSString *packageFileName = [[package path] lastPathComponent];
+				PackageConfig *packageConfig = [cfg getPackageConfig:packageFileName];
+
+				NSNumber *packSize = [packageSizes objectForKey:[package name]];
+				[json addObject: @{@"name" : [NSString stringWithFormat:@"%@ (%lu words)", package.state.overriddenPackageName, package.state.wordCount],
+								   @"fileID" : [packageConfig getGoogleDriveID],
+								   @"size" : packSize ? packSize : [NSNumber numberWithUnsignedInteger:0] }];
+			}];
+			
+			NSError *err = nil;
+			NSData *data = [NSJSONSerialization dataWithJSONObject:json options:0 error:&err];
+			if (data == nil || err != nil) { //Failed json conversion
+				succeeded = NO;
+			} else { //Succeeded json conversion
+				NSURL *packDest = [[NSURL fileURLWithPath:[cfg getOutputPath]] URLByAppendingPathComponent:@"packs.json"];
+				[data writeToURL:packDest atomically:YES];
+			}
+		}
 		
 		return succeeded ? GEN_SUCCEEDED : GEN_FAILED;
 	}
