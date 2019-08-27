@@ -641,9 +641,13 @@
                         <outlet property="crosswordView" destination="2cv-y5-ykh" id="GFF-b3-dpf"/>
                         <outlet property="pinchRecognizer" destination="BCc-vj-Zb6" id="TJD-kf-IOc"/>
                         <outlet property="showHideButton" destination="HKg-DE-Fbq" id="rLh-0v-bQq"/>
+                        <outlet property="star1" destination="VFW-wK-0Yc" id="gyJ-kv-hXM"/>
+                        <outlet property="star2" destination="d9E-dj-EPg" id="YKJ-xG-Y33"/>
+                        <outlet property="star3" destination="HpI-EU-h7A" id="XLT-Ox-Wve"/>
                         <outlet property="winCloseButton" destination="miu-40-5ZJ" id="zze-di-wog"/>
                         <outlet property="winFailCountLabel" destination="sJn-aa-aNK" id="g8F-ib-m3i"/>
                         <outlet property="winHintCountLabel" destination="iUw-Mc-dWJ" id="Mhq-q9-xXk"/>
+                        <outlet property="winMessageLabel" destination="nDB-Ml-iUQ" id="d0Z-3h-egJ"/>
                         <outlet property="winTimeLabel" destination="qcq-q0-0eI" id="T8n-gV-cL3"/>
                         <outlet property="winView" destination="jXZ-7s-hbO" id="WxA-8k-8Ii"/>
                         <outlet property="winWordCountLabel" destination="9tX-1x-B3Y" id="ynl-Lx-daM"/>
@@ -661,7 +665,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="eE8-5r-Nxu">
-                            <rect key="frame" x="62.5" y="228" width="250" height="211"/>
+                            <rect key="frame" x="62.5" y="204.5" width="250" height="258"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Congratulation!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pry-4f-RcO">
                                     <rect key="frame" x="0.0" y="0.0" width="250" height="35"/>
@@ -669,41 +673,83 @@
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You filled the crossword!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nDB-Ml-iUQ">
-                                    <rect key="frame" x="0.0" y="35" width="250" height="50"/>
+                                <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iWj-Av-wfW">
+                                    <rect key="frame" x="0.0" y="35" width="250" height="32"/>
+                                    <subviews>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0OA-hm-o2A">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="32"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="32" id="pA5-1f-9FT"/>
+                                            </constraints>
+                                        </view>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star" translatesAutoresizingMaskIntoConstraints="NO" id="VFW-wK-0Yc">
+                                            <rect key="frame" x="50" y="0.0" width="50" height="32"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="32" id="FD5-z8-sUm"/>
+                                            </constraints>
+                                        </imageView>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star" translatesAutoresizingMaskIntoConstraints="NO" id="d9E-dj-EPg">
+                                            <rect key="frame" x="100" y="0.0" width="50" height="32"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="32" id="ICe-kQ-JzY"/>
+                                            </constraints>
+                                        </imageView>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star" translatesAutoresizingMaskIntoConstraints="NO" id="HpI-EU-h7A">
+                                            <rect key="frame" x="150" y="0.0" width="50" height="32"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="32" id="dWr-VM-ZYE"/>
+                                            </constraints>
+                                        </imageView>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N9j-gg-DKl">
+                                            <rect key="frame" x="200" y="0.0" width="50" height="32"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="32" id="iSp-vc-Seb"/>
+                                            </constraints>
+                                        </view>
+                                    </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="50" id="AYm-Wc-cA4"/>
+                                        <constraint firstItem="N9j-gg-DKl" firstAttribute="width" secondItem="VFW-wK-0Yc" secondAttribute="width" id="60R-2p-4Jb"/>
+                                        <constraint firstItem="d9E-dj-EPg" firstAttribute="width" secondItem="VFW-wK-0Yc" secondAttribute="width" id="78X-VC-UiS"/>
+                                        <constraint firstItem="0OA-hm-o2A" firstAttribute="width" secondItem="VFW-wK-0Yc" secondAttribute="width" id="Hpb-cR-azf"/>
+                                        <constraint firstItem="HpI-EU-h7A" firstAttribute="width" secondItem="VFW-wK-0Yc" secondAttribute="width" id="ODB-QV-iOM"/>
+                                        <constraint firstAttribute="height" constant="32" id="aLS-NU-zNV"/>
+                                    </constraints>
+                                </stackView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You filled the crossword!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nDB-Ml-iUQ">
+                                    <rect key="frame" x="0.0" y="67" width="250" height="65"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="65" id="AYm-Wc-cA4"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" name="BradleyHandITCTT-Bold" family="Bradley Hand" pointSize="20"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time: 1:50" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qcq-q0-0eI">
-                                    <rect key="frame" x="0.0" y="85" width="250" height="21.5"/>
+                                    <rect key="frame" x="0.0" y="132" width="250" height="21.5"/>
                                     <fontDescription key="fontDescription" name="BradleyHandITCTT-Bold" family="Bradley Hand" pointSize="17"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hint show count: 100" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iUw-Mc-dWJ">
-                                    <rect key="frame" x="0.0" y="106.5" width="250" height="21.5"/>
+                                    <rect key="frame" x="0.0" y="153.5" width="250" height="21.5"/>
                                     <fontDescription key="fontDescription" name="BradleyHandITCTT-Bold" family="Bradley Hand" pointSize="17"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Word count: 42" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9tX-1x-B3Y">
-                                    <rect key="frame" x="0.0" y="128" width="250" height="21.5"/>
+                                    <rect key="frame" x="0.0" y="175" width="250" height="21.5"/>
                                     <fontDescription key="fontDescription" name="BradleyHandITCTT-Bold" family="Bradley Hand" pointSize="17"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fail count: 10" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sJn-aa-aNK">
-                                    <rect key="frame" x="0.0" y="149.5" width="250" height="21.5"/>
+                                    <rect key="frame" x="0.0" y="196.5" width="250" height="21.5"/>
                                     <fontDescription key="fontDescription" name="BradleyHandITCTT-Bold" family="Bradley Hand" pointSize="17"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="miu-40-5ZJ" customClass="GlossyButton">
-                                    <rect key="frame" x="0.0" y="171" width="250" height="40"/>
+                                    <rect key="frame" x="0.0" y="218" width="250" height="40"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="40" id="gca-d9-nwm"/>
                                     </constraints>
@@ -1115,6 +1161,7 @@
         <image name="background_pattern_blue" width="1298" height="1298"/>
         <image name="game_logo" width="426" height="277"/>
         <image name="help-arrow-right" width="596" height="596"/>
+        <image name="star" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="dun-09-81M"/>

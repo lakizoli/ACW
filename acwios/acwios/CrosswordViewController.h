@@ -19,6 +19,8 @@
 
 //Properties of the new game new workflow
 @property (assign) BOOL isMultiLevelGame;
+@property (strong) Package *currentPackage;
 @property (assign) NSUInteger currentCrosswordIndex;
+@property (strong) NSArray<SavedCrossword*> *allSavedCrossword;
 
 @end

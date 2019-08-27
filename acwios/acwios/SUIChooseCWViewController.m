@@ -30,7 +30,7 @@
 	NSMutableDictionary<NSString*, NSNumber*> *_currentSavedCrosswordIndices; ///< The index of the currently played crossword of packages
 	NSMutableDictionary<NSString*, NSNumber*> *_filledWordCounts; ///< The filled word counts of packages
 	NSDictionary<NSString*, NSArray<SavedCrossword*>*> *_savedCrosswords; ///< All of the generated crosswords of packages
-	SavedCrossword *_selectedCrossword;
+	NSString* _selectedPackageKey;
 	NSUInteger _selectedCrosswordIndex;
 	BOOL _isRandomGame;
 }
@@ -43,7 +43,7 @@
 }
 
 -(void)reloadPackages {
-	_selectedCrossword = nil;
+	_selectedPackageKey = nil;
 	_selectedCrosswordIndex = 0;
 	_isRandomGame = NO;
 	
@@ -193,10 +193,8 @@
 	}
 	
 	NSUInteger idx = [[_currentSavedCrosswordIndices objectForKey:cell.packageKey] unsignedIntegerValue];
-	NSArray<SavedCrossword*> *cws = [self->_savedCrosswords objectForKey:cell.packageKey];
-	
 	uint32_t randIdx = arc4random_uniform ((uint32_t) idx);
-	_selectedCrossword = [cws objectAtIndex:randIdx];
+	_selectedPackageKey = cell.packageKey;
 	_selectedCrosswordIndex = randIdx;
 	_isRandomGame = YES;
 	
@@ -215,8 +213,7 @@
 		} else {
 			NSString *packageKey = [_sortedPackageKeys objectAtIndex:selectedRow.row];
 			NSUInteger idx = [[_currentSavedCrosswordIndices objectForKey:packageKey] unsignedIntegerValue];
-			NSArray<SavedCrossword*> *cws = [self->_savedCrosswords objectForKey:packageKey];
-			_selectedCrossword = [cws objectAtIndex:idx];
+			_selectedPackageKey = packageKey;
 			_selectedCrosswordIndex = idx;
 			_isRandomGame = NO;
 			return YES;
@@ -235,8 +232,12 @@
 		UINavigationController *navController = (UINavigationController*) [segue destinationViewController];
 		if ([[navController topViewController] isKindOfClass:[CrosswordViewController class]]) {
 			CrosswordViewController *cwController = (CrosswordViewController*) [navController topViewController];
-			[cwController setSavedCrossword:_selectedCrossword];
+			NSArray<SavedCrossword*> *cws = [_savedCrosswords objectForKey:_selectedPackageKey];
+			
+			[cwController setCurrentPackage:[_packages objectForKey:_selectedPackageKey]];
+			[cwController setSavedCrossword:[cws objectAtIndex:_selectedCrosswordIndex]];
 			[cwController setCurrentCrosswordIndex:_selectedCrosswordIndex];
+			[cwController setAllSavedCrossword:cws];
 			[cwController setIsMultiLevelGame:!_isRandomGame];
 		}
 	}

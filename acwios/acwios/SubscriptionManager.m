@@ -272,13 +272,6 @@
 													  handler:^(UIAlertAction * _Nonnull action)
 	{
 		[self showStore:parent];
-//		UIViewController *storeVC = [parent.storyboard instantiateViewControllerWithIdentifier:@"StoreVC"];
-//
-//		dispatch_async (dispatch_get_global_queue (DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
-//			[self validateProductIDs:[self productIDs]];
-//		});
-//
-//		[parent presentViewController:storeVC animated:YES completion:nil];
 	}];
 
 	[alert addAction:actionYes];

@@ -14,6 +14,7 @@
 #import "NetLogger.h"
 #import "GlossyButton.h"
 #import "PackageManager.h"
+#import "SubscriptionManager.h"
 
 @interface CrosswordViewController ()
 
@@ -23,6 +24,10 @@
 @property (strong, nonatomic) IBOutlet UIPinchGestureRecognizer *pinchRecognizer;
 
 @property (weak, nonatomic) IBOutlet UIView *winView;
+@property (weak, nonatomic) IBOutlet UIImageView *star1;
+@property (weak, nonatomic) IBOutlet UIImageView *star2;
+@property (weak, nonatomic) IBOutlet UIImageView *star3;
+@property (weak, nonatomic) IBOutlet UILabel *winMessageLabel;
 @property (weak, nonatomic) IBOutlet UILabel *winTimeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *winHintCountLabel;
 @property (weak, nonatomic) IBOutlet UILabel *winWordCountLabel;
@@ -53,12 +58,17 @@
 	//Win screen effects
 	NSTimer *_timerWin;
 	EmitterEffect *_emitterWin[4];
-	
-	//Multilevel game data
-	NSArray<SavedCrossword*>* _allSavedCrossword;
 }
 
 #pragma mark - Implementation
+
+-(void) showSubscription {
+	__block UIViewController *parentVC = [self presentingViewController];
+	[self dismissViewControllerAnimated:YES completion:^{
+		[[SubscriptionManager sharedInstance] showSubscriptionAlert:parentVC
+																msg:@"You have to subscribe to the application to play more than one demo crossword! If you press yes, then we take you to our store screen to do that."];
+	}];
+}
 
 - (NSIndexPath*) getIndexPathForRow:(NSInteger)row col:(NSInteger)col {
 	NSIndexPath *indexPath = [NSIndexPath indexPathForRow:col inSection:row]; //row is the secion, and col is the row!
@@ -239,6 +249,47 @@
 	[self resetStatistics];
 }
 
+-(NSUInteger)calculateStarCount:(Statistics*)stats {
+	if (stats.failCount > 9 || stats.hintCount > 9 || stats.fillDuration > 20 * 60) { //0 star
+		return 0;
+	}
+
+	if (stats.failCount > 6 || stats.hintCount > 6 || stats.fillDuration > 15 * 60) { //1 star
+		return 1;
+	}
+
+	if (stats.failCount > 3 || stats.hintCount > 3 || stats.fillDuration > 12 * 60) { //2 star
+		return 2;
+	}
+
+	return 3;
+}
+
+-(UIImage *)convertImageToGrayScale:(UIImage *)image {
+	CGRect imageRect = CGRectMake(0, 0, image.size.width, image.size.height);
+	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceGray();
+
+	CGContextRef context = CGBitmapContextCreate(nil, image.size.width, image.size.height, 8, 0, colorSpace, kCGImageAlphaNone);
+	CGContextDrawImage(context, imageRect, [image CGImage]);
+	CGImageRef imageRef = CGBitmapContextCreateImage(context);
+
+	CGColorSpaceRelease(colorSpace);
+	CGContextRelease(context);
+	
+	context = CGBitmapContextCreate(nil,image.size.width, image.size.height, 8, 0, nil, kCGImageAlphaOnly );
+	CGContextDrawImage(context, imageRect, [image CGImage]);
+	CGImageRef mask = CGBitmapContextCreateImage(context);
+	
+	UIImage *newImage = [UIImage imageWithCGImage:CGImageCreateWithMask(imageRef, mask)];
+	
+	CGImageRelease(imageRef);
+	CGImageRelease(mask);
+	CGContextRelease(context);
+	
+	// Return the new grayscale image
+	return newImage;
+}
+
 -(void) showWinView {
 	NSArray<Statistics*>* stats = [_savedCrossword loadStatistics];
 	Statistics* currentStat = [stats lastObject];
@@ -269,25 +320,66 @@
 	CGPoint scrollPos = [self->_crosswordView contentOffset];
 	CGFloat flX = (windowFrame.size.width - 300) / 2 + scrollPos.x;
 	CGFloat flY = (windowFrame.size.height - 250) / 2 + scrollPos.y;
-	[self->_winView setFrame:CGRectMake(flX, flY, 300, 250)];
+	[self->_winView setFrame:CGRectMake(flX, flY, 300, 280)];
 	
-	//Handle multilevel gameplay
-	//TODO: add three star to the win screen (score have to be based upon the fill statistics)
-	//TODO: handle all multi level game needs (the game can advance to the next level only, when the user got three stars!)
-	//TODO: after the last filled crossword, have to handle the win screen. (Congrats for fullfill all of the levels!)
+	//Handle stars
+	NSUInteger starCount = [self calculateStarCount:currentStat];
+	if (starCount > 0) {
+		[self->_star1 setImage:[UIImage imageNamed:@"star"]];
+	} else {
+		[self->_star1 setImage:[self convertImageToGrayScale:[UIImage imageNamed:@"star"]]];
+	}
 	
+	if (starCount > 1) {
+		[self->_star2 setImage:[UIImage imageNamed:@"star"]];
+	} else {
+		[self->_star2 setImage:[self convertImageToGrayScale:[UIImage imageNamed:@"star"]]];
+	}
+	
+	if (starCount > 2) {
+		[self->_star3 setImage:[UIImage imageNamed:@"star"]];
+	} else {
+		[self->_star3 setImage:[self convertImageToGrayScale:[UIImage imageNamed:@"star"]]];
+	}
+	
+	//Handle multi level game
 	if (_isMultiLevelGame) {
-		BOOL hasThreeStar = NO; //TODO: ...
-		
-		if (hasThreeStar) { //Go to the next level, or end of all levels
+		if (starCount < 3) { //Fail
+			[self->_winMessageLabel setText:@"You can do this better!\nTry again!"];
+			[self->_winCloseButton setTitle:@"Try again" forState:UIControlStateNormal];
+		} else { //Go to the next level, or end of all levels
+			BOOL isSubscribed = [[SubscriptionManager sharedInstance] isSubscribed];
+			if (isSubscribed && _currentPackage.state.filledLevel < _currentPackage.state.levelCount) {
+				_currentPackage.state.filledLevel += 1;
+				_currentPackage.state.filledWordCount += [[_savedCrossword words] count];
+			}
+
 			NSUInteger nextCWIdx = _currentCrosswordIndex + 1;
 			BOOL hasMoreLevel = nextCWIdx < [_allSavedCrossword count];
 
 			if (hasMoreLevel) {
+				if (isSubscribed) {
+					_currentPackage.state.crosswordName = [[_allSavedCrossword objectAtIndex:nextCWIdx] name];
+				}
+
+				[self->_winMessageLabel setText:@"You earn 3 stars!\nGo to the next level!"];
 				[self->_winCloseButton setTitle:@"Next Level" forState:UIControlStateNormal];
 			} else {
+				[self->_winMessageLabel setText:@"You filled all levels!"];
 				[self->_winCloseButton setTitle:@"OK" forState:UIControlStateNormal];
 			}
+			
+			if (isSubscribed) {
+				[[PackageManager sharedInstance] savePackageState:_currentPackage];
+			}
+		}
+	} else { //Single level game
+		if (starCount < 3) {
+			[self->_winMessageLabel setText:@"You can do this better!\nTry again!"];
+			[self->_winCloseButton setTitle:@"Try again" forState:UIControlStateNormal];
+		} else {
+			[self->_winMessageLabel setText:@"You earn 3 stars!"];
+			[self->_winCloseButton setTitle:@"OK" forState:UIControlStateNormal];
 		}
 	}
 	
@@ -392,12 +484,6 @@
     //[self.collectionView registerClass:[CrosswordCell class] forCellWithReuseIdentifier:cellReusableIdentifier];
 	
     // Do any additional setup after loading the view.
-	if (_isMultiLevelGame) {
-		PackageManager *man = [PackageManager sharedInstance];
-		NSDictionary<NSString*, NSArray<SavedCrossword*>*> *allSavedCrosswords = [man collectSavedCrosswords];
-		_allSavedCrossword = [allSavedCrosswords objectForKey:[_savedCrossword packageName]];
-	}
-	
 	_areAnswersVisible = NO;
 	_cellFilledValues = [NSMutableDictionary<NSIndexPath*, NSString*> new];
 	[_savedCrossword loadFilledValuesInto:_cellFilledValues];
@@ -482,13 +568,31 @@
 	[self resetButtonPressed:sender];
 	
 	[_winView setHidden:YES];
+
+	NSArray<Statistics*>* stats = [_savedCrossword loadStatistics];
+	Statistics* currentStat = [stats lastObject];
+	if (currentStat == nil) {
+		return;
+	}
+	
+	NSUInteger starCount = [self calculateStarCount:currentStat];
+	if (starCount < 3) { //Failed
+		return; //Fill again
+	}
+	
 	[_savedCrossword unloadDB];
 	if (_isMultiLevelGame) {
 		NSUInteger nextCWIdx = _currentCrosswordIndex + 1;
 		BOOL hasMoreLevel = nextCWIdx < [_allSavedCrossword count];
 		
-		if (hasMoreLevel) {
-			[self performSegueWithIdentifier:@"ShowCW" sender:self];
+		if (hasMoreLevel) { //We have more level available
+			//Check subscription
+			BOOL isSubscribed = [[SubscriptionManager sharedInstance] isSubscribed];
+			if (isSubscribed) { //Go to the next level
+				[self performSegueWithIdentifier:@"ShowCW" sender:self];
+			} else { //Show store alert
+				[self showSubscription];
+			}
 		} else { //No more level
 			[self dismissViewControllerAnimated:YES completion:nil];
 		}
