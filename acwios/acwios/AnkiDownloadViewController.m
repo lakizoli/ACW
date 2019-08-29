@@ -7,6 +7,7 @@
 //
 
 #import "AnkiDownloadViewController.h"
+#import "CWGeneratorViewController.h"
 #import "ProgressView.h"
 #import "Downloader.h"
 #import "NetPackConfig.h"
@@ -29,6 +30,24 @@
 
 @implementation AnkiDownloadViewController {
 	NSString *_backButtonSegueID;
+	BOOL _doGenerationAfterAnkiDownload;
+	NSArray<Deck*> *_decks;
+}
+
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+	self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+	if (self) {
+		_doGenerationAfterAnkiDownload = NO;
+	}
+	return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+	self = [super initWithCoder:aDecoder];
+	if (self) {
+		_doGenerationAfterAnkiDownload = NO;
+	}
+	return self;
 }
 
 - (void)viewDidLoad {
@@ -101,6 +120,10 @@
 	_backButtonSegueID = segueID;
 }
 
+- (void) setDoGenerationAfterAnkiDownload:(BOOL)doGenerationAfterAnkiDownload {
+	_doGenerationAfterAnkiDownload = doGenerationAfterAnkiDownload;
+}
+
 -(void)dismissView {
 	if (_backButtonSegueID) {
 		[self performSegueWithIdentifier:_backButtonSegueID sender:self];
@@ -109,7 +132,7 @@
 	}
 }
 
--(void)endOfDownload:(BOOL)showFailedAlert downloadedFile:(NSURL*)downloadedFile {
+-(void)endOfDownload:(BOOL)showFailedAlert downloadedFile:(NSURL*)downloadedFile doGen:(BOOL)doGen packageName:(NSString*)packageNameFull {
 	dispatch_async (dispatch_get_main_queue (), ^{
 		[self->_progressView setHidden:YES];
 		
@@ -131,7 +154,31 @@
 			[alert addAction:okButton];
 			[self presentViewController:alert animated:YES completion:nil];
 		} else {
-			[self dismissView];
+			if (doGen) {
+				NSString *packageName = packageNameFull;
+				NSString *ext = [packageNameFull pathExtension];
+				if ([ext length] > 0) {
+					packageName = [packageNameFull substringToIndex:[packageNameFull length] - [ext length] - 1];
+				}
+				
+				NSArray<Package*> *packages = [[PackageManager sharedInstance] collectPackages];
+				
+				[packages enumerateObjectsUsingBlock:^(Package * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+					NSString *testPackageName = [[obj path] lastPathComponent];
+					if ([testPackageName compare:packageName] == NSOrderedSame) {
+						self->_decks = [obj decks];
+						*stop = YES;
+					}
+				}];
+				
+				if ([self->_decks count] > 0) {
+					[self performSegueWithIdentifier:@"ShowGen" sender:self];
+				} else {
+					[self dismissView];
+				}
+			} else {
+				[self dismissView];
+			}
 		}
 	});
 }
@@ -260,7 +307,7 @@
 		}
 		
 		if (handleEnd) {
-			[self endOfDownload:showFailedAlert downloadedFile:downloadedFile];
+			[self endOfDownload:showFailedAlert downloadedFile:downloadedFile doGen:NO packageName:nil];
 		}
 	}];
 }
@@ -289,6 +336,18 @@
 
 - (BOOL)prefersStatusBarHidden {
 	return YES;
+}
+
+#pragma mark - Navigation
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+	if ([segue.identifier compare:@"ShowGen"] == NSOrderedSame &&
+		[segue.destinationViewController isKindOfClass:[CWGeneratorViewController class]])
+	{
+		CWGeneratorViewController *genView = (CWGeneratorViewController*) segue.destinationViewController;
+		[genView setDecks:_decks];
+		[genView setFullGeneration:YES];
+	}
 }
 
 #pragma mark - Event handlers
@@ -386,23 +445,27 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
 				[self updateProgress:pos size:size];
 			} completionHandler:^(enum DownloadResult resultCode, NSURL *downloadedFile, NSString *fileName) {
 				[NetLogger logEvent:@"Obtain_AnkiPackage_Downloaded" withParameters:@{ @"url" : [url absoluteString],
-																					@"fileName" : fileName,
+																					   @"fileName" : [fileName length] > 0 ? fileName : @"null",
 																					@"resultCode" : [NSNumber numberWithInt:resultCode] }];
 
+				NSString *destFileName;
+				BOOL doGen = NO;
 				BOOL showFailedAlert = NO;
 				switch (resultCode) {
 					case DownloadResult_Succeeded: {
 						NSFileManager *fileManager = [NSFileManager defaultManager];
 						NSURL *docDir = [[fileManager URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
-						NSString *destFileName;
 						if (fileName) {
 							destFileName = fileName;
 						} else {
 							destFileName = [[downloadedFile lastPathComponent] stringByAppendingString:@".apkg"];
 						}
 						NSURL *destDir = [docDir URLByAppendingPathComponent:destFileName isDirectory:NO];
-						if ([fileManager moveItemAtURL:downloadedFile toURL:destDir error:nil] == NO) {
+						[fileManager removeItemAtURL:destDir error:nil];
+						if ([fileManager moveItemAtURL:downloadedFile toURL:destDir error:nil] == NO) { //Failed move
 							showFailedAlert = YES;
+						} else { //Succeeded move
+							doGen = self->_doGenerationAfterAnkiDownload;
 						}
 						break;
 					}
@@ -418,7 +481,7 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
 						break;
 				}
 				
-				[self endOfDownload:showFailedAlert downloadedFile:downloadedFile];
+				[self endOfDownload:showFailedAlert downloadedFile:downloadedFile doGen:doGen packageName:destFileName];
 			}];
 			
 			[self showProgressView];

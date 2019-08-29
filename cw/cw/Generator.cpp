@@ -137,18 +137,18 @@ std::shared_ptr<Generator> Generator::Create (const std::string& path, const std
 	gen->_height = height;
 	gen->_questions = questions;
 	
-#if TARGET_OS_OSX
+//#if TARGET_OS_OSX
 	std::string wordBankPath = path + "/answers.wb";
 	gen->_answers = WordBank::Load (wordBankPath, answers, progressCallback);
 	if (gen->_answers == nullptr) {
-#endif
+//#endif
 		gen->_answers = WordBank::Create (answers, progressCallback);
-#if TARGET_OS_OSX
+//#if TARGET_OS_OSX
 		if (gen->_answers) {
 			gen->_answers->Save (wordBankPath);
 		}
 	}
-#endif
+//#endif
 
 	if (gen->_answers == nullptr) {
 		return nullptr;

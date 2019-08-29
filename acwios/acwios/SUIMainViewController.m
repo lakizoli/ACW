@@ -21,6 +21,7 @@
 @implementation SUIMainViewController {
 	NSTimer *_timer;
 	NSArray<Package*>* _collectedPackages;
+	NSDictionary<NSString*, NSArray<SavedCrossword*>*>* _savedCrosswords;
 }
 
 - (void)viewDidLoad {
@@ -52,7 +53,7 @@
 		if (animCounter >= 6 && self->_collectedPackages != nil) {
 			[timer invalidate];
 			
-			if ([self->_collectedPackages count] > 0) { //There are some package already downloaded
+			if ([self hasNonEmptyPackage]) { //There are some package already downloaded
 				[self performSegueWithIdentifier:@"ShowChooseCW" sender:self];
 			} else { // No packages found
 				[self performSegueWithIdentifier:@"ShowDownload" sender:self];
@@ -64,7 +65,21 @@
 	
 	dispatch_async (dispatch_get_global_queue (DISPATCH_QUEUE_PRIORITY_DEFAULT, 0) , ^{
 		self->_collectedPackages = [[PackageManager sharedInstance] collectPackages];
+		self->_savedCrosswords = [[PackageManager sharedInstance] collectSavedCrosswords];
 	});
+}
+
+#pragma mark - Implementation
+
+-(BOOL)hasNonEmptyPackage {
+	__block BOOL res = NO;
+	[_collectedPackages enumerateObjectsUsingBlock:^(Package * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		if ([[self->_savedCrosswords objectForKey:[obj name]] count] > 0) {
+			res = YES;
+			*stop = YES;
+		}
+	}];
+	return res;
 }
 
 #pragma mark - Appearance
@@ -108,6 +123,7 @@
 	{
 		AnkiDownloadViewController *downloadView = (AnkiDownloadViewController*) segue.destinationViewController;
 		[downloadView setBackButtonSegue:@"ShowChooseCW"];
+		[downloadView setDoGenerationAfterAnkiDownload:YES];
 	}
 }
 

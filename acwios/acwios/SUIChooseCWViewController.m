@@ -8,6 +8,7 @@
 
 #import "SUIChooseCWViewController.h"
 #import "CrosswordViewController.h"
+#import "AnkiDownloadViewController.h"
 #import "SubscriptionManager.h"
 #import "PackageManager.h"
 #import "CWCell.h"
@@ -240,6 +241,11 @@
 			[cwController setAllSavedCrossword:cws];
 			[cwController setIsMultiLevelGame:!_isRandomGame];
 		}
+	} else if ([segue.identifier compare:@"ShowDownload"] == NSOrderedSame &&
+			   [segue.destinationViewController isKindOfClass:[AnkiDownloadViewController class]])
+	{
+		AnkiDownloadViewController *downloadView = (AnkiDownloadViewController*) segue.destinationViewController;
+		[downloadView setDoGenerationAfterAnkiDownload:YES];
 	}
 }
 

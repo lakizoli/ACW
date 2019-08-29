@@ -12,5 +12,6 @@
 @interface AnkiDownloadViewController : UIViewController<UITabBarDelegate, UITableViewDelegate, UITableViewDataSource, WKNavigationDelegate>
 
 - (void) setBackButtonSegue:(NSString*)segueID;
+- (void) setDoGenerationAfterAnkiDownload:(BOOL)doGenerationAfterAnkiDownload;
 
 @end
