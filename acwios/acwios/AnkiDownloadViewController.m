@@ -345,6 +345,7 @@
 		[segue.destinationViewController isKindOfClass:[CWGeneratorViewController class]])
 	{
 		CWGeneratorViewController *genView = (CWGeneratorViewController*) segue.destinationViewController;
+		[genView setPackage: [[_decks objectAtIndex:0] package]];
 		[genView setDecks:_decks];
 		[genView setFullGeneration:YES];
 	}

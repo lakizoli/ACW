@@ -11,7 +11,8 @@
 
 @interface CWGeneratorViewController : UIViewController<UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
 
-@property (nonatomic) NSArray<Deck*> *decks;
+@property (nonatomic, strong) Package *package;
+@property (nonatomic, strong) NSArray<Deck*> *decks;
 @property (nonatomic, assign) BOOL fullGeneration;
 
 @end

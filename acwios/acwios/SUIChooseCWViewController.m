@@ -139,6 +139,10 @@
 		}
 
 		[self reloadPackages];
+
+		BOOL hasSomePackages = [self->_sortedPackageKeys count] > 0;
+		[self->_helpOfPlusButton setHidden:hasSomePackages];
+		
 		[self->_crosswordTable reloadData];
 	}];
 	

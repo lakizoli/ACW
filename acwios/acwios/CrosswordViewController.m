@@ -58,6 +58,7 @@
 	//Win screen effects
 	NSTimer *_timerWin;
 	EmitterEffect *_emitterWin[4];
+	NSUInteger _starCount;
 }
 
 #pragma mark - Implementation
@@ -211,6 +212,7 @@
 	_hintCount = 0;
 	_startTime = [NSDate date];
 	_isFilled = NO;
+	_starCount = 0;
 }
 
 -(double) calculateFillRatio:(BOOL*)isFilled {
@@ -323,20 +325,20 @@
 	[self->_winView setFrame:CGRectMake(flX, flY, 300, 280)];
 	
 	//Handle stars
-	NSUInteger starCount = [self calculateStarCount:currentStat];
-	if (starCount > 0) {
+	_starCount = [self calculateStarCount:currentStat];
+	if (_starCount > 0) {
 		[self->_star1 setImage:[UIImage imageNamed:@"star"]];
 	} else {
 		[self->_star1 setImage:[self convertImageToGrayScale:[UIImage imageNamed:@"star"]]];
 	}
 	
-	if (starCount > 1) {
+	if (_starCount > 1) {
 		[self->_star2 setImage:[UIImage imageNamed:@"star"]];
 	} else {
 		[self->_star2 setImage:[self convertImageToGrayScale:[UIImage imageNamed:@"star"]]];
 	}
 	
-	if (starCount > 2) {
+	if (_starCount > 2) {
 		[self->_star3 setImage:[UIImage imageNamed:@"star"]];
 	} else {
 		[self->_star3 setImage:[self convertImageToGrayScale:[UIImage imageNamed:@"star"]]];
@@ -344,7 +346,7 @@
 	
 	//Handle multi level game
 	if (_isMultiLevelGame) {
-		if (starCount < 3) { //Fail
+		if (_starCount < 3) { //Fail
 			[self->_winMessageLabel setText:@"You can do this better!\nTry again!"];
 			[self->_winCloseButton setTitle:@"Try again" forState:UIControlStateNormal];
 		} else { //Go to the next level, or end of all levels
@@ -374,7 +376,7 @@
 			}
 		}
 	} else { //Single level game
-		if (starCount < 3) {
+		if (_starCount < 3) {
 			[self->_winMessageLabel setText:@"You can do this better!\nTry again!"];
 			[self->_winCloseButton setTitle:@"Try again" forState:UIControlStateNormal];
 		} else {
@@ -569,14 +571,7 @@
 	
 	[_winView setHidden:YES];
 
-	NSArray<Statistics*>* stats = [_savedCrossword loadStatistics];
-	Statistics* currentStat = [stats lastObject];
-	if (currentStat == nil) {
-		return;
-	}
-	
-	NSUInteger starCount = [self calculateStarCount:currentStat];
-	if (starCount < 3) { //Failed
+	if (_starCount < 3) { //Failed
 		return; //Fill again
 	}
 	

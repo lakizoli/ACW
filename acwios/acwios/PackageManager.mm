@@ -654,6 +654,10 @@
 	__block std::vector<std::wstring> solutionFieldValues;
 	__block NSMutableSet<NSString*> *solutionFieldFilter = [NSMutableSet new];
 	[[info cards] enumerateObjectsUsingBlock:^(Card * _Nonnull card, NSUInteger idx, BOOL * _Nonnull stop) {
+		if ([[card fieldValues] count] <= [info solutionFieldIndex] || [[card fieldValues] count] <= [info questionFieldIndex]) {
+			return;
+		}
+		
 		NSString *origSolutionVal = [[[card fieldValues] objectAtIndex:[info solutionFieldIndex]] lowercaseString];
 		NSString *solutionVal = [self trimSolutionField:origSolutionVal splitArr:info.splitArray solutionFixes:info.solutionsFixes];
 		if ([solutionVal length] <= 0) {

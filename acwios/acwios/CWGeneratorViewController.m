@@ -14,7 +14,10 @@
 
 @interface CWGeneratorViewController ()
 
+@property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
+@property (weak, nonatomic) IBOutlet UILabel *labelName;
 @property (weak, nonatomic) IBOutlet UITextField *textCrosswordName;
+@property (weak, nonatomic) IBOutlet UIStackView *stackViewSizes;
 @property (weak, nonatomic) IBOutlet UITextField *textWidth;
 @property (weak, nonatomic) IBOutlet UITextField *textHeight;
 @property (weak, nonatomic) IBOutlet UILabel *labelQuestion;
@@ -23,6 +26,7 @@
 @property (weak, nonatomic) IBOutlet UIPickerView *pickerSolution;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *doneButton;
 @property (weak, nonatomic) IBOutlet ProgressView *progressView;
+@property (weak, nonatomic) IBOutlet UILabel *labelSwitchGenerateAllVariations;
 @property (weak, nonatomic) IBOutlet UISwitch *switchGenerateAllVariations;
 
 @end
@@ -145,8 +149,22 @@
 		_crosswordName = [firstDeck name];
 	}
 	
-	_width = 5;
-	_height = 5;
+	if (_fullGeneration) {
+		_crosswordName = @"cw";
+		_width = 25;
+		_height = 25;
+		
+		[_labelName setHidden:YES];
+		[_textCrosswordName setHidden:YES];
+		[_stackViewSizes setHidden:YES];
+		[_labelSwitchGenerateAllVariations setHidden:YES];
+		[_switchGenerateAllVariations setHidden:YES];
+		
+		[_navigationBar.topItem setLeftBarButtonItem:nil];
+	} else {
+		_width = 5;
+		_height = 5;
+	}
 	
 	_questionFieldIndex = 0;
 	_solutionFieldIndex = 0;
@@ -157,9 +175,11 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-	[_textCrosswordName setText:_crosswordName];
-	[_textWidth setText:[NSString stringWithFormat:@"%lu", _width]];
-	[_textHeight setText:[NSString stringWithFormat:@"%lu", _height]];
+	if (!_fullGeneration) {
+		[_textCrosswordName setText:_crosswordName];
+		[_textWidth setText:[NSString stringWithFormat:@"%lu", _width]];
+		[_textHeight setText:[NSString stringWithFormat:@"%lu", _height]];
+	}
 	
 	PackageManager* pacMan = [PackageManager sharedInstance];
 	
@@ -189,16 +209,18 @@
 	[NetLogger logEvent:@"GenCW_DonePressed"];
 
 	//Resign first responders
-	if ([_textCrosswordName isFirstResponder]) {
-		[_textCrosswordName resignFirstResponder];
-	}
-	
-	if ([_textWidth isFirstResponder]) {
-		[_textWidth resignFirstResponder];
-	}
-	
-	if ([_textHeight isFirstResponder]) {
-		[_textHeight resignFirstResponder];
+	if (!_fullGeneration) {
+		if ([_textCrosswordName isFirstResponder]) {
+			[_textCrosswordName resignFirstResponder];
+		}
+		
+		if ([_textWidth isFirstResponder]) {
+			[_textWidth resignFirstResponder];
+		}
+		
+		if ([_textHeight isFirstResponder]) {
+			[_textHeight resignFirstResponder];
+		}
 	}
 	
 	//Show progress
@@ -221,7 +243,7 @@
 	[_generatorInfo setSolutionFieldIndex: _solutionFieldIndex];
 	
 	//Generate crossword
-	__block BOOL generateAllVariations = [_switchGenerateAllVariations isOn];
+	__block BOOL generateAllVariations = _fullGeneration ? YES : [_switchGenerateAllVariations isOn];
 	dispatch_async (dispatch_get_global_queue (DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
 		__block int32_t lastPercent = -1;
 
@@ -263,6 +285,10 @@
 			if (generateAllVariations == NO) {
 				break;
 			}
+
+			dispatch_async (dispatch_get_main_queue (), ^(void) {
+				[self->_progressView setLabelContent:[NSString stringWithFormat:@"Generating crossword... (%d)", idx]];
+			});
 		}
 
 		dispatch_async (dispatch_get_main_queue (), ^(void) {

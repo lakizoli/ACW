@@ -209,6 +209,7 @@
 		[_choosenDecks count] > 0)
 	{
 		CWGeneratorViewController *genView = (CWGeneratorViewController*) segue.destinationViewController;
+		[genView setPackage: [[_choosenDecks objectAtIndex:0] package]];
 		[genView setDecks: _choosenDecks];
 	}
 }

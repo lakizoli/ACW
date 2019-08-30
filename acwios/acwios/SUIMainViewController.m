@@ -46,6 +46,10 @@
 	
 	// Add both effects to your view
 	[_backgroundView addMotionEffect:group];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
 	
 	// Start animation
 	__block uint32_t animCounter = 0;
@@ -74,7 +78,8 @@
 -(BOOL)hasNonEmptyPackage {
 	__block BOOL res = NO;
 	[_collectedPackages enumerateObjectsUsingBlock:^(Package * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-		if ([[self->_savedCrosswords objectForKey:[obj name]] count] > 0) {
+		NSString *packageKey = [[obj path] lastPathComponent];
+		if ([[self->_savedCrosswords objectForKey:packageKey] count] > 0) {
 			res = YES;
 			*stop = YES;
 		}
