@@ -252,6 +252,8 @@
 					if ([self ensureDirExists:packageDir]) {
 						NSURL *fileDestURL = [packageDir URLByAppendingPathComponent:@"package.apkg" isDirectory:NO];
 						
+						[fileManager removeItemAtURL:fileDestURL error:nil];
+						
 						NSError *err = nil;
 						BOOL resMove = [fileManager moveItemAtURL:fileURL toURL:fileDestURL error:&err];
 						if (!resMove) {

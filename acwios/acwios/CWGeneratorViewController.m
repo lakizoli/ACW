@@ -252,6 +252,7 @@
 			baseName = [self->_generatorInfo crosswordName];
 		}
 
+		NSString *firstCWName = nil;
 		BOOL genRes = YES;
 		int32_t idx = 0;
 		while (genRes) {
@@ -281,6 +282,10 @@
 					*stop = YES;
 				}
 			}];
+
+			if (firstCWName == nil) {
+				firstCWName = self->_generatorInfo.crosswordName;
+			}
 			
 			if (generateAllVariations == NO) {
 				break;
@@ -291,6 +296,13 @@
 			});
 		}
 
+		[self->_package.state setCrosswordName:firstCWName];
+		[self->_package.state setFilledLevel:0];
+		[self->_package.state setLevelCount:generateAllVariations ? idx : 1];
+		[self->_package.state setFilledWordCount:0];
+		[self->_package.state setWordCount:[self->_generatorInfo.usedWords count]];
+		[[PackageManager sharedInstance] savePackageState:self->_package];
+		
 		dispatch_async (dispatch_get_main_queue (), ^(void) {
 			__block UIViewController *parent = [self presentingViewController];
 			[self dismissViewControllerAnimated:YES completion: ^(void) {

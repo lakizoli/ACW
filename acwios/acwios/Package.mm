@@ -142,7 +142,7 @@
 
 -(void) saveToURL:(NSURL*)url {
 	NSDictionary *json = @{@"crosswordName" : _crosswordName,
-						   @"overriddenPackageName" : _overriddenPackageName,
+						   @"overriddenPackageName" : _overriddenPackageName == nil ? @"" : _overriddenPackageName,
 						   @"filledWordCount" : [NSNumber numberWithUnsignedInteger:_filledWordCount],
 						   @"wordCount" : [NSNumber numberWithUnsignedInteger:_wordCount],
 						   @"filledLevel" : [NSNumber numberWithUnsignedInteger:_filledLevel],

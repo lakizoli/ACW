@@ -1,10 +1,18 @@
+Hibák:
+OK - jelenleg nem frissül a szintek/szavak száma a főképernyőn
+OK - vásárlás kipróbálása frissítéssel egybekötve
+- Legyen hindi billentyűzet is
+
+
+
+
 - A játék átalakítása úgy, hogy flow-ban jöjjenek a beépített nyelvekből generált keresztrejtvények.
-	- Egy keresztrejtvényen csak akkor szabad engedni túljutni a játékost, ha megfelelően kevés hibarátával képes megoldani a cw-t
+OK	- Egy keresztrejtvényen csak akkor szabad engedni túljutni a játékost, ha megfelelően kevés hibarátával képes megoldani a cw-t
 	- A lehetséges nyelvek listájának bővítése
-	- Előfizetés nélkül csak az első pályát lehet megoldani
-	- A generálásba az egyedi szabályok támogatásának megoldása (szópárok kilistázása, és a gyanús szavak egyedi szabályozása)
+OK	- Előfizetés nélkül csak az első pályát lehet megoldani
+OK	- A generálásba az egyedi szabályok támogatásának megoldása (szópárok kilistázása, és a gyanús szavak egyedi szabályozása)
 OK	- A keresztrejtvényben a jelek felvétele, és megjelenítése előre, mint fix cella érték
-	- A gyakorlás elősegítése céljából minden korábban lejátszott, és jól megoldott keresztrejtvény (level) legyen újrajátszható
+OK	- A gyakorlás elősegítése céljából minden korábban lejátszott, és jól megoldott keresztrejtvény (level) legyen újrajátszható
 	- Hall of fame bevezetése esetleg
 OK - Új kínai készlet feltöltése
 OK - Feltöltött csomagok méretének javítása a packs.json-ben
