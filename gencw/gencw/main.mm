@@ -357,7 +357,17 @@ int main (int argc, const char * argv[]) {
 		//Write packs.json besides the packs
 		if (succeeded) {
 			packages = [packages sortedArrayUsingComparator:^NSComparisonResult(Package*  _Nonnull pack1, Package*  _Nonnull pack2) {
-				return [pack1.name compare:pack2.name];
+				NSString *name1 = pack1.state.overriddenPackageName;
+				if ([name1 length] <= 0) {
+					name1 = pack1.name;
+				}
+				
+				NSString *name2 = pack2.state.overriddenPackageName;
+				if ([name2 length] <= 0) {
+					name2 = pack2.name;
+				}
+				
+				return [name1 compare:name2];
 			}];
 			
 			__block NSMutableArray *json = [NSMutableArray new];

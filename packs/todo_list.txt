@@ -1,7 +1,7 @@
 Hibák:
 OK - jelenleg nem frissül a szintek/szavak száma a főképernyőn
 OK - vásárlás kipróbálása frissítéssel egybekötve
-- Legyen hindi billentyűzet is
+OK - Legyen hindi billentyűzet is
 
 
 
