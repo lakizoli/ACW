@@ -116,6 +116,14 @@
 
 @end
 
+#pragma mark - Hindi Traditional Keyboard
+
+@interface HindiTraditionalKeyboard : KeyboardConfig
+
+-(BOOL) rowKeys:(NSUInteger)row page:(NSUInteger)page outKeys:(NSArray<NSString*>**)outKeys outWeights:(NSArray<NSNumber*>**)outWeights;
+
+@end
+
 #pragma mark - Thai Kedmanee Keyboard
 
 @interface ThaiKedmaneeKeyboard : KeyboardConfig

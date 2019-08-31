@@ -206,6 +206,7 @@
 										 [RussianKeyboard class],
 										 [Arabic102Keyboard class],
 										 [PersianKeyboard class],
+										 [HindiTraditionalKeyboard class],
 										 [JapanKatakanaKeyboard class],
 										 [JapanHiraganaKeyboard class],
 										 [ThaiKedmaneeKeyboard class],
