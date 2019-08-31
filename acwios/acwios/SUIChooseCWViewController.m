@@ -95,7 +95,14 @@
 			currentIdx = 0;
 		}
 		
-		[self->_currentSavedCrosswordIndices setObject:[NSNumber numberWithUnsignedInteger:currentIdx] forKey:packageKey];
+		NSNumber *curCWIdx = nil;
+		if (package.state.filledLevel >= package.state.levelCount) {
+			curCWIdx = [NSNumber numberWithUnsignedInteger:currentIdx + 1];
+		} else {
+			curCWIdx = [NSNumber numberWithUnsignedInteger:currentIdx];
+		}
+		
+		[self->_currentSavedCrosswordIndices setObject:curCWIdx forKey:packageKey];
 		
 		__block NSUInteger sumWordCount = 0;
 		[cws enumerateObjectsUsingBlock:^(SavedCrossword * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -263,8 +270,8 @@
 	CWCell *cell = (CWCell*) [tableView dequeueReusableCellWithIdentifier:@"CWCell" forIndexPath:indexPath];
 	if (cell && indexPath.row >= 0 && indexPath.row < [_sortedPackageKeys count]) {
 		NSString *packageKey = [_sortedPackageKeys objectAtIndex:indexPath.row];
-		NSUInteger filledLevelCount = [[_currentSavedCrosswordIndices objectForKey:cell.packageKey] unsignedIntegerValue];
-		NSUInteger filledWordCount = [[_filledWordCounts objectForKey:cell.packageKey] unsignedIntegerValue];
+		NSUInteger filledLevelCount = [[_currentSavedCrosswordIndices objectForKey:packageKey] unsignedIntegerValue];
+		NSUInteger filledWordCount = [[_filledWordCounts objectForKey:packageKey] unsignedIntegerValue];
 
 		cell.parent = self;
 		cell.packageKey = packageKey;
@@ -282,7 +289,7 @@
 		[cell.statistics setText:[NSString stringWithFormat:@"%lu of %lu levels (%lu of %lu words) solved",
 								  filledLevelCount,
 								  pack.state.levelCount,
-								  filledWordCount,
+								  pack.state.filledLevel >= pack.state.levelCount ? pack.state.wordCount : filledWordCount,
 								  pack.state.wordCount]];
 
 		if (cwEnabled) {

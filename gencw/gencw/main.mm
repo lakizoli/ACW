@@ -40,6 +40,7 @@ static void GenerateCrosswords (NSString* baseName, Package *package, GeneratorI
 	NSString *firstCWName = nil;
 	BOOL genRes = YES;
 	int32_t cwIndex = 0;
+	int32_t cwCount = 0;
 	while (genRes) {
 		if (generateAllVariations) {
 			lastPercent = -1;
@@ -69,6 +70,10 @@ static void GenerateCrosswords (NSString* baseName, Package *package, GeneratorI
 			}
 		}];
 		
+		if (genRes) {
+			++cwCount;
+		}
+		
 		if (generateAllVariations == NO) {
 			break;
 		}
@@ -76,7 +81,7 @@ static void GenerateCrosswords (NSString* baseName, Package *package, GeneratorI
 	
 	[package.state setCrosswordName:firstCWName];
 	[package.state setFilledLevel:0];
-	[package.state setLevelCount:generateAllVariations ? cwIndex : 1];
+	[package.state setLevelCount:generateAllVariations ? cwCount : 1];
 	[package.state setFilledWordCount:0];
 	[package.state setWordCount:[generatorInfo.usedWords count]];
 	[man savePackageState:package];

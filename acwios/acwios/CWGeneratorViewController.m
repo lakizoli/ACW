@@ -255,6 +255,7 @@
 		NSString *firstCWName = nil;
 		BOOL genRes = YES;
 		int32_t idx = 0;
+		int32_t cwCount = 0;
 		while (genRes) {
 			if (generateAllVariations) {
 				lastPercent = -1;
@@ -283,6 +284,10 @@
 				}
 			}];
 
+			if (genRes) {
+				++cwCount;
+			}
+			
 			if (firstCWName == nil) {
 				firstCWName = self->_generatorInfo.crosswordName;
 			}
@@ -298,7 +303,7 @@
 
 		[self->_package.state setCrosswordName:firstCWName];
 		[self->_package.state setFilledLevel:0];
-		[self->_package.state setLevelCount:generateAllVariations ? idx : 1];
+		[self->_package.state setLevelCount:generateAllVariations ? cwCount : 1];
 		[self->_package.state setFilledWordCount:0];
 		[self->_package.state setWordCount:[self->_generatorInfo.usedWords count]];
 		[[PackageManager sharedInstance] savePackageState:self->_package];

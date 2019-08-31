@@ -14,11 +14,11 @@
 	UIViewController *sourceViewController = (UIViewController*)[self sourceViewController];
 	UINavigationController *navigationController = sourceViewController.navigationController;
 	
-	UIViewController *parentViewController = [navigationController presentingViewController];
-	[navigationController dismissViewControllerAnimated:NO completion:nil];
-
-	UIViewController *destinationController = (UIViewController*)[self destinationViewController];
-	[parentViewController presentViewController:destinationController animated:YES completion:nil];
+	__block UIViewController *parentViewController = [navigationController presentingViewController];
+	[navigationController dismissViewControllerAnimated:YES completion:^{
+		UIViewController *destinationController = (UIViewController*)[self destinationViewController];
+		[parentViewController presentViewController:destinationController animated:YES completion:nil];
+	}];
 }
 
 @end

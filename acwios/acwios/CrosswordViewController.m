@@ -567,11 +567,12 @@
 }
 
 - (IBAction)congratsButtonPressed:(id)sender {
+	NSUInteger starCount = _starCount;
 	[self resetButtonPressed:sender];
 	
 	[_winView setHidden:YES];
 
-	if (_starCount < 3) { //Failed
+	if (starCount < 3) { //Failed
 		return; //Fill again
 	}
 	
@@ -625,8 +626,11 @@
 			CrosswordViewController *cwController = (CrosswordViewController*) [navController topViewController];
 			NSUInteger nextCWIdx = _currentCrosswordIndex + 1;
 			SavedCrossword *nextCW = [_allSavedCrossword objectAtIndex:nextCWIdx];
+			
+			[cwController setCurrentPackage:_currentPackage];
 			[cwController setSavedCrossword:nextCW];
 			[cwController setCurrentCrosswordIndex:nextCWIdx];
+			[cwController setAllSavedCrossword:_allSavedCrossword];
 			[cwController setIsMultiLevelGame:YES];
 		}
 	}
