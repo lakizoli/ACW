@@ -1,6 +1,7 @@
 package com.zapp.acw.bll;
 
 import java.util.HashSet;
+import java.util.Set;
 
 public final class SavedCrossword {
 	public String path;
@@ -11,7 +12,7 @@ public final class SavedCrossword {
 	public int height = 0;
 	public HashSet<String> words = new HashSet<> ();
 
-	private static native void deleteUsedWordsFromDB (String packagePath, HashSet<String> words);
+	private static native void deleteUsedWordsFromDB (String packagePath, Set<String> words);
 
 	public void eraseFromDisk () {
 		//Delete used words from db

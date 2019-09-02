@@ -3,6 +3,11 @@
 
 add_definitions (-DUSE_FILE32API)
 
+find_library (
+	z-lib
+	z
+)
+
 add_library (
 	NativeMiniZip
 	STATIC
@@ -17,4 +22,10 @@ add_library (
 
 include_directories (
 	${CMAKE_CURRENT_LIST_DIR}/minizip/
+)
+
+target_link_libraries(
+	NativeMiniZip
+
+	${z-lib}
 )

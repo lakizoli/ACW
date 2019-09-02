@@ -15,11 +15,6 @@ find_library (
 	log
 )
 
-set (
-	CMAKE_SHARED_LINKER_FLAGS
-	"-lz"
-)
-
 ###########################################################################
 # NativeACW sources
 
