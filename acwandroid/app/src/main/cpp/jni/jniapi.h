@@ -17,29 +17,29 @@
 //////////////////////////////////////////////////////////////////////////////////////////
 #define LOG_TAG "BIMx Android"
 
-#ifdef DEBUVERS
-#	ifdef ANDROID_NDK
+#ifdef DEBUG
+#	ifdef __ANDROID__
 #		define LOG_PREFIX(level)																\
 			__android_log_print (level, LOG_TAG, "file: %s (line: %d)", __FILE__, __LINE__);	\
 			__android_log_print (level, LOG_TAG, "func: %s", __PRETTY_FUNCTION__);
-#	else //ANDROID_NDK
+#	else //__ANDROID__
 #		define LOG_PREFIX(level)																\
 			printf ("[" #level "] file: %s (line: %d)\n", __FILE__, __LINE__);					\
 			printf ("[" #level "] func: %s\n", __PRETTY_FUNCTION__);
-#	endif //ANDROID_NDK
+#	endif //__ANDROID__
 #else
 #	define LOG_PREFIX(level)
 #endif
 
-#ifdef ANDROID_NDK
+#ifdef __ANDROID__
 #	define  LOGI(...) { LOG_PREFIX (ANDROID_LOG_INFO)  __android_log_print (ANDROID_LOG_INFO,  LOG_TAG, __VA_ARGS__); }
 #	define  LOGD(...) { LOG_PREFIX (ANDROID_LOG_DEBUG) __android_log_print (ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__); }
 #	define  LOGE(...) { LOG_PREFIX (ANDROID_LOG_ERROR) __android_log_print (ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__); }
-#else //ANDROID_NDK
+#else //__ANDROID__
 #	define  LOGI(...)  { LOG_PREFIX (i) printf ("[i] {%s} \%s", __VA_ARGS__); }
 #	define  LOGD(...)  { LOG_PREFIX (d) printf ("[d] {%s} \%s", __VA_ARGS__); }
 #	define  LOGE(...)  { LOG_PREFIX (e) printf ("[e] {%s} \%s", __VA_ARGS__); }
-#endif //ANDROID_NDK
+#endif //__ANDROID__
 
 #define CHECKMSG(check, msg)								\
 	if (!(check)) {											\

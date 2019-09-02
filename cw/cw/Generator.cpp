@@ -12,7 +12,7 @@
 #include "WordBank.hpp"
 #include "QueryWords.hpp"
 #include "Grid.hpp"
-#include <TargetConditionals.h>
+//#include <TargetConditionals.h>
 
 Generator::InsertWordRes Generator::InsertWordIntoCells (bool isVertical, const std::vector<std::shared_ptr<Cell>>& cells,
 														 std::set<std::wstring>& usedWordsOfWholePackage,
