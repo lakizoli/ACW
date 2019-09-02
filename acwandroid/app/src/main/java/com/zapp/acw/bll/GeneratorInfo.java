@@ -3,7 +3,7 @@ package com.zapp.acw.bll;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
-public class GeneratorInfo {
+public final class GeneratorInfo {
 //Database properties
 	public ArrayList<Deck> decks = new ArrayList<> ();
 	public ArrayList<Card> cards = new ArrayList<> ();
@@ -12,10 +12,10 @@ public class GeneratorInfo {
 
 //Configured properties
 	public String crosswordName;
-	public int width;
-	public int height;
-	public int questionFieldIndex;
-	public int solutionFieldIndex;
-	public ArrayList<String> splitArray;
-	public TreeMap<String, String> solutionsFixes;
+	public int width = 0;
+	public int height = 0;
+	public int questionFieldIndex = 0;
+	public int solutionFieldIndex = 0;
+	public ArrayList<String> splitArray = new ArrayList<> ();
+	public TreeMap<String, String> solutionsFixes = new TreeMap<> ();
 }

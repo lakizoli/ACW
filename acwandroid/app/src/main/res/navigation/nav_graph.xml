@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.zapp.acw.ui.main.MainFragment"
+        android:label="main_fragment"
+        tools:layout="@layout/main_fragment" >
+        <action
+            android:id="@+id/ShowDownload"
+            app:destination="@id/downloadFragment" />
+        <action
+            android:id="@+id/ShowChooseCW"
+            app:destination="@id/chooseCW" />
+    </fragment>
+    <fragment
+        android:id="@+id/downloadFragment"
+        android:name="com.zapp.acw.ui.main.DownloadFragment"
+        android:label="download_fragment"
+        tools:layout="@layout/download_fragment" />
+    <fragment
+        android:id="@+id/chooseCW"
+        android:name="com.zapp.acw.ui.main.ChooseCW"
+        android:label="choose_cw_fragment"
+        tools:layout="@layout/choose_cw_fragment" />
+</navigation>
