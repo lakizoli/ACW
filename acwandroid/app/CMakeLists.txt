@@ -39,6 +39,9 @@ add_library (
 	src/main/cpp/jni/JavaFunction.cpp
 	src/main/cpp/jni/JavaString.cpp
 	src/main/cpp/jni/JavaTypes.cpp
+	src/main/cpp/jni/JavaJSONBase.cpp
+	src/main/cpp/jni/JavaJSONArrayImpl.cpp
+	src/main/cpp/jni/JavaJSONObjectImpl.cpp
 
 	# adb library
 	../../adb/adb/DBHandler.cpp
@@ -59,8 +62,8 @@ include_directories (
 	src/main/cpp/
 	src/main/cpp/jni
 	../../libunwind/include
-	../../cw/cw/
-	../../adb/adb/json
+	../../cw/cw
+	../../adb/adb
 )
 
 ###########################################################################
