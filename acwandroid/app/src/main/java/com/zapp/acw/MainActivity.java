@@ -7,6 +7,9 @@ import android.os.Bundle;
 import com.zapp.acw.ui.main.MainFragment;
 
 public class MainActivity extends AppCompatActivity {
+	static {
+		System.loadLibrary ("NativeACW");
+	}
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
