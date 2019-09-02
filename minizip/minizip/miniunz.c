@@ -48,6 +48,10 @@
 #ifdef __APPLE__
 #	include <sys/stat.h>
 #endif
+#ifdef __ANDROID__
+#	include <sys/stat.h>
+#	include <sys/types.h>
+#endif
 
 #ifdef _WIN32
 # include <direct.h>
