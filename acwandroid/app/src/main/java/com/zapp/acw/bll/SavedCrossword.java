@@ -6,6 +6,7 @@ import com.zapp.acw.FileUtils;
 
 import java.io.File;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -83,19 +84,14 @@ public final class SavedCrossword {
 		String path = filledValuesPath ();
 		File file = new File (path);
 		if (file.exists () && file.isFile ()) {
-//			NSDictionary<NSString*, NSString*>* dict = [NSDictionary dictionaryWithContentsOfURL:path];
-//			[dict enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull obj, BOOL * _Nonnull stop) {
-//				NSRange range = [key rangeOfString:@"_"];
-//				if (range.location != NSNotFound) {
-//					NSString *valSection = [key substringToIndex:range.location];
-//					NSString *valRow = [key substringFromIndex:range.location + 1];
-//					NSInteger section = [valSection intValue];
-//					NSInteger row = [valRow intValue];
-//
-//					NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:section];
-//				[filledValues setObject:obj forKey:indexPath];
-//				}
-//			}];
+			TreeMap<Pos, String> dict = FileUtils.readObjectFromPath (path);
+			Set<Pos> keySet = dict.keySet ();
+			Iterator<Pos> it = keySet.iterator ();
+			while (it.hasNext ()) {
+				Pos key = it.next ();
+				String value = dict.get (key);
+				filledValues.put (key, value);
+			}
 		}
 	}
 
