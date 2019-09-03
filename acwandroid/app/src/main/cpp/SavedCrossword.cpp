@@ -5,8 +5,10 @@
 #include <set>
 #include "jniapi.h"
 #include "UsedWords.hpp"
+#include "Crossword.hpp"
 #include "JavaString.h"
 #include "JavaContainers.h"
+#include "ObjectStore.hpp"
 
 extern "C" JNIEXPORT void JNICALL Java_com_zapp_acw_bll_SavedCrossword_deleteUsedWordsFromDB (JNIEnv *env, jclass cls, jstring jPackagePath, jobject jWords) {
 	std::string packagePath = JavaString (jPackagePath).getString ();
@@ -26,4 +28,13 @@ extern "C" JNIEXPORT void JNICALL Java_com_zapp_acw_bll_SavedCrossword_deleteUse
 
 		UsedWords::Update (packagePath, updatedWords);
 	}
+}
+
+extern "C" JNIEXPORT jint JNICALL Java_com_zapp_acw_bll_SavedCrossword_loadDB (JNIEnv *env, jclass clazz, jstring path) {
+	std::shared_ptr<Crossword> cw = Crossword::Load (JavaString (path).getString ());
+	return ObjectStore<Crossword>::Get ().Add (cw);
+}
+
+extern "C" JNIEXPORT void JNICALL Java_com_zapp_acw_bll_SavedCrossword_unloadDB (JNIEnv *env, jclass clazz, jint native_obj_id) {
+	ObjectStore<Crossword>::Get ().Remove (native_obj_id);
 }

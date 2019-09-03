@@ -1,9 +1,17 @@
 package com.zapp.acw.bll;
 
+import android.util.Log;
+
+import com.zapp.acw.FileUtils;
+
+import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeMap;
 
 public final class SavedCrossword {
+	private int nativeObjID = 0;
+
 	public String path;
 	public String packageName;
 	public String name;
@@ -13,34 +21,84 @@ public final class SavedCrossword {
 	public HashSet<String> words = new HashSet<> ();
 
 	private static native void deleteUsedWordsFromDB (String packagePath, Set<String> words);
+	private static native int loadDB (String path);
+	private static native void unloadDB (int nativeObjID);
+
+	private String filledValuesPath () {
+		String pureFileName = FileUtils.pathByDeletingPathExtension (path);
+		return FileUtils.pathByAppendingPathExtension (pureFileName, "filledValues");
+	}
 
 	public void eraseFromDisk () {
 		//Delete used words from db
 		if (words != null && words.size () > 0) {
-			String packagePath = path.substring (0, path.lastIndexOf ('/'));
+			String packagePath = new File (path).getParent ();
 			deleteUsedWordsFromDB (packagePath, words);
 		}
 
-//		//Delete filled values
-//		NSURL *filledValuesPath = [self filledValuesPath];
-//		err = nil;
-//		if ([man removeItemAtURL:filledValuesPath error:&err] != YES) {
-//			NSLog (@"Cannot delete crossword's filled values at path: %@, error: %@", filledValuesPath, err);
-//		}
-//
-//		//Delete crossword
-//		err = nil;
-//		if ([man removeItemAtURL:_path error:&err] != YES) {
-//			NSLog (@"Cannot delete crossword at path: %@, error: %@", _path, err);
-//		}
+		//Delete filled values
+		String filledValuesPath = filledValuesPath ();
+		if (!FileUtils.deleteRecursive (filledValuesPath)) {
+			Log.e ("SavedCrossword", "Cannot delete crossword's filled values at path: " + filledValuesPath);
+		}
+
+		//Delete crossword
+		if (!FileUtils.deleteRecursive (path)) {
+			Log.e ("SavedCrossword","Cannot delete crossword at path: " + path);
+		}
 	}
 
-//	-(void) loadDB;
-//	-(void) unloadDB;
+	public void loadDB () {
+		nativeObjID = loadDB (path);
+	}
+
+	public void unloadDB () {
+		unloadDB (nativeObjID);
+		nativeObjID = 0;
+	}
+
+	public void saveFilledValues (TreeMap<Pos, String> filledValues) {
+		//Remove original file if exists
+		String path = filledValuesPath ();
+
+		if (new File (path).exists ()) {
+			if (!FileUtils.deleteRecursive (path)) {
+				//log...
+				return;
+			}
+		}
+
+		//Save filled values
+		if (!FileUtils.writeObjectToPath (filledValues, path)) {
+			//log...
+			return;
+		}
+	}
+
+	public void loadFilledValuesInto (TreeMap<Pos, String> filledValues) {
+		//Clear original content
+		filledValues.clear ();
+
+		//Load content
+		String path = filledValuesPath ();
+		File file = new File (path);
+		if (file.exists () && file.isFile ()) {
+//			NSDictionary<NSString*, NSString*>* dict = [NSDictionary dictionaryWithContentsOfURL:path];
+//			[dict enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull obj, BOOL * _Nonnull stop) {
+//				NSRange range = [key rangeOfString:@"_"];
+//				if (range.location != NSNotFound) {
+//					NSString *valSection = [key substringToIndex:range.location];
+//					NSString *valRow = [key substringFromIndex:range.location + 1];
+//					NSInteger section = [valSection intValue];
+//					NSInteger row = [valRow intValue];
 //
-//	-(void) saveFilledValues:(NSMutableDictionary<NSIndexPath*, NSString*>*)filledValues;
-//	-(void) loadFilledValuesInto:(NSMutableDictionary<NSIndexPath*, NSString*>*)filledValues;
-//
+//					NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:section];
+//				[filledValues setObject:obj forKey:indexPath];
+//				}
+//			}];
+		}
+	}
+
 //	-(NSArray<Statistics*>*) loadStatistics;
 //	-(void) mergeStatistics:(uint32_t) failCount hintCount:(uint32_t)hintCount fillRatio:(double)fillRatio isFilled:(BOOL)isFilled fillDuration:(NSTimeInterval)fillDuration;
 //	-(void) resetStatistics;
