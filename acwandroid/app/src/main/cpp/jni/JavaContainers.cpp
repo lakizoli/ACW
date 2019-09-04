@@ -11,6 +11,7 @@ namespace jni_containers {
 	JNI::jClassID jIteratorClass {"java/util/Iterator"};
 	JNI::jClassID jSetClass {"java/util/Set"};
 	JNI::jClassID jEntryClass {"java/util/Map$Entry"};
+	JNI::jClassID jHashSetClass {"java/util/HashSet"};
 	JNI::jClassID jHashMapClass {"java/util/HashMap"};
 
 //Java method and field signatures
@@ -27,6 +28,12 @@ namespace jni_containers {
 	JNI::jCallableID jEntryGetKeyMethod {JNI::JMETHOD, "getKey", "()Ljava/lang/Object;"};
 	JNI::jCallableID jEntryGetValueMethod {JNI::JMETHOD, "getValue", "()Ljava/lang/Object;"};
 
+	JNI::jCallableID jHSetInitMethod {JNI::JMETHOD, "<init>", "()V"};
+	JNI::jCallableID jHSetSizeMethod {JNI::JMETHOD, "size", "()I"};
+	JNI::jCallableID jHSetAddMethod {JNI::JMETHOD, "add", "(Ljava/lang/Object;)Z"};
+	JNI::jCallableID jHSetContainsMethod {JNI::JMETHOD, "contains", "(Ljava/lang/Object;)Z"};
+	JNI::jCallableID jHSetIteratorMethod {JNI::JMETHOD, "iterator", "()Ljava/util/Iterator;"};
+
 	JNI::jCallableID jMapInitMethod {JNI::JMETHOD, "<init>", "()V"};
 	JNI::jCallableID jMapPutMethod {JNI::JMETHOD, "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;"};
 	JNI::jCallableID jMapSizeMethod {JNI::JMETHOD, "size", "()I"};
@@ -39,6 +46,7 @@ namespace jni_containers {
 	JNI::CallRegister<jIteratorClass, jITHasNextMethod, jITNextMethod> JNI_JavaIterator;
 	JNI::CallRegister<jSetClass, jSetIteratorMethod> JNI_JavaSet;
 	JNI::CallRegister<jEntryClass, jEntryGetKeyMethod, jEntryGetValueMethod> JNI_JavaEntry;
+	JNI::CallRegister<jHashSetClass, jHSetInitMethod, jHSetSizeMethod, jHSetAddMethod, jHSetContainsMethod, jHSetIteratorMethod> JNI_JavaHashSet;
 	JNI::CallRegister<jHashMapClass, jMapInitMethod, jMapPutMethod, jMapSizeMethod, jMapGetMethod, jMapEntrySetMethod, jMapContainsKeyMethod> JNI_JavaHashMap;
 }
 
@@ -69,6 +77,30 @@ JavaObject JavaEntry::key () const {
 
 JavaObject JavaEntry::value () const {
 	return JNI::CallObjectMethod<JavaObject> (mObject, JNI::JavaMethod (jni_containers::jEntryGetValueMethod));
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// C++ implementation of the JavaHashSet class
+////////////////////////////////////////////////////////////////////////////////////////////////////
+JavaHashSet::JavaHashSet () {
+	JNI::AutoLocalRef<jobject> jobj = JNI::GetEnv ()->NewObject (JNI::JavaClass (jni_containers::jHashSetClass), JNI::JavaMethod (jni_containers::jHSetInitMethod));
+	mObject = JNI::GlobalReferenceObject (jobj.get ());
+}
+
+int JavaHashSet::size () const {
+	return JNI::GetEnv ()->CallIntMethod (mObject, JNI::JavaMethod (jni_containers::jHSetSizeMethod));
+}
+
+void JavaHashSet::add (const JavaObject& obj) {
+	JNI::GetEnv ()->CallBooleanMethod (mObject, JNI::JavaMethod (jni_containers::jHSetAddMethod), obj.get ());
+}
+
+bool JavaHashSet::contains (const JavaObject& obj) const {
+	return JNI::GetEnv ()->CallBooleanMethod (mObject, JNI::JavaMethod (jni_containers::jHSetContainsMethod), obj.get ());
+}
+
+JavaIterator JavaHashSet::iterator () const {
+	return JNI::CallObjectMethod<JavaIterator> (mObject, JNI::JavaMethod (jni_containers::jHSetIteratorMethod));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

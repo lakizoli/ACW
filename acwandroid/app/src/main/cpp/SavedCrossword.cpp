@@ -286,3 +286,22 @@ extern "C" JNIEXPORT jint JNICALL Java_com_zapp_acw_bll_SavedCrossword_getCellsS
 
 	return seps;
 }
+
+extern "C" JNIEXPORT jobject JNICALL Java_com_zapp_acw_bll_SavedCrossword_getUsedKeys (JNIEnv* env, jobject thiz) {
+	int32_t native_obj_id = JNI::GetEnv ()->GetIntField (thiz, JNI::JavaField (jNativeObjIDField));
+	std::shared_ptr<Crossword> cw = ObjectStore<Crossword>::Get ().Get (native_obj_id);
+	if (cw == nullptr) {
+		return nullptr;
+	}
+
+	JavaHashSet usedKeys;
+	for (wchar_t ch :  cw->GetUsedKeys ()) {
+		std::wstring chStr;
+		chStr += ch;
+		uint32_t len = chStr.length () * sizeof (wchar_t);
+		JavaString jStr = JavaString ((const char*) chStr.c_str (), (int32_t) len, "UTF-16LE");
+		usedKeys.add (jStr);
+	}
+
+	return usedKeys.release ();
+}

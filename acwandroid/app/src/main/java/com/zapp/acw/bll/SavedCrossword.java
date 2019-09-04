@@ -195,5 +195,5 @@ public final class SavedCrossword {
 	public native int getCellsSeparators (int row, int col);
 	//endregion
 
-//	-(NSSet<NSString*>*) getUsedKeys;
+	public native HashSet<String> getUsedKeys ();
 }
