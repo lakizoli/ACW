@@ -15,6 +15,10 @@ public final class FileUtils {
 		return new File (path).getParent ();
 	}
 
+	public static String pathByAppendingPathComponent (String path, String component) {
+		return new File (path, component).getAbsolutePath ();
+	}
+
 	public static String pathByDeletingPathExtension (String path) {
 		File cwFile = new File (path);
 		String packageDir = cwFile.getParent ();
