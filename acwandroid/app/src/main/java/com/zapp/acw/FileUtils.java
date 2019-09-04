@@ -20,16 +20,23 @@ public final class FileUtils {
 	}
 
 	public static String pathByDeletingPathExtension (String path) {
-		File cwFile = new File (path);
-		String packageDir = cwFile.getParent ();
-		String cwName = cwFile.getName ();
-		int posDot = cwName.lastIndexOf ('.');
-		String pureFileName = posDot < 0 ? cwName : cwName.substring (0,  posDot);
+		File file = new File (path);
+		String packageDir = file.getParent ();
+		String name = file.getName ();
+		int posDot = name.lastIndexOf ('.');
+		String pureFileName = posDot < 0 ? name : name.substring (0,  posDot);
 		return new File (packageDir, pureFileName).getAbsolutePath ();
 	}
 
 	public static String pathByAppendingPathExtension (String path, String ext) {
 		return path + "." + ext;
+	}
+
+	public static String getPathExtension (String path) {
+		File file = new File (path);
+		String name = file.getName ();
+		int posDot = name.lastIndexOf ('.');
+		return posDot < 0 ? "" : name.substring (posDot);
 	}
 
 	public static <T> T readObjectFromPath (String path) {
@@ -97,37 +104,7 @@ public final class FileUtils {
 		return false;
 	}
 
-	public static boolean deleteRecursive (String path) {
-		File file = new File (path);
-		if (!file.exists ()) {
-			return true;
-		}
-
-		//Delete recursively
-		ArrayDeque<String> queue = new ArrayDeque<> ();
-		queue.addLast (file.getAbsolutePath ());
-
-		while (queue.size () > 0) {
-			String itemPath = queue.pollFirst ();
-
-			File item = new File (itemPath);
-			if (item.isDirectory ()) {
-				String[] children = item.list ();
-				if (children != null && children.length > 0) {
-					queue.addFirst (itemPath);
-					for (String child : children) {
-						queue.addFirst (itemPath + "/" + child);
-					}
-					continue;
-				}
-			}
-
-			//delete file or empty directory
-			if (!item.delete ()) {
-				return false;
-			}
-		}
-
-		return true;
-	}
+	public static native boolean deleteRecursive (String path);
+	public static native boolean copyRecursive (String sourcePath, String destPath);
+	public static native boolean moveTo (String sourcePath, String destPath);
 }
