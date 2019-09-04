@@ -10,7 +10,7 @@
 
 template<class T>
 class ObjectStore {
-	int32_t nextID = 1;
+	int32_t _nextID = 1;
 	std::unordered_map<int32_t, std::shared_ptr<T>> _store;
 
 	ObjectStore () = default;
@@ -21,9 +21,17 @@ public:
 		return inst;
 	}
 
+	std::shared_ptr<T> Get (int32_t objID) const {
+		auto it = _store.find (objID);
+		if (it != _store.end ()) {
+			return it->second;
+		}
+		return nullptr;
+	}
+
 	int32_t Add (std::shared_ptr<T> obj) {
-		int32_t objID = nextID++;
-		_store.emplace (nextID, obj);
+		int32_t objID = _nextID++;
+		_store.emplace (_nextID, obj);
 		return objID;
 	}
 

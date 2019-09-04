@@ -1,6 +1,8 @@
 package com.zapp.acw.bll;
 
-public final class Statistics {
+import java.io.Serializable;
+
+public final class Statistics implements Serializable {
 	public int failCount = 0;
 	public int hintCount = 0;
 	public double fillRatio = 0;
