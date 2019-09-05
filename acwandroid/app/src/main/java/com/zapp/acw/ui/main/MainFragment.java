@@ -28,8 +28,8 @@ public class MainFragment extends Fragment {
 	private MainViewModel _viewModel;
 	private Timer _timer;
 	private int _animCounter = 0;
-	private boolean _hasCollectedPackages = false;
-	private boolean _hasSavedCrosswords = false;
+	private boolean _packagesLoaded = false;
+	private boolean _crosswordsLoaded = false;
 
 	public static MainFragment newInstance () {
 		return new MainFragment ();
@@ -57,13 +57,13 @@ public class MainFragment extends Fragment {
 		_viewModel.getPackages ().observe (this, new Observer<ArrayList<Package>> () {
 			@Override
 			public void onChanged (ArrayList<Package> packages) {
-				_hasCollectedPackages = packages != null && packages.size () > 0;
+				_packagesLoaded = packages != null;
 			}
 		});
 		_viewModel.getSavedCrosswords ().observe (this, new Observer<HashMap<String, ArrayList<SavedCrossword>>> () {
 			@Override
 			public void onChanged (HashMap<String, ArrayList<SavedCrossword>> savedCrosswords) {
-				_hasSavedCrosswords = savedCrosswords != null && savedCrosswords.size () > 0;
+				_crosswordsLoaded = savedCrosswords != null;
 			}
 		});
 		_viewModel.startLoad (getActivity ());
@@ -72,7 +72,7 @@ public class MainFragment extends Fragment {
 		_timer.schedule (new TimerTask () {
 			@Override
 			public void run () {
-				if (_animCounter >= 6 && _hasCollectedPackages && _hasSavedCrosswords) {
+				if (_animCounter >= 6 && _packagesLoaded && _crosswordsLoaded) {
 					_timer.cancel ();
 					_timer.purge ();
 
