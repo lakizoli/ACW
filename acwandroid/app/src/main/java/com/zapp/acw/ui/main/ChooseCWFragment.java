@@ -1,5 +1,7 @@
 package com.zapp.acw.ui.main;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
@@ -14,12 +16,12 @@ import android.view.ViewGroup;
 
 import com.zapp.acw.R;
 
-public class ChooseCW extends Fragment {
+public class ChooseCWFragment extends Fragment {
 
 	private ChooseCWViewModel mViewModel;
 
-	public static ChooseCW newInstance () {
-		return new ChooseCW ();
+	public static ChooseCWFragment newInstance () {
+		return new ChooseCWFragment ();
 	}
 
 	@Override
