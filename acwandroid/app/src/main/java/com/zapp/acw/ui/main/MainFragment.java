@@ -66,7 +66,7 @@ public class MainFragment extends Fragment {
 				_hasSavedCrosswords = savedCrosswords != null && savedCrosswords.size () > 0;
 			}
 		});
-		_viewModel.startLoad ();
+		_viewModel.startLoad (getActivity ());
 
 		_timer = new Timer ();
 		_timer.schedule (new TimerTask () {

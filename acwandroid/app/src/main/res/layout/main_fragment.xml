@@ -67,7 +67,7 @@
             android:layout_weight=".03" />
 
         <ProgressBar
-            style="@android:style/Widget.DeviceDefault.Light.ProgressBar"
+            style="@android:style/Widget.ProgressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
