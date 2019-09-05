@@ -25,8 +25,9 @@ add_library (
 	# Jni folder's source files
 	src/main/cpp/FileUtils.cpp
 	src/main/cpp/main.cpp
-	src/main/cpp/SavedCrossword.cpp
+	src/main/cpp/Package.cpp
 	src/main/cpp/PackageManager.cpp
+	src/main/cpp/SavedCrossword.cpp
 	src/main/cpp/jni/jniapi.cpp
 	src/main/cpp/jni/JavaArrays.cpp
 	src/main/cpp/jni/JavaCallback.cpp

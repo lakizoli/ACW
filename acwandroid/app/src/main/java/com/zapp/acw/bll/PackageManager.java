@@ -6,6 +6,7 @@ import android.util.Log;
 import com.zapp.acw.FileUtils;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import static android.icu.text.Normalizer.YES;
 
@@ -112,7 +113,7 @@ public final class PackageManager {
 		}
 
 		for (String fileURL : enumerator) {
-			File file = new File (fileURL);
+			File file = new File (FileUtils.pathByAppendingPathComponent (docDir, fileURL));
 			if (file.isFile ()) {
 				String ext = FileUtils.getPathExtension (fileURL);
 				if (ext.toLowerCase ().equals ("apkg")) {
@@ -123,7 +124,7 @@ public final class PackageManager {
 
 						FileUtils.deleteRecursive (fileDestURL);
 
-						boolean resMove = FileUtils.moveTo (fileURL, fileDestURL);
+						boolean resMove = FileUtils.moveTo (file.getAbsolutePath (), fileDestURL);
 						if (!resMove) {
 							Log.e ("PackageManager", "movePackagesFromDocToDB - Cannot move package to db at: " + fileURL);
 						}
@@ -133,36 +134,26 @@ public final class PackageManager {
 		}
 	}
 
-//	-(std::vector<std::shared_ptr<BasicInfo>>) readBasicPackageInfos:(NSURL*)dbDir {
-//		NSFileManager *fileManager = [NSFileManager defaultManager];
-//		NSDirectoryEnumerationOptions options = NSDirectoryEnumerationSkipsSubdirectoryDescendants |
-//			NSDirectoryEnumerationSkipsPackageDescendants |
-//			NSDirectoryEnumerationSkipsHiddenFiles;
-//		NSDirectoryEnumerator<NSURL*> *enumerator = [fileManager enumeratorAtURL:dbDir
-//		includingPropertiesForKeys:@[NSURLIsDirectoryKey, NSURLNameKey]
-//		options:options
-//		errorHandler:nil];
-//
-//		std::vector<std::shared_ptr<BasicInfo>> result;
-//		for (NSURL *dirURL in enumerator) {
-//			NSNumber *isDir = nil;
-//			if ([dirURL getResourceValue:&isDir forKey:NSURLIsDirectoryKey error:nil] == YES && [isDir boolValue]) {
-//				std::shared_ptr<BasicInfo> basicInfo = BasicInfo::Create ([[dirURL path] UTF8String]);
-//				if (basicInfo) {
-//					result.push_back (basicInfo);
-//				}
-//			}
-//		}
-//
-//		return result;
-//	}
-
 	private String packageStateURL (String packURL) {
 		return FileUtils.pathByAppendingPathComponent (packURL, "gamestate.json");
 	}
 
-//-(NSArray<Package*>*)collectPackages;
-//-(void)savePackageState:(Package*)pack;
+	private native ArrayList<Package> extractLevel1Info (String dbDir);
+
+	public ArrayList<Package> collectPackages () {
+		String docDir = documentPath ();
+		String dbDir = databasePath ();
+
+		//Move packages from document dir to database
+		movePackagesFromDocToDB (docDir, dbDir);
+
+		//Extract package's level1 informations
+		return extractLevel1Info (dbDir);
+	}
+
+	public void savePackageState (Package pack) {
+		pack.state.saveTo (packageStateURL (pack.path));
+	}
 	//endregion
 
 

@@ -25,6 +25,9 @@ public final class FileUtils {
 		String name = file.getName ();
 		int posDot = name.lastIndexOf ('.');
 		String pureFileName = posDot < 0 ? name : name.substring (0,  posDot);
+		if (packageDir == null || (packageDir != null && packageDir.length () <= 0)) {
+			return pureFileName;
+		}
 		return new File (packageDir, pureFileName).getAbsolutePath ();
 	}
 
@@ -36,7 +39,7 @@ public final class FileUtils {
 		File file = new File (path);
 		String name = file.getName ();
 		int posDot = name.lastIndexOf ('.');
-		return posDot < 0 ? "" : name.substring (posDot);
+		return posDot < 0 ? "" : (name.length () <= posDot + 1 ? "" : name.substring (posDot + 1));
 	}
 
 	public static <T> T readObjectFromPath (String path) {

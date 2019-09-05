@@ -9,6 +9,19 @@
 #include <JavaString.h>
 #include <BasicInfo.hpp>
 #include <JavaFile.hpp>
+#include <JavaContainers.h>
+#include "Package.hpp"
+
+namespace {
+//Java class signature
+	JNI::jClassID jPackageManagerClass {"com/zapp/acw/bll/PackageManager"};
+
+//Java method and field signatures
+	JNI::jCallableID jPackageStateURLMethod {JNI::JMETHOD, "packageStateURL", "(Ljava/lang/String;)Ljava/lang/String;"};
+
+//Register jni calls
+	JNI::CallRegister<jPackageManagerClass, jPackageStateURLMethod> JNI_PackageManager;
+}
 
 extern "C" JNIEXPORT void JNICALL Java_com_zapp_acw_bll_PackageManager_unzipPackage (JNIEnv* env, jclass clazz, jstring package_path, jstring dest_path) {
 	unzFile pack = unzOpen (JavaString (package_path).getString ().c_str ());
@@ -83,25 +96,51 @@ extern "C" JNIEXPORT void JNICALL Java_com_zapp_acw_bll_PackageManager_unzipPack
 
 static std::vector<std::shared_ptr<BasicInfo>> readBasicPackageInfos (const std::string& dbDir) {
 	JavaFile fileDB (dbDir);
-//	NSFileManager *fileManager = [NSFileManager defaultManager];
-//	NSDirectoryEnumerationOptions options = NSDirectoryEnumerationSkipsSubdirectoryDescendants |
-//											NSDirectoryEnumerationSkipsPackageDescendants |
-//											NSDirectoryEnumerationSkipsHiddenFiles;
-//	NSDirectoryEnumerator<NSURL*> *enumerator = [fileManager enumeratorAtURL:dbDir
-//		includingPropertiesForKeys:@[NSURLIsDirectoryKey, NSURLNameKey]
-//		options:options
-//		errorHandler:nil];
-
 	std::vector<std::shared_ptr<BasicInfo>> result;
 	for (const std::string& dirURL : fileDB.list ()) {
-//		NSNumber *isDir = nil;
-//		if ([dirURL getResourceValue:&isDir forKey:NSURLIsDirectoryKey error:nil] == YES && [isDir boolValue]) {
-//			std::shared_ptr<BasicInfo> basicInfo = BasicInfo::Create ([[dirURL path] UTF8String]);
-//			if (basicInfo) {
-//				result.push_back (basicInfo);
-//			}
-//		}
+		std::string itemPath = dbDir + "/" + dirURL;
+		if (JavaFile (itemPath).isDirectory ()) {
+			std::shared_ptr<BasicInfo> basicInfo = BasicInfo::Create (itemPath);
+			if (basicInfo) {
+				result.push_back (basicInfo);
+			}
+		}
 	}
 
 	return result;
+}
+
+extern "C" JNIEXPORT jobject JNICALL Java_com_zapp_acw_bll_PackageManager_extractLevel1Info (JNIEnv* env, jobject thiz, jstring dbDir) {
+	//Prepare packages in database
+	std::vector<std::shared_ptr<BasicInfo>> basicInfos = readBasicPackageInfos (JavaString (dbDir).getString ());
+
+	//Extract package's level1 informations
+	JavaArrayList<Package> result;
+	for (std::shared_ptr<BasicInfo> db : basicInfos) {
+		Package pack;
+		pack.SetPath (db->GetPath ());
+		pack.SetName (db->GetPackageName ());
+
+		JavaArrayList<Deck> decks;
+		for (auto& it : db->GetDecks ()) {
+			Deck deck;
+
+			deck.SetPack (pack);
+			deck.SetDeckID (it.first);
+			deck.SetName (it.second->name.c_str ());
+
+			decks.add (deck);
+		}
+		pack.SetDecks (decks);
+
+		JavaString stateURL = JNI::CallObjectMethod<JavaString> (thiz, JNI::JavaMethod (jPackageStateURLMethod), JavaString (db->GetPath ()).get ());
+
+		GameState state;
+		state.LoadFrom (stateURL.getString ());
+		pack.SetState (state);
+
+		result.add (pack);
+	}
+
+	return result.release ();
 }
