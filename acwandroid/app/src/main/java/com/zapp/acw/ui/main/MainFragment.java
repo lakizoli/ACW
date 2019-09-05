@@ -21,7 +21,7 @@ import com.zapp.acw.bll.SavedCrossword;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.TreeMap;
+import java.util.HashMap;
 
 public class MainFragment extends Fragment {
 
@@ -60,9 +60,9 @@ public class MainFragment extends Fragment {
 				_hasCollectedPackages = packages != null && packages.size () > 0;
 			}
 		});
-		_viewModel.getSavedCrosswords ().observe (this, new Observer<TreeMap<String, ArrayList<SavedCrossword>>> () {
+		_viewModel.getSavedCrosswords ().observe (this, new Observer<HashMap<String, ArrayList<SavedCrossword>>> () {
 			@Override
-			public void onChanged (TreeMap<String, ArrayList<SavedCrossword>> savedCrosswords) {
+			public void onChanged (HashMap<String, ArrayList<SavedCrossword>> savedCrosswords) {
 				_hasSavedCrosswords = savedCrosswords != null && savedCrosswords.size () > 0;
 			}
 		});
@@ -90,7 +90,7 @@ public class MainFragment extends Fragment {
 
 	private boolean hasNonEmptyPackage () {
 		boolean res = false;
-		TreeMap<String, ArrayList<SavedCrossword>> savedCrosswords = _viewModel.getSavedCrosswords ().getValue ();
+		HashMap<String, ArrayList<SavedCrossword>> savedCrosswords = _viewModel.getSavedCrosswords ().getValue ();
 		ArrayList<Package> packages = _viewModel.getPackages ().getValue ();
 		for (Package pack : packages) {
 			String packageKey = pack.path.substring (pack.path.lastIndexOf ('/') + 1);

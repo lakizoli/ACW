@@ -10,6 +10,7 @@
 #include <BasicInfo.hpp>
 #include <JavaFile.hpp>
 #include <JavaContainers.h>
+#include <cw.hpp>
 #include "Package.hpp"
 
 namespace {
@@ -143,4 +144,42 @@ extern "C" JNIEXPORT jobject JNICALL Java_com_zapp_acw_bll_PackageManager_extrac
 	}
 
 	return result.release ();
+}
+
+extern "C" JNIEXPORT jobject JNICALL Java_com_zapp_acw_bll_PackageManager_collectSavedCrosswordsOfPackage (JNIEnv* env, jobject thiz, jstring packageName, jstring jPackageDir) {
+	std::string packageDir = JavaString (jPackageDir).getString ();
+
+	JavaArrayList<SavedCrossword> arr;
+	for (const std::string& child : JavaFile (packageDir).list ()) {
+		JavaFile childFile (packageDir + "/" + child);
+		if (!childFile.isDirectory () && child.rfind (".cw") == child.length () - 3) {
+//			LOGD ("child: %s", childFile.getAbsolutePath ().c_str ());
+//			LOGD ("file name: %s", child.c_str ());
+
+			std::shared_ptr<Crossword> loadedCW = Crossword::Load (childFile.getAbsolutePath ());
+			if (loadedCW != nullptr) {
+				SavedCrossword cw;
+				cw.SetPath (childFile.getAbsolutePath ());
+				cw.SetPackageName (JavaString (packageName).getString ());
+				cw.SetName (loadedCW->GetName ());
+
+				std::shared_ptr<Grid> grid = loadedCW->GetGrid ();
+				cw.SetWidth (grid->GetWidth ());
+				cw.SetHeight (grid->GetHeight ());
+
+				JavaHashSet words;
+				for (const std::wstring& word : loadedCW->GetWords ()) {
+					uint32_t len = word.length () * sizeof (wchar_t);
+					JavaString jWord ((const char*) word.c_str (), len, "UTF-16LE");
+					words.add (jWord);
+				}
+
+				cw.SetWords (words);
+
+				arr.add (cw);
+			}
+		}
+	}
+
+	return arr.release ();
 }

@@ -1,7 +1,7 @@
 package com.zapp.acw.bll;
 
 import java.util.ArrayList;
-import java.util.TreeMap;
+import java.util.HashMap;
 
 public final class GeneratorInfo {
 //Database properties
@@ -17,5 +17,5 @@ public final class GeneratorInfo {
 	public int questionFieldIndex = 0;
 	public int solutionFieldIndex = 0;
 	public ArrayList<String> splitArray = new ArrayList<> ();
-	public TreeMap<String, String> solutionsFixes = new TreeMap<> ();
+	public HashMap<String, String> solutionsFixes = new HashMap<> ();
 }

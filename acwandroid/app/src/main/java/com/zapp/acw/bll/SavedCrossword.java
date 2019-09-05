@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import java.util.TreeMap;
+import java.util.HashMap;
 
 public final class SavedCrossword {
 	private int nativeObjID = 0;
@@ -62,7 +62,7 @@ public final class SavedCrossword {
 		return FileUtils.pathByAppendingPathExtension (pureFileName, "filledValues");
 	}
 
-	public void saveFilledValues (TreeMap<Pos, String> filledValues) {
+	public void saveFilledValues (HashMap<Pos, String> filledValues) {
 		//Remove original file if exists
 		String path = filledValuesPath ();
 
@@ -80,7 +80,7 @@ public final class SavedCrossword {
 		}
 	}
 
-	public void loadFilledValuesInto (TreeMap<Pos, String> filledValues) {
+	public void loadFilledValuesInto (HashMap<Pos, String> filledValues) {
 		//Clear original content
 		filledValues.clear ();
 
@@ -88,7 +88,7 @@ public final class SavedCrossword {
 		String path = filledValuesPath ();
 		File file = new File (path);
 		if (file.exists () && file.isFile ()) {
-			TreeMap<Pos, String> dict = FileUtils.readObjectFromPath (path);
+			HashMap<Pos, String> dict = FileUtils.readObjectFromPath (path);
 			Set<Pos> keySet = dict.keySet ();
 			Iterator<Pos> it = keySet.iterator ();
 			while (it.hasNext ()) {

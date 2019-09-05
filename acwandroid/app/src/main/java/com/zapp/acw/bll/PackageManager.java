@@ -7,6 +7,10 @@ import com.zapp.acw.FileUtils;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.TreeMap;
 
 import static android.icu.text.Normalizer.YES;
 
@@ -156,14 +160,44 @@ public final class PackageManager {
 	}
 	//endregion
 
+	//region Collecting saved crosswords of package
+	private static class SWCNameComparator implements Comparator<SavedCrossword> {
+		public int compare (SavedCrossword cw1, SavedCrossword cw2) {
+			return cw1.name.compareTo (cw2.name);
+		}
+	}
 
+	private native ArrayList<SavedCrossword> collectSavedCrosswordsOfPackage (String packageName, String packageDir);
 
-//-(NSDictionary<NSString*, NSArray<SavedCrossword*>*>*)collectSavedCrosswords;
-//-(GeneratorInfo*)collectGeneratorInfo:(NSArray<Deck*>*)decks;
-//-(void)reloadUsedWords:(NSURL*)packagePath info:(GeneratorInfo*)info;
-//
-//-(NSString*)trimQuestionField:(NSString*)questionField;
-//-(NSString*)trimSolutionField:(NSString*)solutionField splitArr:(NSArray<NSString*>*)splitArr solutionFixes:(NSDictionary<NSString*, NSString*>*)solutionFixes;
-//-(BOOL)generateWithInfo:(GeneratorInfo*)info progressCallback:(void(^)(float, BOOL*))progressCallback;
+	public HashMap<String, ArrayList<SavedCrossword>> collectSavedCrosswords () {
+		String dbDir = databasePath ();
 
+		//Enumerate packages in database and collect crosswords from it
+		HashMap<String, ArrayList<SavedCrossword>> res = new HashMap<> ();
+		for (String child : new File (dbDir).list ()) {
+			File childFile = new File (FileUtils.pathByAppendingPathComponent (dbDir, child));
+			if (childFile.isDirectory ()) {
+				String packageName = child;
+				ArrayList<SavedCrossword> packageCrosswords = collectSavedCrosswordsOfPackage (packageName, childFile.getAbsolutePath ());
+				if (packageCrosswords != null && packageCrosswords.size () > 0) {
+					Collections.sort (packageCrosswords, new SWCNameComparator ());
+					res.put (packageName, packageCrosswords);
+				}
+			}
+		}
+
+		return res;
+	}
+	//endregion
+
+	//region Collecting generation info
+	//-(GeneratorInfo*)collectGeneratorInfo:(NSArray<Deck*>*)decks;
+	//-(void)reloadUsedWords:(NSURL*)packagePath info:(GeneratorInfo*)info;
+	//endregion
+
+	//region Generate crossword based on info
+	//-(NSString*)trimQuestionField:(NSString*)questionField;
+	//-(NSString*)trimSolutionField:(NSString*)solutionField splitArr:(NSArray<NSString*>*)splitArr solutionFixes:(NSDictionary<NSString*, NSString*>*)solutionFixes;
+	//-(BOOL)generateWithInfo:(GeneratorInfo*)info progressCallback:(void(^)(float, BOOL*))progressCallback;
+	//endregion
 }

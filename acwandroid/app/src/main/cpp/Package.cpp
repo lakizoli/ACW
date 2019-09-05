@@ -10,6 +10,7 @@ namespace {
 	JNI::jClassID jGameStateClass {"com/zapp/acw/bll/GameState"};
 	JNI::jClassID jDeckClass {"com/zapp/acw/bll/Deck"};
 	JNI::jClassID jPackageClass {"com/zapp/acw/bll/Package"};
+	JNI::jClassID jSavedCrosswordClass {"com/zapp/acw/bll/SavedCrossword"};
 
 //Java method and field signatures
 	JNI::jCallableID jGameStateInitMethod {JNI::JMETHOD, "<init>", "()V"};
@@ -26,10 +27,19 @@ namespace {
 	JNI::jCallableID jDecksField {JNI::JFIELD, "decks", "Ljava/util/ArrayList;"};
 	JNI::jCallableID jStateField {JNI::JFIELD, "state", "Lcom/zapp/acw/bll/GameState;"};
 
-//Register jni calls
+	JNI::jCallableID jSCWInitMethod {JNI::JMETHOD, "<init>", "()V"};
+	JNI::jCallableID jSCWPathField {JNI::JFIELD, "path", "Ljava/lang/String;"};
+	JNI::jCallableID jSCWPackageNameField {JNI::JFIELD, "packageName", "Ljava/lang/String;"};
+	JNI::jCallableID jSCWNameField {JNI::JFIELD, "name", "Ljava/lang/String;"};
+	JNI::jCallableID jSCWWidthField {JNI::JFIELD, "width", "I"};
+	JNI::jCallableID jSCWHeightField {JNI::JFIELD, "height", "I"};
+	JNI::jCallableID jSCWWordsField {JNI::JFIELD, "words", "Ljava/util/HashSet;"};
+
+	//Register jni calls
 	JNI::CallRegister<jGameStateClass, jGameStateInitMethod, jLoadFromMethod> JNI_GameStateClass;
 	JNI::CallRegister<jDeckClass, jDeckInitMethod, jPackField, jDeckIDField, jDeckNameField> JNI_DeckClass;
 	JNI::CallRegister<jPackageClass, jPackageInitMethod, jPathField, jPackageNameField, jDecksField, jStateField> JNI_PackageClass;
+	JNI::CallRegister<jSavedCrosswordClass, jSCWInitMethod, jSCWPathField, jSCWPackageNameField, jSCWNameField, jSCWWidthField, jSCWHeightField, jSCWWordsField> JNI_SavedCrosswordClass;
 }
 
 GameState::GameState () {
@@ -50,7 +60,7 @@ void Deck::SetPack (const Package& pack) {
 	JNI::GetEnv ()->SetObjectField (mObject, JNI::JavaField (jPackField), pack.get ());
 }
 
-void Deck::SetDeckID  (int deckID) {
+void Deck::SetDeckID (int deckID) {
 	JNI::GetEnv ()->SetIntField (mObject, JNI::JavaField (jDeckIDField), deckID);
 }
 
@@ -79,3 +89,31 @@ void Package::SetState (const GameState& state) {
 	JNI::GetEnv ()->SetObjectField (mObject, JNI::JavaField (jStateField), state.get ());
 }
 
+SavedCrossword::SavedCrossword () {
+	JNI::AutoLocalRef<jobject> jobj (JNI::GetEnv ()->NewObject (JNI::JavaClass (jSavedCrosswordClass), JNI::JavaMethod (jSCWInitMethod)));
+	mObject = JNI::GlobalReferenceObject (jobj.get ());
+}
+
+void SavedCrossword::SetPath (const std::string& path) {
+	JNI::GetEnv ()->SetObjectField (mObject, JNI::JavaField (jSCWPathField), JavaString (path).get ());
+}
+
+void SavedCrossword::SetPackageName (const std::string& packageName) {
+	JNI::GetEnv ()->SetObjectField (mObject, JNI::JavaField (jSCWPackageNameField), JavaString (packageName).get ());
+}
+
+void SavedCrossword::SetName (const std::string& name) {
+	JNI::GetEnv ()->SetObjectField (mObject, JNI::JavaField (jSCWNameField), JavaString (name).get ());
+}
+
+void SavedCrossword::SetWidth (int width) {
+	JNI::GetEnv ()->SetIntField (mObject, JNI::JavaField (jSCWWidthField), width);
+}
+
+void SavedCrossword::SetHeight (int height) {
+	JNI::GetEnv ()->SetIntField (mObject, JNI::JavaField (jSCWHeightField), height);
+}
+
+void SavedCrossword::SetWords (const JavaHashSet& words) {
+	JNI::GetEnv ()->SetObjectField (mObject, JNI::JavaField (jSCWWordsField), words.get ());
+}

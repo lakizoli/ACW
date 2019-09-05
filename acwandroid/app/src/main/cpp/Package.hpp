@@ -7,6 +7,7 @@
 
 #include <JavaObject.h>
 #include <JavaContainers.h>
+#include <set>
 
 class Package;
 
@@ -45,5 +46,19 @@ public:
 	void SetState (const GameState& state);
 };
 
+class SavedCrossword : public JavaObject {
+	DECLARE_DEFAULT_JAVAOBJECT (SavedCrossword);
+
+public:
+	SavedCrossword ();
+
+public:
+	void SetPath (const std::string& path);
+	void SetPackageName (const std::string& packageName);
+	void SetName (const std::string& name);
+	void SetWidth (int width);
+	void SetHeight (int height);
+	void SetWords (const JavaHashSet& words);
+};
 
 #endif //ANKI_CROSSWORD_PACKAGE_HPP
