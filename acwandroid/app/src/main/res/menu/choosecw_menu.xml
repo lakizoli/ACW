@@ -3,7 +3,8 @@
 
     <item
         android:id="@+id/action_plus"
-        android:icon="@drawable/plus"
-        app:showAsAction="ifRoom"/>
+        android:icon="@android:drawable/ic_menu_add"
+        android:title="Obtain Anki Packages"
+        app:showAsAction="ifRoom" />
 
 </menu>
