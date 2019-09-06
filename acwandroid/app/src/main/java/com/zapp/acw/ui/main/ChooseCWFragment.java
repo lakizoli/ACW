@@ -6,6 +6,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.zapp.acw.R;
+
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,8 +16,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
-
-import com.zapp.acw.R;
 
 public class ChooseCWFragment extends Fragment implements Toolbar.OnMenuItemClickListener {
 
@@ -37,6 +37,7 @@ public class ChooseCWFragment extends Fragment implements Toolbar.OnMenuItemClic
 
 		mViewModel = ViewModelProviders.of (this).get (ChooseCWViewModel.class);
 
+		//Init toolbar
 		FragmentActivity activity = getActivity ();
 		Toolbar toolbar = (Toolbar) activity.findViewById (R.id.toolbar);
 		toolbar.inflateMenu (R.menu.choosecw_menu);
@@ -45,6 +46,7 @@ public class ChooseCWFragment extends Fragment implements Toolbar.OnMenuItemClic
 		OnBackPressedCallback callback = new OnBackPressedCallback (true /* enabled by default */) {
 			@Override
 			public void handleOnBackPressed () {
+				//...Nothing to do here...
 			}
 		};
 		requireActivity ().getOnBackPressedDispatcher ().addCallback (this, callback);
