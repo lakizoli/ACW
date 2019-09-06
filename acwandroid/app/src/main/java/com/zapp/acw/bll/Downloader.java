@@ -40,7 +40,7 @@ public final class Downloader {
 		void apply (DownloadResult resultCode, String downloadedFile, String fileName);
 	}
 
-	public static Downloader downloadFile (Context context, String url, DownloaderProgressHandler progressHandler, DownloaderCompletionHandler completionHandler) {
+	public static Downloader downloadFile (Context context, final String url, DownloaderProgressHandler progressHandler, DownloaderCompletionHandler completionHandler) {
 		final Downloader downloader = new Downloader ();
 		downloader._context = context;
 		downloader._url = url;

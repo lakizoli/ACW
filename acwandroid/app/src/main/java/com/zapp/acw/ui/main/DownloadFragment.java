@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,6 +38,22 @@ public class DownloadFragment extends Fragment implements TabLayout.OnTabSelecte
 		super.onActivityCreated (savedInstanceState);
 
 		mViewModel = ViewModelProviders.of (this).get (DownloadViewModel.class);
+
+		mViewModel.getAction ().observe (getViewLifecycleOwner (), new Observer<Integer> () {
+			@Override
+			public void onChanged (Integer action) {
+				switch (action.intValue ()) {
+					case DownloadViewModel.HIDE_PROGRESS:
+						mProgressView.setVisibility (View.INVISIBLE);
+						break;
+					case DownloadViewModel.SHOW_FAILED_ALERT:
+						//TODO: ...
+						break;
+					default:
+						break;
+				}
+			}
+		});
 
 		FragmentActivity activity = getActivity ();
 		mViewModel.startDownoadPackageList (activity);

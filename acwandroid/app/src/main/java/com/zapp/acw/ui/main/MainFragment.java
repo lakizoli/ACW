@@ -54,13 +54,13 @@ public class MainFragment extends Fragment {
 		super.onActivityCreated (savedInstanceState);
 		_viewModel = ViewModelProviders.of (this).get (MainViewModel.class);
 
-		_viewModel.getPackages ().observe (this, new Observer<ArrayList<Package>> () {
+		_viewModel.getPackages ().observe (getViewLifecycleOwner (), new Observer<ArrayList<Package>> () {
 			@Override
 			public void onChanged (ArrayList<Package> packages) {
 				_packagesLoaded = packages != null;
 			}
 		});
-		_viewModel.getSavedCrosswords ().observe (this, new Observer<HashMap<String, ArrayList<SavedCrossword>>> () {
+		_viewModel.getSavedCrosswords ().observe (getViewLifecycleOwner (), new Observer<HashMap<String, ArrayList<SavedCrossword>>> () {
 			@Override
 			public void onChanged (HashMap<String, ArrayList<SavedCrossword>> savedCrosswords) {
 				_crosswordsLoaded = savedCrosswords != null;

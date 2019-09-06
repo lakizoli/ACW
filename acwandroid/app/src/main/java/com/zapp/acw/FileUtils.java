@@ -110,4 +110,9 @@ public final class FileUtils {
 	public static native boolean deleteRecursive (String path);
 	public static native boolean copyRecursive (String sourcePath, String destPath);
 	public static native boolean moveTo (String sourcePath, String destPath);
+
+	public static String readFile (String path) {
+		//TODO: ...
+		return null;
+	}
 }
