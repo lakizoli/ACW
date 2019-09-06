@@ -94,7 +94,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="0.9"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:visibility="invisible" />
 
             </LinearLayout>
 
@@ -118,7 +119,8 @@
                     android:layout_weight="0.9"
                     android:indeterminate="false"
                     android:max="100"
-                    android:progress="0" />
+                    android:progress="0"
+                    android:visibility="invisible" />
 
             </LinearLayout>
 
@@ -139,7 +141,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="0.9"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:visibility="invisible" />
 
             </LinearLayout>
 
