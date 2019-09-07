@@ -16,7 +16,7 @@ public class MainViewModel extends ViewModel {
 	private final MutableLiveData<ArrayList<Package>> _packages = new MutableLiveData<> ();
 	private final MutableLiveData<HashMap<String, ArrayList<SavedCrossword>>> _savedCrosswords = new MutableLiveData<> ();
 
-	public void startLoad (final Activity activity) {
+	public void startLoad () {
 		new Thread (new Runnable () {
 			@Override
 			public void run () {
@@ -24,12 +24,8 @@ public class MainViewModel extends ViewModel {
 				final ArrayList<Package> packages = man.collectPackages ();
 				final HashMap<String, ArrayList<SavedCrossword>> cws = man.collectSavedCrosswords ();
 
-				activity.runOnUiThread (new Runnable () {
-					public void run () {
-						_packages.setValue (packages);
-						_savedCrosswords.setValue (cws);
-					}
-				});
+				_packages.postValue (packages);
+				_savedCrosswords.postValue (cws);
 			}
 		}).start ();
 	}

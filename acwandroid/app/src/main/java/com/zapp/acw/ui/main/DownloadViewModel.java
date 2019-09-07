@@ -37,7 +37,7 @@ public class DownloadViewModel extends ViewModel {
 			@Override
 			public void run () {
 				if (showFailedAlert) {
-					_action.setValue (SHOW_FAILED_ALERT);
+					_action.postValue (SHOW_FAILED_ALERT);
 
 //					if (downloadedFile) {
 //						[[NSFileManager defaultManager] removeItemAtURL:downloadedFile error:nil];
@@ -57,7 +57,7 @@ public class DownloadViewModel extends ViewModel {
 //					[self presentViewController:alert animated:YES completion:nil];
 				} else {
 					if (doGen) {
-						_action.setValue (SHOW_GEN_VIEW);
+						_action.postValue (SHOW_GEN_VIEW);
 
 //						NSString *packageName = packageNameFull;
 //						NSString *ext = [packageNameFull pathExtension];
@@ -81,7 +81,7 @@ public class DownloadViewModel extends ViewModel {
 //							[self dismissView];
 //						}
 					} else {
-						_action.setValue (DISMISS_VIEW);
+						_action.postValue (DISMISS_VIEW);
 					}
 				}
 
@@ -226,7 +226,7 @@ public class DownloadViewModel extends ViewModel {
 					}
 				});
 
-				_packageConfigs.setValue (packageConfigs);
+				_packageConfigs.postValue (packageConfigs);
 			}
 		}, null);
 	}

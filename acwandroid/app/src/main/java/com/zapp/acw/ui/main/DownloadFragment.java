@@ -10,6 +10,7 @@ import android.webkit.WebView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.zapp.acw.R;
+import com.zapp.acw.bll.NetPackConfig;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,7 +18,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
 
 public class DownloadFragment extends Fragment implements TabLayout.OnTabSelectedListener {
 
@@ -39,6 +43,8 @@ public class DownloadFragment extends Fragment implements TabLayout.OnTabSelecte
 		super.onActivityCreated (savedInstanceState);
 
 		mViewModel = ViewModelProviders.of (this).get (DownloadViewModel.class);
+
+		final FragmentActivity activity = getActivity ();
 
 		mViewModel.getAction ().observe (getViewLifecycleOwner (), new Observer<Integer> () {
 			@Override
@@ -77,7 +83,17 @@ public class DownloadFragment extends Fragment implements TabLayout.OnTabSelecte
 			}
 		});
 
-		FragmentActivity activity = getActivity ();
+		mViewModel.getPackageConfigs ().observe (getViewLifecycleOwner (), new Observer<ArrayList<NetPackConfig.NetPackConfigItem>> () {
+			@Override
+			public void onChanged (ArrayList<NetPackConfig.NetPackConfigItem> netPackConfigItems) {
+				RecyclerView rvPackages = activity.findViewById (R.id.package_list);
+
+				DownloadAdapter adapter = new DownloadAdapter (netPackConfigItems);
+				rvPackages.setAdapter(adapter);
+				rvPackages.setLayoutManager(new LinearLayoutManager (activity));
+			}
+		});
+
 		mViewModel.startDownloadPackageList (activity);
 
 		//Init tab bar
