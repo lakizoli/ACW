@@ -76,7 +76,7 @@ public final class Downloader {
 
 					writer = new BufferedOutputStream (new FileOutputStream (outputFile.getAbsoluteFile ()));
 
-					byte[] buffer = new byte[4096];
+					byte[] buffer = new byte[128*4096];
 					long bytesWritten = 0;
 					int bytesRead = -1;
 

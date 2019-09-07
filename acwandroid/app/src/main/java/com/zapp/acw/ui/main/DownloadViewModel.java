@@ -2,13 +2,13 @@ package com.zapp.acw.ui.main;
 
 import android.app.Activity;
 
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
+
 import com.zapp.acw.FileUtils;
 import com.zapp.acw.bll.Downloader;
 import com.zapp.acw.bll.NetLogger;
 import com.zapp.acw.bll.NetPackConfig;
-
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -231,4 +231,51 @@ public class DownloadViewModel extends ViewModel {
 		}, null);
 	}
 	//endregion
+
+	public void startDownloadPackage (final Activity activity, final NetPackConfig.NetPackConfigItem configItem) {
+		final String url = getDownloadLinkForGoogleDrive (configItem.fileID);
+
+		NetLogger.logEvent ("Obtain_NetPackage_Selected", new HashMap<String, Object> () {{
+			put ("label", configItem.label);
+			put ("url", url);
+		}});
+
+		downloadFileFromGoogleDrive (activity, url, true, new ContentHandler () {
+			@Override
+			public void apply (String downloadedFile, String fileName) {
+//				[NetLogger logEvent:@"Obtain_NetPackage_Downloaded" withParameters:@{ @"label" : configItem.label, @"url" : [url absoluteString], @"fileName" : fileName }];
+//
+//					//Unzip downloaded file to packages
+//				[[PackageManager sharedInstance] unzipDownloadedPackage:downloadedFile packageName:[fileName stringByDeletingPathExtension]];
+			}
+		}, new Downloader.DownloaderProgressHandler () {
+			@Override
+			public void apply (long pos, long size) {
+				if (size <= 0) {
+					size = configItem.size;
+				}
+
+				updateProgress (pos, size);
+			}
+		});
+	}
+
+	public void cancelDownload () {
+		if (_downloader != null) {
+			_downloader.cancel ();
+		}
+	}
+
+	private void updateProgress (long pos, long size) {
+//		dispatch_async (dispatch_get_main_queue (), ^{
+//			NSString *progress = [Downloader createDataProgressLabel:pos size:size];
+//			NSString *label = [NSString stringWithFormat:@"%@", progress];
+//			[self->_progressView setLabelContent:label];
+//
+//			if (size > 0) {
+//				float percent = (float)pos / (float)size;
+//				[self->_progressView setProgressValue:percent];
+//			}
+//		});
+	}
 }

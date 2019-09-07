@@ -8,10 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 
-import com.google.android.material.tabs.TabLayout;
-import com.zapp.acw.R;
-import com.zapp.acw.bll.NetPackConfig;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -20,6 +16,10 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.tabs.TabLayout;
+import com.zapp.acw.R;
+import com.zapp.acw.bll.NetPackConfig;
 
 import java.util.ArrayList;
 
@@ -86,9 +86,35 @@ public class DownloadFragment extends Fragment implements TabLayout.OnTabSelecte
 		mViewModel.getPackageConfigs ().observe (getViewLifecycleOwner (), new Observer<ArrayList<NetPackConfig.NetPackConfigItem>> () {
 			@Override
 			public void onChanged (ArrayList<NetPackConfig.NetPackConfigItem> netPackConfigItems) {
-				RecyclerView rvPackages = activity.findViewById (R.id.package_list);
+				final RecyclerView rvPackages = activity.findViewById (R.id.package_list);
 
-				DownloadAdapter adapter = new DownloadAdapter (netPackConfigItems);
+				DownloadAdapter adapter = new DownloadAdapter (netPackConfigItems, new DownloadAdapter.OnItemClickListener () {
+					@Override
+					public void onItemClick (NetPackConfig.NetPackConfigItem item) {
+						//Show progrss view
+						mProgressView.setButtonText ("Cancel");
+						mProgressView.setLabel ("Downloading...");
+						mProgressView.setProgress (0);
+
+						mProgressView.setOnButtonPressed (new Runnable () {
+							@Override
+							public void run () {
+								mViewModel.cancelDownload ();
+							}
+						});
+
+						mProgressView.setVisibility (View.VISIBLE);
+
+						//Disable page's controls
+						rvPackages.setEnabled (false);
+
+						TabLayout tabLayout = activity.findViewById(R.id.tab_layout);
+						tabLayout.setEnabled (false);
+
+						//Start downloading the package
+						mViewModel.startDownloadPackage (activity, item);
+					}
+				});
 				rvPackages.setAdapter(adapter);
 				rvPackages.setLayoutManager(new LinearLayoutManager (activity));
 			}
@@ -121,9 +147,6 @@ public class DownloadFragment extends Fragment implements TabLayout.OnTabSelecte
 
 		RecyclerView tableView = activity.findViewById (R.id.package_list);
 		tableView.setVisibility (View.VISIBLE);
-
-//		//Refresh list of packages
-//		[_tableView reloadData];
 	}
 
 	private void selectSearch () {

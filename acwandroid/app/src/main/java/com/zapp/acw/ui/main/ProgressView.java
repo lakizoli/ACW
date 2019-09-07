@@ -12,8 +12,7 @@ public class ProgressView {
 	private TextView _textView;
 	private ProgressBar _progressBar;
 	private Button _button;
-
-	public Runnable onButtonPressed;
+	private Runnable _onButtonPressed;
 
 	public ProgressView (FragmentActivity activity, @IdRes int textViewID, @IdRes int progressBarID, @IdRes int buttonID) {
 		_textView = activity.findViewById (textViewID);
@@ -23,8 +22,8 @@ public class ProgressView {
 		_button.setOnClickListener (new View.OnClickListener () {
 			@Override
 			public void onClick (View v) {
-				if (onButtonPressed != null) {
-					onButtonPressed.run ();
+				if (_onButtonPressed != null) {
+					_onButtonPressed.run ();
 				}
 			}
 		});
@@ -36,6 +35,14 @@ public class ProgressView {
 
 	public void setProgress (int progress) {
 		_progressBar.setProgress (progress);
+	}
+
+	public void setButtonText (String text) {
+		_button.setText (text);
+	}
+
+	public void setOnButtonPressed (Runnable press) {
+		_onButtonPressed = press;
 	}
 
 	public void setVisibility (int visibility) {

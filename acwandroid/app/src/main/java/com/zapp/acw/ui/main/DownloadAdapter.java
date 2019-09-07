@@ -15,10 +15,16 @@ import com.zapp.acw.bll.NetPackConfig;
 import java.util.ArrayList;
 
 public class DownloadAdapter extends RecyclerView.Adapter<DownloadAdapter.ViewHolder> {
-	private ArrayList<NetPackConfig.NetPackConfigItem> _packageConfigs;
+	public interface OnItemClickListener {
+		void onItemClick(NetPackConfig.NetPackConfigItem item);
+	}
 
-	public DownloadAdapter (ArrayList<NetPackConfig.NetPackConfigItem> packageConfigs) {
+	private ArrayList<NetPackConfig.NetPackConfigItem> _packageConfigs;
+	private OnItemClickListener _clickListener;
+
+	public DownloadAdapter (ArrayList<NetPackConfig.NetPackConfigItem> packageConfigs, OnItemClickListener clickListener) {
 		_packageConfigs = packageConfigs;
+		_clickListener = clickListener;
 	}
 
 	public class ViewHolder extends RecyclerView.ViewHolder {
@@ -48,11 +54,19 @@ public class DownloadAdapter extends RecyclerView.Adapter<DownloadAdapter.ViewHo
 	@Override
 	public void onBindViewHolder (@NonNull ViewHolder holder, int position) {
 		// Get the data model based on position
-		NetPackConfig.NetPackConfigItem item = _packageConfigs.get (position);
+		final NetPackConfig.NetPackConfigItem item = _packageConfigs.get (position);
 
 		// Set item views based on your views and data model
 		TextView textView = holder.languageName;
 		textView.setText (item.label);
+
+		// Set the click listener
+		holder.itemView.setOnClickListener (new View.OnClickListener () {
+			@Override
+			public void onClick (View v) {
+				_clickListener.onItemClick (item);
+			}
+		});
 	}
 
 	@Override
