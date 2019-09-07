@@ -5,76 +5,85 @@ import android.app.Activity;
 import com.zapp.acw.FileUtils;
 import com.zapp.acw.bll.Downloader;
 import com.zapp.acw.bll.NetLogger;
+import com.zapp.acw.bll.NetPackConfig;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class DownloadViewModel extends ViewModel {
 	private final static String NETPACK_CFG_ID = "1DRdHyx9Pj6XtdPrKlpBmGo4BMz9ecbUR";
 
-	public final static int HIDE_PROGRESS = 1;
+	public final static int DISMISS_VIEW = 1;
 	public final static int SHOW_FAILED_ALERT = 2;
+	public final static int SHOW_GEN_VIEW = 3;
 
 	private MutableLiveData<Integer> _action = new MutableLiveData<> ();
 	private Downloader _downloader = null;
+	private MutableLiveData<ArrayList<NetPackConfig.NetPackConfigItem>> _packageConfigs = new MutableLiveData<> ();
 
 	public MutableLiveData<Integer> getAction () {
 		return _action;
 	}
+	public MutableLiveData<ArrayList<NetPackConfig.NetPackConfigItem>> getPackageConfigs () {
+		return _packageConfigs;
+	}
 
-	private void endOfDownload (final Activity activity, boolean showFailedAlert, String downloadedFile, boolean doGen, String packageNameFull) {
+	private void endOfDownload (final Activity activity, final boolean showFailedAlert, final String downloadedFile, final boolean doGen, final String packageNameFull) {
 		activity.runOnUiThread (new Runnable () {
 			@Override
 			public void run () {
-				_action.setValue (HIDE_PROGRESS);
+				if (showFailedAlert) {
+					_action.setValue (SHOW_FAILED_ALERT);
 
-//			if (showFailedAlert) {
-//				if (downloadedFile) {
-//					[[NSFileManager defaultManager] removeItemAtURL:downloadedFile error:nil];
-//				}
-//
-//				UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error"
-//				message:@"Error occured during download!"
-//				preferredStyle:UIAlertControllerStyleAlert];
-//
-//				UIAlertAction* okButton = [UIAlertAction actionWithTitle:@"OK"
-//				style:UIAlertActionStyleDefault
-//				handler:^(UIAlertAction * action) {
-//																	 [self dismissView];
-//				}];
-//
-//				[alert addAction:okButton];
-//				[self presentViewController:alert animated:YES completion:nil];
-//			} else {
-//				if (doGen) {
-//					NSString *packageName = packageNameFull;
-//					NSString *ext = [packageNameFull pathExtension];
-//					if ([ext length] > 0) {
-//						packageName = [packageNameFull substringToIndex:[packageNameFull length] - [ext length] - 1];
+//					if (downloadedFile) {
+//						[[NSFileManager defaultManager] removeItemAtURL:downloadedFile error:nil];
 //					}
 //
-//					NSArray<Package*> *packages = [[PackageManager sharedInstance] collectPackages];
+//					UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error"
+//					message:@"Error occured during download!"
+//					preferredStyle:UIAlertControllerStyleAlert];
 //
-//					[packages enumerateObjectsUsingBlock:^(Package * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//						NSString *testPackageName = [[obj path] lastPathComponent];
-//						if ([testPackageName compare:packageName] == NSOrderedSame) {
-//							self->_decks = [obj decks];
-//							*stop = YES;
-//						}
+//					UIAlertAction* okButton = [UIAlertAction actionWithTitle:@"OK"
+//					style:UIAlertActionStyleDefault
+//					handler:^(UIAlertAction * action) {
+//																		 [self dismissView];
 //					}];
 //
-//					if ([self->_decks count] > 0) {
-//						[self performSegueWithIdentifier:@"ShowGen" sender:self];
-//					} else {
-//						[self dismissView];
-//					}
-//				} else {
-//					[self dismissView];
-//				}
-//			}
+//					[alert addAction:okButton];
+//					[self presentViewController:alert animated:YES completion:nil];
+				} else {
+					if (doGen) {
+						_action.setValue (SHOW_GEN_VIEW);
+
+//						NSString *packageName = packageNameFull;
+//						NSString *ext = [packageNameFull pathExtension];
+//						if ([ext length] > 0) {
+//							packageName = [packageNameFull substringToIndex:[packageNameFull length] - [ext length] - 1];
+//						}
+//
+//						NSArray<Package*> *packages = [[PackageManager sharedInstance] collectPackages];
+//
+//						[packages enumerateObjectsUsingBlock:^(Package * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//							NSString *testPackageName = [[obj path] lastPathComponent];
+//							if ([testPackageName compare:packageName] == NSOrderedSame) {
+//								self->_decks = [obj decks];
+//								*stop = YES;
+//							}
+//						}];
+//
+//						if ([self->_decks count] > 0) {
+//							[self performSegueWithIdentifier:@"ShowGen" sender:self];
+//						} else {
+//							[self dismissView];
+//						}
+					} else {
+						_action.setValue (DISMISS_VIEW);
+					}
+				}
 
 			}
 		});
@@ -83,7 +92,7 @@ public class DownloadViewModel extends ViewModel {
 	//region Google downloader functions
 	@FunctionalInterface
 	public interface ContentHandler {
-		void apply (String url, String fileName);
+		void apply (String downloadedFile, String fileName);
 	}
 
 	private String getDownloadLinkForGoogleDrive (String fileID) {
@@ -201,22 +210,23 @@ public class DownloadViewModel extends ViewModel {
 		});
 	}
 
-	public void startDownoadPackageList (final Activity activity) {
+	public void startDownloadPackageList (final Activity activity) {
 		String packUrl = getDownloadLinkForGoogleDrive (NETPACK_CFG_ID);
 		downloadFileFromGoogleDrive (activity, packUrl, false, new ContentHandler () {
 			@Override
-			public void apply (String url, String fileName) {
-//				NetPackConfig *netPackConfig = [[NetPackConfig alloc] initWithURL:downloadedFile];
-//
-//				self->_packageConfigs = [NSMutableArray new];
-//
-//				[netPackConfig enumerateLanguagesWihtBlock:^(NetPackConfigItem * _Nonnull configItem) {
-//				[self->_packageConfigs addObject:configItem];
-//				}];
-//
-//				dispatch_async (dispatch_get_main_queue (), ^{
-//					[self->_tableView reloadData];
-//				});
+			public void apply (String downloadedFile, String fileName) {
+				NetPackConfig netPackConfig = NetPackConfig.parse (downloadedFile);
+
+				final ArrayList<NetPackConfig.NetPackConfigItem> packageConfigs = new ArrayList<> ();
+
+				netPackConfig.enumerateLanguagesWihtBlock (new NetPackConfig.ConfigEnumerator () {
+					@Override
+					public void apply (NetPackConfig.NetPackConfigItem item) {
+						packageConfigs.add (item);
+					}
+				});
+
+				_packageConfigs.setValue (packageConfigs);
 			}
 		}, null);
 	}

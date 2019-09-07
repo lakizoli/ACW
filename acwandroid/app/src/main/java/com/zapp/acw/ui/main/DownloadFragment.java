@@ -1,7 +1,8 @@
 package com.zapp.acw.ui.main;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,10 +44,31 @@ public class DownloadFragment extends Fragment implements TabLayout.OnTabSelecte
 			@Override
 			public void onChanged (Integer action) {
 				switch (action.intValue ()) {
-					case DownloadViewModel.HIDE_PROGRESS:
+					case DownloadViewModel.DISMISS_VIEW:
 						mProgressView.setVisibility (View.INVISIBLE);
+
+						//TODO: ...
 						break;
 					case DownloadViewModel.SHOW_FAILED_ALERT:
+						mProgressView.setVisibility (View.INVISIBLE);
+
+						AlertDialog.Builder builder = new AlertDialog.Builder (getContext ());
+						builder.setTitle ("Error");
+						builder.setMessage ("Error occured during download!");
+
+						builder.setPositiveButton ("OK", new DialogInterface.OnClickListener () {
+							@Override
+							public void onClick (DialogInterface dialog, int which) {
+								//TODO: dismiss view...
+							}
+						});
+
+						AlertDialog alertDialog = builder.create ();
+						alertDialog.show ();
+						break;
+					case DownloadViewModel.SHOW_GEN_VIEW:
+						mProgressView.setVisibility (View.INVISIBLE);
+
 						//TODO: ...
 						break;
 					default:
@@ -56,7 +78,7 @@ public class DownloadFragment extends Fragment implements TabLayout.OnTabSelecte
 		});
 
 		FragmentActivity activity = getActivity ();
-		mViewModel.startDownoadPackageList (activity);
+		mViewModel.startDownloadPackageList (activity);
 
 		//Init tab bar
 		TabLayout tabLayout = activity.findViewById(R.id.tab_layout);

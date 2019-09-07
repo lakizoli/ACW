@@ -60,11 +60,7 @@ public final class Downloader {
 					URL regUrl = new URL (downloader._url);
 					HttpURLConnection conn = (HttpURLConnection) regUrl.openConnection ();
 					downloader._contentLength = conn.getContentLength ();
-
-					String raw = conn.getHeaderField ("Content-Disposition"); // raw = "attachment; filename=abc.jpg"
-					if (raw != null && raw.contains ("=")) {
-						downloader._fileName = raw.split ("=")[1]; //getting value after '='
-					}
+					downloader._fileName = parseFileName (conn);
 
 					File outputDir = downloader._context.getCacheDir ();
 					File outputFile = new File (outputDir, downloader._fileName);
@@ -127,7 +123,7 @@ public final class Downloader {
 		return downloader;
 	}
 
-	@SuppressLint ("DefaultLocale")
+	@SuppressLint("DefaultLocale")
 	public static String createDataProgressLabel (long pos, long size) {
 		String posItem;
 		float posAmount = 0;
@@ -166,5 +162,21 @@ public final class Downloader {
 
 	public void cancel () {
 		_cancelled = true;
+	}
+
+	private static String parseFileName (HttpURLConnection conn) {
+		String fileName = "unknown";
+		String raw = conn.getHeaderField ("Content-Disposition"); // raw = "attachment; filename=abc.jpg"
+		if (raw != null && raw.length () > 0) {
+			String[] items = raw.split (";");
+			if (items != null && items.length > 0) {
+				for (String item : items) {
+					if (item.startsWith ("filename=")) {
+						fileName = item.substring (9).replaceAll ("\"", " ").trim ();
+					}
+				}
+			}
+		}
+		return fileName;
 	}
 }
