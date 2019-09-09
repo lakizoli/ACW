@@ -3,6 +3,7 @@ package com.zapp.acw.ui.main;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -117,6 +118,14 @@ public class DownloadFragment extends Fragment implements TabLayout.OnTabSelecte
 				});
 				rvPackages.setAdapter(adapter);
 				rvPackages.setLayoutManager(new LinearLayoutManager (activity));
+			}
+		});
+
+		mViewModel.getProgress ().observe (getViewLifecycleOwner (), new Observer<Pair<Integer, String>> () {
+			@Override
+			public void onChanged (Pair<Integer, String> progress) {
+				mProgressView.setProgress (progress.first);
+				mProgressView.setLabel (progress.second);
 			}
 		});
 

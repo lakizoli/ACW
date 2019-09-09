@@ -1,6 +1,7 @@
 package com.zapp.acw.ui.main;
 
 import android.app.Activity;
+import android.util.Pair;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -9,10 +10,12 @@ import com.zapp.acw.FileUtils;
 import com.zapp.acw.bll.Downloader;
 import com.zapp.acw.bll.NetLogger;
 import com.zapp.acw.bll.NetPackConfig;
+import com.zapp.acw.bll.PackageManager;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class DownloadViewModel extends ViewModel {
 	private final static String NETPACK_CFG_ID = "1DRdHyx9Pj6XtdPrKlpBmGo4BMz9ecbUR";
@@ -24,12 +27,17 @@ public class DownloadViewModel extends ViewModel {
 	private MutableLiveData<Integer> _action = new MutableLiveData<> ();
 	private Downloader _downloader = null;
 	private MutableLiveData<ArrayList<NetPackConfig.NetPackConfigItem>> _packageConfigs = new MutableLiveData<> ();
+	private MutableLiveData<Pair<Integer, String>> _progress = new MutableLiveData<> ();
+	private int _lastProgress = -1;
 
 	public MutableLiveData<Integer> getAction () {
 		return _action;
 	}
 	public MutableLiveData<ArrayList<NetPackConfig.NetPackConfigItem>> getPackageConfigs () {
 		return _packageConfigs;
+	}
+	public MutableLiveData<Pair<Integer, String>> getProgress () {
+		return _progress;
 	}
 
 	private void endOfDownload (final Activity activity, final boolean showFailedAlert, final String downloadedFile, final boolean doGen, final String packageNameFull) {
@@ -87,6 +95,25 @@ public class DownloadViewModel extends ViewModel {
 
 			}
 		});
+	}
+
+	public void cancelDownload () {
+		if (_downloader != null) {
+			_downloader.cancel ();
+		}
+	}
+
+	private void updateProgress (long pos, long size) {
+		String progress = Downloader.createDataProgressLabel (pos, size);
+		String label = String.format ("%s", progress);
+
+		if (size > 0) {
+			int percent = (int) ((float)pos / (float)size);
+			if (percent != _lastProgress) {
+				_lastProgress = percent;
+				_progress.postValue (new Pair<Integer, String> (percent, label));
+			}
+		}
 	}
 
 	//region Google downloader functions
@@ -232,6 +259,7 @@ public class DownloadViewModel extends ViewModel {
 	}
 	//endregion
 
+	//region Download net package from the Google
 	public void startDownloadPackage (final Activity activity, final NetPackConfig.NetPackConfigItem configItem) {
 		final String url = getDownloadLinkForGoogleDrive (configItem.fileID);
 
@@ -240,13 +268,19 @@ public class DownloadViewModel extends ViewModel {
 			put ("url", url);
 		}});
 
+		_lastProgress = -1;
+
 		downloadFileFromGoogleDrive (activity, url, true, new ContentHandler () {
 			@Override
-			public void apply (String downloadedFile, String fileName) {
-//				[NetLogger logEvent:@"Obtain_NetPackage_Downloaded" withParameters:@{ @"label" : configItem.label, @"url" : [url absoluteString], @"fileName" : fileName }];
-//
-//					//Unzip downloaded file to packages
-//				[[PackageManager sharedInstance] unzipDownloadedPackage:downloadedFile packageName:[fileName stringByDeletingPathExtension]];
+			public void apply (final String downloadedFile, final String fileName) {
+				NetLogger.logEvent ("Obtain_NetPackage_Downloaded", new HashMap<String, Object> () {{
+					put ("label", configItem.label);
+					put ("url", downloadedFile);
+					put ("fileName", fileName);
+				}});
+
+				//Unzip downloaded file to packages
+				PackageManager.sharedInstance ().unzipDownloadedPackage (downloadedFile, FileUtils.pathByDeletingPathExtension (fileName));
 			}
 		}, new Downloader.DownloaderProgressHandler () {
 			@Override
@@ -259,23 +293,5 @@ public class DownloadViewModel extends ViewModel {
 			}
 		});
 	}
-
-	public void cancelDownload () {
-		if (_downloader != null) {
-			_downloader.cancel ();
-		}
-	}
-
-	private void updateProgress (long pos, long size) {
-//		dispatch_async (dispatch_get_main_queue (), ^{
-//			NSString *progress = [Downloader createDataProgressLabel:pos size:size];
-//			NSString *label = [NSString stringWithFormat:@"%@", progress];
-//			[self->_progressView setLabelContent:label];
-//
-//			if (size > 0) {
-//				float percent = (float)pos / (float)size;
-//				[self->_progressView setProgressValue:percent];
-//			}
-//		});
-	}
+	//endregion
 }
