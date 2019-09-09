@@ -12,6 +12,8 @@
 #include <JavaContainers.h>
 #include <cw.hpp>
 #include "Package.hpp"
+#include "CardList.hpp"
+#include "ObjectStore.hpp"
 
 namespace {
 //Java class signature
@@ -182,4 +184,40 @@ extern "C" JNIEXPORT jobject JNICALL Java_com_zapp_acw_bll_PackageManager_collec
 	}
 
 	return arr.release ();
+}
+
+struct CardListInfo {
+	std::vector<std::shared_ptr<CardList>> cardListsOfDecks;
+	std::map<uint64_t, std::set<uint64_t>> deckIndicesByModelID;
+};
+
+extern "C" JNIEXPORT jint JNICALL Java_com_zapp_acw_bll_PackageManager_loadCardList (JNIEnv* env, jobject thiz, jobject jDecks) {
+	JavaArrayList<Deck> decks (jDecks);
+
+	std::shared_ptr<CardListInfo> cli = std::make_shared<CardListInfo> ();
+	for (int32_t idx = 0, iEnd = decks.size (); idx < iEnd; ++idx) {
+		Deck deck = decks.itemAt (idx);
+		Package package = deck.GetPack ();
+
+		std::shared_ptr<CardList> cardList = CardList::Create (package.GetPath (), deck.GetDeckID ());
+		cli->cardListsOfDecks.push_back (cardList);
+		if (cardList) {
+			const std::map<uint64_t, std::shared_ptr<CardList::Card>>& cards = cardList->GetCards ();
+			if (cards.size () > 0) {
+				uint64_t modelID = cards.begin ()->second->modelID;
+				auto it = cli->deckIndicesByModelID.find (modelID);
+				if (it == cli->deckIndicesByModelID.end ()) {
+					cli->deckIndicesByModelID.emplace (modelID, std::set<uint64_t> { (uint64_t) idx });
+				} else {
+					it->second.insert ((uint64_t) idx);
+				}
+			}
+		}
+	}
+
+	if (cli->deckIndicesByModelID.size () <= 0 || cli->cardListsOfDecks.size () != decks.size ()) {
+		return 0;
+	}
+
+	return ObjectStore<CardListInfo>::Get ().Add (cli);
 }

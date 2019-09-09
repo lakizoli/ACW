@@ -56,12 +56,24 @@ Deck::Deck () {
 	mObject = JNI::GlobalReferenceObject (jobj.get ());
 }
 
+Package Deck::GetPack () const {
+	return JNI::GetObjectField<Package> (mObject, JNI::JavaField (jPackField));
+}
+
 void Deck::SetPack (const Package& pack) {
 	JNI::GetEnv ()->SetObjectField (mObject, JNI::JavaField (jPackField), pack.get ());
 }
 
+int Deck::GetDeckID () const {
+	return JNI::GetEnv ()->GetIntField (mObject, JNI::JavaField (jDeckIDField));
+}
+
 void Deck::SetDeckID (int deckID) {
 	JNI::GetEnv ()->SetIntField (mObject, JNI::JavaField (jDeckIDField), deckID);
+}
+
+std::string Deck::GetName () const {
+	return JNI::GetObjectField<JavaString> (mObject, JNI::JavaField (jDeckNameField)).getString ();
 }
 
 void Deck::SetName (const std::string& name) {
@@ -71,6 +83,10 @@ void Deck::SetName (const std::string& name) {
 Package::Package () {
 	JNI::AutoLocalRef<jobject> jobj (JNI::GetEnv ()->NewObject (JNI::JavaClass (jPackageClass), JNI::JavaMethod (jPackageInitMethod)));
 	mObject = JNI::GlobalReferenceObject (jobj.get ());
+}
+
+std::string Package::GetPath () const {
+	return JNI::GetObjectField<JavaString> (mObject, JNI::JavaField (jPathField)).getString ();
 }
 
 void Package::SetPath (const std::string& path) {

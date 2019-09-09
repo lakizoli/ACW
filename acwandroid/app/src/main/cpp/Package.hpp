@@ -28,8 +28,13 @@ public:
 	Deck ();
 
 public:
+	Package GetPack () const;
 	void SetPack (const Package& pack);
+
+	int GetDeckID () const;
 	void SetDeckID  (int deckID);
+
+	std::string GetName () const;
 	void SetName (const std::string& name);
 };
 
@@ -40,7 +45,9 @@ public:
 	Package ();
 
 public:
+	std::string GetPath () const;
 	void SetPath (const std::string& path);
+
 	void SetName (const std::string& name);
 	void SetDecks (const JavaArrayList<Deck>& decks);
 	void SetState (const GameState& state);

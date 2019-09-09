@@ -191,8 +191,101 @@ public final class PackageManager {
 	//endregion
 
 	//region Collecting generation info
-	//-(GeneratorInfo*)collectGeneratorInfo:(NSArray<Deck*>*)decks;
-	//-(void)reloadUsedWords:(NSURL*)packagePath info:(GeneratorInfo*)info;
+	private native int loadCardList (ArrayList<Deck> decks);
+
+	public GeneratorInfo collectGeneratorInfo (ArrayList<Deck> decks) {
+		//TODO: write the whole function in native!!!
+
+		if (decks == null || decks.size ()  < 1) {
+			return null;
+		}
+
+		//Collect most decks with same modelID (all of them have to be the same, but not guaranteed!)
+		String packagePath = decks.get (0).pack.path;
+		int cardListID = loadCardList (decks);
+
+//		BOOL foundOneModelID = NO;
+//		uint64_t maxCount = 0;
+//		uint64_t choosenModelID = 0;
+//		for (auto it : deckIndicesByModelID) {
+//			if (it.second.size () > maxCount) {
+//				choosenModelID = it.first;
+//				maxCount = it.second.size ();
+//				foundOneModelID = YES;
+//			}
+//		}
+//
+//		if (!foundOneModelID) {
+//			return nil;
+//		}
+//
+//		//Read used words of package
+//		std::shared_ptr<UsedWords> usedWords = UsedWords::Create ([[packagePath path] UTF8String]);
+//
+		//Collect generator info
+		GeneratorInfo info = new GeneratorInfo ();
+//		info.splitArray = @[@";", @"\uff1b", @"<br", @"/>", @"<div>", @"</div>",
+//			@"<span>", @"</span>", @"*", @"\r", @"\n", @",", @"\uff0c", @"(", @"\uff08", @")", @"\uff09",
+//			@"[", @"\uff3b", @"]", @"\uff3d", @"{", @"\uff5b", @"}", @"\uff5d"];
+//		info.solutionsFixes = [NSDictionary new];
+//
+//		auto itDeckIndices = deckIndicesByModelID.find (choosenModelID);
+//		if (itDeckIndices == deckIndicesByModelID.end ()) {
+//			return nil;
+//		}
+//
+//		BOOL isFirstDeck = YES;
+//		for (uint64_t deckIdx : itDeckIndices->second) {
+//			std::shared_ptr<CardList> cardList = cardListsOfDecks[deckIdx];
+//			if (cardList == nullptr) {
+//				continue;
+//			}
+//
+//			[[info decks] addObject:[decks objectAtIndex:deckIdx]];
+//
+//			if (isFirstDeck) { //Collect fields from first deck only
+//				isFirstDeck = NO;
+//
+//				for (auto it : cardList->GetFields ()) {
+//					Field *field = [[Field alloc] init];
+//
+//					[field setName:[NSString stringWithUTF8String:it.second->name.c_str ()]];
+//					[field setIdx:it.second->idx];
+//
+//					[[info fields] addObject:field];
+//				}
+//			}
+//
+//			for (auto it : cardList->GetCards ()) {
+//				Card *card = [[Card alloc] init];
+//
+//				[card setCardID:it.second->cardID];
+//				[card setNoteID:it.second->noteID];
+//				[card setModelID:it.second->modelID];
+//
+//				for (const std::string& fieldValue : it.second->fields) {
+//					[[card fieldValues] addObject:[NSString stringWithUTF8String:fieldValue.c_str ()]];
+//				}
+//
+//				[card setSolutionFieldValue:[NSString stringWithUTF8String:it.second->solutionField.c_str ()]];
+//
+//				[[info cards] addObject:card];
+//			}
+//		}
+//
+//		if (usedWords != nullptr) {
+//			for (const std::wstring& word : usedWords->GetWords ()) {
+//				NSUInteger len = word.length () * sizeof (wchar_t);
+//				NSString *nsWord = [[NSString alloc] initWithBytes:word.c_str () length:len encoding:NSUTF32LittleEndianStringEncoding];
+//				[info.usedWords addObject:nsWord];
+//			}
+//		}
+
+		return info;
+	}
+
+	public void reloadUsedWords (String packagePath, GeneratorInfo info) {
+	}
 	//endregion
 
 	//region Generate crossword based on info
