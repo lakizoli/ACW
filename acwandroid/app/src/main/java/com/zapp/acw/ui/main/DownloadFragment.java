@@ -9,12 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,6 +30,7 @@ public class DownloadFragment extends Fragment implements TabLayout.OnTabSelecte
 
 	private DownloadViewModel mViewModel;
 	private ProgressView mProgressView;
+	private boolean mMoveChooseInsteadOfDismiss = false;
 
 	public static DownloadFragment newInstance () {
 		return new DownloadFragment ();
@@ -36,6 +39,11 @@ public class DownloadFragment extends Fragment implements TabLayout.OnTabSelecte
 	@Override
 	public View onCreateView (@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
 							  @Nullable Bundle savedInstanceState) {
+		Bundle args = getArguments ();
+		if (args != null) {
+			mMoveChooseInsteadOfDismiss = args.getBoolean ("MoveChooseInsteadOfDismiss");
+		}
+
 		return inflater.inflate (R.layout.download_fragment, container, false);
 	}
 
@@ -54,7 +62,11 @@ public class DownloadFragment extends Fragment implements TabLayout.OnTabSelecte
 					case DownloadViewModel.DISMISS_VIEW:
 						mProgressView.setVisibility (View.INVISIBLE);
 
-						//TODO: ...
+						if (mMoveChooseInsteadOfDismiss) { //Go to the choose CW directly
+							Navigation.findNavController (getView ()).navigate (R.id.ShowChooseCW);
+						} else { //Go back
+							Navigation.findNavController (getView ()).navigateUp ();
+						}
 						break;
 					case DownloadViewModel.SHOW_FAILED_ALERT:
 						mProgressView.setVisibility (View.INVISIBLE);
@@ -129,7 +141,17 @@ public class DownloadFragment extends Fragment implements TabLayout.OnTabSelecte
 			}
 		});
 
-		mViewModel.startDownloadPackageList (activity);
+		OnBackPressedCallback callback = new OnBackPressedCallback (true /* enabled by default */) {
+			@Override
+			public void handleOnBackPressed () {
+				if (mMoveChooseInsteadOfDismiss) { //We came here from the main fragment
+					//... Nothing to do ...
+				} else { //We came here from the choose CW fragment upon click the plus button
+					Navigation.findNavController (getView ()).navigateUp ();
+				}
+			}
+		};
+		activity.getOnBackPressedDispatcher ().addCallback (this, callback);
 
 		//Init tab bar
 		TabLayout tabLayout = activity.findViewById(R.id.tab_layout);
@@ -139,8 +161,11 @@ public class DownloadFragment extends Fragment implements TabLayout.OnTabSelecte
 		selectTopRated ();
 
 		//Init progress view
-		mProgressView = new ProgressView (activity, R.id.text_view_progress, R.id.progress_bar, R.id.button_progress);
+		mProgressView = new ProgressView (activity, R.id.progress_view, R.id.text_view_progress, R.id.progress_bar, R.id.button_progress);
 		mProgressView.setVisibility (View.INVISIBLE);
+
+		//Start download package list
+		mViewModel.startDownloadPackageList (activity);
 	}
 
 	//region Tab selection functions

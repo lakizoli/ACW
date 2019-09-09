@@ -39,7 +39,7 @@ public class ChooseCWFragment extends Fragment implements Toolbar.OnMenuItemClic
 
 		//Init toolbar
 		FragmentActivity activity = getActivity ();
-		Toolbar toolbar = (Toolbar) activity.findViewById (R.id.toolbar);
+		Toolbar toolbar = activity.findViewById (R.id.toolbar);
 		toolbar.inflateMenu (R.menu.choosecw_menu);
 		toolbar.setOnMenuItemClickListener (this);
 

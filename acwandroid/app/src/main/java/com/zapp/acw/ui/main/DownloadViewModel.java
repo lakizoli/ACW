@@ -108,7 +108,7 @@ public class DownloadViewModel extends ViewModel {
 		String label = String.format ("%s", progress);
 
 		if (size > 0) {
-			int percent = (int) ((float)pos / (float)size);
+			int percent = (int) ((float)pos / (float)size * 100.0f);
 			if (percent != _lastProgress) {
 				_lastProgress = percent;
 				_progress.postValue (new Pair<Integer, String> (percent, label));

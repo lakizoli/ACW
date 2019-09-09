@@ -2,6 +2,7 @@ package com.zapp.acw.ui.main;
 
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -9,12 +10,15 @@ import androidx.annotation.IdRes;
 import androidx.fragment.app.FragmentActivity;
 
 public class ProgressView {
+	private LinearLayout _view;
 	private TextView _textView;
 	private ProgressBar _progressBar;
 	private Button _button;
 	private Runnable _onButtonPressed;
 
-	public ProgressView (FragmentActivity activity, @IdRes int textViewID, @IdRes int progressBarID, @IdRes int buttonID) {
+	public ProgressView (FragmentActivity activity, @IdRes int viewID, @IdRes int textViewID, @IdRes int progressBarID, @IdRes int buttonID) {
+		_view = activity.findViewById (viewID);
+
 		_textView = activity.findViewById (textViewID);
 		_progressBar = activity.findViewById (progressBarID);
 
@@ -46,6 +50,7 @@ public class ProgressView {
 	}
 
 	public void setVisibility (int visibility) {
+		_view.setVisibility (visibility);
 		_textView.setVisibility (visibility);
 		_progressBar.setVisibility (visibility);
 		_button.setVisibility (visibility);

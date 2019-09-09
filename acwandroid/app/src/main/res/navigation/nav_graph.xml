@@ -21,7 +21,11 @@
         android:id="@+id/downloadFragment"
         android:name="com.zapp.acw.ui.main.DownloadFragment"
         android:label="download_fragment"
-        tools:layout="@layout/download_fragment" />
+        tools:layout="@layout/download_fragment" >
+        <action
+            android:id="@+id/ShowChooseCW"
+            app:destination="@id/chooseCW" />
+    </fragment>
     <fragment
         android:id="@+id/chooseCW"
         android:name="com.zapp.acw.ui.main.ChooseCWFragment"

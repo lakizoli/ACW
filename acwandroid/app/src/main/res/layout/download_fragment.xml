@@ -78,6 +78,7 @@
             android:layout_height="180dp"
             android:layout_gravity="center"
             android:layout_weight="0.85"
+            android:background="#EBEBEB"
             android:gravity="center_vertical"
             android:orientation="vertical">
 

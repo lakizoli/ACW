@@ -79,7 +79,9 @@ public class MainFragment extends Fragment {
 					if (hasNonEmptyPackage ()) { //There are some package already downloaded
 						Navigation.findNavController (getView ()).navigate (R.id.ShowChooseCW);
 					} else { // No packages found
-						Navigation.findNavController (getView ()).navigate (R.id.ShowDownload);
+						Bundle args = new Bundle ();
+						args.putBoolean ("MoveChooseInsteadOfDismiss", true);
+						Navigation.findNavController (getView ()).navigate (R.id.ShowDownload, args);
 					}
 				} else {
 					++_animCounter;
