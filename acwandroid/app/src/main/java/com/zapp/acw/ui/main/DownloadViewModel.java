@@ -3,18 +3,20 @@ package com.zapp.acw.ui.main;
 import android.app.Activity;
 import android.util.Pair;
 
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
+
 import com.zapp.acw.FileUtils;
+import com.zapp.acw.bll.Deck;
 import com.zapp.acw.bll.Downloader;
 import com.zapp.acw.bll.NetLogger;
 import com.zapp.acw.bll.NetPackConfig;
+import com.zapp.acw.bll.Package;
 import com.zapp.acw.bll.PackageManager;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 public class DownloadViewModel extends ViewModel {
 	private final static String NETPACK_CFG_ID = "1DRdHyx9Pj6XtdPrKlpBmGo4BMz9ecbUR";
@@ -28,6 +30,7 @@ public class DownloadViewModel extends ViewModel {
 	private MutableLiveData<ArrayList<NetPackConfig.NetPackConfigItem>> _packageConfigs = new MutableLiveData<> ();
 	private MutableLiveData<Pair<Integer, String>> _progress = new MutableLiveData<> ();
 	private int _lastProgress = -1;
+	private ArrayList<Deck> _decks = null;
 
 	public MutableLiveData<Integer> getAction () {
 		return _action;
@@ -38,60 +41,47 @@ public class DownloadViewModel extends ViewModel {
 	public MutableLiveData<Pair<Integer, String>> getProgress () {
 		return _progress;
 	}
+	public ArrayList<Deck> getDecks () {
+		return _decks;
+	}
 
 	private void endOfDownload (final Activity activity, final boolean showFailedAlert, final String downloadedFile, final boolean doGen, final String packageNameFull) {
 		activity.runOnUiThread (new Runnable () {
 			@Override
 			public void run () {
 				if (showFailedAlert) {
-					_action.postValue (SHOW_FAILED_ALERT);
+					if (downloadedFile != null && downloadedFile.length () > 0) {
+						FileUtils.deleteRecursive (downloadedFile);
+					}
 
-//					if (downloadedFile) {
-//						[[NSFileManager defaultManager] removeItemAtURL:downloadedFile error:nil];
-//					}
-//
-//					UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error"
-//					message:@"Error occured during download!"
-//					preferredStyle:UIAlertControllerStyleAlert];
-//
-//					UIAlertAction* okButton = [UIAlertAction actionWithTitle:@"OK"
-//					style:UIAlertActionStyleDefault
-//					handler:^(UIAlertAction * action) {
-//																		 [self dismissView];
-//					}];
-//
-//					[alert addAction:okButton];
-//					[self presentViewController:alert animated:YES completion:nil];
+					_action.postValue (SHOW_FAILED_ALERT);
 				} else {
 					if (doGen) {
-						_action.postValue (SHOW_GEN_VIEW);
+						String packageName = packageNameFull;
+						String ext = FileUtils.getPathExtension (packageNameFull);
+						if (ext.length () > 0) {
+							packageName = packageNameFull.substring (0, packageNameFull.length () - ext.length () - 1);
+						}
 
-//						NSString *packageName = packageNameFull;
-//						NSString *ext = [packageNameFull pathExtension];
-//						if ([ext length] > 0) {
-//							packageName = [packageNameFull substringToIndex:[packageNameFull length] - [ext length] - 1];
-//						}
-//
-//						NSArray<Package*> *packages = [[PackageManager sharedInstance] collectPackages];
-//
-//						[packages enumerateObjectsUsingBlock:^(Package * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//							NSString *testPackageName = [[obj path] lastPathComponent];
-//							if ([testPackageName compare:packageName] == NSOrderedSame) {
-//								self->_decks = [obj decks];
-//								*stop = YES;
-//							}
-//						}];
-//
-//						if ([self->_decks count] > 0) {
-//							[self performSegueWithIdentifier:@"ShowGen" sender:self];
-//						} else {
-//							[self dismissView];
-//						}
+						ArrayList<Package> packages = PackageManager.sharedInstance ().collectPackages ();
+						for (int i = 0, iEnd = packages.size (); i < iEnd; ++i) {
+							Package pack = packages.get (i);
+							String testPackageName = FileUtils.getFileName (pack.path);
+							if (testPackageName.equals (packageName)) {
+								_decks = pack.decks;
+								break;
+							}
+						}
+
+						if (_decks != null && _decks.size () > 0) {
+							_action.postValue (SHOW_GEN_VIEW);
+						} else {
+							_action.postValue (DISMISS_VIEW);
+						}
 					} else {
 						_action.postValue (DISMISS_VIEW);
 					}
 				}
-
 			}
 		});
 	}

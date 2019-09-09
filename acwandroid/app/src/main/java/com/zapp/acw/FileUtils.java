@@ -2,9 +2,12 @@ package com.zapp.acw;
 
 import android.util.Log;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -117,7 +120,27 @@ public final class FileUtils {
 	public static native boolean moveTo (String sourcePath, String destPath);
 
 	public static String readFile (String path) {
-		//TODO: ...
+		FileReader reader = null;
+		try {
+			File file = new File (path);
+			char[] buffer = new char[(int) file.length ()];
+
+			reader = new FileReader (file);
+			reader.read (buffer);
+
+			return new String (buffer);
+		} catch (Exception ex) {
+			Log.e ("FileUtils", "readFile exception (1): " + ex);
+		} finally {
+			try {
+				if (reader != null) {
+					reader.close ();
+				}
+			} catch (Exception ex) {
+				Log.e ("FileUtils", "readFile exception (2): " + ex);
+			}
+		}
+
 		return null;
 	}
 }

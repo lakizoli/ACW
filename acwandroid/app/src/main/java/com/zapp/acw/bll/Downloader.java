@@ -171,8 +171,10 @@ public final class Downloader {
 			String[] items = raw.split (";");
 			if (items != null && items.length > 0) {
 				for (String item : items) {
+					item = item.trim ();
 					if (item.startsWith ("filename=")) {
 						fileName = item.substring (9).replaceAll ("\"", " ").trim ();
+						break;
 					}
 				}
 			}

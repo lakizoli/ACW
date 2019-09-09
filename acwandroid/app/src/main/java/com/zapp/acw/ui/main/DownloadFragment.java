@@ -67,12 +67,7 @@ public class DownloadFragment extends Fragment implements TabLayout.OnTabSelecte
 				switch (action.intValue ()) {
 					case DownloadViewModel.DISMISS_VIEW:
 						mProgressView.setVisibility (View.INVISIBLE);
-
-						if (mMoveChooseInsteadOfDismiss) { //Go to the choose CW directly
-							Navigation.findNavController (getView ()).navigate (R.id.ShowChooseCW);
-						} else { //Go back
-							Navigation.findNavController (getView ()).navigateUp ();
-						}
+						dismissView ();
 						break;
 					case DownloadViewModel.SHOW_FAILED_ALERT:
 						mProgressView.setVisibility (View.INVISIBLE);
@@ -84,7 +79,7 @@ public class DownloadFragment extends Fragment implements TabLayout.OnTabSelecte
 						builder.setPositiveButton ("OK", new DialogInterface.OnClickListener () {
 							@Override
 							public void onClick (DialogInterface dialog, int which) {
-								//TODO: dismiss view...
+								dismissView ();
 							}
 						});
 
@@ -223,6 +218,14 @@ public class DownloadFragment extends Fragment implements TabLayout.OnTabSelecte
 		//... Nothing to do here ...
 	}
 	//endregion
+
+	private void dismissView() {
+		if (mMoveChooseInsteadOfDismiss) { //We came here from the main fragment
+			Navigation.findNavController (getView ()).navigate (R.id.ShowChooseCW);
+		} else { //We came here from the choose CW fragment upon click the plus button
+			Navigation.findNavController (getView ()).navigateUp ();
+		}
+	}
 
 	private void showProgressView () {
 		mProgressView.setButtonText ("Cancel");
