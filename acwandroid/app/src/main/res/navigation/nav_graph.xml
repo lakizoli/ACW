@@ -25,6 +25,9 @@
         <action
             android:id="@+id/ShowChooseCW"
             app:destination="@id/chooseCW" />
+        <action
+            android:id="@+id/ShowGen"
+            app:destination="@id/genFragment" />
     </fragment>
     <fragment
         android:id="@+id/chooseCW"
@@ -35,4 +38,9 @@
             android:id="@+id/ShowDownload"
             app:destination="@id/downloadFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/genFragment"
+        android:name="com.zapp.acw.ui.main.GenFragment"
+        android:label="gen_fragment"
+        tools:layout="@layout/gen_fragment" />
 </navigation>
