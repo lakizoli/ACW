@@ -42,6 +42,11 @@ public final class FileUtils {
 		return posDot < 0 ? "" : (name.length () <= posDot + 1 ? "" : name.substring (posDot + 1));
 	}
 
+	public static String getFileName (String path) {
+		File file = new File (path);
+		return file.getName ();
+	}
+
 	public static <T> T readObjectFromPath (String path) {
 		FileInputStream is = null;
 		ObjectInputStream ois = null;

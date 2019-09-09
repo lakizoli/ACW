@@ -3,9 +3,6 @@ package com.zapp.acw.ui.main;
 import android.app.Activity;
 import android.util.Pair;
 
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
-
 import com.zapp.acw.FileUtils;
 import com.zapp.acw.bll.Downloader;
 import com.zapp.acw.bll.NetLogger;
@@ -15,7 +12,9 @@ import com.zapp.acw.bll.PackageManager;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
+
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
 public class DownloadViewModel extends ViewModel {
 	private final static String NETPACK_CFG_ID = "1DRdHyx9Pj6XtdPrKlpBmGo4BMz9ecbUR";
@@ -290,6 +289,70 @@ public class DownloadViewModel extends ViewModel {
 				}
 
 				updateProgress (pos, size);
+			}
+		});
+	}
+	//endregion
+
+	//region Anki package download
+	public void startDownloadOfAnkiPackage (final Activity activity, final String url, final boolean doGenerationAfterDownload) {
+		NetLogger.logEvent ("Obtain_AnkiPackage_Selected", new HashMap<String, Object> () {{
+			put ("url", url);
+		}});
+
+		_downloader = Downloader.downloadFile (activity, url, new Downloader.DownloaderProgressHandler () {
+			@Override
+			public void apply (long pos, long size) {
+				updateProgress (pos, size);
+			}
+		}, new Downloader.DownloaderCompletionHandler () {
+			@Override
+			public void apply (final Downloader.DownloadResult resultCode, String downloadedFile, final String fileName) {
+				NetLogger.logEvent ("Obtain_AnkiPackage_Downloaded", new HashMap<String, Object> () {{
+					put ("url", url);
+					put ("fileName", fileName.length () > 0 ? fileName : "null");
+					put ("resultCode", resultCode);
+				}});
+
+				String destFileName = null;
+				boolean doGen = false;
+				boolean showFailedAlert = false;
+				switch (resultCode) {
+					case DownloadResult_Succeeded: {
+						String docDir = activity.getFilesDir ().getAbsolutePath ();
+						if (fileName != null && fileName.length () > 0 && !fileName.equals ("unknown")) {
+							destFileName = fileName;
+						} else {
+							destFileName = FileUtils.pathByAppendingPathExtension (FileUtils.getFileName (downloadedFile), "apkg");
+						}
+						String destDir = FileUtils.pathByAppendingPathComponent (docDir, destFileName);
+						FileUtils.deleteRecursive (destDir);
+						if (!FileUtils.moveTo (downloadedFile, destDir)) { //Failed move
+							showFailedAlert = true;
+						} else { //Succeeded move
+							doGen = doGenerationAfterDownload;
+						}
+						break;
+					}
+					case DownloadResult_Failed:
+						showFailedAlert = true;
+						NetLogger.logEvent ("Obtain_AnkiPackage_Failed", new HashMap<String, Object> () {{
+							put ("url", url);
+						}});
+						break;
+					case DownloadResult_Cancelled:
+						NetLogger.logEvent ("Obtain_AnkiPackage_Cancelled", new HashMap<String, Object> () {{
+							put ("url", url);
+						}});
+						break;
+					default:
+						NetLogger.logEvent ("Obtain_AnkiPackage_Unknown", new HashMap<String, Object> () {{
+							put ("url", url);
+						}});
+						break;
+				}
+
+				endOfDownload (activity, showFailedAlert, downloadedFile, doGen, destFileName);
 			}
 		});
 	}

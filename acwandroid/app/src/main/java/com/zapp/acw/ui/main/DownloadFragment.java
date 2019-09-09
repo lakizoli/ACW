@@ -1,13 +1,17 @@
 package com.zapp.acw.ui.main;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -22,9 +26,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.zapp.acw.R;
+import com.zapp.acw.bll.NetLogger;
 import com.zapp.acw.bll.NetPackConfig;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class DownloadFragment extends Fragment implements TabLayout.OnTabSelectedListener {
 
@@ -105,18 +111,7 @@ public class DownloadFragment extends Fragment implements TabLayout.OnTabSelecte
 					@Override
 					public void onItemClick (NetPackConfig.NetPackConfigItem item) {
 						//Show progrss view
-						mProgressView.setButtonText ("Cancel");
-						mProgressView.setLabel ("Downloading...");
-						mProgressView.setProgress (0);
-
-						mProgressView.setOnButtonPressed (new Runnable () {
-							@Override
-							public void run () {
-								mViewModel.cancelDownload ();
-							}
-						});
-
-						mProgressView.setVisibility (View.VISIBLE);
+						showProgressView ();
 
 						//Disable page's controls
 						rvPackages.setEnabled (false);
@@ -163,6 +158,12 @@ public class DownloadFragment extends Fragment implements TabLayout.OnTabSelecte
 		//Init progress view
 		mProgressView = new ProgressView (activity, R.id.progress_view, R.id.text_view_progress, R.id.progress_bar, R.id.button_progress);
 		mProgressView.setVisibility (View.INVISIBLE);
+
+		//Init webview
+		WebView webView = activity.findViewById (R.id.web_search);
+		webView.setWebViewClient (new AnkiWebViewClient (this, activity, mViewModel));
+		WebSettings webSettings = webView.getSettings ();
+		webSettings.setJavaScriptEnabled (true);
 
 		//Start download package list
 		mViewModel.startDownloadPackageList (activity);
@@ -222,4 +223,57 @@ public class DownloadFragment extends Fragment implements TabLayout.OnTabSelecte
 		//... Nothing to do here ...
 	}
 	//endregion
+
+	private void showProgressView () {
+		mProgressView.setButtonText ("Cancel");
+		mProgressView.setLabel ("Downloading...");
+		mProgressView.setProgress (0);
+
+		mProgressView.setOnButtonPressed (new Runnable () {
+			@Override
+			public void run () {
+				mViewModel.cancelDownload ();
+			}
+		});
+
+		mProgressView.setVisibility (View.VISIBLE);
+	}
+
+	private static class AnkiWebViewClient extends WebViewClient {
+		private DownloadFragment mFragment;
+		private FragmentActivity mActivity;
+		private DownloadViewModel mViewModel;
+
+		public AnkiWebViewClient (DownloadFragment fragment, FragmentActivity activity, DownloadViewModel viewModel) {
+			mFragment = fragment;
+			mActivity = activity;
+			mViewModel = viewModel;
+		}
+
+		@Override
+		public boolean shouldOverrideUrlLoading (WebView view, String url) {
+			//Catch package download
+			Uri uri = Uri.parse (url);
+			String host = uri.getHost ().toLowerCase ();
+			String path = uri.getPath ().toLowerCase ();
+
+			if (host.contains ("ankiweb.net") && path.contains ("download") && url.contains ("?")) { //Page is from ankiweb, and link is a download link
+				//Show progress view
+				mFragment.showProgressView ();
+
+				//Disable page's controls
+				WebView webView = mActivity.findViewById (R.id.web_search);
+				webView.setEnabled (false);
+
+				TabLayout tabLayout = mActivity.findViewById(R.id.tab_layout);
+				tabLayout.setEnabled (false);
+
+				//Start download
+				mViewModel.startDownloadOfAnkiPackage (mActivity, url, true);
+				return true;
+			}
+
+			return false; // Let the WebView load the page
+		}
+	}
 }
