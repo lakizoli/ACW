@@ -11,9 +11,11 @@
 #include <JavaFile.hpp>
 #include <JavaContainers.h>
 #include <cw.hpp>
+#include <UsedWords.hpp>
 #include "Package.hpp"
 #include "CardList.hpp"
 #include "ObjectStore.hpp"
+#include "GeneratorInfo.hpp"
 
 namespace {
 //Java class signature
@@ -186,28 +188,31 @@ extern "C" JNIEXPORT jobject JNICALL Java_com_zapp_acw_bll_PackageManager_collec
 	return arr.release ();
 }
 
-struct CardListInfo {
+extern "C" JNIEXPORT jobject JNICALL Java_com_zapp_acw_bll_PackageManager_collectGeneratorInfo (JNIEnv* env, jobject thiz, jobject jDecks) {
+	JavaArrayList<Deck> decks (jDecks);
+	if (decks.size () < 1) {
+		return nullptr;
+	}
+
+	//Collect most decks with same modelID (all of them have to be the same, but not guaranteed!)
+	std::string packagePath;
 	std::vector<std::shared_ptr<CardList>> cardListsOfDecks;
 	std::map<uint64_t, std::set<uint64_t>> deckIndicesByModelID;
-};
-
-extern "C" JNIEXPORT jint JNICALL Java_com_zapp_acw_bll_PackageManager_loadCardList (JNIEnv* env, jobject thiz, jobject jDecks) {
-	JavaArrayList<Deck> decks (jDecks);
-
-	std::shared_ptr<CardListInfo> cli = std::make_shared<CardListInfo> ();
-	for (int32_t idx = 0, iEnd = decks.size (); idx < iEnd; ++idx) {
+	for (int idx = 0, iEnd = decks.size (); idx < iEnd; ++idx) {
 		Deck deck = decks.itemAt (idx);
-		Package package = deck.GetPack ();
+		if (packagePath.empty ()) {
+			packagePath = deck.GetPack ().GetPath ();
+		}
 
-		std::shared_ptr<CardList> cardList = CardList::Create (package.GetPath (), deck.GetDeckID ());
-		cli->cardListsOfDecks.push_back (cardList);
+		std::shared_ptr<CardList> cardList = CardList::Create (deck.GetPack ().GetPath (), deck.GetDeckID ());
+		cardListsOfDecks.push_back (cardList);
 		if (cardList) {
 			const std::map<uint64_t, std::shared_ptr<CardList::Card>>& cards = cardList->GetCards ();
 			if (cards.size () > 0) {
 				uint64_t modelID = cards.begin ()->second->modelID;
-				auto it = cli->deckIndicesByModelID.find (modelID);
-				if (it == cli->deckIndicesByModelID.end ()) {
-					cli->deckIndicesByModelID.emplace (modelID, std::set<uint64_t> { (uint64_t) idx });
+				auto it = deckIndicesByModelID.find (modelID);
+				if (it == deckIndicesByModelID.end ()) {
+					deckIndicesByModelID.emplace (modelID, std::set<uint64_t> { (uint64_t) idx });
 				} else {
 					it->second.insert ((uint64_t) idx);
 				}
@@ -215,9 +220,97 @@ extern "C" JNIEXPORT jint JNICALL Java_com_zapp_acw_bll_PackageManager_loadCardL
 		}
 	}
 
-	if (cli->deckIndicesByModelID.size () <= 0 || cli->cardListsOfDecks.size () != decks.size ()) {
-		return 0;
+	if (deckIndicesByModelID.empty () || cardListsOfDecks.size () != decks.size ()) {
+		return nullptr;
 	}
 
-	return ObjectStore<CardListInfo>::Get ().Add (cli);
+	bool foundOneModelID = false;
+	uint64_t maxCount = 0;
+	uint64_t choosenModelID = 0;
+	for (auto it : deckIndicesByModelID) {
+		if (it.second.size () > maxCount) {
+			choosenModelID = it.first;
+			maxCount = it.second.size ();
+			foundOneModelID = true;
+		}
+	}
+
+	if (!foundOneModelID) {
+		return nullptr;
+	}
+
+	//Read used words of package
+	std::shared_ptr<UsedWords> usedWords = UsedWords::Create (packagePath);
+
+	//Collect generator info
+	GeneratorInfo info;
+
+	auto itDeckIndices = deckIndicesByModelID.find (choosenModelID);
+	if (itDeckIndices == deckIndicesByModelID.end ()) {
+		return nullptr;
+	}
+
+	bool isFirstDeck = true;
+	for (uint64_t deckIdx : itDeckIndices->second) {
+		std::shared_ptr<CardList> cardList = cardListsOfDecks[deckIdx];
+		if (cardList == nullptr) {
+			continue;
+		}
+
+		info.AddDeck (decks.itemAt (deckIdx));
+
+		if (isFirstDeck) { //Collect fields from first deck only
+			isFirstDeck = false;
+
+			for (auto it : cardList->GetFields ()) {
+				Field field;
+
+				field.SetName (it.second->name);
+				field.SetIdx (it.second->idx);
+
+				info.AddField (field);
+			}
+		}
+
+		for (auto it : cardList->GetCards ()) {
+			Card card;
+
+			card.SetCardID (it.second->cardID);
+			card.SetNoteID (it.second->noteID);
+			card.SetModelID (it.second->modelID);
+
+			for (const std::string& fieldValue : it.second->fields) {
+				card.AddFieldValue (fieldValue);
+			}
+
+			card.SetSolutionFieldValue (it.second->solutionField);
+
+			info.AddCard (card);
+		}
+	}
+
+	if (usedWords != nullptr) {
+		for (const std::wstring& word : usedWords->GetWords ()) {
+			uint32_t len = word.length () * sizeof (wchar_t);
+			JavaString jWord ((const char*) word.c_str (), len, "UTF-16LE");
+			info.AddUsedWord (jWord);
+		}
+	}
+
+	return info.release ();
+}
+
+extern "C" JNIEXPORT void JNICALL Java_com_zapp_acw_bll_PackageManager_reloadUsedWords (JNIEnv* env, jobject thiz, jstring package_path, jobject jInfo) {
+	GeneratorInfo info (jInfo);
+	info.ClearUsedWords ();
+
+	std::shared_ptr<UsedWords> usedWords = UsedWords::Create (JavaString (package_path).getString ());
+
+	if (usedWords != nullptr) {
+		for (const std::wstring& word : usedWords->GetWords ()) {
+			uint32_t len = word.length () * sizeof (wchar_t);
+			JavaString jWord ((const char*) word.c_str (), len, "UTF-16LE");
+			info.AddUsedWord (jWord);
+		}
+	}
 }

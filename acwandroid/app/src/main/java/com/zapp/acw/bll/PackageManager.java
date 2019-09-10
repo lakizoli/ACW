@@ -5,7 +5,13 @@ import android.util.Log;
 
 import com.zapp.acw.FileUtils;
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+
 import java.io.File;
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -191,106 +197,103 @@ public final class PackageManager {
 	//endregion
 
 	//region Collecting generation info
-	private native int loadCardList (ArrayList<Deck> decks);
-
-	public GeneratorInfo collectGeneratorInfo (ArrayList<Deck> decks) {
-		//TODO: write the whole function in native!!!
-
-		if (decks == null || decks.size ()  < 1) {
-			return null;
-		}
-
-		//Collect most decks with same modelID (all of them have to be the same, but not guaranteed!)
-		String packagePath = decks.get (0).pack.path;
-		int cardListID = loadCardList (decks);
-
-//		BOOL foundOneModelID = NO;
-//		uint64_t maxCount = 0;
-//		uint64_t choosenModelID = 0;
-//		for (auto it : deckIndicesByModelID) {
-//			if (it.second.size () > maxCount) {
-//				choosenModelID = it.first;
-//				maxCount = it.second.size ();
-//				foundOneModelID = YES;
-//			}
-//		}
-//
-//		if (!foundOneModelID) {
-//			return nil;
-//		}
-//
-//		//Read used words of package
-//		std::shared_ptr<UsedWords> usedWords = UsedWords::Create ([[packagePath path] UTF8String]);
-//
-		//Collect generator info
-		GeneratorInfo info = new GeneratorInfo ();
-//		info.splitArray = @[@";", @"\uff1b", @"<br", @"/>", @"<div>", @"</div>",
-//			@"<span>", @"</span>", @"*", @"\r", @"\n", @",", @"\uff0c", @"(", @"\uff08", @")", @"\uff09",
-//			@"[", @"\uff3b", @"]", @"\uff3d", @"{", @"\uff5b", @"}", @"\uff5d"];
-//		info.solutionsFixes = [NSDictionary new];
-//
-//		auto itDeckIndices = deckIndicesByModelID.find (choosenModelID);
-//		if (itDeckIndices == deckIndicesByModelID.end ()) {
-//			return nil;
-//		}
-//
-//		BOOL isFirstDeck = YES;
-//		for (uint64_t deckIdx : itDeckIndices->second) {
-//			std::shared_ptr<CardList> cardList = cardListsOfDecks[deckIdx];
-//			if (cardList == nullptr) {
-//				continue;
-//			}
-//
-//			[[info decks] addObject:[decks objectAtIndex:deckIdx]];
-//
-//			if (isFirstDeck) { //Collect fields from first deck only
-//				isFirstDeck = NO;
-//
-//				for (auto it : cardList->GetFields ()) {
-//					Field *field = [[Field alloc] init];
-//
-//					[field setName:[NSString stringWithUTF8String:it.second->name.c_str ()]];
-//					[field setIdx:it.second->idx];
-//
-//					[[info fields] addObject:field];
-//				}
-//			}
-//
-//			for (auto it : cardList->GetCards ()) {
-//				Card *card = [[Card alloc] init];
-//
-//				[card setCardID:it.second->cardID];
-//				[card setNoteID:it.second->noteID];
-//				[card setModelID:it.second->modelID];
-//
-//				for (const std::string& fieldValue : it.second->fields) {
-//					[[card fieldValues] addObject:[NSString stringWithUTF8String:fieldValue.c_str ()]];
-//				}
-//
-//				[card setSolutionFieldValue:[NSString stringWithUTF8String:it.second->solutionField.c_str ()]];
-//
-//				[[info cards] addObject:card];
-//			}
-//		}
-//
-//		if (usedWords != nullptr) {
-//			for (const std::wstring& word : usedWords->GetWords ()) {
-//				NSUInteger len = word.length () * sizeof (wchar_t);
-//				NSString *nsWord = [[NSString alloc] initWithBytes:word.c_str () length:len encoding:NSUTF32LittleEndianStringEncoding];
-//				[info.usedWords addObject:nsWord];
-//			}
-//		}
-
-		return info;
-	}
-
-	public void reloadUsedWords (String packagePath, GeneratorInfo info) {
-	}
+	public native GeneratorInfo collectGeneratorInfo (ArrayList<Deck> decks);
+	public native void reloadUsedWords (String packagePath, GeneratorInfo info);
 	//endregion
 
 	//region Generate crossword based on info
-	//-(NSString*)trimQuestionField:(NSString*)questionField;
-	//-(NSString*)trimSolutionField:(NSString*)solutionField splitArr:(NSArray<NSString*>*)splitArr solutionFixes:(NSDictionary<NSString*, NSString*>*)solutionFixes;
-	//-(BOOL)generateWithInfo:(GeneratorInfo*)info progressCallback:(void(^)(float, BOOL*))progressCallback;
+	private String trimStart (String str) {
+		int index;
+		for (index = 0; index < str.length(); index++) {
+			if (!Character.isWhitespace (str.charAt(index))) {
+				break;
+			}
+		}
+		return str.substring(index);
+	}
+
+	private String trimEnd (String str) {
+		int index;
+		for (index = str.length() - 1; index >= 0; index--) {
+			if (!Character.isWhitespace (str.charAt(index))) {
+				break;
+			}
+		}
+		return str.substring(0, index + 1);
+	}
+
+	private String parseXml (XmlPullParser parser) throws IOException, XmlPullParserException {
+		String value = "";
+
+		boolean firstValueRead = false;
+		boolean quit = false;
+		int eventType = parser.getEventType ();
+		while (!quit && eventType != XmlPullParser.END_DOCUMENT) {
+			switch (eventType) {
+				case XmlPullParser.START_TAG:
+					if (!firstValueRead) {
+						value = parser.nextText ();
+						firstValueRead = true;
+					}
+					break;
+				case XmlPullParser.END_TAG:
+					if (firstValueRead) {
+						quit = true;
+					}
+					break;
+				default:
+					break;
+			}
+
+			eventType = parser.next ();
+		}
+		return value;
+	}
+
+	public String trimQuestionField (String questionField) {
+		String field = trimStart (trimEnd (questionField));
+
+		//Try to detect HTML content
+		if (field.startsWith ("<")) {
+			try {
+				XmlPullParserFactory parserFactory = XmlPullParserFactory.newInstance ();
+				XmlPullParser parser = parserFactory.newPullParser ();
+				StringReader reader = new StringReader (field);
+				parser.setInput (reader);
+				field = parseXml (parser);
+			} catch (Exception ex) {
+				Log.e ("PackageManager", "trimQuestionField, parseXml - ex: " + ex.toString ());
+				return null;
+			}
+		}
+
+		//Convert separators to usable format
+		field = field.replaceAll ("&nbsp;", " ");
+
+		ArrayList<String> separatorArr = new ArrayList<String> () {{
+			add (";"); add ("<br"); add ("/>"); add ("<div>"); add ("</div>"); add ("*"); add ("\r"); add ("\n");
+		}};
+		for (int i = 0, iEnd = separatorArr.size (); i < iEnd; ++i) {
+			String separatorStr = separatorArr.get (i);
+			field = field.replaceAll (separatorStr, ":");
+			field = field.replaceAll ("  ", " ");
+			field = field.replaceAll (": :", ", ");
+			field = field.replaceAll ("::", ", ");
+		}
+
+		field = field.replaceAll (":", ", ");
+		while (field.endsWith (", ")) {
+			field = field.substring (0, field.length () - 2);
+		}
+
+//		Log.d ("PackageManager", questionField + " -> " + field);
+		return field;
+	}
+
+	public String trimSolutionField (String solutionField, ArrayList<String> splitArr, HashMap<String, String> solutionFixes) {
+		return null;
+	}
+
+	//public boolean generateWithInfo (GeneratorInfo info, progressCallback:(void(^)(float, BOOL*))progressCallback;
 	//endregion
 }

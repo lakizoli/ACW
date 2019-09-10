@@ -35,7 +35,7 @@ namespace {
 	JNI::jCallableID jSCWHeightField {JNI::JFIELD, "height", "I"};
 	JNI::jCallableID jSCWWordsField {JNI::JFIELD, "words", "Ljava/util/HashSet;"};
 
-	//Register jni calls
+//Register jni calls
 	JNI::CallRegister<jGameStateClass, jGameStateInitMethod, jLoadFromMethod> JNI_GameStateClass;
 	JNI::CallRegister<jDeckClass, jDeckInitMethod, jPackField, jDeckIDField, jDeckNameField> JNI_DeckClass;
 	JNI::CallRegister<jPackageClass, jPackageInitMethod, jPathField, jPackageNameField, jDecksField, jStateField> JNI_PackageClass;

@@ -19,6 +19,7 @@ namespace jni_containers {
 	JNI::jCallableID jALAddMethod {JNI::JMETHOD, "add", "(Ljava/lang/Object;)Z"};
 	JNI::jCallableID jALSizeMethod {JNI::JMETHOD, "size", "()I"};
 	JNI::jCallableID jALGetMethod {JNI::JMETHOD, "get", "(I)Ljava/lang/Object;"};
+	JNI::jCallableID jALClearMethod {JNI::JMETHOD, "clear", "()V"};
 
 	JNI::jCallableID jITHasNextMethod {JNI::JMETHOD, "hasNext", "()Z"};
 	JNI::jCallableID jITNextMethod {JNI::JMETHOD, "next", "()Ljava/lang/Object;"};
@@ -42,7 +43,7 @@ namespace jni_containers {
 	JNI::jCallableID jMapContainsKeyMethod {JNI::JMETHOD, "containsKey", "(Ljava/lang/Object;)Z"};
 
 //Register jni calls
-	JNI::CallRegister<jArrayListClass, jALInitMethod, jALAddMethod, jALSizeMethod, jALGetMethod> JNI_JavaArrayList;
+	JNI::CallRegister<jArrayListClass, jALInitMethod, jALAddMethod, jALSizeMethod, jALGetMethod, jALClearMethod> JNI_JavaArrayList;
 	JNI::CallRegister<jIteratorClass, jITHasNextMethod, jITNextMethod> JNI_JavaIterator;
 	JNI::CallRegister<jSetClass, jSetIteratorMethod> JNI_JavaSet;
 	JNI::CallRegister<jEntryClass, jEntryGetKeyMethod, jEntryGetValueMethod> JNI_JavaEntry;

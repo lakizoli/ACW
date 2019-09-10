@@ -25,6 +25,7 @@ add_library (
 	# Jni folder's source files
 	src/main/cpp/FileUtils.cpp
 	src/main/cpp/main.cpp
+	src/main/cpp/GeneratorInfo.cpp
 	src/main/cpp/NetPackConfig.cpp
 	src/main/cpp/Package.cpp
 	src/main/cpp/PackageManager.cpp

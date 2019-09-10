@@ -16,6 +16,14 @@ public final class GeneratorInfo {
 	public int height = 0;
 	public int questionFieldIndex = 0;
 	public int solutionFieldIndex = 0;
-	public ArrayList<String> splitArray = new ArrayList<> ();
+	public ArrayList<String> splitArray;
 	public HashMap<String, String> solutionsFixes = new HashMap<> ();
+
+	public GeneratorInfo () {
+		splitArray = new ArrayList<String> () {{
+			add (";"); add ("\uff1b"); add ("<br"); add ("/>"); add ("<div>"); add ("</div>");
+			add ("<span>"); add ("</span>"); add ("*"); add ("\r"); add ("\n"); add (","); add ("\uff0c"); add ("("); add ("\uff08"); add (")"); add ("\uff09");
+			add ("["); add ("\uff3b"); add ("]"); add ("\uff3d"); add ("{"); add ("\uff5b"); add ("}"); add ("\uff5d");
+		}};
+	}
 }
