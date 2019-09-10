@@ -14,14 +14,14 @@ namespace {
 
 //Java method and field signatures
 	JNI::jCallableID jCardInitMethod {JNI::JMETHOD, "<init>", "()V"};
-	JNI::jCallableID jCardIDField {JNI::JFIELD, "cardID", "I"};
-	JNI::jCallableID jNoteIDField {JNI::JFIELD, "noteID", "I"};
-	JNI::jCallableID jModelIDField {JNI::JFIELD, "modelID", "I"};
+	JNI::jCallableID jCardIDField {JNI::JFIELD, "cardID", "J"};
+	JNI::jCallableID jNoteIDField {JNI::JFIELD, "noteID", "J"};
+	JNI::jCallableID jModelIDField {JNI::JFIELD, "modelID", "J"};
 	JNI::jCallableID jFieldValuesField {JNI::JFIELD, "fieldValues", "Ljava/util/ArrayList;"};
 	JNI::jCallableID jSolutionFieldValueField {JNI::JFIELD, "solutionFieldValue", "Ljava/lang/String;"};
 
 	JNI::jCallableID jFieldInitMethod {JNI::JMETHOD, "<init>", "()V"};
-	JNI::jCallableID jIdxField {JNI::JFIELD, "idx", "I"};
+	JNI::jCallableID jIdxField {JNI::JFIELD, "idx", "J"};
 	JNI::jCallableID jNameField {JNI::JFIELD, "name", "Ljava/lang/String;"};
 
 	JNI::jCallableID jGeneratorInfoInitMethod {JNI::JMETHOD, "<init>", "()V"};
@@ -49,16 +49,16 @@ Card::Card () {
 	mObject = JNI::GlobalReferenceObject (jobj.get ());
 }
 
-void Card::SetCardID (int cardID) {
-	JNI::GetEnv ()->SetIntField (mObject, JNI::JavaField (jCardIDField), cardID);
+void Card::SetCardID (uint64_t cardID) {
+	JNI::GetEnv ()->SetLongField (mObject, JNI::JavaField (jCardIDField), (jlong) cardID);
 }
 
-void Card::SetNoteID (int noteID) {
-	JNI::GetEnv ()->SetIntField (mObject, JNI::JavaField (jNoteIDField), noteID);
+void Card::SetNoteID (uint64_t noteID) {
+	JNI::GetEnv ()->SetLongField (mObject, JNI::JavaField (jNoteIDField), (jlong) noteID);
 }
 
-void Card::SetModelID (int modelID) {
-	JNI::GetEnv ()->SetIntField (mObject, JNI::JavaField (jModelIDField), modelID);
+void Card::SetModelID (uint64_t modelID) {
+	JNI::GetEnv ()->SetLongField (mObject, JNI::JavaField (jModelIDField), (jlong) modelID);
 }
 
 void Card::AddFieldValue (const std::string& fieldValue) {
@@ -75,8 +75,8 @@ Field::Field () {
 	mObject = JNI::GlobalReferenceObject (jobj.get ());
 }
 
-void Field::SetIdx (int idx) {
-	JNI::GetEnv ()->SetIntField (mObject, JNI::JavaField (jIdxField), idx);
+void Field::SetIdx (uint32_t idx) {
+	JNI::GetEnv ()->SetLongField (mObject, JNI::JavaField (jIdxField), (jlong) idx);
 }
 
 void Field::SetName (const std::string& name) {

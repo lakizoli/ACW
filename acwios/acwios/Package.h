@@ -51,9 +51,9 @@
 
 @interface Deck : NSObject
 
-@property (weak) Package *package;
 @property (assign) NSUInteger deckID;
 @property (strong) NSString *name;
+@property (strong) NSURL *packagePath;
 
 @end
 

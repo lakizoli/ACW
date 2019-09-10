@@ -18,6 +18,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.zapp.acw.R;
+import com.zapp.acw.bll.Deck;
+import com.zapp.acw.bll.Package;
+
+import java.util.ArrayList;
 
 public class GenFragment extends Fragment implements Toolbar.OnMenuItemClickListener {
 
@@ -38,6 +42,14 @@ public class GenFragment extends Fragment implements Toolbar.OnMenuItemClickList
 		super.onActivityCreated (savedInstanceState);
 
 		mViewModel = ViewModelProviders.of (this).get (GenViewModel.class);
+
+		Bundle args = getArguments ();
+		Package pack = null;
+		if (args != null) {
+			pack = args.getParcelable ("package");
+		}
+
+		mViewModel.init (pack);
 
 		//Init toolbar
 		FragmentActivity activity = getActivity ();

@@ -30,7 +30,7 @@ public class DownloadViewModel extends ViewModel {
 	private MutableLiveData<ArrayList<NetPackConfig.NetPackConfigItem>> _packageConfigs = new MutableLiveData<> ();
 	private MutableLiveData<Pair<Integer, String>> _progress = new MutableLiveData<> ();
 	private int _lastProgress = -1;
-	private ArrayList<Deck> _decks = null;
+	private Package _package = null;
 
 	public MutableLiveData<Integer> getAction () {
 		return _action;
@@ -41,8 +41,8 @@ public class DownloadViewModel extends ViewModel {
 	public MutableLiveData<Pair<Integer, String>> getProgress () {
 		return _progress;
 	}
-	public ArrayList<Deck> getDecks () {
-		return _decks;
+	public Package getPackage () {
+		return _package;
 	}
 
 	private void endOfDownload (final Activity activity, final boolean showFailedAlert, final String downloadedFile, final boolean doGen, final String packageNameFull) {
@@ -68,12 +68,12 @@ public class DownloadViewModel extends ViewModel {
 							Package pack = packages.get (i);
 							String testPackageName = FileUtils.getFileName (pack.path);
 							if (testPackageName.equals (packageName)) {
-								_decks = pack.decks;
+								_package = pack;
 								break;
 							}
 						}
 
-						if (_decks != null && _decks.size () > 0) {
+						if (_package != null && _package.decks != null && _package.decks.size () > 0) {
 							_action.postValue (SHOW_GEN_VIEW);
 						} else {
 							_action.postValue (DISMISS_VIEW);

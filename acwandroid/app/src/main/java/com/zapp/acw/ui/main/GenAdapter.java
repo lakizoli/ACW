@@ -12,14 +12,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.zapp.acw.R;
 import com.zapp.acw.bll.Deck;
 import com.zapp.acw.bll.Field;
+import com.zapp.acw.bll.GeneratorInfo;
 
 import java.util.ArrayList;
 
 public class GenAdapter extends RecyclerView.Adapter<GenAdapter.ViewHolder> {
+	private GeneratorInfo _info;
 	private ArrayList<Deck> _decks;
 
-	public GenAdapter (ArrayList<Deck> decks) {
+	public GenAdapter (ArrayList<Deck> decks, GeneratorInfo info) {
 		_decks = decks;
+		_info = info;
 	}
 
 	public class ViewHolder extends RecyclerView.ViewHolder {

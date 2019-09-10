@@ -314,7 +314,7 @@
 		for (auto& it : db->GetDecks ()) {
 			Deck *deck = [[Deck alloc] init];
 			
-			[deck setPackage:pack];
+			[deck setPackagePath:pack.path];
 			[deck setDeckID:it.first];
 			[deck setName:[NSString stringWithUTF8String:it.second->name.c_str ()]];
 			
@@ -432,10 +432,10 @@
 	__block std::map<uint64_t, std::set<uint64_t>> deckIndicesByModelID;
 	[decks enumerateObjectsUsingBlock:^(Deck * _Nonnull deck, NSUInteger idx, BOOL * _Nonnull stop) {
 		if (packagePath == nil) {
-			packagePath = [[deck package] path];
+			packagePath = [deck packagePath];
 		}
 		
-		std::shared_ptr<CardList> cardList = CardList::Create ([[[[deck package] path] path] UTF8String], [deck deckID]);
+		std::shared_ptr<CardList> cardList = CardList::Create ([[[deck packagePath] path] UTF8String], [deck deckID]);
 		cardListsOfDecks.push_back (cardList);
 		if (cardList) {
 			const std::map<uint64_t, std::shared_ptr<CardList::Card>>& cards = cardList->GetCards ();
@@ -644,7 +644,7 @@
 		return NO;
 	}
 	
-	NSURL *packageUrl = [[[[info decks] objectAtIndex:0] package] path];
+	NSURL *packageUrl = [[[info decks] objectAtIndex:0] packagePath];
 	NSString *packagePath = [packageUrl path];
 	
 	__block std::set<uint64_t> deckIDs;

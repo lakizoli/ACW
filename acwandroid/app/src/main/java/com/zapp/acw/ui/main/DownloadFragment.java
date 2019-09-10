@@ -89,7 +89,10 @@ public class DownloadFragment extends Fragment implements TabLayout.OnTabSelecte
 					case DownloadViewModel.SHOW_GEN_VIEW:
 						mProgressView.setVisibility (View.INVISIBLE);
 
-						Navigation.findNavController (getView ()).navigate (R.id.ShowGen);
+						Bundle args = new Bundle ();
+						args.putParcelable ("package", mViewModel.getPackage ());
+
+						Navigation.findNavController (getView ()).navigate (R.id.ShowGen, args);
 						break;
 					default:
 						break;

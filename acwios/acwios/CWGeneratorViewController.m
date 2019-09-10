@@ -261,7 +261,7 @@
 				lastPercent = -1;
 				
 				//Reload used words
-				NSURL *packagePath = [[[self->_decks objectAtIndex:0] package] path];
+				NSURL *packagePath = [[self->_decks objectAtIndex:0] packagePath];
 				[[PackageManager sharedInstance] reloadUsedWords:packagePath info:self->_generatorInfo];
 
 				//Add counted name to info

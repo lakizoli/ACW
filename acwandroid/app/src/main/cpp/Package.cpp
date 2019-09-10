@@ -17,9 +17,9 @@ namespace {
 	JNI::jCallableID jLoadFromMethod {JNI::JMETHOD, "loadFrom", "(Ljava/lang/String;)V"};
 
 	JNI::jCallableID jDeckInitMethod {JNI::JMETHOD, "<init>", "()V"};
-	JNI::jCallableID jPackField {JNI::JFIELD, "pack", "Lcom/zapp/acw/bll/Package;"};
-	JNI::jCallableID jDeckIDField {JNI::JFIELD, "deckID", "I"};
+	JNI::jCallableID jDeckIDField {JNI::JFIELD, "deckID", "J"};
 	JNI::jCallableID jDeckNameField {JNI::JFIELD, "name", "Ljava/lang/String;"};
+	JNI::jCallableID jPackagePathField {JNI::JFIELD, "packagePath", "Ljava/lang/String;"};
 
 	JNI::jCallableID jPackageInitMethod {JNI::JMETHOD, "<init>", "()V"};
 	JNI::jCallableID jPathField {JNI::JFIELD, "path", "Ljava/lang/String;"};
@@ -37,7 +37,7 @@ namespace {
 
 //Register jni calls
 	JNI::CallRegister<jGameStateClass, jGameStateInitMethod, jLoadFromMethod> JNI_GameStateClass;
-	JNI::CallRegister<jDeckClass, jDeckInitMethod, jPackField, jDeckIDField, jDeckNameField> JNI_DeckClass;
+	JNI::CallRegister<jDeckClass, jDeckInitMethod, jDeckIDField, jDeckNameField, jPackagePathField> JNI_DeckClass;
 	JNI::CallRegister<jPackageClass, jPackageInitMethod, jPathField, jPackageNameField, jDecksField, jStateField> JNI_PackageClass;
 	JNI::CallRegister<jSavedCrosswordClass, jSCWInitMethod, jSCWPathField, jSCWPackageNameField, jSCWNameField, jSCWWidthField, jSCWHeightField, jSCWWordsField> JNI_SavedCrosswordClass;
 }
@@ -56,20 +56,20 @@ Deck::Deck () {
 	mObject = JNI::GlobalReferenceObject (jobj.get ());
 }
 
-Package Deck::GetPack () const {
-	return JNI::GetObjectField<Package> (mObject, JNI::JavaField (jPackField));
+std::string Deck::GetPackagePath () const {
+	return JNI::GetObjectField<JavaString> (mObject, JNI::JavaField (jPackagePathField)).getString ();
 }
 
-void Deck::SetPack (const Package& pack) {
-	JNI::GetEnv ()->SetObjectField (mObject, JNI::JavaField (jPackField), pack.get ());
+void Deck::SetPackagePath (const std::string& packagePath) {
+	JNI::GetEnv ()->SetObjectField (mObject, JNI::JavaField (jPackagePathField), JavaString (packagePath).get ());
 }
 
-int Deck::GetDeckID () const {
-	return JNI::GetEnv ()->GetIntField (mObject, JNI::JavaField (jDeckIDField));
+uint64_t Deck::GetDeckID () const {
+	return (uint64_t) JNI::GetEnv ()->GetLongField (mObject, JNI::JavaField (jDeckIDField));
 }
 
-void Deck::SetDeckID (int deckID) {
-	JNI::GetEnv ()->SetIntField (mObject, JNI::JavaField (jDeckIDField), deckID);
+void Deck::SetDeckID (uint64_t deckID) {
+	JNI::GetEnv ()->SetLongField (mObject, JNI::JavaField (jDeckIDField), (jlong) deckID);
 }
 
 std::string Deck::GetName () const {

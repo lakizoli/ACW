@@ -130,7 +130,7 @@ extern "C" JNIEXPORT jobject JNICALL Java_com_zapp_acw_bll_PackageManager_extrac
 		for (auto& it : db->GetDecks ()) {
 			Deck deck;
 
-			deck.SetPack (pack);
+			deck.SetPackagePath (pack.GetPath ());
 			deck.SetDeckID (it.first);
 			deck.SetName (it.second->name.c_str ());
 
@@ -190,7 +190,7 @@ extern "C" JNIEXPORT jobject JNICALL Java_com_zapp_acw_bll_PackageManager_collec
 
 extern "C" JNIEXPORT jobject JNICALL Java_com_zapp_acw_bll_PackageManager_collectGeneratorInfo (JNIEnv* env, jobject thiz, jobject jDecks) {
 	JavaArrayList<Deck> decks (jDecks);
-	if (decks.size () < 1) {
+	if (decks.get () == nullptr || decks.size () < 1) {
 		return nullptr;
 	}
 
@@ -201,10 +201,10 @@ extern "C" JNIEXPORT jobject JNICALL Java_com_zapp_acw_bll_PackageManager_collec
 	for (int idx = 0, iEnd = decks.size (); idx < iEnd; ++idx) {
 		Deck deck = decks.itemAt (idx);
 		if (packagePath.empty ()) {
-			packagePath = deck.GetPack ().GetPath ();
+			packagePath = deck.GetPackagePath ();
 		}
 
-		std::shared_ptr<CardList> cardList = CardList::Create (deck.GetPack ().GetPath (), deck.GetDeckID ());
+		std::shared_ptr<CardList> cardList = CardList::Create (deck.GetPackagePath (), deck.GetDeckID ());
 		cardListsOfDecks.push_back (cardList);
 		if (cardList) {
 			const std::map<uint64_t, std::shared_ptr<CardList::Card>>& cards = cardList->GetCards ();

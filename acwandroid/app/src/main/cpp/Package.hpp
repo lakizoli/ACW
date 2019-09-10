@@ -28,11 +28,11 @@ public:
 	Deck ();
 
 public:
-	Package GetPack () const;
-	void SetPack (const Package& pack);
+	std::string GetPackagePath () const;
+	void SetPackagePath (const std::string& packagePath);
 
-	int GetDeckID () const;
-	void SetDeckID  (int deckID);
+	uint64_t GetDeckID () const;
+	void SetDeckID  (uint64_t deckID);
 
 	std::string GetName () const;
 	void SetName (const std::string& name);

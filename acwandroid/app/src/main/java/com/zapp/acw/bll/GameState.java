@@ -1,5 +1,7 @@
 package com.zapp.acw.bll;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.JsonReader;
 import android.util.JsonWriter;
 import android.util.Log;
@@ -11,7 +13,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 
-public final class GameState {
+public final class GameState implements Parcelable {
 	public String crosswordName;
 	public String overriddenPackageName;
 	public int filledWordCount = 0;
@@ -19,6 +21,10 @@ public final class GameState {
 	public int filledLevel = 0;
 	public int levelCount = 0;
 
+	public GameState () {
+	}
+
+	//region JSON implementation
 	public void loadFrom (String path) {
 		JsonReader reader = null;
 		InputStream inputStream = null;
@@ -108,4 +114,41 @@ public final class GameState {
 			}
 		}
 	}
+	//endregion
+
+	//region Parcelable implementation
+	public static final Parcelable.Creator<GameState> CREATOR = new Parcelable.Creator<GameState> () {
+		public GameState createFromParcel (Parcel source) {
+			return new GameState (source);
+		}
+
+		public GameState[] newArray (int size) {
+			return new GameState[size];
+		}
+	};
+
+	public GameState (Parcel parcel) {
+		crosswordName = parcel.readString ();
+		overriddenPackageName = parcel.readString ();
+		filledWordCount = parcel.readInt ();
+		wordCount = parcel.readInt ();
+		filledLevel = parcel.readInt ();
+		levelCount = parcel.readInt ();
+	}
+
+	@Override
+	public int describeContents () {
+		return hashCode ();
+	}
+
+	@Override
+	public void writeToParcel (Parcel dest, int flags) {
+		dest.writeString (crosswordName);
+		dest.writeString (overriddenPackageName);
+		dest.writeInt (filledWordCount);
+		dest.writeInt (wordCount);
+		dest.writeInt (filledLevel);
+		dest.writeInt (levelCount);
+	}
+	//endregion
 }

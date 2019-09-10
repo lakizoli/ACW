@@ -31,13 +31,14 @@
 @implementation AnkiDownloadViewController {
 	NSString *_backButtonSegueID;
 	BOOL _doGenerationAfterAnkiDownload;
-	NSArray<Deck*> *_decks;
+	Package *_package;
 }
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
 	self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
 	if (self) {
 		_doGenerationAfterAnkiDownload = NO;
+		_package = nil;
 	}
 	return self;
 }
@@ -46,6 +47,7 @@
 	self = [super initWithCoder:aDecoder];
 	if (self) {
 		_doGenerationAfterAnkiDownload = NO;
+		_package = nil;
 	}
 	return self;
 }
@@ -166,12 +168,12 @@
 				[packages enumerateObjectsUsingBlock:^(Package * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 					NSString *testPackageName = [[obj path] lastPathComponent];
 					if ([testPackageName compare:packageName] == NSOrderedSame) {
-						self->_decks = [obj decks];
+						self->_package = obj;
 						*stop = YES;
 					}
 				}];
 				
-				if ([self->_decks count] > 0) {
+				if (self->_package != nil && [self->_package.decks count] > 0) {
 					[self performSegueWithIdentifier:@"ShowGen" sender:self];
 				} else {
 					[self dismissView];
@@ -345,8 +347,8 @@
 		[segue.destinationViewController isKindOfClass:[CWGeneratorViewController class]])
 	{
 		CWGeneratorViewController *genView = (CWGeneratorViewController*) segue.destinationViewController;
-		[genView setPackage: [[_decks objectAtIndex:0] package]];
-		[genView setDecks:_decks];
+		[genView setPackage: _package];
+		[genView setDecks:_package.decks];
 		[genView setFullGeneration:YES];
 	}
 }

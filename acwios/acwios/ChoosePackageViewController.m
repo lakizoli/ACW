@@ -26,6 +26,7 @@
 	BOOL _isSubscribed;
 	NSArray<Package*>* _packages;
 	NSMutableDictionary<NSURL*, NSNumber*>* _openStateOfPackages;
+	Package *_choosenPackage;
 	NSArray<Deck*> *_choosenDecks;
 }
 
@@ -174,6 +175,7 @@
 		NSArray<NSIndexPath*> *selectedRows = [_packageTable indexPathsForSelectedRows];
 
 		__block BOOL showSubscriptionAlert = NO;
+		__block Package *selectedPackage = nil;
 		__block NSMutableArray<Deck*> *selectedDecks = [NSMutableArray<Deck*> new];
 		[selectedRows enumerateObjectsUsingBlock:^(NSIndexPath * _Nonnull indexPath, NSUInteger idx, BOOL * _Nonnull stop) {
 			BOOL packEnabled = (indexPath.section < 1 && indexPath.row < 1) || self->_isSubscribed;
@@ -182,8 +184,8 @@
 				*stop = YES;
 			}
 			
-			Package *choosenPackage = [self->_packages objectAtIndex:indexPath.section];
-			NSArray<Deck*> *decks = [choosenPackage decks];
+			selectedPackage = [self->_packages objectAtIndex:indexPath.section];
+			NSArray<Deck*> *decks = [selectedPackage decks];
 			if (indexPath.row >= 0 && indexPath.row < [decks count]) {
 				[selectedDecks addObject:[decks objectAtIndex:indexPath.row]];
 			}
@@ -195,6 +197,7 @@
 			//... Cannot happen because of disabling configure button
 			return NO;
 		} else { //We have a valid deck set
+			self->_choosenPackage = selectedPackage;
 			self->_choosenDecks = selectedDecks;
 			return YES;
 		}
@@ -209,7 +212,7 @@
 		[_choosenDecks count] > 0)
 	{
 		CWGeneratorViewController *genView = (CWGeneratorViewController*) segue.destinationViewController;
-		[genView setPackage: [[_choosenDecks objectAtIndex:0] package]];
+		[genView setPackage: _choosenPackage];
 		[genView setDecks: _choosenDecks];
 	}
 }

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.TreeMap;
 
 import static android.icu.text.Normalizer.YES;
@@ -273,8 +274,7 @@ public final class PackageManager {
 		ArrayList<String> separatorArr = new ArrayList<String> () {{
 			add (";"); add ("<br"); add ("/>"); add ("<div>"); add ("</div>"); add ("*"); add ("\r"); add ("\n");
 		}};
-		for (int i = 0, iEnd = separatorArr.size (); i < iEnd; ++i) {
-			String separatorStr = separatorArr.get (i);
+		for (String separatorStr : separatorArr) {
 			field = field.replaceAll (separatorStr, ":");
 			field = field.replaceAll ("  ", " ");
 			field = field.replaceAll (": :", ", ");
@@ -291,7 +291,49 @@ public final class PackageManager {
 	}
 
 	public String trimSolutionField (String solutionField, ArrayList<String> splitArr, HashMap<String, String> solutionFixes) {
-		return null;
+		String fixedSolution = solutionFixes.get (solutionField);
+		if (fixedSolution != null) {
+			return fixedSolution;
+		}
+
+		String field = trimStart (trimEnd (solutionField));
+
+		//Try to detect HTML content
+		if (field.startsWith ("<")) {
+			try {
+				XmlPullParserFactory parserFactory = XmlPullParserFactory.newInstance ();
+				XmlPullParser parser = parserFactory.newPullParser ();
+				StringReader reader = new StringReader (field);
+				parser.setInput (reader);
+				field = parseXml (parser);
+			} catch (Exception ex) {
+				Log.e ("PackageManager", "trimSolutionField, parseXml - ex: " + ex.toString ());
+				return null;
+			}
+		}
+
+		//Replace chars in word
+		HashMap<String, String> replacePairs = new HashMap<String, String> () {{
+			put ("&nbsp;", " ");
+			put ("  ", " ");
+		}};
+		for (Map.Entry<String, String> entry : replacePairs.entrySet ()) {
+			field = field.replaceAll (entry.getKey (), entry.getValue ());
+		}
+
+		//Pull word out from garbage
+		for (String splitStr : splitArr) {
+			String trimmed = trimStart (trimEnd (field));
+			String[] items = trimmed.split (splitStr);
+			if (items != null && items.length > 0) {
+				field = items[0];
+			} else {
+				field = trimmed;
+			}
+		}
+
+//		Log.d ("PackageManager", solutionField + " -> " + field);
+		return field;
 	}
 
 	//public boolean generateWithInfo (GeneratorInfo info, progressCallback:(void(^)(float, BOOL*))progressCallback;

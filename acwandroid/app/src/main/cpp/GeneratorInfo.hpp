@@ -14,9 +14,9 @@ public:
 	Card ();
 
 public:
-	void SetCardID (int cardID);
-	void SetNoteID (int noteID);
-	void SetModelID (int modelID);
+	void SetCardID (uint64_t cardID);
+	void SetNoteID (uint64_t noteID);
+	void SetModelID (uint64_t modelID);
 	void AddFieldValue (const std::string& fieldValue);
 	void SetSolutionFieldValue (const std::string& solutionFieldValue);
 };
@@ -28,7 +28,7 @@ public:
 	Field ();
 
 public:
-	void SetIdx (int idx);
+	void SetIdx (uint32_t idx);
 	void SetName (const std::string& name);
 };
 
