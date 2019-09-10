@@ -81,7 +81,7 @@ public class GenFragment extends Fragment implements Toolbar.OnMenuItemClickList
 		});
 
 		//Init toolbar
-		Toolbar toolbar = activity.findViewById (R.id.toolbar);
+		Toolbar toolbar = activity.findViewById (R.id.gen_toolbar);
 		toolbar.inflateMenu (R.menu.gen_menu);
 		toolbar.setOnMenuItemClickListener (this);
 
