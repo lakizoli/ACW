@@ -10,19 +10,20 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.zapp.acw.R;
-import com.zapp.acw.bll.Deck;
 import com.zapp.acw.bll.Field;
 import com.zapp.acw.bll.GeneratorInfo;
 
-import java.util.ArrayList;
-
 public class GenAdapter extends RecyclerView.Adapter<GenAdapter.ViewHolder> {
-	private GeneratorInfo _info;
-	private ArrayList<Deck> _decks;
+	public interface OnItemClickListener {
+		void onItemClick (Field field);
+	}
 
-	public GenAdapter (ArrayList<Deck> decks, GeneratorInfo info) {
-		_decks = decks;
-		_info = info;
+	private GeneratorInfo _generatorInfo;
+	private OnItemClickListener _clickListener;
+
+	public GenAdapter (GeneratorInfo generatorInfo, OnItemClickListener clickListener) {
+		_generatorInfo = generatorInfo;
+		_clickListener = clickListener;
 	}
 
 	public class ViewHolder extends RecyclerView.ViewHolder {
@@ -51,44 +52,24 @@ public class GenAdapter extends RecyclerView.Adapter<GenAdapter.ViewHolder> {
 
 	@Override
 	public void onBindViewHolder (@NonNull GenAdapter.ViewHolder holder, int position) {
-//		// Get the data model based on position
-//		final NetPackConfig.NetPackConfigItem item = _packageConfigs.get (position);
-//
-//		// Set item views based on your views and data model
-//		TextView textView = holder.languageName;
-//		textView.setText (item.label);
-//
-//		// Set the click listener
-//		holder.itemView.setOnClickListener (new View.OnClickListener () {
-//			@Override
-//			public void onClick (View v) {
-//				_clickListener.onItemClick (item);
-//			}
-//		});
+		// Get the data model based on position
+		final Field item = _generatorInfo.fields.get (position);
+
+		// Set item views based on your views and data model
+		TextView textView = holder.fieldName;
+		textView.setText (item.name);
+
+		// Set the click listener
+		holder.itemView.setOnClickListener (new View.OnClickListener () {
+			@Override
+			public void onClick (View v) {
+				_clickListener.onItemClick (item);
+			}
+		});
 	}
 
 	@Override
 	public int getItemCount () {
-		return _decks == null ? 0 : _decks.size ();
+		return _generatorInfo != null && _generatorInfo.fields != null ? _generatorInfo.fields.size () : 0;
 	}
-
-	private String getFieldValue (int row) {
-		String fieldValue = "";
-
-//		ArrayList<Field> fields = [_generatorInfo fields];
-//		if (row < [fields count]) {
-//			Field *field = [fields objectAtIndex:row];
-//			NSArray<Card*> *cards = [_generatorInfo cards];
-//
-//			if ([cards count] > 0) {
-//				Card *card = [cards objectAtIndex:0];
-//				if ([field idx] < [[card fieldValues] count]) {
-//					fieldValue = [[card fieldValues] objectAtIndex:[field idx]];
-//				}
-//			}
-//		}
-
-		return fieldValue;
-	}
-
 }

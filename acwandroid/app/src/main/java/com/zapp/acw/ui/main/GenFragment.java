@@ -1,27 +1,27 @@
 package com.zapp.acw.ui.main;
 
-import androidx.activity.OnBackPressedCallback;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.zapp.acw.R;
-import com.zapp.acw.bll.Deck;
+import com.zapp.acw.bll.Field;
+import com.zapp.acw.bll.GeneratorInfo;
 import com.zapp.acw.bll.Package;
-
-import java.util.ArrayList;
 
 public class GenFragment extends Fragment implements Toolbar.OnMenuItemClickListener {
 
@@ -43,16 +43,44 @@ public class GenFragment extends Fragment implements Toolbar.OnMenuItemClickList
 
 		mViewModel = ViewModelProviders.of (this).get (GenViewModel.class);
 
-		Bundle args = getArguments ();
-		Package pack = null;
-		if (args != null) {
-			pack = args.getParcelable ("package");
-		}
+		final FragmentActivity activity = getActivity ();
 
-		mViewModel.init (pack);
+		mViewModel.getGeneratorInfo ().observe (getViewLifecycleOwner (), new Observer<GeneratorInfo> () {
+			@Override
+			public void onChanged (GeneratorInfo generatorInfo) {
+				//Set question chooser
+				final RecyclerView rvQuestion = activity.findViewById (R.id.question_chooser);
+
+				GenAdapter adapter = new GenAdapter (generatorInfo, new GenAdapter.OnItemClickListener () {
+					@Override
+					public void onItemClick (Field field) {
+						TextView textView = activity.findViewById (R.id.text_question_value);
+						String fieldValue = mViewModel.getFieldValue (field);
+						updatePickerLabel (textView, "Question field:", fieldValue);
+					}
+				});
+
+				rvQuestion.setAdapter(adapter);
+				rvQuestion.setLayoutManager(new LinearLayoutManager (activity));
+
+				//Set solution chooser
+				final RecyclerView rvSolution = activity.findViewById (R.id.solution_chooser);
+
+				adapter = new GenAdapter (generatorInfo, new GenAdapter.OnItemClickListener () {
+					@Override
+					public void onItemClick (Field field) {
+						TextView textView = activity.findViewById (R.id.text_solution_value);
+						String fieldValue = mViewModel.getFieldValue (field);
+						updatePickerLabel (textView, "Solution field:", fieldValue);
+					}
+				});
+
+				rvSolution.setAdapter(adapter);
+				rvSolution.setLayoutManager(new LinearLayoutManager (activity));
+			}
+		});
 
 		//Init toolbar
-		FragmentActivity activity = getActivity ();
 		Toolbar toolbar = activity.findViewById (R.id.toolbar);
 		toolbar.inflateMenu (R.menu.gen_menu);
 		toolbar.setOnMenuItemClickListener (this);
@@ -64,6 +92,15 @@ public class GenFragment extends Fragment implements Toolbar.OnMenuItemClickList
 			}
 		};
 		requireActivity ().getOnBackPressedDispatcher ().addCallback (this, callback);
+
+		//Init view model
+		Bundle args = getArguments ();
+		Package pack = null;
+		if (args != null) {
+			pack = args.getParcelable ("package");
+		}
+
+		mViewModel.startCollectGeneratorInfo (pack);
 	}
 
 	@Override
@@ -76,5 +113,16 @@ public class GenFragment extends Fragment implements Toolbar.OnMenuItemClickList
 				break;
 		}
 		return false;
+	}
+
+	private void updatePickerLabel (TextView label, String text, String exampleContent) {
+		if (exampleContent == null) {
+			label.setText (text);
+			return;
+		}
+
+		String example = String.format ("(e.g.: \"%s\")", exampleContent);
+		String content = String.format ("%s %s", text, example);
+		label.setText (content);
 	}
 }
