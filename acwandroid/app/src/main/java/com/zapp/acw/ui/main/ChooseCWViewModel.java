@@ -1,7 +1,121 @@
 package com.zapp.acw.ui.main;
 
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.zapp.acw.FileUtils;
+import com.zapp.acw.bll.PackageManager;
+import com.zapp.acw.bll.Package;
+import com.zapp.acw.bll.SavedCrossword;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+
 public class ChooseCWViewModel extends ViewModel {
-	// TODO: Implement the ViewModel
+	public static final int RELOAD_PACKAGES_ENDED = 1;
+
+	private ArrayList<String> _sortedPackageKeys; ///< The keys of the packages sorted by package name
+	private HashMap<String, Package> _packages;
+	private HashMap<String, Integer> _currentSavedCrosswordIndices; ///< The index of the currently played crossword of packages
+	private HashMap<String, Integer> _filledWordCounts; ///< The filled word counts of packages
+	private HashMap<String, ArrayList<SavedCrossword>> _savedCrosswords; ///< All of the generated crosswords of packages
+	private String _selectedPackageKey;
+	private int _selectedCrosswordIndex = 0;
+	private boolean _isRandomGame = false;
+
+	private MutableLiveData<Integer> _action = new MutableLiveData<> ();
+
+	public MutableLiveData<Integer> getAction () {
+		return _action;
+	}
+
+	public void startReloadPackages () {
+		new Thread (new Runnable () {
+			@Override
+			public void run () {
+				_selectedPackageKey = null;
+				_selectedCrosswordIndex = 0;
+				_isRandomGame = false;
+
+				PackageManager man = PackageManager.sharedInstance ();
+				ArrayList<Package> packs = man.collectPackages ();
+				_savedCrosswords = man.collectSavedCrosswords ();
+
+				_sortedPackageKeys = new ArrayList<> ();
+				_packages = new HashMap<> ();
+				for (Package obj : packs) {
+					String packageKey = FileUtils.getFileName (obj.path);
+					ArrayList<SavedCrossword> cws = _savedCrosswords.get (packageKey);
+					if (cws != null && cws.size () > 0) {
+						_sortedPackageKeys.add (packageKey);
+						_packages.put (packageKey, obj);
+					}
+				}
+
+				Collections.sort (_sortedPackageKeys, new Comparator<String> () {
+					@Override
+					public int compare (String obj1, String obj2) {
+						Package pack1 = _packages.get (obj1);
+						Package pack2 = _packages.get (obj2);
+
+						String name1 = pack1 != null && pack1.state != null ? pack1.state.overriddenPackageName : null;
+						if (name1 == null || name1.length () <= 0) {
+							name1 = pack1.name;
+						}
+
+						String name2 = pack2 != null && pack2.state != null ? pack2.state.overriddenPackageName : null;
+						if (name2 == null || name2.length () <= 0) {
+							name2 = pack2.name;
+						}
+
+						return name1.compareTo (name2);
+					}
+				});
+
+				_currentSavedCrosswordIndices = new HashMap<> ();
+				_filledWordCounts = new HashMap<> ();
+				for (String packageKey : _sortedPackageKeys) {
+					Package pack = _packages.get (packageKey);
+					ArrayList<SavedCrossword> cws = _savedCrosswords.get (packageKey);
+
+					int currentIdx = -1;
+					for (int idx = 0, iEnd = cws != null ? cws.size () : 0; idx < iEnd; ++idx) {
+						SavedCrossword cw = cws.get (idx);
+						if (cw.name != null && pack.state != null && pack.state.crosswordName != null && cw.name.compareTo (pack.state.crosswordName) == 0) {
+							currentIdx = idx;
+							break;
+						}
+					}
+					if (currentIdx < 0) {
+						currentIdx = 0;
+					}
+
+					Integer curCWIdx;
+					if (pack.state != null && pack.state.filledLevel >= pack.state.levelCount) {
+						curCWIdx = currentIdx + 1;
+					} else {
+						curCWIdx = currentIdx;
+					}
+
+					_currentSavedCrosswordIndices.put (packageKey, curCWIdx);
+
+					int sumWordCount = 0;
+					for (int idx = 0, iEnd = cws != null ? cws.size () : 0; idx < iEnd; ++idx) {
+						SavedCrossword obj = cws.get (idx);
+						if (idx == currentIdx) {
+							break;
+						}
+
+						sumWordCount += obj.words != null ? obj.words.size () : 0;
+					}
+
+					_filledWordCounts.put (packageKey, sumWordCount);
+				}
+
+				_action.postValue (RELOAD_PACKAGES_ENDED);
+			}
+		}).start ();
+	}
 }

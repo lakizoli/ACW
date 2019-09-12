@@ -14,8 +14,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
+
+import static com.zapp.acw.ui.main.ChooseCWViewModel.RELOAD_PACKAGES_ENDED;
 
 public class ChooseCWFragment extends Fragment implements Toolbar.OnMenuItemClickListener {
 
@@ -37,6 +40,18 @@ public class ChooseCWFragment extends Fragment implements Toolbar.OnMenuItemClic
 
 		mViewModel = ViewModelProviders.of (this).get (ChooseCWViewModel.class);
 
+		mViewModel.getAction ().observe (getViewLifecycleOwner (), new Observer<Integer> () {
+			@Override
+			public void onChanged (Integer action) {
+				switch (action) {
+					case RELOAD_PACKAGES_ENDED:
+						break;
+					default:
+						break;
+				}
+			}
+		});
+
 		//Init toolbar
 		FragmentActivity activity = getActivity ();
 		Toolbar toolbar = activity.findViewById (R.id.cw_toolbar);
@@ -50,6 +65,8 @@ public class ChooseCWFragment extends Fragment implements Toolbar.OnMenuItemClic
 			}
 		};
 		requireActivity ().getOnBackPressedDispatcher ().addCallback (this, callback);
+
+		mViewModel.startReloadPackages ();;
 	}
 
 	@Override
