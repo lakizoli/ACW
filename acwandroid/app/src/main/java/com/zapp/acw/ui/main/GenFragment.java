@@ -54,11 +54,7 @@ public class GenFragment extends Fragment implements Toolbar.OnMenuItemClickList
 				switch (action) {
 					case GenViewModel.GENERATION_ENDED:
 						//Dismiss view with parent also
-						if (mHaveToDismissParent) {
-							Navigation.findNavController (getView ()).navigate (R.id.ShowChooseCW);
-						} else {
-							Navigation.findNavController (getView ()).navigateUp ();
-						}
+						dismissView ();
 						break;
 					default:
 						break;
@@ -127,7 +123,7 @@ public class GenFragment extends Fragment implements Toolbar.OnMenuItemClickList
 		OnBackPressedCallback callback = new OnBackPressedCallback (true /* enabled by default */) {
 			@Override
 			public void handleOnBackPressed () {
-				Navigation.findNavController (getView ()).navigateUp ();
+				dismissView ();
 			}
 		};
 		requireActivity ().getOnBackPressedDispatcher ().addCallback (this, callback);
@@ -180,6 +176,14 @@ public class GenFragment extends Fragment implements Toolbar.OnMenuItemClickList
 				break;
 		}
 		return false;
+	}
+
+	private void dismissView () {
+		if (mHaveToDismissParent) {
+			Navigation.findNavController (getView ()).navigate (R.id.ShowChooseCW);
+		} else {
+			Navigation.findNavController (getView ()).navigateUp ();
+		}
 	}
 
 	private void updatePickerLabel (TextView label, String text, String exampleContent) {

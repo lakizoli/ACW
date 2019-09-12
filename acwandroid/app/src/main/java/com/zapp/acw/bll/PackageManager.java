@@ -223,6 +223,15 @@ public final class PackageManager {
 		return str.substring(0, index + 1);
 	}
 
+	private static String _fixRegexChars = "*(){}[]";
+	private String fixRegex (String pattern) {
+		if (_fixRegexChars.contains (pattern)) {
+			return "\\" + pattern;
+		}
+
+		return pattern;
+	}
+
 	private String parseXml (XmlPullParser parser) throws IOException, XmlPullParserException {
 		String value = "";
 
@@ -275,6 +284,7 @@ public final class PackageManager {
 			add (";"); add ("<br"); add ("/>"); add ("<div>"); add ("</div>"); add ("*"); add ("\r"); add ("\n");
 		}};
 		for (String separatorStr : separatorArr) {
+			separatorStr = fixRegex (separatorStr);
 			field = field.replaceAll (separatorStr, ":");
 			field = field.replaceAll ("  ", " ");
 			field = field.replaceAll (": :", ", ");
@@ -291,54 +301,50 @@ public final class PackageManager {
 	}
 
 	public String trimSolutionField (String solutionField, ArrayList<String> splitArr, HashMap<String, String> solutionFixes) {
-		try {
-			String fixedSolution = solutionFixes.get (solutionField);
-			if (fixedSolution != null) {
-				return fixedSolution;
-			}
+		String fixedSolution = solutionFixes.get (solutionField);
+		if (fixedSolution != null) {
+			return fixedSolution;
+		}
 
-			String field = trimStart (trimEnd (solutionField));
+		String field = trimStart (trimEnd (solutionField));
 
-			//Try to detect HTML content
-			if (field.startsWith ("<")) {
-				try {
-					XmlPullParserFactory parserFactory = XmlPullParserFactory.newInstance ();
-					XmlPullParser parser = parserFactory.newPullParser ();
-					StringReader reader = new StringReader (field);
-					parser.setInput (reader);
-					field = parseXml (parser);
-				} catch (Exception ex) {
-					Log.e ("PackageManager", "trimSolutionField, parseXml - ex: " + ex.toString ());
-					return null;
-				}
+		//Try to detect HTML content
+		if (field.startsWith ("<")) {
+			try {
+				XmlPullParserFactory parserFactory = XmlPullParserFactory.newInstance ();
+				XmlPullParser parser = parserFactory.newPullParser ();
+				StringReader reader = new StringReader (field);
+				parser.setInput (reader);
+				field = parseXml (parser);
+			} catch (Exception ex) {
+				Log.e ("PackageManager", "trimSolutionField, parseXml - ex: " + ex.toString ());
+				return null;
 			}
+		}
 
-			//Replace chars in word
-			HashMap<String, String> replacePairs = new HashMap<String, String> () {{
-				put ("&nbsp;", " ");
-				put ("  ", " ");
-			}};
-			for (Map.Entry<String, String> entry : replacePairs.entrySet ()) {
-				field = field.replaceAll (entry.getKey (), entry.getValue ());
-			}
+		//Replace chars in word
+		HashMap<String, String> replacePairs = new HashMap<String, String> () {{
+			put ("&nbsp;", " ");
+			put ("  ", " ");
+		}};
+		for (Map.Entry<String, String> entry : replacePairs.entrySet ()) {
+			field = field.replaceAll (entry.getKey (), entry.getValue ());
+		}
 
-			//Pull word out from garbage
-			for (String splitStr : splitArr) {
-				String trimmed = trimStart (trimEnd (field));
-				String[] items = trimmed.split (splitStr);
-				if (items != null && items.length > 0) {
-					field = items[0];
-				} else {
-					field = trimmed;
-				}
+		//Pull word out from garbage
+		for (String splitStr : splitArr) {
+			splitStr = fixRegex (splitStr);
+			String trimmed = trimStart (trimEnd (field));
+			String[] items = trimmed.split (splitStr);
+			if (items != null && items.length > 0) {
+				field = items[0];
+			} else {
+				field = trimmed;
 			}
+		}
 
 //		Log.d ("PackageManager", solutionField + " -> " + field);
-			return field;
-		} catch (Exception ex) {
-			Log.e ("PackageManager", "Exception -> " + ex);
-		}
-		return null;
+		return field;
 	}
 
 	public interface ProgressCallback {
