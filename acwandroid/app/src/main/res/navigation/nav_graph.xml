@@ -42,5 +42,9 @@
         android:id="@+id/genFragment"
         android:name="com.zapp.acw.ui.main.GenFragment"
         android:label="gen_fragment"
-        tools:layout="@layout/gen_fragment" />
+        tools:layout="@layout/gen_fragment" >
+        <action
+            android:id="@+id/ShowChooseCW"
+            app:destination="@id/chooseCW" />
+    </fragment>
 </navigation>

@@ -1,6 +1,5 @@
 package com.zapp.acw.ui.main;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.net.Uri;
@@ -13,6 +12,12 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.google.android.material.tabs.TabLayout;
+import com.zapp.acw.R;
+import com.zapp.acw.bll.NetPackConfig;
+
+import java.util.ArrayList;
+
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,20 +25,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.tabs.TabLayout;
-import com.zapp.acw.R;
-import com.zapp.acw.bll.NetLogger;
-import com.zapp.acw.bll.NetPackConfig;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-
 public class DownloadFragment extends Fragment implements TabLayout.OnTabSelectedListener {
-
 	private DownloadViewModel mViewModel;
 	private ProgressView mProgressView;
 	private boolean mMoveChooseInsteadOfDismiss = false;
@@ -91,8 +88,14 @@ public class DownloadFragment extends Fragment implements TabLayout.OnTabSelecte
 
 						Bundle args = new Bundle ();
 						args.putParcelable ("package", mViewModel.getPackage ());
+						args.putBoolean ("moveChooseInsteadOfDismiss", mMoveChooseInsteadOfDismiss);
 
-						Navigation.findNavController (getView ()).navigate (R.id.ShowGen, args);
+						if (mMoveChooseInsteadOfDismiss) {
+							Navigation.findNavController (getView ()).navigate (R.id.ShowGen, args);
+						} else {
+							NavOptions.Builder navOptionsBuilder = new NavOptions.Builder ();
+							Navigation.findNavController (getView ()).navigate (R.id.ShowGen, args, navOptionsBuilder.setPopUpTo (R.id.chooseCW, true).build ());
+						}
 						break;
 					default:
 						break;
@@ -137,11 +140,7 @@ public class DownloadFragment extends Fragment implements TabLayout.OnTabSelecte
 		OnBackPressedCallback callback = new OnBackPressedCallback (true /* enabled by default */) {
 			@Override
 			public void handleOnBackPressed () {
-				if (mMoveChooseInsteadOfDismiss) { //We came here from the main fragment
-					//... Nothing to do ...
-				} else { //We came here from the choose CW fragment upon click the plus button
-					Navigation.findNavController (getView ()).navigateUp ();
-				}
+				dismissView ();
 			}
 		};
 		activity.getOnBackPressedDispatcher ().addCallback (this, callback);
@@ -163,7 +162,7 @@ public class DownloadFragment extends Fragment implements TabLayout.OnTabSelecte
 		WebSettings webSettings = webView.getSettings ();
 		webSettings.setJavaScriptEnabled (true);
 
-		//Start download package list
+		//Start download package list or dismiss when needed
 		mViewModel.startDownloadPackageList (activity);
 	}
 

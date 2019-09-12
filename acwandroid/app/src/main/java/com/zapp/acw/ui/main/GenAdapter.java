@@ -15,7 +15,7 @@ import com.zapp.acw.bll.GeneratorInfo;
 
 public class GenAdapter extends RecyclerView.Adapter<GenAdapter.ViewHolder> {
 	public interface OnItemClickListener {
-		void onItemClick (Field field);
+		void onItemClick (int position, Field field);
 	}
 
 	private GeneratorInfo _generatorInfo;
@@ -51,7 +51,7 @@ public class GenAdapter extends RecyclerView.Adapter<GenAdapter.ViewHolder> {
 	}
 
 	@Override
-	public void onBindViewHolder (@NonNull GenAdapter.ViewHolder holder, int position) {
+	public void onBindViewHolder (@NonNull GenAdapter.ViewHolder holder, final int position) {
 		// Get the data model based on position
 		final Field item = _generatorInfo.fields.get (position);
 
@@ -63,7 +63,7 @@ public class GenAdapter extends RecyclerView.Adapter<GenAdapter.ViewHolder> {
 		holder.itemView.setOnClickListener (new View.OnClickListener () {
 			@Override
 			public void onClick (View v) {
-				_clickListener.onItemClick (item);
+				_clickListener.onItemClick (position, item);
 			}
 		});
 	}
