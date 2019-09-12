@@ -15,6 +15,7 @@ namespace jni_types {
 	JNI::jClassID jDoubleClass {"java/lang/Double"};
 	JNI::jClassID jNumberClass {"java/lang/Number"};
 	JNI::jClassID jBigIntegerClass {"java/math/BigInteger"};
+	JNI::jClassID jUUIDClass {"java/util/UUID"};
 
 //Java method and field signatures
 	JNI::jCallableID jBooleanInitMethod {JNI::JMETHOD, "<init>", "(Z)V"};
@@ -38,6 +39,12 @@ namespace jni_types {
 	JNI::jCallableID jBIInitMethod {JNI::JMETHOD, "<init>", "(Ljava/lang/String;)V"};
 	JNI::jCallableID jBIToStringMethod {JNI::JMETHOD, "toString", "()Ljava/lang/String;"};
 
+	JNI::jCallableID jUUIDInitMethod {JNI::JMETHOD, "<init>", "(JJ)V"};
+	JNI::jCallableID jUUIDRandomMethod {JNI::JSTATICMETHOD, "randomUUID", "()Ljava/util/UUID;"};
+	JNI::jCallableID jGetLeastSignificantBitsMethod {JNI::JMETHOD, "getLeastSignificantBits", "()J"};
+	JNI::jCallableID jGetMostSignificantBitsMethod {JNI::JMETHOD, "getMostSignificantBits", "()J"};
+	JNI::jCallableID jUUIDToStringMethod {JNI::JMETHOD, "toString", "()Ljava/lang/String;"};
+
 //Register jni calls
 	JNI::CallRegister<jBooleanClass, jBooleanInitMethod, jBooleanValueMethod> JNI_JavaBoolean;
 	JNI::CallRegister<jni_types::jIntegerClass, jIntegerInitMethod, jIntegerValueMethod> JNI_JavaInteger;
@@ -46,6 +53,7 @@ namespace jni_types {
 	JNI::CallRegister<jDoubleClass, jDoubleInitMethod, jDoubleValueMethod> JNI_JavaDouble;
 	JNI::CallRegister<jNumberClass, jNumberDoubleValueMethod, jNumberIntValueMethod> JNI_JavaNumber;
 	JNI::CallRegister<jBigIntegerClass, jBIInitMethod, jBIToStringMethod> JNI_JavaBigInteger;
+	JNI::CallRegister<jUUIDClass, jUUIDInitMethod, jUUIDRandomMethod, jGetLeastSignificantBitsMethod, jGetMostSignificantBitsMethod, jUUIDToStringMethod> JNI_JavaUUID;
 }
 
 using namespace jni_types;
@@ -136,4 +144,28 @@ std::string JavaBigInteger::stringValue () const {
 
 uint64_t JavaBigInteger::uint64Value () const {
 	return std::stoull (stringValue ());
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// C++ implementation of the JavaUUID class
+////////////////////////////////////////////////////////////////////////////////////////////////////
+JavaUUID::JavaUUID (int64_t low, int64_t high) {
+	JNI::AutoLocalRef<jobject> jobj (JNI::GetEnv ()->NewObject (JNI::JavaClass (jUUIDClass), JNI::JavaMethod (jUUIDInitMethod), (jlong) high, (jlong) low));
+	mObject = JNI::GlobalReferenceObject (jobj.get ());
+}
+
+JavaUUID JavaUUID::randomUUID () {
+	return JNI::CallStaticObjectMethod<JavaUUID> (JNI::JavaClass (jUUIDClass), JNI::JavaMethod (jUUIDRandomMethod));
+}
+
+std::string JavaUUID::toString () const {
+	return JNI::CallObjectMethod<JavaString> (mObject, JNI::JavaMethod (jUUIDToStringMethod)).getString ();
+}
+
+int64_t JavaUUID::getLeastSignificantBits () const {
+	return JNI::GetEnv ()->CallLongMethod (mObject, JNI::JavaMethod (jGetLeastSignificantBitsMethod));
+}
+
+int64_t JavaUUID::getMostSignificantBits () const {
+	return JNI::GetEnv ()->CallLongMethod (mObject, JNI::JavaMethod (jGetMostSignificantBitsMethod));
 }

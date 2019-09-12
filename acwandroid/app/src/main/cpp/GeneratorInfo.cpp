@@ -70,6 +70,10 @@ void Card::SetSolutionFieldValue (const std::string& solutionFieldValue) {
 	JNI::GetEnv ()->SetObjectField (mObject, JNI::JavaField (jSolutionFieldValueField), JavaString (solutionFieldValue).get ());
 }
 
+JavaArrayList<JavaString> Card::GetFieldValues () const {
+	return JNI::GetObjectField<JavaArrayList<JavaString>> (mObject, JNI::JavaField (jFieldValuesField));
+}
+
 Field::Field () {
 	JNI::AutoLocalRef<jobject> jobj (JNI::GetEnv ()->NewObject (JNI::JavaClass (jFieldClass), JNI::JavaMethod (jFieldInitMethod)));
 	mObject = JNI::GlobalReferenceObject (jobj.get ());
@@ -131,4 +135,44 @@ void GeneratorInfo::SetQuestionFieldIndex (int questionFieldIndex) {
 
 void GeneratorInfo::SetSolutionFieldIndex (int solutionFieldIndex) {
 	JNI::GetEnv ()->SetIntField (mObject, JNI::JavaField (jSolutionFieldIndexField), solutionFieldIndex);
+}
+
+JavaArrayList<Deck> GeneratorInfo::GetDecks () const {
+	return JNI::GetObjectField<JavaArrayList<Deck>> (mObject, JNI::JavaField (jDecksField));
+}
+
+JavaArrayList<Card> GeneratorInfo::GetCards () const {
+	return JNI::GetObjectField<JavaArrayList<Card>> (mObject, JNI::JavaField (jCardsField));
+}
+
+JavaArrayList<JavaString> GeneratorInfo::GetUsedWords () const {
+	return JNI::GetObjectField<JavaArrayList<JavaString>> (mObject, JNI::JavaField (jUsedWordsField));
+}
+
+std::string GeneratorInfo::GetCrosswordName () const {
+	return JNI::GetObjectField<JavaString> (mObject, JNI::JavaField (jCrosswordNameField)).getString ();
+}
+
+int GeneratorInfo::GetWidth () const {
+	return JNI::GetEnv ()->GetIntField (mObject, JNI::JavaField (jWidthField));
+}
+
+int GeneratorInfo::GetHeight () const {
+	return JNI::GetEnv ()->GetIntField (mObject, JNI::JavaField (jHeightField));
+}
+
+JavaArrayList<JavaString> GeneratorInfo::GetSplitArray () const {
+	return JNI::GetObjectField<JavaArrayList<JavaString>> (mObject, JNI::JavaField (jSplitArrayField));
+}
+
+JavaArrayList<JavaString> GeneratorInfo::GetSolutionFixes () const {
+	return JNI::GetObjectField<JavaArrayList<JavaString>> (mObject, JNI::JavaField (jSolutionsFixesField));
+}
+
+int GeneratorInfo::GetQuestionFieldIndex () const {
+	return JNI::GetEnv ()->GetIntField (mObject, JNI::JavaField (jQuestionFieldIndexField));
+}
+
+int GeneratorInfo::GetSolutionFieldIndex () const {
+	return JNI::GetEnv ()->GetIntField (mObject, JNI::JavaField (jSolutionFieldIndexField));
 }

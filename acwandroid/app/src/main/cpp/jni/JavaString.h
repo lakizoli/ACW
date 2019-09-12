@@ -43,6 +43,9 @@ public:
 
 	static std::string valueOf (JavaObject javaObject);
 
+	JavaString toLowerCase () const;
+	int length () const;
+
 private:
 	void InitWithEncoding (const char* bytes, int length, const char* encoding);
 };

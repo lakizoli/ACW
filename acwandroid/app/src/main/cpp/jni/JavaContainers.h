@@ -128,7 +128,7 @@ public:
 	int size () const { return JNI::GetEnv ()->CallIntMethod (mObject, JNI::JavaMethod (jni_containers::jALSizeMethod)); }
 	bool add (const T& what) { return JNI::GetEnv ()->CallBooleanMethod (mObject, JNI::JavaMethod (jni_containers::jALAddMethod), what.get ()); }
 	T itemAt (int index) const { return JNI::CallObjectMethod<T> (mObject, JNI::JavaMethod (jni_containers::jALGetMethod), index); }
-	void clear () { JNI::CallObjectMethod<T> (mObject, JNI::JavaMethod (jni_containers::jALClearMethod)); }
+	void clear () { JNI::GetEnv ()->CallVoidMethod (mObject, JNI::JavaMethod (jni_containers::jALClearMethod)); }
 
 	template<class N>
 	std::vector<N> toVector (N (T::* getItem) () const) const {

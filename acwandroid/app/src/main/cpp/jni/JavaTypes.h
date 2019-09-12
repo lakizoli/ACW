@@ -105,4 +105,20 @@ public:
 	uint64_t uint64Value () const;
 };
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// C++ implementation of the JavaUUID class
+////////////////////////////////////////////////////////////////////////////////////////////////////
+class JavaUUID : public JavaObject {
+	DECLARE_DEFAULT_JAVAOBJECT (JavaUUID);
+
+public:
+	JavaUUID (int64_t low, int64_t high);
+
+	static JavaUUID randomUUID ();
+	std::string toString () const;
+
+	int64_t getLeastSignificantBits () const;
+	int64_t getMostSignificantBits () const;
+};
+
 #endif //JAVATYPES_H_INCLUDED

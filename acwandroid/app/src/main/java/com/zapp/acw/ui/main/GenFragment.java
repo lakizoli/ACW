@@ -66,6 +66,20 @@ public class GenFragment extends Fragment implements Toolbar.OnMenuItemClickList
 			}
 		});
 
+		mViewModel.getLabelIndex ().observe (getViewLifecycleOwner (), new Observer<Integer> () {
+			@Override
+			public void onChanged (Integer index) {
+				mProgressView.setLabel (String.format ("Generating crossword... (%d)", index));
+			}
+		});
+
+		mViewModel.getProgress ().observe (getViewLifecycleOwner (), new Observer<Integer> () {
+			@Override
+			public void onChanged (Integer progress) {
+				mProgressView.setProgress (progress);
+			}
+		});
+
 		mViewModel.getGeneratorInfo ().observe (getViewLifecycleOwner (), new Observer<GeneratorInfo> () {
 			@Override
 			public void onChanged (GeneratorInfo generatorInfo) {

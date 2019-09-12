@@ -15,10 +15,12 @@ namespace jni_string {
 	JNI::jCallableID jGetBytesMethod {JNI::JMETHOD, "getBytes", "()[B"};
 	JNI::jCallableID jGetBytesWithEncodingMethod {JNI::JMETHOD, "getBytes", "(Ljava/lang/String;)[B"};
 	JNI::jCallableID jValueOfObjectMethod {JNI::JSTATICMETHOD, "valueOf", "(Ljava/lang/Object;)Ljava/lang/String;"};
+	JNI::jCallableID jToLowerCaseMethod {JNI::JMETHOD, "toLowerCase", "()Ljava/lang/String;"};
+	JNI::jCallableID jLengthMethod {JNI::JMETHOD, "length", "()I"};
 
 //Register jni calls
 	JNI::CallRegister<jStringClass, jInitMethod, jInitWithBytesMethod, jInitWithEncodingMethod, jGetBytesMethod,
-		jGetBytesWithEncodingMethod, jValueOfObjectMethod> JNI_JavaString;
+		jGetBytesWithEncodingMethod, jValueOfObjectMethod, jToLowerCaseMethod, jLengthMethod> JNI_JavaString;
 }
 
 using namespace jni_string;
@@ -101,6 +103,14 @@ std::vector<uint8_t> JavaString::getBytesWithEncoding (const char* encoding) con
 
 std::string JavaString::valueOf (JavaObject javaObject) {
 	return JNI::CallStaticObjectMethod<JavaString> (JNI::JavaClass (jStringClass), JNI::JavaMethod (jValueOfObjectMethod), javaObject.get ()).getString ();
+}
+
+JavaString JavaString::toLowerCase () const {
+	return JNI::CallObjectMethod<JavaString> (mObject, JNI::JavaMethod (jToLowerCaseMethod));
+}
+
+int JavaString::length () const {
+	return JNI::GetEnv ()->CallIntMethod (mObject, JNI::JavaMethod (jLengthMethod));
 }
 
 void JavaString::InitWithEncoding (const char* bytes, int length, const char* encoding) {

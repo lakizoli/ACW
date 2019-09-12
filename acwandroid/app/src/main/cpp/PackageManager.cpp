@@ -20,12 +20,28 @@
 namespace {
 //Java class signature
 	JNI::jClassID jPackageManagerClass {"com/zapp/acw/bll/PackageManager"};
+	JNI::jClassID jProgressCallbackClass {"com/zapp/acw/bll/PackageManager$ProgressCallback"};
 
 //Java method and field signatures
 	JNI::jCallableID jPackageStateURLMethod {JNI::JMETHOD, "packageStateURL", "(Ljava/lang/String;)Ljava/lang/String;"};
+	JNI::jCallableID jTrimQuestionFieldMethod {JNI::JMETHOD, "trimQuestionField", "(Ljava/lang/String;)Ljava/lang/String;"};
+	JNI::jCallableID jTrimSolutionFieldMethod {JNI::JMETHOD, "trimSolutionField", "(Ljava/lang/String;Ljava/util/ArrayList;Ljava/util/HashMap;)Ljava/lang/String;"};
+
+	JNI::jCallableID jProgressApplyMethod {JNI::JMETHOD, "apply", "(F)Z"};
 
 //Register jni calls
-	JNI::CallRegister<jPackageManagerClass, jPackageStateURLMethod> JNI_PackageManager;
+	JNI::CallRegister<jPackageManagerClass, jPackageStateURLMethod, jTrimQuestionFieldMethod, jTrimSolutionFieldMethod> JNI_PackageManager;
+	JNI::CallRegister<jProgressCallbackClass, jProgressApplyMethod> JNI_ProgressCallback;
+
+//Local types
+	class ProgressCallBack : public JavaObject {
+		DECLARE_DEFAULT_JAVAOBJECT (ProgressCallBack);
+
+	public:
+		bool apply (float progress) const {
+			return JNI::GetEnv ()->CallBooleanMethod (mObject, JNI::JavaMethod (jProgressApplyMethod), (jfloat) progress);
+		}
+	};
 }
 
 extern "C" JNIEXPORT void JNICALL Java_com_zapp_acw_bll_PackageManager_unzipPackage (JNIEnv* env, jclass clazz, jstring package_path, jstring dest_path) {
@@ -212,7 +228,7 @@ extern "C" JNIEXPORT jobject JNICALL Java_com_zapp_acw_bll_PackageManager_collec
 				uint64_t modelID = cards.begin ()->second->modelID;
 				auto it = deckIndicesByModelID.find (modelID);
 				if (it == deckIndicesByModelID.end ()) {
-					deckIndicesByModelID.emplace (modelID, std::set<uint64_t> { (uint64_t) idx });
+					deckIndicesByModelID.emplace (modelID, std::set<uint64_t> {(uint64_t) idx});
 				} else {
 					it->second.insert ((uint64_t) idx);
 				}
@@ -313,4 +329,134 @@ extern "C" JNIEXPORT void JNICALL Java_com_zapp_acw_bll_PackageManager_reloadUse
 			info.AddUsedWord (jWord);
 		}
 	}
+}
+
+extern "C" JNIEXPORT jboolean JNICALL Java_com_zapp_acw_bll_PackageManager_generateWithInfo (JNIEnv* env, jobject thiz, jobject jInfo, jobject progress_callback) {
+	JNI::AutoLocalRef<jobject> obj (thiz);
+
+	if (jInfo == nullptr) {
+		return false;
+	}
+
+	GeneratorInfo info (jInfo);
+	JavaArrayList<Deck> decks = info.GetDecks ();
+
+	if (decks.size () < 1) {
+		return false;
+	}
+
+	std::string packagePath = decks.itemAt (0).GetPackagePath ();
+
+	std::set<uint64_t> deckIDs;
+	for (int i = 0, iEnd = decks.size (); i < iEnd; ++i) {
+		deckIDs.insert (decks.itemAt (i).GetDeckID ());
+	}
+
+	std::vector<std::wstring> questionFieldValues;
+	std::vector<std::wstring> solutionFieldValues;
+	JavaHashSet solutionFieldFilter;
+
+	JavaArrayList<Card> cards = info.GetCards ();
+	JavaArrayList<JavaString> splitArray = info.GetSplitArray ();
+	JavaHashMap solutionFixes = info.GetSolutionFixes ();
+
+	for (int idx = 0, iEnd = cards.size (); idx < iEnd; ++idx) {
+		Card card = cards.itemAt (idx);
+
+		JavaArrayList<JavaString> fieldValues = card.GetFieldValues ();
+		if (fieldValues.get () == nullptr || fieldValues.size () <= info.GetSolutionFieldIndex () || fieldValues.size () <= info.GetQuestionFieldIndex ()) {
+			continue;
+		}
+
+		JavaString origSolutionVal = fieldValues.itemAt (info.GetSolutionFieldIndex ()).toLowerCase ();
+		JavaString solutionVal = JNI::CallObjectMethod<JavaString> (obj, JNI::JavaMethod (jTrimSolutionFieldMethod), origSolutionVal.get (), splitArray.get (), solutionFixes.get ());
+		if (solutionVal.length () <= 0) {
+			continue;
+		}
+
+		JavaString questionVal = fieldValues.itemAt (info.GetQuestionFieldIndex ());
+		questionVal = JNI::CallObjectMethod<JavaString> (obj, JNI::JavaMethod (jTrimQuestionFieldMethod), questionVal.get ());
+		if (questionVal.length () <= 0) {
+			continue;
+		}
+
+		if (solutionFieldFilter.contains (solutionVal)) { //Filter duplicated solution values
+			continue;
+		}
+		solutionFieldFilter.add (solutionVal);
+//		LOGD ("%s |||| %s", origSolutionVal.getString ().c_str (), solutionVal.getString ().c_str ());
+
+		std::vector<uint8_t> bytes = solutionVal.getBytesWithEncoding ("UTF-16LE");
+		solutionFieldValues.push_back (std::wstring ((const wchar_t*) &bytes[0], bytes.size () / sizeof (wchar_t)));
+
+		bytes = questionVal.getBytesWithEncoding ("UTF-16LE");
+		questionFieldValues.push_back (std::wstring ((const wchar_t*) &bytes[0], bytes.size () / sizeof (wchar_t)));
+	}
+
+
+	if (questionFieldValues.size () <= 0 || solutionFieldValues.size () <= 0 || questionFieldValues.size () != solutionFieldValues.size ()) {
+		return false;
+	}
+
+	std::vector<std::wstring> usedWordValues;
+	JavaArrayList<JavaString> jUsedWords = info.GetUsedWords ();
+	for (int idx = 0, iEnd = jUsedWords.size (); idx < iEnd; ++idx) {
+		JavaString word = jUsedWords.itemAt (idx);
+		std::vector<uint8_t> bytes = word.getBytesWithEncoding ("UTF-16LE");
+		usedWordValues.push_back (std::wstring ((const wchar_t*) &bytes[0], bytes.size () / sizeof (wchar_t)));
+	}
+
+	struct Query : public QueryWords {
+		std::vector<std::wstring>& _words;
+		std::function<void (const std::set<std::wstring>& values)> _updater;
+
+		virtual uint32_t GetCount () const override final { return (uint32_t) _words.size (); }
+		virtual const std::wstring& GetWord (uint32_t idx) const override final { return _words[idx]; }
+		virtual void Clear () override final { _words.clear (); }
+		virtual void UpdateWithSet (const std::set<std::wstring>& values) override {
+			if (_updater) {
+				_updater (values);
+			}
+		}
+		Query (std::vector<std::wstring>& words, std::function<void (const std::set<std::wstring>&)> updater = nullptr) :
+			_words (words), _updater (updater) {}
+	};
+
+	std::string packagePathForUsedWords = packagePath;
+	auto updateUsedWords = [&packagePathForUsedWords] (const std::set<std::wstring>& usedWords) -> void {
+		UsedWords::Update (packagePathForUsedWords, usedWords);
+	};
+
+	auto progressHandler = [progressCallback = ProgressCallBack (progress_callback)] (float progress) -> bool {
+		return progressCallback.apply (progress); //true == continue generation
+	};
+
+	std::shared_ptr<Generator> gen = Generator::Create (packagePath,
+														info.GetCrosswordName (),
+														(uint32_t) info.GetWidth (),
+														(uint32_t) info.GetHeight (),
+														std::make_shared<Query> (questionFieldValues),
+														std::make_shared<Query> (solutionFieldValues),
+														std::make_shared<Query> (usedWordValues, updateUsedWords),
+														progressHandler);
+	if (gen == nullptr) {
+		return false;
+	}
+
+	std::shared_ptr<Crossword> cw = gen->Generate ();
+	if (cw == nullptr) {
+		return false;
+	}
+
+	if (cw->GetWords().size () <= 0) { //We generated an empty crossword...
+		return false;
+	}
+
+	std::string fileName = JavaUUID::randomUUID ().toString () + ".cw";
+	std::string fileUrl = packagePath + "/" + fileName;
+	if (!cw->Save (fileUrl)) {
+		return false;
+	}
+
+	return true;
 }

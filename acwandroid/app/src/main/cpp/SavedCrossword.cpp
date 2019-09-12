@@ -35,8 +35,7 @@ extern "C" JNIEXPORT void JNICALL Java_com_zapp_acw_bll_SavedCrossword_deleteUse
 		while (itWords.hasNext ()) {
 			JavaString word (itWords.next ());
 			std::vector<uint8_t> bytes = word.getBytesWithEncoding ("UTF-16LE");
-			std::wstring wordToErase ((const wchar_t *) &bytes[0],
-									  bytes.size () / sizeof (wchar_t));
+			std::wstring wordToErase ((const wchar_t *) &bytes[0], bytes.size () / sizeof (wchar_t));
 			updatedWords.erase (wordToErase);
 		}
 

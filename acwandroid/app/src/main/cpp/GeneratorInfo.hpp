@@ -19,6 +19,8 @@ public:
 	void SetModelID (uint64_t modelID);
 	void AddFieldValue (const std::string& fieldValue);
 	void SetSolutionFieldValue (const std::string& solutionFieldValue);
+
+	JavaArrayList<JavaString> GetFieldValues () const;
 };
 
 class Field : public JavaObject {
@@ -51,6 +53,22 @@ public:
 	void SetHeight (int height);
 	void SetQuestionFieldIndex (int questionFieldIndex);
 	void SetSolutionFieldIndex (int solutionFieldIndex);
+
+public:
+	JavaArrayList<Deck> GetDecks () const;
+	JavaArrayList<Card> GetCards () const;
+
+	JavaArrayList<JavaString> GetUsedWords () const;
+
+	std::string GetCrosswordName () const;
+	int GetWidth () const;
+	int GetHeight () const;
+
+	JavaArrayList<JavaString> GetSplitArray () const;
+	JavaArrayList<JavaString> GetSolutionFixes () const;
+
+	int GetQuestionFieldIndex () const;
+	int GetSolutionFieldIndex () const;
 };
 
 

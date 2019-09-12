@@ -291,51 +291,60 @@ public final class PackageManager {
 	}
 
 	public String trimSolutionField (String solutionField, ArrayList<String> splitArr, HashMap<String, String> solutionFixes) {
-		String fixedSolution = solutionFixes.get (solutionField);
-		if (fixedSolution != null) {
-			return fixedSolution;
-		}
-
-		String field = trimStart (trimEnd (solutionField));
-
-		//Try to detect HTML content
-		if (field.startsWith ("<")) {
-			try {
-				XmlPullParserFactory parserFactory = XmlPullParserFactory.newInstance ();
-				XmlPullParser parser = parserFactory.newPullParser ();
-				StringReader reader = new StringReader (field);
-				parser.setInput (reader);
-				field = parseXml (parser);
-			} catch (Exception ex) {
-				Log.e ("PackageManager", "trimSolutionField, parseXml - ex: " + ex.toString ());
-				return null;
+		try {
+			String fixedSolution = solutionFixes.get (solutionField);
+			if (fixedSolution != null) {
+				return fixedSolution;
 			}
-		}
 
-		//Replace chars in word
-		HashMap<String, String> replacePairs = new HashMap<String, String> () {{
-			put ("&nbsp;", " ");
-			put ("  ", " ");
-		}};
-		for (Map.Entry<String, String> entry : replacePairs.entrySet ()) {
-			field = field.replaceAll (entry.getKey (), entry.getValue ());
-		}
+			String field = trimStart (trimEnd (solutionField));
 
-		//Pull word out from garbage
-		for (String splitStr : splitArr) {
-			String trimmed = trimStart (trimEnd (field));
-			String[] items = trimmed.split (splitStr);
-			if (items != null && items.length > 0) {
-				field = items[0];
-			} else {
-				field = trimmed;
+			//Try to detect HTML content
+			if (field.startsWith ("<")) {
+				try {
+					XmlPullParserFactory parserFactory = XmlPullParserFactory.newInstance ();
+					XmlPullParser parser = parserFactory.newPullParser ();
+					StringReader reader = new StringReader (field);
+					parser.setInput (reader);
+					field = parseXml (parser);
+				} catch (Exception ex) {
+					Log.e ("PackageManager", "trimSolutionField, parseXml - ex: " + ex.toString ());
+					return null;
+				}
 			}
-		}
+
+			//Replace chars in word
+			HashMap<String, String> replacePairs = new HashMap<String, String> () {{
+				put ("&nbsp;", " ");
+				put ("  ", " ");
+			}};
+			for (Map.Entry<String, String> entry : replacePairs.entrySet ()) {
+				field = field.replaceAll (entry.getKey (), entry.getValue ());
+			}
+
+			//Pull word out from garbage
+			for (String splitStr : splitArr) {
+				String trimmed = trimStart (trimEnd (field));
+				String[] items = trimmed.split (splitStr);
+				if (items != null && items.length > 0) {
+					field = items[0];
+				} else {
+					field = trimmed;
+				}
+			}
 
 //		Log.d ("PackageManager", solutionField + " -> " + field);
-		return field;
+			return field;
+		} catch (Exception ex) {
+			Log.e ("PackageManager", "Exception -> " + ex);
+		}
+		return null;
 	}
 
-	//public boolean generateWithInfo (GeneratorInfo info, progressCallback:(void(^)(float, BOOL*))progressCallback;
+	public interface ProgressCallback {
+		boolean apply (float progress);
+	}
+
+	public native boolean generateWithInfo (GeneratorInfo info, ProgressCallback progressCallback);
 	//endregion
 }
