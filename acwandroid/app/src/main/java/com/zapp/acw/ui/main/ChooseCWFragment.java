@@ -24,6 +24,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -73,17 +74,24 @@ public class ChooseCWFragment extends Fragment implements Toolbar.OnMenuItemClic
 							mViewModel.getCurrentSavedCrosswordIndices (), mViewModel.getFilledWordCounts (), new ChooseCWAdapter.OnItemClickListener () {
 							@Override
 							public void onItemClick (int position, Package pack) {
-								//TODO: ...
+								//TODO: open the next cw level...
 							}
 
 							@Override
 							public void onRandomButtonClick (int position, Package pack) {
-								//TODO: ...
+								//TODO: open a random already solved cw level...
 							}
 						});
 
 						rvCWs.setAdapter (adapter);
 						rvCWs.setLayoutManager (new LinearLayoutManager (activity));
+						ItemTouchHelper itemTouchHelper = new ItemTouchHelper (new SwipeToDeleteCallback (activity, new SwipeToDeleteCallback.OnDeleteCallback () {
+							@Override
+							public void onDeleteItem (int position) {
+								//TODO: handle deletion of the package!!
+							}
+						}));
+						itemTouchHelper.attachToRecyclerView (rvCWs);
 						break;
 					default:
 						break;
