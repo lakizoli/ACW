@@ -33,6 +33,15 @@ public class ChooseCWViewModel extends ViewModel {
 	public ArrayList<String> getSortedPackageKeys () {
 		return _sortedPackageKeys;
 	}
+	public HashMap<String, Package> getPackages () {
+		return _packages;
+	}
+	public HashMap<String, Integer> getCurrentSavedCrosswordIndices () {
+		return _currentSavedCrosswordIndices;
+	}
+	public HashMap<String, Integer> getFilledWordCounts () {
+		return _filledWordCounts;
+	}
 
 	public void startReloadPackages () {
 		new Thread (new Runnable () {

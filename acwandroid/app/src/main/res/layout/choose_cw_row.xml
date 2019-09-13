@@ -1,13 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <TextView
-        android:id="@+id/cw_title"
+        android:id="@+id/cw_package_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="TextView" />
+        android:text="Name of the package"
+        android:textSize="28sp"
+        app:fontFamily="@font/avenir_next_condensed_bold" />
+
+    <TextView
+        android:id="@+id/cw_statistic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="100 of 322 levels (1000 of 3622 words) solved"
+        app:fontFamily="@font/avenir_next_condensed" />
+
+    <TextView
+        android:id="@+id/cw_random_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/random_button_label"
+        android:textSize="14sp"
+        app:fontFamily="@font/avenir_next_condensed" />
 
 </LinearLayout>

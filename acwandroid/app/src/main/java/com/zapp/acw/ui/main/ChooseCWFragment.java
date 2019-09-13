@@ -6,8 +6,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import com.zapp.acw.R;
+import com.zapp.acw.bll.Package;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -50,31 +52,32 @@ public class ChooseCWFragment extends Fragment implements Toolbar.OnMenuItemClic
 		final RecyclerView rvCWs = activity.findViewById (R.id.cw_list);
 		rvCWs.setVisibility (View.INVISIBLE);
 
+		final ProgressBar progressCW = activity.findViewById (R.id.cw_progress);
+		progressCW.setVisibility (View.VISIBLE);
+
 		mViewModel.getAction ().observe (getViewLifecycleOwner (), new Observer<Integer> () {
 			@Override
 			public void onChanged (Integer action) {
 				switch (action) {
 					case RELOAD_PACKAGES_ENDED:
+						progressCW.setVisibility (View.INVISIBLE);
 						helpLayout.setVisibility (mViewModel.hasSomePackages () ? View.INVISIBLE : View.VISIBLE);
 						rvCWs.setVisibility (mViewModel.hasSomePackages () ? View.VISIBLE : View.INVISIBLE);
 
-						ChooseCWAdapter adapter = new ChooseCWAdapter (mViewModel.getSortedPackageKeys ());
-//						DownloadAdapter adapter = new DownloadAdapter (netPackConfigItems, new DownloadAdapter.OnItemClickListener () {
-//							@Override
-//							public void onItemClick (NetPackConfig.NetPackConfigItem item) {
-//								//Show progrss view
-//								showProgressView ();
-//
-//								//Disable page's controls
-//								rvPackages.setEnabled (false);
-//
-//								TabLayout tabLayout = activity.findViewById(R.id.tab_layout);
-//								tabLayout.setEnabled (false);
-//
-//								//Start downloading the package
-//								mViewModel.startDownloadPackage (activity, item);
-//							}
-//						});
+						//TODO: handle isSubscribed!!!
+						ChooseCWAdapter adapter = new ChooseCWAdapter (true, mViewModel.getSortedPackageKeys (), mViewModel.getPackages (),
+							mViewModel.getCurrentSavedCrosswordIndices (), mViewModel.getFilledWordCounts (), new ChooseCWAdapter.OnItemClickListener ()
+						{
+							@Override
+							public void onItemClick (int position, Package pack) {
+								//TODO: ...
+							}
+
+							@Override
+							public void onRandomButtonClick (int position, Package pack) {
+								//TODO: ...
+							}
+						});
 
 						rvCWs.setAdapter(adapter);
 						rvCWs.setLayoutManager(new LinearLayoutManager (activity));
