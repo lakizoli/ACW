@@ -6,12 +6,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.zapp.acw.R;
+
+import java.util.ArrayList;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.zapp.acw.R;
-
 public class ChooseCWAdapter extends RecyclerView.Adapter<ChooseCWAdapter.ViewHolder>  {
+	private ArrayList<String> _sortedPackageKeys; ///< The keys of the packages sorted by package name
+
+	public ChooseCWAdapter (ArrayList<String> sortedPackageKeys) {
+		_sortedPackageKeys = sortedPackageKeys;
+	}
 
 	public class ViewHolder extends RecyclerView.ViewHolder {
 		public TextView title;
@@ -39,13 +46,13 @@ public class ChooseCWAdapter extends RecyclerView.Adapter<ChooseCWAdapter.ViewHo
 
 	@Override
 	public void onBindViewHolder (@NonNull ChooseCWAdapter.ViewHolder holder, int position) {
-//		// Get the data model based on position
-//		final NetPackConfig.NetPackConfigItem item = _packageConfigs.get (position);
-//
-//		// Set item views based on your views and data model
-//		TextView textView = holder.languageName;
-//		textView.setText (item.label);
-//
+		// Get the data model based on position
+		final String item = _sortedPackageKeys.get (position);
+
+		// Set item views based on your views and data model
+		TextView textView = holder.title;
+		textView.setText (item);
+
 //		// Set the click listener
 //		holder.itemView.setOnClickListener (new View.OnClickListener () {
 //			@Override
@@ -57,7 +64,6 @@ public class ChooseCWAdapter extends RecyclerView.Adapter<ChooseCWAdapter.ViewHo
 
 	@Override
 	public int getItemCount () {
-//		return _packageConfigs == null ? 0 : _packageConfigs.size ();
-		return 0;
+		return _sortedPackageKeys == null ? 0 : _sortedPackageKeys.size ();
 	}
 }

@@ -1,17 +1,17 @@
 package com.zapp.acw.ui.main;
 
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
-
 import com.zapp.acw.FileUtils;
-import com.zapp.acw.bll.PackageManager;
 import com.zapp.acw.bll.Package;
+import com.zapp.acw.bll.PackageManager;
 import com.zapp.acw.bll.SavedCrossword;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
 public class ChooseCWViewModel extends ViewModel {
 	public static final int RELOAD_PACKAGES_ENDED = 1;
@@ -29,6 +29,9 @@ public class ChooseCWViewModel extends ViewModel {
 
 	public MutableLiveData<Integer> getAction () {
 		return _action;
+	}
+	public ArrayList<String> getSortedPackageKeys () {
+		return _sortedPackageKeys;
 	}
 
 	public void startReloadPackages () {
@@ -117,5 +120,9 @@ public class ChooseCWViewModel extends ViewModel {
 				_action.postValue (RELOAD_PACKAGES_ENDED);
 			}
 		}).start ();
+	}
+
+	public boolean hasSomePackages () {
+		return _sortedPackageKeys != null && _sortedPackageKeys.size () > 0;
 	}
 }

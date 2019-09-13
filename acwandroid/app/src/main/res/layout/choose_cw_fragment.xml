@@ -21,10 +21,49 @@
             android:theme="?attr/actionBarTheme"
             app:title="Choose Crossword" />
 
-        <androidx.recyclerview.widget.RecyclerView
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/cw_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <LinearLayout
+                android:id="@+id/help_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.2" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.60"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="To download crosswords or Anki Flashcard packages, press the + button above!"
+                    android:textSize="26sp"
+                    android:textStyle="bold"
+                    android:breakStrategy="simple"
+                    app:fontFamily="@font/bradley_hand" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_weight="0.20"
+                    android:src="@drawable/help_arrow_right" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
     </LinearLayout>
 
 </FrameLayout>
