@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.zapp.acw.R;
@@ -48,6 +49,9 @@ public class GenFragment extends Fragment implements Toolbar.OnMenuItemClickList
 
 		final FragmentActivity activity = getActivity ();
 
+		final ProgressBar progressGen = activity.findViewById (R.id.gen_progress);
+		progressGen.setVisibility (View.VISIBLE);
+
 		mViewModel.getAction ().observe (getViewLifecycleOwner (), new Observer<Integer> () {
 			@Override
 			public void onChanged (Integer action) {
@@ -79,6 +83,8 @@ public class GenFragment extends Fragment implements Toolbar.OnMenuItemClickList
 		mViewModel.getGeneratorInfo ().observe (getViewLifecycleOwner (), new Observer<GeneratorInfo> () {
 			@Override
 			public void onChanged (GeneratorInfo generatorInfo) {
+				progressGen.setVisibility (View.INVISIBLE);
+
 				//Set question chooser
 				final RecyclerView rvQuestion = activity.findViewById (R.id.question_chooser);
 

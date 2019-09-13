@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 
 import com.google.android.material.tabs.TabLayout;
 import com.zapp.acw.R;
@@ -57,6 +58,9 @@ public class DownloadFragment extends Fragment implements TabLayout.OnTabSelecte
 		mViewModel = ViewModelProviders.of (this).get (DownloadViewModel.class);
 
 		final FragmentActivity activity = getActivity ();
+
+		final ProgressBar progressDownload = activity.findViewById (R.id.download_progress);
+		progressDownload.setVisibility (View.VISIBLE);
 
 		mViewModel.getAction ().observe (getViewLifecycleOwner (), new Observer<Integer> () {
 			@Override
@@ -106,6 +110,8 @@ public class DownloadFragment extends Fragment implements TabLayout.OnTabSelecte
 		mViewModel.getPackageConfigs ().observe (getViewLifecycleOwner (), new Observer<ArrayList<NetPackConfig.NetPackConfigItem>> () {
 			@Override
 			public void onChanged (ArrayList<NetPackConfig.NetPackConfigItem> netPackConfigItems) {
+				progressDownload.setVisibility (View.INVISIBLE);
+
 				final RecyclerView rvPackages = activity.findViewById (R.id.package_list);
 
 				DownloadAdapter adapter = new DownloadAdapter (netPackConfigItems, new DownloadAdapter.OnItemClickListener () {
@@ -176,6 +182,7 @@ public class DownloadFragment extends Fragment implements TabLayout.OnTabSelecte
 		//Show table view
 		WebView webView = activity.findViewById (R.id.web_search);
 		webView.setVisibility (View.INVISIBLE);
+		webView.loadUrl ("about:blank");
 
 		RecyclerView tableView = activity.findViewById (R.id.package_list);
 		tableView.setVisibility (View.VISIBLE);

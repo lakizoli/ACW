@@ -7,9 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TimePicker;
 
 import com.zapp.acw.R;
 import com.zapp.acw.bll.Package;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -66,8 +70,7 @@ public class ChooseCWFragment extends Fragment implements Toolbar.OnMenuItemClic
 
 						//TODO: handle isSubscribed!!!
 						ChooseCWAdapter adapter = new ChooseCWAdapter (true, mViewModel.getSortedPackageKeys (), mViewModel.getPackages (),
-							mViewModel.getCurrentSavedCrosswordIndices (), mViewModel.getFilledWordCounts (), new ChooseCWAdapter.OnItemClickListener ()
-						{
+							mViewModel.getCurrentSavedCrosswordIndices (), mViewModel.getFilledWordCounts (), new ChooseCWAdapter.OnItemClickListener () {
 							@Override
 							public void onItemClick (int position, Package pack) {
 								//TODO: ...
@@ -79,8 +82,8 @@ public class ChooseCWFragment extends Fragment implements Toolbar.OnMenuItemClic
 							}
 						});
 
-						rvCWs.setAdapter(adapter);
-						rvCWs.setLayoutManager(new LinearLayoutManager (activity));
+						rvCWs.setAdapter (adapter);
+						rvCWs.setLayoutManager (new LinearLayoutManager (activity));
 						break;
 					default:
 						break;
@@ -101,7 +104,8 @@ public class ChooseCWFragment extends Fragment implements Toolbar.OnMenuItemClic
 		};
 		requireActivity ().getOnBackPressedDispatcher ().addCallback (this, callback);
 
-		mViewModel.startReloadPackages ();;
+		mViewModel.startReloadPackages ();
+		;
 	}
 
 	@Override

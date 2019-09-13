@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.zapp.acw.Common;
 import com.zapp.acw.R;
 import com.zapp.acw.bll.Package;
 import com.zapp.acw.bll.SavedCrossword;
@@ -39,14 +40,7 @@ public class MainFragment extends Fragment {
 	@Override
 	public View onCreateView (@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
 							  @Nullable Bundle savedInstanceState) {
-		View view = inflater.inflate (R.layout.main_fragment, container, false);
-		view.setSystemUiVisibility (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-				| View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-				| View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-				| View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-				| View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
-				| View.SYSTEM_UI_FLAG_IMMERSIVE);
-		return view;
+		return inflater.inflate (R.layout.main_fragment, container, false);
 	}
 
 	@Override

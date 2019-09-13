@@ -19,6 +19,8 @@
             android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
+            app:titleTextColor="#FFDFC25D"
+            android:backgroundTint="#FF285050"
             app:title="Choose Crossword" />
 
         <RelativeLayout

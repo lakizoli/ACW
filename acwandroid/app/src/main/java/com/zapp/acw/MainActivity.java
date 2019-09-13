@@ -1,5 +1,6 @@
 package com.zapp.acw;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -20,5 +21,16 @@ public class MainActivity extends AppCompatActivity {
 		man.applicationContext = getApplicationContext ();
 
 		setContentView (R.layout.main_activity);
+
+		Common.setFullscreen (this);
+		Common.registerSystemUiVisibility (this);
+	}
+
+	@Override
+	public void onDestroy () {
+		super.onDestroy ();
+
+		Common.exitFullscreen (this);
+		Common.unregisterSystemUiVisibility (this);
 	}
 }
