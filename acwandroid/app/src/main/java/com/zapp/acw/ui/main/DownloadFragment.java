@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
@@ -98,7 +99,7 @@ public class DownloadFragment extends Fragment implements TabLayout.OnTabSelecte
 							Navigation.findNavController (getView ()).navigate (R.id.ShowGen, args);
 						} else {
 							NavOptions.Builder navOptionsBuilder = new NavOptions.Builder ();
-							Navigation.findNavController (getView ()).navigate (R.id.ShowGen, args, navOptionsBuilder.setPopUpTo (R.id.chooseCW, true).build ());
+							Navigation.findNavController (getView ()).navigate (R.id.ShowGen, args, navOptionsBuilder.setPopUpTo (R.id.chooseCW, false).build ());
 						}
 						break;
 					default:
@@ -157,6 +158,16 @@ public class DownloadFragment extends Fragment implements TabLayout.OnTabSelecte
 		TabLayout.Tab tab = tabLayout.getTabAt (TAB_FEATURED);
 		tab.select();
 		selectTopRated ();
+
+		//Init toolbar
+		Toolbar toolbar = activity.findViewById (R.id.download_toolbar);
+		toolbar.setNavigationIcon (R.drawable.ic_arrow_back_black_24dp);
+		toolbar.setNavigationOnClickListener (new View.OnClickListener () {
+			@Override
+			public void onClick (View v) {
+				dismissView ();
+			}
+		});
 
 		//Init progress view
 		mProgressView = new ProgressView (activity, R.id.progress_view, R.id.text_view_progress, R.id.progress_bar, R.id.button_progress);

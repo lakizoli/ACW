@@ -125,6 +125,13 @@ public class GenFragment extends Fragment implements Toolbar.OnMenuItemClickList
 		Toolbar toolbar = activity.findViewById (R.id.gen_toolbar);
 		toolbar.inflateMenu (R.menu.gen_menu);
 		toolbar.setOnMenuItemClickListener (this);
+		toolbar.setNavigationIcon (R.drawable.ic_arrow_back_black_24dp);
+		toolbar.setNavigationOnClickListener (new View.OnClickListener () {
+			@Override
+			public void onClick (View v) {
+				dismissView ();
+			}
+		});
 
 		OnBackPressedCallback callback = new OnBackPressedCallback (true /* enabled by default */) {
 			@Override

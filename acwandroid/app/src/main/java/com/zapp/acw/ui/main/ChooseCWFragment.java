@@ -105,14 +105,32 @@ public class ChooseCWFragment extends Fragment implements Toolbar.OnMenuItemClic
 		requireActivity ().getOnBackPressedDispatcher ().addCallback (this, callback);
 
 		mViewModel.startReloadPackages ();
-		;
 	}
 
 	@Override
 	public boolean onMenuItemClick (MenuItem menuItem) {
 		switch (menuItem.getItemId ()) {
 			case R.id.action_plus:
-				Navigation.findNavController (getView ()).navigate (R.id.ShowDownload);
+				final FragmentActivity activity = getActivity ();
+				final ProgressBar progressCW = activity.findViewById (R.id.cw_progress);
+				progressCW.setVisibility (View.VISIBLE);
+
+				new Thread (new Runnable () {
+					@Override
+					public void run () {
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+						}
+
+						activity.runOnUiThread (new Runnable () {
+							@Override
+							public void run () {
+								Navigation.findNavController (getView ()).navigate (R.id.ShowDownload);
+							}
+						});
+					}
+				}).start ();
 				return true;
 			default:
 				break;
