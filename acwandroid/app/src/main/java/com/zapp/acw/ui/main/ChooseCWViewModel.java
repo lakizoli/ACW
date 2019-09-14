@@ -4,6 +4,7 @@ import com.zapp.acw.FileUtils;
 import com.zapp.acw.bll.Package;
 import com.zapp.acw.bll.PackageManager;
 import com.zapp.acw.bll.SavedCrossword;
+import com.zapp.acw.bll.SubscriptionManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,6 +17,7 @@ import androidx.lifecycle.ViewModel;
 public class ChooseCWViewModel extends ViewModel {
 	public static final int RELOAD_PACKAGES_ENDED = 1;
 
+	private boolean _isSubscribed = false;
 	private ArrayList<String> _sortedPackageKeys; ///< The keys of the packages sorted by package name
 	private HashMap<String, Package> _packages;
 	private HashMap<String, Integer> _currentSavedCrosswordIndices; ///< The index of the currently played crossword of packages
@@ -29,6 +31,9 @@ public class ChooseCWViewModel extends ViewModel {
 
 	public MutableLiveData<Integer> getAction () {
 		return _action;
+	}
+	public boolean isSubscribed () {
+		return _isSubscribed;
 	}
 	public ArrayList<String> getSortedPackageKeys () {
 		return _sortedPackageKeys;
@@ -50,6 +55,8 @@ public class ChooseCWViewModel extends ViewModel {
 				_selectedPackageKey = null;
 				_selectedCrosswordIndex = 0;
 				_isRandomGame = false;
+
+				_isSubscribed = SubscriptionManager.sharedInstance ().isSubscribed ();
 
 				PackageManager man = PackageManager.sharedInstance ();
 				ArrayList<Package> packs = man.collectPackages ();

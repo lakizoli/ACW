@@ -11,6 +11,7 @@ import android.widget.TimePicker;
 
 import com.zapp.acw.R;
 import com.zapp.acw.bll.Package;
+import com.zapp.acw.bll.SubscriptionManager;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -69,8 +70,7 @@ public class ChooseCWFragment extends Fragment implements Toolbar.OnMenuItemClic
 						helpLayout.setVisibility (mViewModel.hasSomePackages () ? View.INVISIBLE : View.VISIBLE);
 						rvCWs.setVisibility (mViewModel.hasSomePackages () ? View.VISIBLE : View.INVISIBLE);
 
-						//TODO: handle isSubscribed!!!
-						ChooseCWAdapter adapter = new ChooseCWAdapter (true, mViewModel.getSortedPackageKeys (), mViewModel.getPackages (),
+						ChooseCWAdapter adapter = new ChooseCWAdapter (mViewModel.isSubscribed (), mViewModel.getSortedPackageKeys (), mViewModel.getPackages (),
 							mViewModel.getCurrentSavedCrosswordIndices (), mViewModel.getFilledWordCounts (), new ChooseCWAdapter.OnItemClickListener () {
 							@Override
 							public void onItemClick (int position, Package pack) {
@@ -145,4 +145,11 @@ public class ChooseCWFragment extends Fragment implements Toolbar.OnMenuItemClic
 		}
 		return false;
 	}
+
+	private void showSubscription () {
+		SubscriptionManager.sharedInstance ().showSubscriptionAlert (getActivity (),
+			"You have to subscribe to the application to play the disabled crosswords!" +
+				" If you press yes, then we take you to our store screen to do that.");
+	}
+
 }
