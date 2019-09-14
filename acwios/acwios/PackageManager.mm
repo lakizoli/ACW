@@ -635,13 +635,13 @@
 	return field;
 }
 
--(BOOL) generateWithInfo:(GeneratorInfo*)info progressCallback:(void(^)(float, BOOL*))progressCallback {
+-(NSString*) generateWithInfo:(GeneratorInfo*)info progressCallback:(void(^)(float, BOOL*))progressCallback {
 	if (info == nil) {
-		return NO;
+		return nil;
 	}
 	
 	if ([[info decks] count] < 1) {
-		return NO;
+		return nil;
 	}
 	
 	NSURL *packageUrl = [[[info decks] objectAtIndex:0] packagePath];
@@ -686,7 +686,7 @@
 	}];
 	
 	if (questionFieldValues.size () <= 0 || solutionFieldValues.size () <= 0 || questionFieldValues.size () != solutionFieldValues.size ()) {
-		return NO;
+		return nil;
 	}
 	
 	__block std::vector<std::wstring> usedWordValues;
@@ -731,25 +731,25 @@
 														std::make_shared<Query> (usedWordValues, updateUsedWords),
 														progressHandler);
 	if (gen == nullptr) {
-		return NO;
+		return nil;
 	}
 	
 	std::shared_ptr<Crossword> cw = gen->Generate ();
 	if (cw == nullptr) {
-		return NO;
+		return nil;
 	}
 	
 	if (cw->GetWords().size () <= 0) { //We generated an empty crossword...
-		return NO;
+		return nil;
 	}
 	
 	NSString *fileName = [[[NSUUID UUID] UUIDString] stringByAppendingString:@".cw"];
 	NSURL *fileUrl = [packageUrl URLByAppendingPathComponent:fileName];
 	if (!cw->Save ([[fileUrl path] UTF8String])) {
-		return NO;
+		return nil;
 	}
 
-	return YES;
+	return fileName;
 }
 
 @end

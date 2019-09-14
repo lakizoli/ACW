@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "PackageManager.h"
 #import "Config.h"
+#include "FillTest.hpp"
 #include <zip.h>
 #include <unzip.h>
 #include <vector>
@@ -28,7 +29,7 @@ static int PrintUsage (const char* msg) {
 	return GEN_FAILED;
 }
 
-static void GenerateCrosswords (NSString* baseName, Package *package, GeneratorInfo *generatorInfo) {
+static int GenerateCrosswords (NSString* baseName, Package *package, GeneratorInfo *generatorInfo) {
 	PackageManager *man = [PackageManager sharedInstance];
 	
 	//Generate all crossword variation from selected decks
@@ -62,7 +63,7 @@ static void GenerateCrosswords (NSString* baseName, Package *package, GeneratorI
 			firstCWName = generatorInfo.crosswordName;
 		}
 		
-		genRes = [man generateWithInfo:generatorInfo progressCallback:^(float percent, BOOL *stop) {
+		NSString *fileName = [man generateWithInfo:generatorInfo progressCallback:^(float percent, BOOL *stop) {
 			int32_t percentVal = (int32_t) (percent * 100.0f + 0.5f);
 			if (percentVal != lastPercent) {
 				lastPercent = percentVal;
@@ -70,8 +71,16 @@ static void GenerateCrosswords (NSString* baseName, Package *package, GeneratorI
 			}
 		}];
 		
+		genRes = fileName != nil;		
 		if (genRes) {
 			++cwCount;
+			
+			//Test generated crossword's validity
+			NSURL *packagePath = [package path];
+			if (!FillTest::ValidateCrossword ([[packagePath path] UTF8String], [fileName UTF8String])) { //Generated crossword cannot be filled!
+				printf ("\n[FAIL] Package: %s - Generation failed!\n\n", [[package name] UTF8String]);
+				return GEN_FAILED;
+			}
 		}
 		
 		if (generateAllVariations == NO) {
@@ -87,6 +96,7 @@ static void GenerateCrosswords (NSString* baseName, Package *package, GeneratorI
 	[man savePackageState:package];
 	
 	printf ("\nPackage: %s - Generation succeeded!\n\n", [[package name] UTF8String]);
+	return GEN_SUCCEEDED;
 }
 
 static int UncompressFileToFolder (NSURL* packageURL, NSURL* targetPath, NSString* fileName) {
@@ -334,20 +344,26 @@ int main (int argc, const char * argv[]) {
 				[generatorInfo setSolutionsFixes:[packageConfig getSolutionFixes]];
 				
 				//Generate crosswords
-				GenerateCrosswords (baseName, package, generatorInfo);
-				
-				//Compress contents of the package and move it to the output
-				__block NSNumber *packageSize = nil;
-				if (CompressFolder (packageFileName, [package path], [NSURL fileURLWithPath:[cfg getOutputPath]], &packageSize) != GEN_SUCCEEDED) {
+				if (GenerateCrosswords (baseName, package, generatorInfo) != GEN_SUCCEEDED) {
 					@synchronized (sync) {
 						if (succeeded) {
 							succeeded = NO;
 						}
 					}
-				} else { //Succeeded compression
-					@synchronized (sync) {
-						[packageSizes setObject:packageSize forKey:[package name]];
-					};
+				} else { //Generation succeeded
+					//Compress contents of the package and move it to the output
+					__block NSNumber *packageSize = nil;
+					if (CompressFolder (packageFileName, [package path], [NSURL fileURLWithPath:[cfg getOutputPath]], &packageSize) != GEN_SUCCEEDED) {
+						@synchronized (sync) {
+							if (succeeded) {
+								succeeded = NO;
+							}
+						}
+					} else { //Succeeded compression
+						@synchronized (sync) {
+							[packageSizes setObject:packageSize forKey:[package name]];
+						};
+					}
 				}
 			});
 		}];

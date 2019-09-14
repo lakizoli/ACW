@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:validatecw/validatecw.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:gencw/gencw.xcodeproj">
    </FileRef>
    <FileRef

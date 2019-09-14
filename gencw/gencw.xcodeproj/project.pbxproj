@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F0828524232D8AAE00767B8D /* FillTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F0828522232D8AAE00767B8D /* FillTest.cpp */; };
 		F0B785CC22DC35A80081128E /* cwmac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0B785CB22DC35A80081128E /* cwmac.framework */; };
 		F0C5381E22E05C3200224C57 /* adbmac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0C5381D22E05C3200224C57 /* adbmac.framework */; };
 		F0C5382922E0650300224C57 /* Package.mm in Sources */ = {isa = PBXBuildFile; fileRef = F0C5382722E0650300224C57 /* Package.mm */; };
@@ -29,6 +30,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F0828522232D8AAE00767B8D /* FillTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FillTest.cpp; path = ../../validatecw/validatecw/FillTest.cpp; sourceTree = "<group>"; };
+		F0828523232D8AAE00767B8D /* FillTest.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = FillTest.hpp; path = ../../validatecw/validatecw/FillTest.hpp; sourceTree = "<group>"; };
 		F0B785CB22DC35A80081128E /* cwmac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = cwmac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F0C5381D22E05C3200224C57 /* adbmac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = adbmac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F0C5382722E0650300224C57 /* Package.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Package.mm; path = ../../acwios/acwios/Package.mm; sourceTree = "<group>"; };
@@ -86,6 +89,8 @@
 		F0E794F022DC323A009548E7 /* gencw */ = {
 			isa = PBXGroup;
 			children = (
+				F0828522232D8AAE00767B8D /* FillTest.cpp */,
+				F0828523232D8AAE00767B8D /* FillTest.hpp */,
 				F0C5382822E0650300224C57 /* Package.h */,
 				F0C5382722E0650300224C57 /* Package.mm */,
 				F0C5382A22E06B0600224C57 /* PackageManager.h */,
@@ -153,6 +158,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F0828524232D8AAE00767B8D /* FillTest.cpp in Sources */,
 				F0C5382922E0650300224C57 /* Package.mm in Sources */,
 				F0C5383622E1C14800224C57 /* Config.mm in Sources */,
 				F0C5382C22E06B0600224C57 /* PackageManager.mm in Sources */,
@@ -169,8 +175,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -228,8 +233,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;

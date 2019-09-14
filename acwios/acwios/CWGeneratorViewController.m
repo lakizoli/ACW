@@ -269,7 +269,7 @@
 				[self->_generatorInfo setCrosswordName:countedName];
 			}
 			
-			genRes = [[PackageManager sharedInstance] generateWithInfo:self->_generatorInfo progressCallback:^(float percent, BOOL *stop) {
+			NSString *fileName = [[PackageManager sharedInstance] generateWithInfo:self->_generatorInfo progressCallback:^(float percent, BOOL *stop) {
 				int32_t percentVal = (int32_t) (percent * 100.0f + 0.5f);
 				if (percentVal != lastPercent) {
 					lastPercent = percentVal;
@@ -284,6 +284,7 @@
 				}
 			}];
 
+			genRes = fileName != nil;
 			if (genRes) {
 				++cwCount;
 			}
