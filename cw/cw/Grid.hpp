@@ -24,7 +24,7 @@ class Grid {
 	uint32_t CellIndex (uint32_t row, uint32_t col) const { return col * _height + row; }
 	bool IsCellFlagSet (uint32_t row, uint32_t col, CellFlags flag) const;
 	bool IsEmpty (uint32_t row, uint32_t col) const;
-	std::shared_ptr<Cell> GetQuestionCellForPos (uint32_t row, uint32_t col, std::shared_ptr<Cell> reservedQuestionCell) const;
+	std::shared_ptr<Cell> GetQuestionCellForPos (uint32_t row, uint32_t col, std::shared_ptr<Cell> reservedQuestionCell, bool isVerticalSearch) const;
 	
 //Construction
 public:
