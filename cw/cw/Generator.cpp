@@ -93,7 +93,8 @@ Generator::InsertWordRes Generator::InsertWordIntoCells (bool isVertical, const 
 void Generator::ConfigureQuestionInCell (std::shared_ptr<Cell> questionCell,
 										 std::shared_ptr<Cell> firstLetterCell,
 										 std::shared_ptr<Cell> secondLetterCell,
-										 uint32_t questionIndex) const
+										 uint32_t questionIndex,
+										 bool isDirectionVertical) const
 {
 	std::shared_ptr<QuestionInfo> qInfo = questionCell->GetQuestionInfo ();
 	const std::wstring& word = _questions->GetWord (questionIndex);
@@ -109,7 +110,11 @@ void Generator::ConfigureQuestionInCell (std::shared_ptr<Cell> questionCell,
 				dir = QuestionInfo::Direction::BottomRight;
 			}
 		} else { //One word answer below the question cell
-			dir = QuestionInfo::Direction::BottomDown;
+			if (isDirectionVertical) {
+				dir = QuestionInfo::Direction::BottomDown;
+			} else {
+				dir = QuestionInfo::Direction::BottomRight;
+			}
 		}
 		qInfo->AddQuestion (dir, questionIndex, word);
 		firstLetterCell->AddQuestionToStartCell (questionCell);
@@ -128,7 +133,11 @@ void Generator::ConfigureQuestionInCell (std::shared_ptr<Cell> questionCell,
 				dir = QuestionInfo::Direction::Right;
 			}
 		} else { //One word answer on the right side of the question cell
-			dir = QuestionInfo::Direction::Right;
+			if (isDirectionVertical) {
+				dir = QuestionInfo::Direction::RightDown;
+			} else {
+				dir = QuestionInfo::Direction::Right;
+			}
 		}
 		qInfo->AddQuestion (dir, questionIndex, word);
 		firstLetterCell->AddQuestionToStartCell (questionCell);
@@ -232,13 +241,13 @@ std::shared_ptr<Crossword> Generator::Generate () const {
 		InsertWordRes hWord = InsertWordIntoCells (false, hQ.cellsAvailable, usedWords, usedWordsOfCrossword, usedCharsOfCrossword);
 		if (hWord.inserted) {
 			std::shared_ptr<Cell> secondLetterCell = hQ.cellsAvailable.size () > 1 ? hQ.cellsAvailable[1] : nullptr;
-			ConfigureQuestionInCell (hQ.questionCell, hQ.cellsAvailable[0], secondLetterCell, hWord.insertedWordIndex);
+			ConfigureQuestionInCell (hQ.questionCell, hQ.cellsAvailable[0], secondLetterCell, hWord.insertedWordIndex, false);
 		}
 		
 		InsertWordRes vWord = InsertWordIntoCells (true, vQ.cellsAvailable, usedWords, usedWordsOfCrossword, usedCharsOfCrossword);
 		if (vWord.inserted) {
 			std::shared_ptr<Cell> secondLetterCell = vQ.cellsAvailable.size () > 1 ? vQ.cellsAvailable[1] : nullptr;
-			ConfigureQuestionInCell (vQ.questionCell, vQ.cellsAvailable[0], secondLetterCell, vWord.insertedWordIndex);
+			ConfigureQuestionInCell (vQ.questionCell, vQ.cellsAvailable[0], secondLetterCell, vWord.insertedWordIndex, true);
 		}
 		
 //		grid->Dump ();

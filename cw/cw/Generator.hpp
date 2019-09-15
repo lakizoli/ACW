@@ -36,7 +36,7 @@ class Generator {
 									   std::set<std::wstring>& usedWordsOfWholePackage, std::set<std::wstring>& usedWordsOfCrossword,
 									   std::set<wchar_t>& usedCharsOfCrossword) const;
 	void ConfigureQuestionInCell (std::shared_ptr<Cell> questionCell, std::shared_ptr<Cell> firstLetterCell,
-								  std::shared_ptr<Cell> secondLetterCell, uint32_t questionIndex) const;
+								  std::shared_ptr<Cell> secondLetterCell, uint32_t questionIndex, bool isDirectionVertical) const;
 	
 //Construction
 public:
