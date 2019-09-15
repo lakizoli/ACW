@@ -49,8 +49,8 @@ public:
 public:
 	const std::vector<Question> GetQuestions () const { return _questions; }
 	
-	//Max 2 question in a place!
-	bool HasAvailableQuestionPlace () const { return _questions.size () < 2; }
+	//Max 2 question in a place! Only non reserved cells have to be counted!
+	bool HasAvailableQuestionPlace (uint32_t reservationCount) const { return _questions.size () < 2 - reservationCount; }
 	
 	void AddQuestion (Direction dir, uint32_t questionIndex, const std::wstring& question);
 };

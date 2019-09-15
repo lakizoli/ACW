@@ -20,12 +20,13 @@ bool Grid::IsEmpty (uint32_t row, uint32_t col) const {
 	return row < _height && col < _width && _cells[CellIndex (row, col)]->IsEmpty ();
 }
 
-std::shared_ptr<Cell> Grid::GetQuestionCellForPos (uint32_t row, uint32_t col) const {
+std::shared_ptr<Cell> Grid::GetQuestionCellForPos (uint32_t row, uint32_t col, std::shared_ptr<Cell> reservedQuestionCell) const {
 	int32_t beforeCol = (int32_t)col - 1;
 	if (beforeCol >= 0 && IsCellFlagSet (row, beforeCol, CellFlags::Question)) {
 		std::shared_ptr<Cell> qCell = _cells[CellIndex (row, beforeCol)];
+		uint32_t reservedCount = reservedQuestionCell != nullptr && qCell->GetPos () == reservedQuestionCell->GetPos () ? 1 : 0;
 		std::shared_ptr<QuestionInfo> qInfo = qCell->GetQuestionInfo ();
-		if (qInfo != nullptr && qInfo->HasAvailableQuestionPlace ()) {
+		if (qInfo != nullptr && qInfo->HasAvailableQuestionPlace (reservedCount)) {
 			return qCell;
 		}
 	}
@@ -33,8 +34,9 @@ std::shared_ptr<Cell> Grid::GetQuestionCellForPos (uint32_t row, uint32_t col) c
 	int32_t beforeRow = (int32_t)row - 1;
 	if (beforeRow >= 0 && IsCellFlagSet (beforeRow, col, CellFlags::Question)) {
 		std::shared_ptr<Cell> qCell = _cells[CellIndex (beforeRow, col)];
+		uint32_t reservedCount = reservedQuestionCell != nullptr && qCell->GetPos () == reservedQuestionCell->GetPos () ? 1 : 0;
 		std::shared_ptr<QuestionInfo> qInfo = qCell->GetQuestionInfo ();
-		if (qInfo != nullptr && qInfo->HasAvailableQuestionPlace ()) {
+		if (qInfo != nullptr && qInfo->HasAvailableQuestionPlace (reservedCount)) {
 			return qCell;
 		}
 	}
@@ -42,8 +44,9 @@ std::shared_ptr<Cell> Grid::GetQuestionCellForPos (uint32_t row, uint32_t col) c
 	uint32_t afterRow = row + 1;
 	if (afterRow < _height && IsCellFlagSet (afterRow, col, CellFlags::Question)) {
 		std::shared_ptr<Cell> qCell = _cells[CellIndex (afterRow, col)];
+		uint32_t reservedCount = reservedQuestionCell != nullptr && qCell->GetPos () == reservedQuestionCell->GetPos () ? 1 : 0;
 		std::shared_ptr<QuestionInfo> qInfo = qCell->GetQuestionInfo ();
-		if (qInfo != nullptr && qInfo->HasAvailableQuestionPlace ()) {
+		if (qInfo != nullptr && qInfo->HasAvailableQuestionPlace (reservedCount)) {
 			return qCell;
 		}
 	}
@@ -209,7 +212,7 @@ Grid::FindQuestionResult Grid::FindHorizontalQuestionForPos (uint32_t row, uint3
 	//Check validity of found pos (get an available question pos)
 	FindQuestionResult res;
 	
-	res.questionCell = GetQuestionCellForPos (row, startCol);
+	res.questionCell = GetQuestionCellForPos (row, startCol, nullptr);
 	if (res.questionCell != nullptr) { //We have a valid question pos available
 		for (uint32_t iCol = startCol; iCol < _width; ++iCol) {
 			if (IsCellFlagSet (row, iCol, CellFlags::Question)) {
@@ -223,7 +226,7 @@ Grid::FindQuestionResult Grid::FindHorizontalQuestionForPos (uint32_t row, uint3
 	return res;
 }
 
-Grid::FindQuestionResult Grid::FindVerticalQuestionForPos (uint32_t row, uint32_t col) const {
+Grid::FindQuestionResult Grid::FindVerticalQuestionForPos (uint32_t row, uint32_t col, std::shared_ptr<Cell> reservedQuestionCell) const {
 	//Find last available question field in the column
 	uint32_t startRow = 0;
 	for (int32_t iRow = (int32_t)row; iRow >= 0; --iRow) {
@@ -238,7 +241,7 @@ Grid::FindQuestionResult Grid::FindVerticalQuestionForPos (uint32_t row, uint32_
 	//Check validity of found pos (get an available question pos)
 	FindQuestionResult res;
 	
-	res.questionCell = GetQuestionCellForPos (startRow, col);
+	res.questionCell = GetQuestionCellForPos (startRow, col, reservedQuestionCell);
 	if (res.questionCell != nullptr) { //We have a valid question pos available
 		for (uint32_t iRow = startRow; iRow < _height; ++iRow) {
 			if (IsCellFlagSet (iRow, col, CellFlags::Question)) {

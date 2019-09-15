@@ -39,7 +39,7 @@ void QuestionInfo::Serialize (BinaryWriter& writer) {
 }
 
 void QuestionInfo::AddQuestion (Direction dir, uint32_t questionIndex, const std::wstring& question) {
-	if (!HasAvailableQuestionPlace ()) {
+	if (!HasAvailableQuestionPlace (0)) { //Here we don't have to bother with the reservation, so the reservedCount may be 0!
 		return;
 	}
 	

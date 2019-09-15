@@ -204,7 +204,7 @@ std::shared_ptr<Crossword> Generator::Generate () const {
 		//... (empty question cells will be spacers, if remains empty after all)
 		//-> if we found a valid one for each direction, then we try to search words for each one (goto step 3!)
 		Grid::FindQuestionResult hQ = grid->FindHorizontalQuestionForPos (row, col);
-		Grid::FindQuestionResult vQ = grid->FindVerticalQuestionForPos (row, col);
+		Grid::FindQuestionResult vQ = grid->FindVerticalQuestionForPos (row, col, hQ.questionCell);
 		if (!hQ.FoundAvailableQuestion () || !vQ.FoundAvailableQuestion ()) { //We did'nt found valid question field for each direction
 			//2. step: insert a free question mark to the position and jump the next available pos
 			if (!grid->SetCellToFreeQuestionCell (row, col)) {
