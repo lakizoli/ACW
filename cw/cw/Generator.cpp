@@ -102,10 +102,14 @@ void Generator::ConfigureQuestionInCell (std::shared_ptr<Cell> questionCell,
 	const CellPos& firstLetterPos = firstLetterCell->GetPos ();
 	if (firstLetterPos.row > questionPos.row) { //First letter is below the question
 		QuestionInfo::Direction dir;
-		if (secondLetterCell != nullptr && secondLetterCell->GetPos ().col == firstLetterPos.col) {
+		if (secondLetterCell != nullptr) {
+			if (secondLetterCell->GetPos ().col == firstLetterPos.col) {
+				dir = QuestionInfo::Direction::BottomDown;
+			} else {
+				dir = QuestionInfo::Direction::BottomRight;
+			}
+		} else { //One word answer below the question cell
 			dir = QuestionInfo::Direction::BottomDown;
-		} else {
-			dir = QuestionInfo::Direction::BottomRight;
 		}
 		qInfo->AddQuestion (dir, questionIndex, word);
 		firstLetterCell->AddQuestionToStartCell (questionCell);
@@ -117,9 +121,13 @@ void Generator::ConfigureQuestionInCell (std::shared_ptr<Cell> questionCell,
 		firstLetterCell->AddQuestionToStartCell (questionCell);
 	} else if (firstLetterPos.col > questionPos.col) { //First letter is on the right side of question
 		QuestionInfo::Direction dir;
-		if (secondLetterCell != nullptr && secondLetterCell->GetPos ().col == firstLetterPos.col) {
-			dir = QuestionInfo::Direction::RightDown;
-		} else {
+		if (secondLetterCell != nullptr) {
+			if (secondLetterCell->GetPos ().col == firstLetterPos.col) {
+				dir = QuestionInfo::Direction::RightDown;
+			} else {
+				dir = QuestionInfo::Direction::Right;
+			}
+		} else { //One word answer on the right side of the question cell
 			dir = QuestionInfo::Direction::Right;
 		}
 		qInfo->AddQuestion (dir, questionIndex, word);

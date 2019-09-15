@@ -315,18 +315,18 @@ int main (int argc, const char * argv[]) {
 		[man setOverriddenDatabasePath:dbPath];
 		
 		NSArray<Package*> *packages = [man collectPackages];
-		__block dispatch_group_t dispatchGroup = dispatch_group_create ();
-		__block dispatch_queue_t bgQueue = dispatch_get_global_queue (DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+//		__block dispatch_group_t dispatchGroup = dispatch_group_create ();
+//		__block dispatch_queue_t bgQueue = dispatch_get_global_queue (DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
 		__block NSMutableDictionary<NSString*, NSNumber*> *packageSizes = [NSMutableDictionary new];
 		__block BOOL succeeded = YES;
-		__block NSObject *sync = [NSObject new];
+//		__block NSObject *sync = [NSObject new];
 		[packages enumerateObjectsUsingBlock:^(Package * _Nonnull package, NSUInteger idx, BOOL * _Nonnull stop) {
 			if (!succeeded) { //Stop on error
 				*stop = YES;
 				return;
 			}
 			
-			dispatch_group_async (dispatchGroup, bgQueue, ^(void) {
+//			dispatch_group_async (dispatchGroup, bgQueue, ^(void) {
 				//Configure generation
 				NSString *packageFileName = [[package path] lastPathComponent];
 				PackageConfig *packageConfig = [cfg getPackageConfig:packageFileName];
@@ -345,30 +345,30 @@ int main (int argc, const char * argv[]) {
 				
 				//Generate crosswords
 				if (GenerateCrosswords (baseName, package, generatorInfo) != GEN_SUCCEEDED) {
-					@synchronized (sync) {
+//					@synchronized (sync) {
 						if (succeeded) {
 							succeeded = NO;
 						}
-					}
+//					}
 				} else { //Generation succeeded
 					//Compress contents of the package and move it to the output
 					__block NSNumber *packageSize = nil;
 					if (CompressFolder (packageFileName, [package path], [NSURL fileURLWithPath:[cfg getOutputPath]], &packageSize) != GEN_SUCCEEDED) {
-						@synchronized (sync) {
+//						@synchronized (sync) {
 							if (succeeded) {
 								succeeded = NO;
 							}
-						}
+//						}
 					} else { //Succeeded compression
-						@synchronized (sync) {
+//						@synchronized (sync) {
 							[packageSizes setObject:packageSize forKey:[package name]];
-						};
+//						};
 					}
 				}
-			});
+//			});
 		}];
 		
-		dispatch_group_wait (dispatchGroup, DISPATCH_TIME_FOREVER);
+//		dispatch_group_wait (dispatchGroup, DISPATCH_TIME_FOREVER);
 		
 		//Write packs.json besides the packs
 		if (succeeded) {
