@@ -93,7 +93,7 @@
 	[self clearContent];
 	[self setBorder:self];
 	
-	[self setBackgroundColor:[UIColor whiteColor]];
+	[self setBackgroundColor:[UIColor colorWithRed:214.0f / 255.0f green:222.0f / 255.0f blue:228.0f / 255.0f alpha:255.0f]];
 	[_fullLabel setTextColor:[UIColor blackColor]];
 	
 	[_fullLabel setAttributedText:[self attributedQuestionString:question scale:scale]];
@@ -109,7 +109,7 @@
 	[self setBorder:_topLabel];
 	[self setBorder:_bottomLabel];
 	
-	[self setBackgroundColor:[UIColor whiteColor]];
+	[self setBackgroundColor:[UIColor colorWithRed:214.0f / 255.0f green:222.0f / 255.0f blue:228.0f / 255.0f alpha:255.0f]];
 
 	[_topLabel setTextColor:[UIColor blackColor]];
 	[_bottomLabel setTextColor:[UIColor blackColor]];

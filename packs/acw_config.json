@@ -404,5 +404,131 @@
 		"solutionFixes" : {
 			"一（个）（用于名词前，表示未曾提及的，尤其是非特指或不想让对方确切知道的事物或人）" : "用于名词前"
 		}
+	},
+	"Basic_Kanji_Books_vol_1_2_en-jp" : {
+		"packageTitle" : "English -> Japanese",
+		"googleDriveID" : "14KcpVYErlH1w8iv-7MA6JO8SVEpR_127",
+		"basename": "en -> jp",
+		"width": 20,
+		"height": 20,
+		"question": 2,
+		"solution": 0
+	},
+	"Basic_Kanji_Books_vol_1_2_jp-en" : {
+		"packageTitle" : "Japanese -> English",
+		"googleDriveID" : "1z-We9zl1Yz4qyQl_buhggax6mco1l6hZ",
+		"basename": "jp -> en",
+		"width": 20,
+		"height": 20,
+		"question": 0,
+		"solution": 2
+	},
+	"Die_Kanji_lernen_und_behalten_1_Neue_Folge_mit_Geschichten_en-jp" : {
+		"packageTitle" : "English -> Japanese v2",
+		"googleDriveID" : "1kgjIGmLx5XNilivTOIGSgNLTwzfgXjvi",
+		"basename": "en -> jp",
+		"width": 20,
+		"height": 20,
+		"question": 8,
+		"solution": 1
+	},
+	"Die_Kanji_lernen_und_behalten_1_Neue_Folge_mit_Geschichten_ge-jp" : {
+		"packageTitle" : "German -> Japanese",
+		"googleDriveID" : "1dcEPFSdLBsjUYZIu0TtIpVsq8h8c-5Iq",
+		"basename": "ge -> jp",
+		"width": 20,
+		"height": 20,
+		"question": 0,
+		"solution": 1
+	},
+	"Die_Kanji_lernen_und_behalten_1_Neue_Folge_mit_Geschichten_jp-en" : {
+		"packageTitle" : "Japanese -> English v2",
+		"googleDriveID" : "109hoRe7o0TTs5Id9pXecxwZIbtqvlxyd",
+		"basename": "jp -> en",
+		"width": 20,
+		"height": 20,
+		"question": 1,
+		"solution": 8
+	},
+	"Die_Kanji_lernen_und_behalten_1_Neue_Folge_mit_Geschichten_jp-ge" : {
+		"packageTitle" : "Japanese -> German",
+		"googleDriveID" : "1zIGZ45w35pDbdk-g77SDo8buWyTzjYSU",
+		"basename": "ge -> jp",
+		"width": 20,
+		"height": 20,
+		"question": 1,
+		"solution": 0
+	},
+	"Duolingo_Italian-English_course_en-it" : {
+		"packageTitle" : "English -> Italian",
+		"googleDriveID" : "1kqiuMy_AfKfocitV6bueMchEj2VIJonj",
+		"basename": "en -> it",
+		"width": 20,
+		"height": 20,
+		"question": 1,
+		"solution": 0
+	},
+	"Duolingo_Italian-English_course_it-en" : {
+		"packageTitle" : "Italian -> English",
+		"googleDriveID" : "16Obwl0HzGVzC2WTAI8esOhqvL-sZZxX6",
+		"basename": "it -> en",
+		"width": 20,
+		"height": 20,
+		"question": 0,
+		"solution": 1
+	},
+	"Duolingo_Turkish_en-tr" : {
+		"packageTitle" : "English -> Turkish",
+		"googleDriveID" : "1Dh37K3tg0eFPbJgCUxY7ZGMLijIb1X1o",
+		"basename": "en -> tr",
+		"width": 20,
+		"height": 20,
+		"question": 0,
+		"solution": 1
+	},
+	"Duolingo_Turkish_tr-en" : {
+		"packageTitle" : "Turkish -> English",
+		"googleDriveID" : "1sA9Lcf2Dvb8pbZKBEkK51lg1tKk4QXtP",
+		"basename": "tr -> en",
+		"width": 20,
+		"height": 20,
+		"question": 1,
+		"solution": 0
+	},
+	"Japanese-Russian_jp-ru" : {
+		"packageTitle" : "Japanese -> Russian",
+		"googleDriveID" : "1-hFIbYYRdseJfn6xH9OkAPLfu3Aju319",
+		"basename": "jp -> ru",
+		"width": 20,
+		"height": 20,
+		"question": 0,
+		"solution": 2
+	},
+	"Japanese-Russian_ru-jp" : {
+		"packageTitle" : "Russian -> Japanese",
+		"googleDriveID" : "1uL7K-KI-EZwGFc9PnQ8M6083W09NSNx2",
+		"basename": "ru -> jp",
+		"width": 20,
+		"height": 20,
+		"question": 2,
+		"solution": 0
+	},
+	"KoreanEnglish_-_Top_5000_Korean_-_With_Examples_en-kr" : {
+		"packageTitle" : "English -> Korean",
+		"googleDriveID" : "1LDY_vZ6W1LtlyPEZlOqsQhWrgWi_0Nqv",
+		"basename": "en -> kr",
+		"width": 20,
+		"height": 20,
+		"question": 2,
+		"solution": 1
+	},
+	"KoreanEnglish_-_Top_5000_Korean_-_With_Examples_kr-en" : {
+		"packageTitle" : "Korean -> English",
+		"googleDriveID" : "1QlWgNvVgGWl7wmIw-ahIbr_ekf5fy6zP",
+		"basename": "kr -> en",
+		"width": 20,
+		"height": 20,
+		"question": 1,
+		"solution": 2
 	}
 }
