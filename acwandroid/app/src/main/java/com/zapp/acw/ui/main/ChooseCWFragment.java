@@ -5,8 +5,10 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.zapp.acw.R;
@@ -74,12 +76,22 @@ public class ChooseCWFragment extends Fragment implements Toolbar.OnMenuItemClic
 							mViewModel.getCurrentSavedCrosswordIndices (), mViewModel.getFilledWordCounts (), new ChooseCWAdapter.OnItemClickListener () {
 							@Override
 							public void onItemClick (int position, Package pack) {
-								//TODO: open the next cw level...
+								boolean cwEnabled = position == 0 || mViewModel.isSubscribed ();
+								if (!cwEnabled) {
+									showSubscription ();
+								} else {
+									//TODO: open the next cw level...
+								}
 							}
 
 							@Override
 							public void onRandomButtonClick (int position, Package pack) {
-								//TODO: open a random already solved cw level...
+								boolean cwEnabled = position == 0 || mViewModel.isSubscribed ();
+								if (!cwEnabled) {
+									showSubscription ();
+								} else {
+									//TODO: open a random already solved cw level...
+								}
 							}
 						});
 
@@ -96,6 +108,14 @@ public class ChooseCWFragment extends Fragment implements Toolbar.OnMenuItemClic
 					default:
 						break;
 				}
+			}
+		});
+
+		final TextView subscribeButton = activity.findViewById (R.id.cw_subscribe_button);
+		subscribeButton.setOnClickListener (new View.OnClickListener () {
+			@Override
+			public void onClick (View v) {
+				Navigation.findNavController (getView ()).navigate (R.id.ShowStore);
 			}
 		});
 
@@ -147,7 +167,7 @@ public class ChooseCWFragment extends Fragment implements Toolbar.OnMenuItemClic
 	}
 
 	private void showSubscription () {
-		SubscriptionManager.sharedInstance ().showSubscriptionAlert (getActivity (),
+		SubscriptionManager.sharedInstance ().showSubscriptionAlert (getActivity (), getView (),
 			"You have to subscribe to the application to play the disabled crosswords!" +
 				" If you press yes, then we take you to our store screen to do that.");
 	}

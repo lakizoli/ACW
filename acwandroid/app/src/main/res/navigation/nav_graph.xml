@@ -37,6 +37,9 @@
         <action
             android:id="@+id/ShowDownload"
             app:destination="@id/downloadFragment" />
+        <action
+            android:id="@+id/ShowStore"
+            app:destination="@id/storeFragment" />
     </fragment>
     <fragment
         android:id="@+id/genFragment"
@@ -47,4 +50,9 @@
             android:id="@+id/ShowChooseCW"
             app:destination="@id/chooseCW" />
     </fragment>
+    <fragment
+        android:id="@+id/storeFragment"
+        android:name="com.zapp.acw.ui.main.StoreFragment"
+        android:label="store_fragment"
+        tools:layout="@layout/store_fragment" />
 </navigation>
