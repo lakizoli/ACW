@@ -47,6 +47,9 @@ public class ChooseCWViewModel extends ViewModel {
 	public HashMap<String, Integer> getFilledWordCounts () {
 		return _filledWordCounts;
 	}
+	public HashMap<String, ArrayList<SavedCrossword>> getSavedCrosswords () {
+		return _savedCrosswords;
+	}
 
 	public void startReloadPackages () {
 		new Thread (new Runnable () {

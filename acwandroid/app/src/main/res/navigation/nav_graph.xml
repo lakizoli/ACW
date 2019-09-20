@@ -40,6 +40,9 @@
         <action
             android:id="@+id/ShowStore"
             app:destination="@id/storeFragment" />
+        <action
+            android:id="@+id/ShowCW"
+            app:destination="@id/crosswordFragment" />
     </fragment>
     <fragment
         android:id="@+id/genFragment"
@@ -55,4 +58,9 @@
         android:name="com.zapp.acw.ui.main.StoreFragment"
         android:label="store_fragment"
         tools:layout="@layout/store_fragment" />
+    <fragment
+        android:id="@+id/crosswordFragment"
+        android:name="com.zapp.acw.ui.main.CrosswordFragment"
+        android:label="crossword_fragment"
+        tools:layout="@layout/crossword_fragment" />
 </navigation>

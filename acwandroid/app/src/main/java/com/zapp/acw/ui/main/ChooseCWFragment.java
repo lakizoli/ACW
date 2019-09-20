@@ -13,8 +13,11 @@ import android.widget.TimePicker;
 
 import com.zapp.acw.R;
 import com.zapp.acw.bll.Package;
+import com.zapp.acw.bll.SavedCrossword;
 import com.zapp.acw.bll.SubscriptionManager;
 
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -80,7 +83,11 @@ public class ChooseCWFragment extends Fragment implements Toolbar.OnMenuItemClic
 								if (!cwEnabled) {
 									showSubscription ();
 								} else {
-									//TODO: open the next cw level...
+									String packageKey = mViewModel.getSortedPackageKeys ().get (position);
+									int idx = mViewModel.getCurrentSavedCrosswordIndices ().get (packageKey);
+
+									Bundle args = buildShowCWBundle (packageKey, idx, false);
+									Navigation.findNavController (getView ()).navigate (R.id.ShowCW, args);
 								}
 							}
 
@@ -90,7 +97,12 @@ public class ChooseCWFragment extends Fragment implements Toolbar.OnMenuItemClic
 								if (!cwEnabled) {
 									showSubscription ();
 								} else {
-									//TODO: open a random already solved cw level...
+									String packageKey = mViewModel.getSortedPackageKeys ().get (position);
+									int idx = mViewModel.getCurrentSavedCrosswordIndices ().get (packageKey);
+									int randIdx = new Random ().nextInt (idx + 1);
+
+									Bundle args = buildShowCWBundle (packageKey, randIdx, true);
+									Navigation.findNavController (getView ()).navigate (R.id.ShowCW, args);
 								}
 							}
 						});
@@ -172,4 +184,18 @@ public class ChooseCWFragment extends Fragment implements Toolbar.OnMenuItemClic
 				" If you press yes, then we take you to our store screen to do that.");
 	}
 
+	private Bundle buildShowCWBundle (String packageKey, int crosswordIndex, boolean isRandomGame) {
+		Bundle bundle = new Bundle ();
+
+		Package pack = mViewModel.getPackages ().get (packageKey);
+		ArrayList<SavedCrossword> cws = mViewModel.getSavedCrosswords ().get (packageKey);
+
+		bundle.putParcelable ("package", pack);
+		bundle.putParcelable ("savedCrossword", cws.get (crosswordIndex));
+		bundle.putInt ("currentCrosswordIndex", crosswordIndex);
+		bundle.putParcelableArrayList ("allSavedCrossword", cws);
+		bundle.putBoolean ("isMultiLevelGame", !isRandomGame);
+
+		return bundle;
+	}
 }

@@ -1,17 +1,21 @@
 package com.zapp.acw.bll;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import com.zapp.acw.FileUtils;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.HashMap;
 
-public final class SavedCrossword {
+public final class SavedCrossword implements Parcelable {
 	private int nativeObjID = 0;
 
 	public String path;
@@ -21,6 +25,60 @@ public final class SavedCrossword {
 	public int width = 0;
 	public int height = 0;
 	public HashSet<String> words = new HashSet<> ();
+
+	public SavedCrossword () {
+	}
+
+	//region Parcelable implementation
+	public static final Parcelable.Creator<SavedCrossword> CREATOR = new Parcelable.Creator<SavedCrossword> () {
+		public SavedCrossword createFromParcel (Parcel source) {
+			return new SavedCrossword (source);
+		}
+
+		public SavedCrossword[] newArray (int size) {
+			return new SavedCrossword[size];
+		}
+	};
+
+	public SavedCrossword (Parcel parcel) {
+		nativeObjID = parcel.readInt ();
+
+		path = parcel.readString ();
+		packageName = parcel.readString ();
+		name = parcel.readString ();
+
+		width = parcel.readInt ();
+		height = parcel.readInt ();
+
+		List<String> list = new ArrayList<> ();
+		parcel.readStringList (list);
+		if (list != null && list.size () > 0) {
+			words = new HashSet<> (list);
+		}
+	}
+
+	@Override
+	public int describeContents () {
+		return hashCode ();
+	}
+
+	@Override
+	public void writeToParcel (Parcel dest, int flags) {
+		dest.writeInt (nativeObjID);
+
+		dest.writeString (path);
+		dest.writeString (packageName);
+		dest.writeString (name);
+
+		dest.writeInt (width);
+		dest.writeInt (height);
+		if (words != null && words.size () > 0) {
+			dest.writeStringList (new ArrayList<> (words));
+		} else {
+			dest.writeStringList (null);
+		}
+	}
+	//endregion
 
 	//region DB functions
 	private static native void deleteUsedWordsFromDB (String packagePath, Set<String> words);
