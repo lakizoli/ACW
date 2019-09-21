@@ -38,8 +38,6 @@ import android.widget.LinearLayout;
 import android.widget.Scroller;
 import android.widget.TextView;
 
-import java.util.Locale;
-
 /**
  * Layout container for a view hierarchy that can be scrolled by the user,
  * allowing it to be larger than the physical display.  A TwoDScrollView
@@ -91,7 +89,7 @@ public class TwoDScrollView extends FrameLayout {
 	private float mScale = 1f;
 	private ScaleGestureDetector mScaleDetector;
 	private GestureDetector gestureDetector;
-	private boolean mEnableScaling = false;     // scaling is buggy when you click on child views
+	private boolean mEnableScaling = true;     // scaling is buggy when you click on child views
 
 	public TwoDScrollView(Context context) {
 		super(context);
@@ -245,11 +243,11 @@ public class TwoDScrollView extends FrameLayout {
 				float prevScale = mScale;
 				mScale += scale;
 
-				if (mScale < 0.5f) // Minimum scale condition:
-					mScale = 0.5f;
+				if (mScale < 0.2f) // Minimum scale condition:
+					mScale = 0.2f;
 
-				if (mScale > 1.5f) // Maximum scale condition:
-					mScale = 1.5f;
+				if (mScale > 1.0f) // Maximum scale condition:
+					mScale = 1.0f;
 
 				ScaleAnimation scaleAnimation = new ScaleAnimation(1f / prevScale, 1f / mScale,
 					1f / prevScale, 1f / mScale,
