@@ -213,15 +213,6 @@ public class CrosswordCell {
 
 		imageView = cell.findViewById (R.id.cwcell_arrow_topright_down);
 		imageView.setVisibility (View.INVISIBLE);
-
-//		__block NSMutableArray<CALayer*> *sublayers = [NSMutableArray<CALayer*> new];
-//		[[[self layer] sublayers] enumerateObjectsUsingBlock:^(CALayer * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//			if (![obj isKindOfClass:[CAShapeLayer class]]) {
-//				[sublayers addObject:obj];
-//			}
-//		}];
-//
-//		[[self layer] setSublayers:sublayers];
 	}
 
 	private static void setQuestionFont (TextView textView) {
