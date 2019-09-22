@@ -2,6 +2,7 @@ package com.zapp.acw.ui.main;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import com.zapp.acw.R;
 import com.zapp.acw.bll.NetLogger;
 import com.zapp.acw.bll.Pos;
 import com.zapp.acw.bll.SavedCrossword;
+import com.zapp.acw.bll.Statistics;
 import com.zapp.acw.bll.SubscriptionManager;
 
 import java.util.ArrayList;
@@ -81,14 +83,14 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 		toolbar.setNavigationOnClickListener (new View.OnClickListener () {
 			@Override
 			public void onClick (View v) {
-				Navigation.findNavController (getView ()).navigateUp ();
+				backButtonPressed ();
 			}
 		});
 
 		OnBackPressedCallback callback = new OnBackPressedCallback (true /* enabled by default */) {
 			@Override
 			public void handleOnBackPressed () {
-				Navigation.findNavController (getView ()).navigateUp ();
+				backButtonPressed ();
 			}
 		};
 		requireActivity ().getOnBackPressedDispatcher ().addCallback (this, callback);
@@ -96,51 +98,110 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 		//Init view model
 		mViewModel.init (getArguments ());
 
+		//Init crossword
+		final SavedCrossword savedCrossword = mViewModel.getSavedCrossword ();
+		NetLogger.logEvent ("Crossword_ShowView", new HashMap<String, Object> () {{
+			put ("package", savedCrossword.packageName);
+			put ("name", savedCrossword.name);
+		}});
+
+		_areAnswersVisible = false;
+		_cellFilledValues = new HashMap<> ();
+		savedCrossword.loadFilledValuesInto (_cellFilledValues);
+
+		resetInput ();
+
+		//TODO: build keyboard!
+
+		savedCrossword.loadDB ();
+
+		resetStatistics ();
+
 		//Build crossword table
-		buildCrosswordTable (activity);
+		rebuildCrosswordTable (activity);
 	}
 
+	//region Event handlers
 	@Override
 	public boolean onMenuItemClick (MenuItem item) {
 		switch (item.getItemId ()) {
-			case R.id.cwview_reset:
+			case R.id.cwview_reset: {
+				SavedCrossword savedCrossword = mViewModel.getSavedCrossword ();
+
+				_cellFilledValues.clear ();
+				savedCrossword.saveFilledValues (_cellFilledValues);
+				rebuildCrosswordTable (getActivity ());
+
+				//Reset statistics
+				resetStatistics ();
+				savedCrossword.resetStatistics ();
+
+				//Send netlog
+				NetLogger.logEvent ("Crossword_ResetPressed");
 				return true;
-			case R.id.cwview_hint:
+			}
+			case R.id.cwview_hint: {
+				_areAnswersVisible = !_areAnswersVisible;
+
+				FragmentActivity activity = getActivity ();
+				Toolbar toolbar = activity.findViewById (R.id.cwview_toolbar);
+				Menu menu = toolbar.getMenu ();
+				MenuItem showHideButton = menu.findItem (R.id.cwview_hint);
+				showHideButton.setTitle (_areAnswersVisible ? "Hide Hint" : "Show Hint");
+				rebuildCrosswordTable (activity);
+
+				if (_areAnswersVisible) {
+					++_hintCount;
+
+					//Send netlog
+					NetLogger.logEvent ("Crossword_HintShow");
+				}
 				return true;
+			}
 			default:
 				break;
 		}
 		return false;
 	}
 
+	private void backButtonPressed () {
+		mergeStatistics ();
+
+		SavedCrossword savedCrossword = mViewModel.getSavedCrossword ();
+		savedCrossword.unloadDB ();
+		Navigation.findNavController (getView ()).navigateUp ();
+
+		//Send netlog
+		NetLogger.logEvent ("Crossword_BackPressed");
+	}
+	//endregion
+
 	//region Build crossword table
-	private static final int CWCellType_Unknown					= 0x0000;
-	private static final int CWCellType_SingleQuestion			= 0x0001;
-	private static final int CWCellType_DoubleQuestion			= 0x0002;
-	private static final int CWCellType_Spacer					= 0x0004;
-	private static final int CWCellType_Letter					= 0x0008;
-	private static final int CWCellType_Start_TopDown_Right		= 0x0010;
-	private static final int CWCellType_Start_TopDown_Left		= 0x0020;
-	private static final int CWCellType_Start_TopDown_Bottom	= 0x0040;
-	private static final int CWCellType_Start_TopRight			= 0x0080;
-	private static final int CWCellType_Start_FullRight			= 0x0100;
-	private static final int CWCellType_Start_BottomRight		= 0x0200;
-	private static final int CWCellType_Start_LeftRight_Top		= 0x0400;
-	private static final int CWCellType_Start_LeftRight_Bottom	= 0x0800;
-	private static final int CWCellType_HasValue				= 0x0FF8;
+	public static final int CWCellType_Unknown					= 0x0000;
+	public static final int CWCellType_SingleQuestion			= 0x0001;
+	public static final int CWCellType_DoubleQuestion			= 0x0002;
+	public static final int CWCellType_Spacer					= 0x0004;
+	public static final int CWCellType_Letter					= 0x0008;
+	public static final int CWCellType_Start_TopDown_Right		= 0x0010;
+	public static final int CWCellType_Start_TopDown_Left		= 0x0020;
+	public static final int CWCellType_Start_TopDown_Bottom		= 0x0040;
+	public static final int CWCellType_Start_TopRight			= 0x0080;
+	public static final int CWCellType_Start_FullRight			= 0x0100;
+	public static final int CWCellType_Start_BottomRight		= 0x0200;
+	public static final int CWCellType_Start_LeftRight_Top		= 0x0400;
+	public static final int CWCellType_Start_LeftRight_Bottom	= 0x0800;
+	public static final int CWCellType_HasValue					= 0x0FF8;
 
-	private static final int CWCellSeparator_None		= 0x0000;
-	private static final int CWCellSeparator_Left		= 0x0001;
-	private static final int CWCellSeparator_Top		= 0x0002;
-	private static final int CWCellSeparator_Right		= 0x0004;
-	private static final int CWCellSeparator_Bottom		= 0x0008;
-	private static final int CWCellSeparator_All		= 0x000F;
-
-	private void buildCrosswordTable (FragmentActivity activity) {
-		TableLayout table = activity.findViewById (R.id.cw_table);
-
+	private int getCellSizeInPixels () {
 		final float scale = getContext().getResources().getDisplayMetrics().density;
-		int pixels = Math.round (50.0f * scale + 0.5f);
+		return Math.round (50.0f * scale + 0.5f);
+	}
+
+	private void rebuildCrosswordTable (FragmentActivity activity) {
+		TableLayout table = activity.findViewById (R.id.cw_table);
+		table.removeAllViews ();
+
+		int pixels = getCellSizeInPixels ();
 
 		SavedCrossword savedCrossword = mViewModel.getSavedCrossword ();
 		for (int row = 0; row < savedCrossword.height;++row) {
@@ -157,7 +218,6 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 
 				cell.getLayoutParams ().width = pixels;
 				cell.getLayoutParams ().height = pixels;
-				cell.setBackgroundColor ((col % 2 == 0 && row % 2 == 0) || (col % 2 == 1 && row % 2 == 1) ? 0xFFAA0000 : 0xFF00AA00);
 			}
 		}
 	}
@@ -176,7 +236,77 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 		return res;
 	}
 
+	private boolean isAplhaNumericValue (String value) {
+		boolean res = false;
+		if (value != null && value.length () > 0) {
+			for (int offset = 0, len = value.length (); offset < len; ) {
+				int codepoint = value.codePointAt (offset);
+				if (Character.isLetterOrDigit (codepoint)) {
+					res = true;
+					break;
+				}
+				offset += Character.charCount (codepoint);
+			}
+		}
+		return res;
+	}
+
+	private void fillLetterForCell (View cell, int row, int col, boolean highlighted, boolean currentCell) {
+		SavedCrossword savedCrossword = mViewModel.getSavedCrossword ();
+
+		boolean fillValue = false;
+		String cellOrigValue = savedCrossword.getCellsValue (row, col);
+		String cellValue = "";
+		if (_areAnswersVisible || !isAplhaNumericValue (cellOrigValue)) {
+			fillValue = true;
+			cellValue = cellOrigValue;
+		} else {
+			//Get value from current answer if available
+			if (_currentAnswer != null) {
+				if (isInputInHorizontalDirection ()) { //Horizontal answer
+					if (row == _startCellRow && col >= _startCellCol && col < (_startCellCol + _currentAnswer.length ())) {
+						fillValue = true;
+						int startPos = col - _startCellCol;
+						cellValue = _currentAnswer.substring (startPos, startPos + 1);
+					}
+				} else { //Vertical answer
+					if (col == _startCellCol && row >= _startCellRow && row < (_startCellRow + _currentAnswer.length ())) {
+						fillValue = true;
+						int startPos = row - _startCellRow;
+						cellValue = _currentAnswer.substring (startPos, startPos + 1);
+					}
+				}
+			}
+
+			//Fill value from filled values
+			if (!fillValue) {
+				Pos pos = getPositionFromCoords (row, col);
+				String value = _cellFilledValues.get (pos);
+				if (value != null) {
+					fillValue = true;
+					cellValue = value;
+				}
+			}
+		}
+
+		CrosswordCell.fillLetter (cell, fillValue, cellValue, highlighted, currentCell);
+	}
+
+	private void fillCellsArrow (int cellType, int checkCellType, View cell, int row, int col,
+								 boolean highlighted, boolean currentCell, boolean[] letterFilled) {
+		if ((cellType & checkCellType) == checkCellType) {
+			if (letterFilled[0] != true) {
+				fillLetterForCell (cell, row, col, highlighted, currentCell);
+				letterFilled[0] = true;
+			}
+			CrosswordCell.fillArrow (cell, checkCellType);
+		}
+	}
+
 	private View buildCell (FragmentActivity activity, int row, int col) {
+		LayoutInflater inflater = LayoutInflater.from (activity);
+		View cell = inflater.inflate (R.layout.crossword_cell, null, false);
+
 		SavedCrossword savedCrossword = mViewModel.getSavedCrossword ();
 		int cellType = savedCrossword.getCellTypeInRow (row, col);
 
@@ -194,37 +324,37 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 
 		switch (cellType) {
 			case CWCellType_SingleQuestion:
-//				[cell fillOneQuestion:[_savedCrossword getCellsQuestion:row col:col questionIndex:0] scale:[_crosswordLayout scaleFactor]];
+				CrosswordCell.fillOneQuestion (cell, savedCrossword.getCellsQuestion (row, col, 0));
 				break;
 			case CWCellType_DoubleQuestion: {
-//				NSString* qTop = [_savedCrossword getCellsQuestion:row col:col questionIndex:0];
-//				NSString* qBottom = [_savedCrossword getCellsQuestion:row col:col questionIndex:1];
-//				[cell fillTwoQuestion:qTop questionBottom:qBottom scale:[_crosswordLayout scaleFactor]];
+				String qTop = savedCrossword.getCellsQuestion (row, col, 0);
+				String qBottom = savedCrossword.getCellsQuestion (row, col, 1);
+				CrosswordCell.fillTwoQuestion (cell, qTop, qBottom);
 				break;
 			}
 			case CWCellType_Spacer:
-//				[cell fillSpacer];
+				CrosswordCell.fillSpacer (cell);
 				break;
 			case CWCellType_Letter:
-//				[self fillLetterForCell:cell row:row col:col highlighted:isHighlighted currentCell:isCurrentCell];
-//				[cell fillSeparator:[_savedCrossword getCellsSeparators:row col:col] scale:[_crosswordLayout scaleFactor]];
-//				break;
+				fillLetterForCell (cell, row, col, isHighlighted, isCurrentCell);
+				CrosswordCell.fillSeparator (cell, savedCrossword.getCellsSeparators (row, col));
+				break;
 			default: {
-				boolean letterFilled = false;
-//				[self fillCellsArrow:cellType checkCellType:CWCellType_Start_TopDown_Right cell:cell row:row col:col highlighted:isHighlighted currentCell:isCurrentCell letterFilled:&letterFilled];
-//				[self fillCellsArrow:cellType checkCellType:CWCellType_Start_TopDown_Left cell:cell row:row col:col highlighted:isHighlighted currentCell:isCurrentCell letterFilled:&letterFilled];
-//				[self fillCellsArrow:cellType checkCellType:CWCellType_Start_TopDown_Bottom cell:cell row:row col:col highlighted:isHighlighted currentCell:isCurrentCell letterFilled:&letterFilled];
-//				[self fillCellsArrow:cellType checkCellType:CWCellType_Start_TopRight cell:cell row:row col:col highlighted:isHighlighted currentCell:isCurrentCell letterFilled:&letterFilled];
-//				[self fillCellsArrow:cellType checkCellType:CWCellType_Start_FullRight cell:cell row:row col:col highlighted:isHighlighted currentCell:isCurrentCell letterFilled:&letterFilled];
-//				[self fillCellsArrow:cellType checkCellType:CWCellType_Start_BottomRight cell:cell row:row col:col highlighted:isHighlighted currentCell:isCurrentCell letterFilled:&letterFilled];
-//				[self fillCellsArrow:cellType checkCellType:CWCellType_Start_LeftRight_Top cell:cell row:row col:col highlighted:isHighlighted currentCell:isCurrentCell letterFilled:&letterFilled];
-//				[self fillCellsArrow:cellType checkCellType:CWCellType_Start_LeftRight_Bottom cell:cell row:row col:col highlighted:isHighlighted currentCell:isCurrentCell letterFilled:&letterFilled];
-//				[cell fillSeparator:[_savedCrossword getCellsSeparators:row col:col] scale:[_crosswordLayout scaleFactor]];
+				boolean[] letterFilled = new boolean[] { false };
+				fillCellsArrow (cellType, CWCellType_Start_TopDown_Right, cell, row, col, isHighlighted, isCurrentCell, letterFilled);
+				fillCellsArrow (cellType, CWCellType_Start_TopDown_Left, cell, row, col, isHighlighted, isCurrentCell, letterFilled);
+				fillCellsArrow (cellType, CWCellType_Start_TopDown_Bottom, cell, row, col, isHighlighted, isCurrentCell, letterFilled);
+				fillCellsArrow (cellType, CWCellType_Start_TopRight, cell, row, col, isHighlighted, isCurrentCell, letterFilled);
+				fillCellsArrow (cellType, CWCellType_Start_FullRight, cell, row, col, isHighlighted, isCurrentCell, letterFilled);
+				fillCellsArrow (cellType, CWCellType_Start_BottomRight, cell, row, col, isHighlighted, isCurrentCell, letterFilled);
+				fillCellsArrow (cellType, CWCellType_Start_LeftRight_Top, cell, row, col, isHighlighted, isCurrentCell, letterFilled);
+				fillCellsArrow (cellType, CWCellType_Start_LeftRight_Bottom, cell, row, col, isHighlighted, isCurrentCell, letterFilled);
+				CrosswordCell.fillSeparator (cell, savedCrossword.getCellsSeparators (row, col));
 				break;
 			}
 		}
 
-		return new View (activity);
+		return cell;
 	}
 	//endregion
 
@@ -289,7 +419,7 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 
 					//Copy values to grid
 					for (int i = 0; i < len; ++i) {
-						String val = String.format ("%c", _currentAnswer.charAt (i));
+						String val = String.format ("%C", _currentAnswer.charAt (i));
 						Pos path = getPositionFromCoords (_startCellRow, _startCellCol + i);
 						_cellFilledValues.put (path, val);
 					}
@@ -333,7 +463,7 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 
 					//Copy values to grid
 					for (int i = 0; i < len; ++i) {
-						String val = String.format ("%c", _currentAnswer.charAt (i));
+						String val = String.format ("%C", _currentAnswer.charAt (i));
 						Pos path = getPositionFromCoords (_startCellRow + i, _startCellCol);
 						_cellFilledValues.put (path, val);
 					}
@@ -347,13 +477,14 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 			}
 
 			if (answerCommitted) {
-//				//Determine filled state
-//				[self calculateFillRatio:&_isFilled];
-//
-//				//Go to win, if all field filled
-//				if (_isFilled) {
+				//Determine filled state
+				FillRatio fillRatio = calculateFillRatio ();
+				_isFilled = fillRatio.isFilled;
+
+				//Go to win, if all field filled
+				if (_isFilled) {
 //					[self showWinScreen];
-//				}
+				}
 			} else {
 				++_failCount;
 			}
@@ -393,16 +524,16 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 
 		for (int row = 0, rowEnd = savedCrossword.height; row < rowEnd; ++row) {
 			for (int col = 0, colEnd = savedCrossword.width; col < colEnd; ++col) {
-//				uint32_t cellType = [_savedCrossword getCellTypeInRow:row col:col];
-//				if ((cellType & CWCellType_HasValue) != 0) {
-//					++valueCellCount;
-//
-//					NSIndexPath *indexPath = [self getIndexPathForRow:row col:col];
-//					NSString *val = [_cellFilledValues objectForKey:indexPath];
-//					if ([val length] > 0) {
-//						++filledCellCount;
-//					}
-//				}
+				int cellType = savedCrossword.getCellTypeInRow (row, col);
+				if ((cellType & CWCellType_HasValue) != 0) {
+					++valueCellCount;
+
+					Pos pos = getPositionFromCoords (row, col);
+					String val = _cellFilledValues.get (pos);
+					if (val != null && val.length () > 0) {
+						++filledCellCount;
+					}
+				}
 			}
 		}
 
@@ -415,6 +546,49 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 		}
 
 		return res;
+	}
+
+	private void mergeStatistics () {
+		FillRatio fillRatio = calculateFillRatio ();
+		saveStatistics (fillRatio.fillRatio, fillRatio.isFilled);
+	}
+
+	private void saveStatistics (double fillRatio, boolean isFilled) {
+		long duration = (Calendar.getInstance ().getTimeInMillis () - _startTime.getTimeInMillis ()) / 1000;
+
+		SavedCrossword savedCrossword = mViewModel.getSavedCrossword ();
+		savedCrossword.mergeStatistics (_failCount, _hintCount, fillRatio, isFilled, (int) duration);
+		resetStatistics ();
+	}
+
+	private int calculateStarCount (Statistics stats) {
+		if (stats.failCount > 9 || stats.hintCount > 9 || stats.fillDuration > 20 * 60) { //0 star
+			return 0;
+		}
+
+		if (stats.failCount > 6 || stats.hintCount > 6 || stats.fillDuration > 15 * 60) { //1 star
+			return 1;
+		}
+
+		if (stats.failCount > 3 || stats.hintCount > 3 || stats.fillDuration > 12 * 60) { //2 star
+			return 2;
+		}
+
+		return 3;
+	}
+
+	private void addAvailableInputDirection (int cellType, int checkCellType) {
+		if ((cellType & checkCellType) == checkCellType) {
+			_availableAnswerDirections.add (checkCellType);
+		}
+	}
+
+	private void ensureVisibleRow (int row, int col) {
+		int pixels = getCellSizeInPixels ();
+		int scrollX = col * pixels;
+		int scrollY = row * pixels;
+		TwoDScrollView scrollView = getActivity ().findViewById (R.id.cwview_scroll);
+		scrollView.smoothScrollTo (scrollX, scrollY);
 	}
 
 	//endregion

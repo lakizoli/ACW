@@ -31,7 +31,7 @@ public:
 
 	int32_t Add (std::shared_ptr<T> obj) {
 		int32_t objID = _nextID++;
-		_store.emplace (_nextID, obj);
+		_store.emplace (objID, obj);
 		return objID;
 	}
 

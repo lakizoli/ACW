@@ -7,4 +7,9 @@
     <color name="colorYellowText">#FFDFC25D</color>
     <color name="colorGreenBack">#FF285050</color>
     <color name="progressBackground">#EBEBEB</color>
+
+    <color name="colorLightBlueBack">#FFD6DEE4</color>
+    <color name="highlightedCurrentCell">#FF387070</color>
+    <color name="highlightedCell">#FF285050</color>
+    <color name="highlightedCellText">#FFE5C147</color>
 </resources>

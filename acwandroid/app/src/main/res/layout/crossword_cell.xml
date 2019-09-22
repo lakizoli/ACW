@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:background="@android:color/black">
+
+	<LinearLayout
+		android:id="@+id/cwcell_two_question_layout"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical"
+		android:weightSum="1">
+
+		<TextView
+			android:id="@+id/cwcell_top_question"
+			android:layout_width="match_parent"
+			android:layout_height="0dp"
+			android:layout_weight="0.5"
+			android:gravity="center"
+			android:layout_margin="0.5dp"
+			android:background="@android:color/white"
+			app:autoSizeTextType="uniform"
+			app:autoSizeMinTextSize="3sp"
+			app:autoSizeMaxTextSize="16sp" />
+
+		<TextView
+			android:id="@+id/cwcell_bottom_question"
+			android:layout_width="match_parent"
+			android:layout_height="0dp"
+			android:layout_weight="0.5"
+			android:gravity="center"
+			android:layout_margin="0.5dp"
+			android:background="@android:color/white"
+			app:autoSizeTextType="uniform"
+			app:autoSizeMinTextSize="3sp"
+			app:autoSizeMaxTextSize="14sp" />
+	</LinearLayout>
+
+	<TextView
+		android:id="@+id/cwcell_value"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:gravity="center"
+		android:layout_marginTop="0.5dp"
+		android:layout_marginLeft="0.5dp"
+		android:layout_marginRight="0.5dp"
+		android:layout_marginBottom="0.5dp"
+		android:background="@android:color/white"
+		app:autoSizeTextType="uniform"
+		app:autoSizeMinTextSize="3sp"
+		app:autoSizeMaxTextSize="16sp" />
+
+	<ImageView
+		android:id="@+id/cwcell_arrow_bottom_down"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_centerHorizontal="true"
+		android:layout_marginTop="2dp"
+		android:visibility="invisible"
+		app:srcCompat="@drawable/ic_bottomdown" />
+
+	<ImageView
+		android:id="@+id/cwcell_arrow_topleft_down"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_centerHorizontal="true"
+		android:layout_marginTop="2dp"
+		android:visibility="invisible"
+		app:srcCompat="@drawable/ic_topleft_down" />
+
+	<ImageView
+		android:id="@+id/cwcell_arrow_topright_down"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_centerHorizontal="true"
+		android:layout_marginTop="2dp"
+		android:visibility="invisible"
+		app:srcCompat="@drawable/ic_topright_down" />
+
+	<ImageView
+		android:id="@+id/cwcell_arrow_topright"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_centerVertical="true"
+		android:layout_marginLeft="2dp"
+		android:visibility="invisible"
+		app:srcCompat="@drawable/ic_topright" />
+
+	<ImageView
+		android:id="@+id/cwcell_arrow_right"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_centerVertical="true"
+		android:layout_marginLeft="2dp"
+		android:visibility="invisible"
+		app:srcCompat="@drawable/ic_right" />
+
+	<ImageView
+		android:id="@+id/cwcell_arrow_bottomright"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_centerVertical="true"
+		android:layout_marginLeft="2dp"
+		android:visibility="invisible"
+		app:srcCompat="@drawable/ic_bottomright" />
+
+	<ImageView
+		android:id="@+id/cwcell_arrow_leftright_top"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_centerVertical="true"
+		android:layout_marginLeft="2dp"
+		android:visibility="invisible"
+		app:srcCompat="@drawable/ic_leftright_top" />
+
+	<ImageView
+		android:id="@+id/cwcell_arrow_leftright_bottom"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_centerVertical="true"
+		android:layout_marginLeft="2dp"
+		android:visibility="invisible"
+		app:srcCompat="@drawable/ic_leftright_bottom" />
+
+</RelativeLayout>
