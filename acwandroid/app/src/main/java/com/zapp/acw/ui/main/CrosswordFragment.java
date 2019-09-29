@@ -1,6 +1,7 @@
 package com.zapp.acw.ui.main;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -118,7 +119,7 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 		resetStatistics ();
 
 		//Build crossword table
-		rebuildCrosswordTable (activity);
+		rebuildCrosswordTable ();
 	}
 
 	//region Event handlers
@@ -130,7 +131,7 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 
 				_cellFilledValues.clear ();
 				savedCrossword.saveFilledValues (_cellFilledValues);
-				rebuildCrosswordTable (getActivity ());
+				rebuildCrosswordTable ();
 
 				//Reset statistics
 				resetStatistics ();
@@ -148,7 +149,7 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 				Menu menu = toolbar.getMenu ();
 				MenuItem showHideButton = menu.findItem (R.id.cwview_hint);
 				showHideButton.setTitle (_areAnswersVisible ? "Hide Hint" : "Show Hint");
-				rebuildCrosswordTable (activity);
+				rebuildCrosswordTable ();
 
 				if (_areAnswersVisible) {
 					++_hintCount;
@@ -197,7 +198,8 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 		return Math.round (50.0f * scale + 0.5f);
 	}
 
-	private void rebuildCrosswordTable (FragmentActivity activity) {
+	private void rebuildCrosswordTable () {
+		final FragmentActivity activity = getActivity ();
 		TableLayout table = activity.findViewById (R.id.cw_table);
 		table.removeAllViews ();
 
@@ -218,8 +220,118 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 
 				cell.getLayoutParams ().width = pixels;
 				cell.getLayoutParams ().height = pixels;
+
+				final int cellRow = row;
+				final int cellCol = col;
+				cell.setOnClickListener (new View.OnClickListener () {
+					@Override
+					public void onClick (View v) {
+						if (shouldSelectCell (cellRow, cellCol)) {
+							didSelectCell (cellRow, cellCol);
+						}
+					}
+				});
 			}
 		}
+	}
+
+	private boolean shouldSelectCell (int row, int col) {
+		boolean startCell = mViewModel.getSavedCrossword ().isStartCell (row, col);
+		_canBecameFirstResponder = startCell;
+		commitValidAnswer ();
+		if (startCell) {
+			_currentAnswer = null;
+		} else {
+			resetInput ();
+		}
+		return startCell;
+	}
+
+	private void didSelectCell (int row, int col) {
+		SavedCrossword savedCrossword = mViewModel.getSavedCrossword ();
+
+		//Determine answer's current direction
+		int selRow = row;
+		int selCol = col;
+		boolean isNewStart = _startCellRow < 0 || _startCellCol < 0 || _answerIndex < 0 || _startCellRow != selRow || _startCellCol != selCol;
+		if (isNewStart) {
+			//Collect available answer directions
+			_availableAnswerDirections = new ArrayList<> ();
+			int cellType = savedCrossword.getCellTypeInRow (selRow, selCol);
+			addAvailableInputDirection (cellType, CWCellType_Start_TopDown_Right);
+			addAvailableInputDirection (cellType, CWCellType_Start_TopDown_Left);
+			addAvailableInputDirection (cellType, CWCellType_Start_TopDown_Bottom);
+			addAvailableInputDirection (cellType, CWCellType_Start_TopRight);
+			addAvailableInputDirection (cellType, CWCellType_Start_FullRight);
+			addAvailableInputDirection (cellType, CWCellType_Start_BottomRight);
+			addAvailableInputDirection (cellType, CWCellType_Start_LeftRight_Top);
+			addAvailableInputDirection (cellType, CWCellType_Start_LeftRight_Bottom);
+			if (_availableAnswerDirections.size () <= 0) { //Basic error check (one direction have to be available!)
+				return;
+			}
+
+			//Start input of first answer
+			_startCellRow = selRow;
+			_startCellCol = selCol;
+			_answerIndex = 0;
+		} else {
+			++_answerIndex;
+			if (_answerIndex >= _availableAnswerDirections.size ()) {
+				_answerIndex = 0;
+			}
+		}
+
+		//Determine answer's available length
+		_maxAnswerLength = 0;
+		if (isInputInHorizontalDirection ()) {
+			boolean endReached = false;
+			while (!endReached) {
+				++_maxAnswerLength;
+
+				int cellType = savedCrossword.getCellTypeInRow (selRow, selCol + _maxAnswerLength);
+				if (cellType == CWCellType_Unknown || cellType == CWCellType_SingleQuestion ||
+					cellType == CWCellType_DoubleQuestion || cellType == CWCellType_Spacer) //End of current input word reached
+				{
+					endReached = true;
+				}
+			}
+		} else {
+			boolean endReached = false;
+			while (!endReached) {
+				++_maxAnswerLength;
+
+				int cellType = savedCrossword.getCellTypeInRow (selRow + _maxAnswerLength, selCol);
+				if (cellType == CWCellType_Unknown || cellType == CWCellType_SingleQuestion ||
+					cellType == CWCellType_DoubleQuestion || cellType == CWCellType_Spacer) //End of current input word reached
+				{
+					endReached = true;
+				}
+			}
+		}
+
+		//Show keyboard
+		FragmentActivity activity = getActivity ();
+		LinearLayout keyboard = activity.findViewById (R.id.cwview_keyboard);
+		keyboard.setVisibility (View.VISIBLE);
+		_currentAnswer = null;
+
+		//Ensure visibility of value is under entering
+		ensureVisibleRow (selRow, selCol);
+
+		//Add next non alphanumeric char automatically
+		if (isNewStart) {
+			String nextVal = savedCrossword.getCellsValue (_startCellRow, _startCellCol);
+			if (!isAplhaNumericValue (nextVal)) {
+				insertText (nextVal);
+			}
+		}
+
+		//Highlight the word have to be enter
+		rebuildCrosswordTable ();
+
+		//TEST
+//		[self showWinScreen];
+		//END TEST
 	}
 
 	private boolean isInputInHorizontalDirection () {
@@ -500,7 +612,12 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 		_availableAnswerDirections = null;
 		_answerIndex = -1;
 
-//		[self resignFirstResponder];
+		//Hide keyboard
+		FragmentActivity activity = getActivity ();
+		LinearLayout keyboard = activity.findViewById (R.id.cwview_keyboard);
+		keyboard.setVisibility (View.INVISIBLE);
+
+		rebuildCrosswordTable ();
 	}
 
 	private void resetStatistics () {
@@ -585,11 +702,90 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 
 	private void ensureVisibleRow (int row, int col) {
 		int pixels = getCellSizeInPixels ();
-		int scrollX = col * pixels;
-		int scrollY = row * pixels;
+		int scrollX = Math.max (col - 1, 0) * pixels;
+		int scrollY = Math.max (row - 1, 0) * pixels;
 		TwoDScrollView scrollView = getActivity ().findViewById (R.id.cwview_scroll);
 		scrollView.smoothScrollTo (scrollX, scrollY);
 	}
+	//endregion
 
+	//region Key input
+	private boolean hasText () {
+		return _currentAnswer != null && _currentAnswer.length () > 0;
+	}
+
+	private void deleteBackward () {
+		//Alter answer
+		int len = _currentAnswer == null ? 0 : _currentAnswer.length ();
+		if (len > 1) {
+			_currentAnswer = _currentAnswer.substring (0, len - 1);
+		} else if (len == 1) {
+			_currentAnswer = null;
+		}
+
+		//Ensure visibility of next char to enter
+		if (isInputInHorizontalDirection ()) {
+			ensureVisibleRow (_startCellRow, _startCellCol + (_currentAnswer == null ? 0 : _currentAnswer.length ()));
+		} else {
+			ensureVisibleRow (_startCellRow + (_currentAnswer == null ? 0 : _currentAnswer.length ()), _startCellCol);
+		}
+
+		//Fill grid
+		rebuildCrosswordTable ();
+	}
+
+	private void insertText (String text) {
+		//Handle input
+		if (text.equals ("\n")) { //Handle press of return (done button)
+			commitValidAnswer ();
+			resetInput ();
+		} else { //Handle normal keys
+			//Check available length
+			if (_currentAnswer != null && _currentAnswer.length () >= _maxAnswerLength) { //Allow only entering of chars, when enough space remaining
+				return;
+			}
+
+			//Alter answer
+			int len = _currentAnswer == null ? 0 : _currentAnswer.length ();
+			if (len > 0) {
+				_currentAnswer += text;
+			} else {
+				_currentAnswer = text;
+			}
+
+			//Calculate next cell's coords
+			boolean isHorizontalInput = isInputInHorizontalDirection ();
+			int nextCol = 0;
+			int nextRow = 0;
+			if (isHorizontalInput) {
+				nextRow = _startCellRow;
+				nextCol = _startCellCol + _currentAnswer.length ();
+			} else {
+				nextRow = _startCellRow + _currentAnswer.length ();
+				nextCol = _startCellCol;
+			}
+
+			//Ensure visibility of next char
+			SavedCrossword savedCrossword = mViewModel.getSavedCrossword ();
+			if (isHorizontalInput) {
+				if (nextCol < savedCrossword.width) {
+					ensureVisibleRow (_startCellRow, nextCol);
+				}
+			} else {
+				if (nextRow < savedCrossword.height) {
+					ensureVisibleRow (nextRow, _startCellCol);
+				}
+			}
+
+			//Add next non alphanumeric char automatically
+			String nextVal = savedCrossword.getCellsValue (nextRow, nextCol);
+			if (!isAplhaNumericValue (nextVal)) {
+				insertText (nextVal);
+			}
+		}
+
+		//Fill grid
+		rebuildCrosswordTable ();
+	}
 	//endregion
 }
