@@ -14,9 +14,12 @@ import android.widget.TimePicker;
 import com.zapp.acw.R;
 import com.zapp.acw.bll.Package;
 import com.zapp.acw.bll.SavedCrossword;
+import com.zapp.acw.bll.Statistics;
 import com.zapp.acw.bll.SubscriptionManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -99,7 +102,36 @@ public class ChooseCWFragment extends Fragment implements Toolbar.OnMenuItemClic
 								} else {
 									String packageKey = mViewModel.getSortedPackageKeys ().get (position);
 									int idx = mViewModel.getCurrentSavedCrosswordIndices ().get (packageKey);
-									int randIdx = new Random ().nextInt (idx + 1);
+
+									ArrayList<SavedCrossword> cws = mViewModel.getSavedCrosswords ().get (packageKey);
+
+									ArrayList<Integer> counts = new ArrayList<> ();
+									HashMap<Integer, ArrayList<Integer>> indices = new HashMap<> ();
+									int minCount = Integer.MAX_VALUE;
+									for (int i = 0; i < idx; ++i) {
+										SavedCrossword cw = cws.get (i);
+										ArrayList<Statistics> stat = cw.loadStatistics ();
+										Integer cnt = stat != null ? stat.size () : 0;
+										counts.add (cnt);
+
+										ArrayList<Integer> idcs = indices.get (cnt);
+										if (idcs == null) {
+											idcs = new ArrayList<> ();
+											indices.put (cnt, idcs);
+										}
+
+										idcs.add (i);
+
+										if (cnt < minCount) {
+											minCount = cnt;
+										}
+									}
+
+									ArrayList<Integer> randIndices = indices.get (minCount);
+									int randCount = randIndices != null ? randIndices.size () : 0;
+
+									int randIdx = new Random ().nextInt (randCount + 1);
+									randIdx = randIndices != null ? randIndices.get (randIdx) : 0;
 
 									Bundle args = buildShowCWBundle (packageKey, randIdx, true);
 									Navigation.findNavController (getView ()).navigate (R.id.ShowCW, args);
