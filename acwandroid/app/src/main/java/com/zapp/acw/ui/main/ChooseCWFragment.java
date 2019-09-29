@@ -81,60 +81,82 @@ public class ChooseCWFragment extends Fragment implements Toolbar.OnMenuItemClic
 						ChooseCWAdapter adapter = new ChooseCWAdapter (mViewModel.isSubscribed (), mViewModel.getSortedPackageKeys (), mViewModel.getPackages (),
 							mViewModel.getCurrentSavedCrosswordIndices (), mViewModel.getFilledWordCounts (), new ChooseCWAdapter.OnItemClickListener () {
 							@Override
-							public void onItemClick (int position, Package pack) {
+							public void onItemClick (final int position, Package pack) {
 								boolean cwEnabled = position == 0 || mViewModel.isSubscribed ();
 								if (!cwEnabled) {
 									showSubscription ();
 								} else {
-									String packageKey = mViewModel.getSortedPackageKeys ().get (position);
-									int idx = mViewModel.getCurrentSavedCrosswordIndices ().get (packageKey);
+									final FragmentActivity activity = getActivity ();
+									runWithProgress (new Runnable () {
+										@Override
+										public void run () {
+											String packageKey = mViewModel.getSortedPackageKeys ().get (position);
+											int idx = mViewModel.getCurrentSavedCrosswordIndices ().get (packageKey);
 
-									Bundle args = buildShowCWBundle (packageKey, idx, false);
-									Navigation.findNavController (getView ()).navigate (R.id.ShowCW, args);
+											final Bundle args = buildShowCWBundle (packageKey, idx, false);
+											activity.runOnUiThread (new Runnable () {
+												@Override
+												public void run () {
+													Navigation.findNavController (getView ()).navigate (R.id.ShowCW, args);
+												}
+											});
+										}
+									});
 								}
 							}
 
 							@Override
-							public void onRandomButtonClick (int position, Package pack) {
+							public void onRandomButtonClick (final int position, Package pack) {
 								boolean cwEnabled = position == 0 || mViewModel.isSubscribed ();
 								if (!cwEnabled) {
 									showSubscription ();
 								} else {
-									String packageKey = mViewModel.getSortedPackageKeys ().get (position);
-									int idx = mViewModel.getCurrentSavedCrosswordIndices ().get (packageKey);
+									final FragmentActivity activity = getActivity ();
+									runWithProgress (new Runnable () {
+										@Override
+										public void run () {
+											String packageKey = mViewModel.getSortedPackageKeys ().get (position);
+											int idx = mViewModel.getCurrentSavedCrosswordIndices ().get (packageKey);
 
-									ArrayList<SavedCrossword> cws = mViewModel.getSavedCrosswords ().get (packageKey);
+											ArrayList<SavedCrossword> cws = mViewModel.getSavedCrosswords ().get (packageKey);
 
-									ArrayList<Integer> counts = new ArrayList<> ();
-									HashMap<Integer, ArrayList<Integer>> indices = new HashMap<> ();
-									int minCount = Integer.MAX_VALUE;
-									for (int i = 0; i < idx; ++i) {
-										SavedCrossword cw = cws.get (i);
-										ArrayList<Statistics> stat = cw.loadStatistics ();
-										Integer cnt = stat != null ? stat.size () : 0;
-										counts.add (cnt);
+											ArrayList<Integer> counts = new ArrayList<> ();
+											HashMap<Integer, ArrayList<Integer>> indices = new HashMap<> ();
+											int minCount = Integer.MAX_VALUE;
+											for (int i = 0; i < idx; ++i) {
+												SavedCrossword cw = cws.get (i);
+												ArrayList<Statistics> stat = cw.loadStatistics ();
+												Integer cnt = stat != null ? stat.size () : 0;
+												counts.add (cnt);
 
-										ArrayList<Integer> idcs = indices.get (cnt);
-										if (idcs == null) {
-											idcs = new ArrayList<> ();
-											indices.put (cnt, idcs);
+												ArrayList<Integer> idcs = indices.get (cnt);
+												if (idcs == null) {
+													idcs = new ArrayList<> ();
+													indices.put (cnt, idcs);
+												}
+
+												idcs.add (i);
+
+												if (cnt < minCount) {
+													minCount = cnt;
+												}
+											}
+
+											ArrayList<Integer> randIndices = indices.get (minCount);
+											int randCount = randIndices != null ? randIndices.size () : 0;
+
+											int randIdx = new Random ().nextInt (randCount + 1);
+											randIdx = randIndices != null ? randIndices.get (randIdx) : 0;
+
+											final Bundle args = buildShowCWBundle (packageKey, randIdx, true);
+											activity.runOnUiThread (new Runnable () {
+												@Override
+												public void run () {
+													Navigation.findNavController (getView ()).navigate (R.id.ShowCW, args);
+												}
+											});
 										}
-
-										idcs.add (i);
-
-										if (cnt < minCount) {
-											minCount = cnt;
-										}
-									}
-
-									ArrayList<Integer> randIndices = indices.get (minCount);
-									int randCount = randIndices != null ? randIndices.size () : 0;
-
-									int randIdx = new Random ().nextInt (randCount + 1);
-									randIdx = randIndices != null ? randIndices.get (randIdx) : 0;
-
-									Bundle args = buildShowCWBundle (packageKey, randIdx, true);
-									Navigation.findNavController (getView ()).navigate (R.id.ShowCW, args);
+									});
 								}
 							}
 						});
@@ -184,17 +206,9 @@ public class ChooseCWFragment extends Fragment implements Toolbar.OnMenuItemClic
 		switch (menuItem.getItemId ()) {
 			case R.id.action_plus:
 				final FragmentActivity activity = getActivity ();
-				final ProgressBar progressCW = activity.findViewById (R.id.cw_progress);
-				progressCW.setVisibility (View.VISIBLE);
-
-				new Thread (new Runnable () {
+				runWithProgress (new Runnable () {
 					@Override
 					public void run () {
-						try {
-							Thread.sleep(1000);
-						} catch (InterruptedException e) {
-						}
-
 						activity.runOnUiThread (new Runnable () {
 							@Override
 							public void run () {
@@ -202,12 +216,30 @@ public class ChooseCWFragment extends Fragment implements Toolbar.OnMenuItemClic
 							}
 						});
 					}
-				}).start ();
+				});
 				return true;
 			default:
 				break;
 		}
 		return false;
+	}
+
+	private void runWithProgress (final Runnable block) {
+		final FragmentActivity activity = getActivity ();
+		final ProgressBar progressCW = activity.findViewById (R.id.cw_progress);
+		progressCW.setVisibility (View.VISIBLE);
+
+		new Thread (new Runnable () {
+			@Override
+			public void run () {
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+				}
+
+				block.run ();
+			}
+		}).start ();
 	}
 
 	private void showSubscription () {

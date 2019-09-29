@@ -1,39 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/subscribe_alert_border"
-    android:orientation="vertical">
+    android:background="@drawable/subscribe_alert_border">
 
-    <TextView
-        android:id="@+id/cw_package_name"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Name of the package"
-        android:textSize="28sp"
-        app:fontFamily="@font/avenir_next_condensed_bold" />
+        android:gravity="left"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/cw_statistic"
+        <TextView
+            android:id="@+id/cw_package_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name of the package"
+            android:textSize="28sp"
+            app:fontFamily="@font/avenir_next_condensed_bold" />
+
+        <TextView
+            android:id="@+id/cw_statistic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="100 of 322 levels (1000 of 3622 words) solved"
+            android:textSize="16sp"
+            app:fontFamily="@font/avenir_next_condensed" />
+
+        <TextView
+            android:id="@+id/cw_random_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/random_button_label"
+            android:textSize="18sp"
+            app:fontFamily="@font/avenir_next_condensed" />
+
+        <View
+            android:background="#88CCCCCC"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginLeft="12dp" />
+
+    </LinearLayout>
+
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="100 of 322 levels (1000 of 3622 words) solved"
-        android:textSize="16sp"
-        app:fontFamily="@font/avenir_next_condensed" />
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        app:srcCompat="@drawable/ic_chevron_right"/>
 
-    <TextView
-        android:id="@+id/cw_random_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/random_button_label"
-        android:textSize="18sp"
-        app:fontFamily="@font/avenir_next_condensed" />
-
-    <View android:background="#88CCCCCC"
-        android:layout_width = "wrap_content"
-        android:layout_height="1dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginLeft="12dp"/>
-
-</LinearLayout>
+</RelativeLayout>
