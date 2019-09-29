@@ -260,14 +260,14 @@
                                                     <rect key="frame" x="5" y="0.0" width="282" height="69.5"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Name of the package" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cCb-oB-Bs0">
-                                                            <rect key="frame" x="0.0" y="0.0" width="282" height="33"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="282" height="31.5"/>
                                                             <fontDescription key="fontDescription" name="AvenirNextCondensed-Bold" family="Avenir Next Condensed" pointSize="20"/>
                                                             <color key="textColor" red="0.12892057169999999" green="0.1315353672" blue="0.12988067989999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100 of 322 levels (1000 of 3522 words) solved" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1dB-ee-Rk9">
-                                                            <rect key="frame" x="0.0" y="33" width="282" height="16.5"/>
-                                                            <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="12"/>
+                                                            <rect key="frame" x="0.0" y="31.5" width="282" height="18"/>
+                                                            <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="13"/>
                                                             <color key="textColor" red="0.30729750996143812" green="0.31353018583411385" blue="0.30958604189032457" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
@@ -275,7 +275,7 @@
                                                             <rect key="frame" x="0.0" y="49.5" width="282" height="20"/>
                                                             <subviews>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3Ej-Wz-gez">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="188" height="20"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="220" height="20"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="20" id="fWm-7r-cqB"/>
                                                                     </constraints>
@@ -284,7 +284,7 @@
                                                                             <fragment content="Choose random crossword from solved levels">
                                                                                 <attributes>
                                                                                     <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                                                                    <font key="NSFont" size="12" name="AvenirNextCondensed-Regular"/>
+                                                                                    <font key="NSFont" size="14" name="AvenirNextCondensed-Regular"/>
                                                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                                                     <integer key="NSUnderline" value="1"/>
                                                                                 </attributes>
@@ -293,7 +293,7 @@
                                                                     </state>
                                                                 </button>
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aZ1-CV-8WA">
-                                                                    <rect key="frame" x="188" y="0.0" width="94" height="20"/>
+                                                                    <rect key="frame" x="220" y="0.0" width="62" height="20"/>
                                                                 </view>
                                                             </subviews>
                                                         </stackView>

@@ -16,11 +16,13 @@
 #if TARGET_OS_SIMULATOR
 	NSLog (@"Netlogger started");
 #else
+	NSString* appVersionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+
 	FlurrySessionBuilder* builder = [[[[[FlurrySessionBuilder new]
 										withLogLevel:FlurryLogLevelCriticalOnly]
 									   withCrashReporting:YES]
 									  withSessionContinueSeconds:10]
-									 withAppVersion:@"1.1.1"];
+									 withAppVersion:appVersionString];
 	
 	[Flurry startSession:@"9P9572XC7M7B686598VW" withSessionBuilder:builder];
 #endif
