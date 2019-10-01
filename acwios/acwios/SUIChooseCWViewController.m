@@ -229,6 +229,8 @@
 		}
 	}
 	
+	//TODO: ne lehessen ugyanaz fel oran belul, csak, ha meinden masik megvolt...
+	
 	NSMutableArray<NSNumber*> *randIndices = [indices objectForKey:[NSNumber numberWithUnsignedInteger: minCount]];
 	
 	uint32_t randIdx = arc4random_uniform ((uint32_t) randIndices.count);
