@@ -432,11 +432,18 @@
 	for (NSUInteger i = 0; i < playedCWCount; ++i) {
 		SavedCrossword *cw = [cws objectAtIndex:i];
 		NSArray<Statistics*> *stat = [cw loadStatistics];
+		
 		int32_t offset = [cw loadStatisticsOffset];
 		if (offset < 0) {
 			offset = 0;
 		}
-		NSNumber *cnt = [NSNumber numberWithUnsignedInteger: stat.count + offset];
+		
+		if ([stat count] > 0 && [[stat lastObject] isFilled] == NO) {
+			--offset;
+		}
+		
+		int32_t count = (int32_t) stat.count + offset;
+		NSNumber *cnt = [NSNumber numberWithUnsignedInteger: count];
 
 		NSMutableArray<NSNumber*> *idcs = [indices objectForKey:cnt];
 		if (idcs == nil) {
@@ -446,8 +453,8 @@
 
 		[idcs addObject:[NSNumber numberWithUnsignedInteger:i]];
 
-		if (stat.count < minCount) {
-			minCount = stat.count;
+		if (count < minCount) {
+			minCount = count;
 		}
 	}
 	
