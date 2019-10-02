@@ -55,7 +55,7 @@
 	_sortedPackageKeys = [NSMutableArray new];
 	_packages = [NSMutableDictionary new];
 	[packs enumerateObjectsUsingBlock:^(Package * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-		NSString *packageKey = [[obj path] lastPathComponent];
+		NSString *packageKey = [obj getPackageKey];
 		if ([[self->_savedCrosswords objectForKey:packageKey] count] > 0) {
 			[self->_sortedPackageKeys addObject:packageKey];
 			[self->_packages setObject:obj forKey:packageKey];

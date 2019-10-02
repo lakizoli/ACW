@@ -21,6 +21,8 @@
 -(NSArray<Package*>*)collectPackages;
 -(void)savePackageState:(Package*)pack;
 -(NSDictionary<NSString*, NSArray<SavedCrossword*>*>*)collectSavedCrosswords;
+-(NSArray<SavedCrossword*>*)collectMinimalStatCountCWSet:(NSString*)packageKey;
+-(uint32_t)getMaxStatCountOfCWSet:(NSString*)packageKey;
 -(GeneratorInfo*)collectGeneratorInfo:(NSArray<Deck*>*)decks;
 -(void)reloadUsedWords:(NSURL*)packagePath info:(GeneratorInfo*)info;
 

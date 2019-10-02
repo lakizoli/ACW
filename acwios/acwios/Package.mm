@@ -169,6 +169,11 @@
 	return self;
 }
 
+-(NSString*) getPackageKey {
+	NSString *packageKey = [_path lastPathComponent];
+	return packageKey;
+}
+
 @end
 
 @implementation Statistics
@@ -298,6 +303,19 @@
 			}
 		}];
 	}
+}
+
+- (NSURL*)statisticsOffsetPath {
+	NSURL *pureFileName = [_path URLByDeletingPathExtension];
+	return [pureFileName URLByAppendingPathExtension:@"statisticsOffset"];
+}
+
+-(void)saveStatisticsOffset:(uint32_t)offset {
+}
+
+-(int32_t)loadStatisticsOffset {
+	//TODO: implement
+	return -1; //not found
 }
 
 - (NSURL*)statisticsPath {

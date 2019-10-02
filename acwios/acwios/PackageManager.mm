@@ -419,6 +419,16 @@
 	return res;
 }
 
+-(NSArray<SavedCrossword*>*)collectMinimalStatCountCWSet:(NSString*)packageKey {
+	//TODO: implement
+	return nil;
+}
+
+-(uint32_t)getMaxStatCountOfCWSet:(NSString*)packageKey {
+	//TODO: implement
+	return 0;
+}
+
 #pragma mark - Collecting generation info
 
 -(GeneratorInfo*)collectGeneratorInfo:(NSArray<Deck*>*)decks {

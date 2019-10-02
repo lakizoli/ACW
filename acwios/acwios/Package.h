@@ -78,6 +78,8 @@
 @property (strong) NSMutableArray<Deck*> *decks;
 @property (strong) GameState* state;
 
+-(NSString*) getPackageKey;
+
 @end
 
 enum CWCellType : uint32_t {
@@ -140,6 +142,9 @@ enum CWCellSeparator : uint32_t {
 
 -(void) saveFilledValues:(NSMutableDictionary<NSIndexPath*, NSString*>*)filledValues;
 -(void) loadFilledValuesInto:(NSMutableDictionary<NSIndexPath*, NSString*>*)filledValues;
+
+-(void)saveStatisticsOffset:(uint32_t)offset;
+-(int32_t)loadStatisticsOffset;
 
 -(NSArray<Statistics*>*) loadStatistics;
 -(void) mergeStatistics:(uint32_t) failCount hintCount:(uint32_t)hintCount fillRatio:(double)fillRatio isFilled:(BOOL)isFilled fillDuration:(NSTimeInterval)fillDuration;

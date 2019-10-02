@@ -248,6 +248,14 @@
 -(void) saveStatistics:(double)fillRatio isFilled:(BOOL)isFilled {
 	NSTimeInterval duration = [[NSDate date] timeIntervalSinceDate:_startTime];
 	[_savedCrossword mergeStatistics:_failCount hintCount:_hintCount fillRatio:fillRatio isFilled:isFilled fillDuration:duration];
+	
+	int32_t statOffset = [_savedCrossword loadStatisticsOffset];
+	if (statOffset < 0) {
+		NSString* packageKey = [_currentPackage getPackageKey];
+		uint32_t maxStatCount = [[PackageManager sharedInstance] getMaxStatCountOfCWSet:packageKey];
+		[_savedCrossword saveStatisticsOffset:maxStatCount];
+	}
+	
 	[self resetStatistics];
 }
 
