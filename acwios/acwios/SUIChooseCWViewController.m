@@ -205,33 +205,7 @@
 	}
 	
 	NSUInteger idx = [[_currentSavedCrosswordIndices objectForKey:cell.packageKey] unsignedIntegerValue];
-	NSArray<SavedCrossword*> *cws = [_savedCrosswords objectForKey:cell.packageKey];
-	
-	NSMutableArray<NSNumber*> *counts = [NSMutableArray new];
-	NSMutableDictionary<NSNumber*, NSMutableArray<NSNumber*>*> *indices = [NSMutableDictionary new];
-	NSUInteger minCount = NSUIntegerMax;
-	for (NSUInteger i = 0; i < idx; ++i) {
-		SavedCrossword *cw = [cws objectAtIndex:i];
-		NSArray<Statistics*> *stat = [cw loadStatistics];
-		NSNumber *cnt = [NSNumber numberWithUnsignedInteger: stat.count];
-		[counts addObject:cnt];
-		
-		NSMutableArray<NSNumber*> *idcs = [indices objectForKey:cnt];
-		if (idcs == nil) {
-			idcs = [NSMutableArray<NSNumber*> new];
-			[indices setObject:idcs forKey:cnt];
-		}
-		
-		[idcs addObject:[NSNumber numberWithUnsignedInteger:i]];
-		
-		if (stat.count < minCount) {
-			minCount = stat.count;
-		}
-	}
-	
-	//TODO: ne lehessen ugyanaz fel oran belul, csak, ha meinden masik megvolt...
-	
-	NSMutableArray<NSNumber*> *randIndices = [indices objectForKey:[NSNumber numberWithUnsignedInteger: minCount]];
+	NSArray<NSNumber*> *randIndices = [[PackageManager sharedInstance] collectMinimalStatCountCWIndices:cell.packageKey savedCrosswords:_savedCrosswords playedCWCount:idx];
 	
 	uint32_t randIdx = arc4random_uniform ((uint32_t) randIndices.count);
 	_selectedPackageKey = cell.packageKey;

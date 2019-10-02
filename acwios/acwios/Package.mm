@@ -311,11 +311,32 @@
 }
 
 -(void)saveStatisticsOffset:(uint32_t)offset {
+	NSFileManager *man = [NSFileManager defaultManager];
+	
+	NSURL *path = [self statisticsOffsetPath];
+	if ([man fileExistsAtPath:[path path]]) {
+		[man removeItemAtURL:path error:nil];
+	}
+	
+	NSString *content = [NSString stringWithFormat:@"%u", offset];
+	if ([content writeToURL:path atomically:YES encoding:NSUTF8StringEncoding error:nil] == NO) {
+		//Log...
+		return;
+	}
 }
 
 -(int32_t)loadStatisticsOffset {
-	//TODO: implement
-	return -1; //not found
+	NSFileManager *man = [NSFileManager defaultManager];
+	
+	NSURL *path = [self statisticsOffsetPath];
+	if ([man fileExistsAtPath:[path path]]) {
+		NSString *content = [NSString stringWithContentsOfURL:path encoding:NSUTF8StringEncoding error:nil];
+		if (content) {
+			return std::stoi ([content UTF8String]);
+		}
+	}
+
+	return -1; //file not found
 }
 
 - (NSURL*)statisticsPath {

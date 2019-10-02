@@ -419,14 +419,60 @@
 	return res;
 }
 
--(NSArray<SavedCrossword*>*)collectMinimalStatCountCWSet:(NSString*)packageKey {
-	//TODO: implement
-	return nil;
+#pragma mark - Calculating stat counts of a crossword
+
+-(NSArray<NSNumber*>*)collectMinimalStatCountCWIndices:(NSString *)packageKey
+									   savedCrosswords:(NSDictionary<NSString*, NSArray<SavedCrossword*>*>*)savedCrosswords
+										 playedCWCount:(NSUInteger)playedCWCount
+{
+	NSArray<SavedCrossword*> *cws = [savedCrosswords objectForKey:packageKey];
+	
+	NSMutableDictionary<NSNumber*, NSMutableArray<NSNumber*>*> *indices = [NSMutableDictionary new];
+	NSUInteger minCount = NSUIntegerMax;
+	for (NSUInteger i = 0; i < playedCWCount; ++i) {
+		SavedCrossword *cw = [cws objectAtIndex:i];
+		NSArray<Statistics*> *stat = [cw loadStatistics];
+		int32_t offset = [cw loadStatisticsOffset];
+		if (offset < 0) {
+			offset = 0;
+		}
+		NSNumber *cnt = [NSNumber numberWithUnsignedInteger: stat.count + offset];
+
+		NSMutableArray<NSNumber*> *idcs = [indices objectForKey:cnt];
+		if (idcs == nil) {
+			idcs = [NSMutableArray<NSNumber*> new];
+			[indices setObject:idcs forKey:cnt];
+		}
+
+		[idcs addObject:[NSNumber numberWithUnsignedInteger:i]];
+
+		if (stat.count < minCount) {
+			minCount = stat.count;
+		}
+	}
+	
+	if ([indices count] <= 0) {
+		return nil;
+	}
+	
+	return [indices objectForKey:[NSNumber numberWithUnsignedInteger:minCount]];
 }
 
 -(uint32_t)getMaxStatCountOfCWSet:(NSString*)packageKey {
-	//TODO: implement
-	return 0;
+	NSDictionary<NSString*, NSArray<SavedCrossword*>*> *savedCrosswords = [self collectSavedCrosswords];
+	NSArray<SavedCrossword*>* cws = [savedCrosswords objectForKey:packageKey];
+	
+	NSUInteger maxCount = 0;
+	for (NSUInteger i = 0, iEnd = [cws count]; i < iEnd; ++i) {
+		SavedCrossword *cw = [cws objectAtIndex:i];
+		NSArray<Statistics*> *stat = [cw loadStatistics];
+		
+		if (stat.count > maxCount) {
+			maxCount = stat.count;
+		}
+	}
+	
+	return (uint32_t) maxCount;
 }
 
 #pragma mark - Collecting generation info
