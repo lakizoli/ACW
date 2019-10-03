@@ -17,6 +17,7 @@ import com.zapp.acw.bll.Pos;
 import com.zapp.acw.bll.SavedCrossword;
 import com.zapp.acw.bll.Statistics;
 import com.zapp.acw.bll.SubscriptionManager;
+import com.zapp.acw.ui.keyboard.Keyboard;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -34,6 +35,8 @@ import androidx.navigation.Navigation;
 
 public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemClickListener {
 	private CrosswordViewModel mViewModel;
+
+	private Keyboard mKeyboard;
 
 	//Common view data
 	private boolean _areAnswersVisible = false;
@@ -112,6 +115,9 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 
 		resetInput ();
 
+		mKeyboard = new Keyboard ();
+		mKeyboard.setUsedKeys (savedCrossword.getUsedKeys ());
+		mKeyboard.setup ();
 		//TODO: build keyboard!
 
 		savedCrossword.loadDB ();
@@ -310,9 +316,7 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 		}
 
 		//Show keyboard
-		FragmentActivity activity = getActivity ();
-		LinearLayout keyboard = activity.findViewById (R.id.cwview_keyboard);
-		keyboard.setVisibility (View.VISIBLE);
+		mKeyboard.showKeyboard (getActivity ());
 		_currentAnswer = null;
 
 		//Ensure visibility of value is under entering
