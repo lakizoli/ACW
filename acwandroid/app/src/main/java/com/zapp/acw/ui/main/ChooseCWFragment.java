@@ -118,31 +118,7 @@ public class ChooseCWFragment extends Fragment implements Toolbar.OnMenuItemClic
 											String packageKey = mViewModel.getSortedPackageKeys ().get (position);
 											int idx = mViewModel.getCurrentSavedCrosswordIndices ().get (packageKey);
 
-											ArrayList<SavedCrossword> cws = mViewModel.getSavedCrosswords ().get (packageKey);
-
-											ArrayList<Integer> counts = new ArrayList<> ();
-											HashMap<Integer, ArrayList<Integer>> indices = new HashMap<> ();
-											int minCount = Integer.MAX_VALUE;
-											for (int i = 0; i < idx; ++i) {
-												SavedCrossword cw = cws.get (i);
-												ArrayList<Statistics> stat = cw.loadStatistics ();
-												Integer cnt = stat != null ? stat.size () : 0;
-												counts.add (cnt);
-
-												ArrayList<Integer> idcs = indices.get (cnt);
-												if (idcs == null) {
-													idcs = new ArrayList<> ();
-													indices.put (cnt, idcs);
-												}
-
-												idcs.add (i);
-
-												if (cnt < minCount) {
-													minCount = cnt;
-												}
-											}
-
-											ArrayList<Integer> randIndices = indices.get (minCount);
+											ArrayList<Integer> randIndices = mViewModel.getRandIndices (packageKey, idx);
 											int randCount = randIndices != null ? randIndices.size () : 0;
 
 											int randIdx = new Random ().nextInt (randCount + 1);

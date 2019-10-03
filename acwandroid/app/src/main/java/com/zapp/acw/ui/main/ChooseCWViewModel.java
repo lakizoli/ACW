@@ -144,4 +144,9 @@ public class ChooseCWViewModel extends ViewModel {
 	public boolean hasSomePackages () {
 		return _sortedPackageKeys != null && _sortedPackageKeys.size () > 0;
 	}
+
+	public ArrayList<Integer> getRandIndices (String packageKey, int idx) {
+		PackageManager man = PackageManager.sharedInstance ();
+		return man.collectMinimalStatCountCWIndices (packageKey, _savedCrosswords, idx);
+	}
 }

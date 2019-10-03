@@ -159,6 +159,39 @@ public final class SavedCrossword implements Parcelable {
 	//endregion
 
 	//region Statistics
+	private String statisticsOffsetPath () {
+		String pureFileName = FileUtils.pathByDeletingPathExtension (path);
+		return FileUtils.pathByAppendingPathExtension (pureFileName, "statisticsOffset");
+	}
+
+	public void saveStatisticsOffset (int offset) {
+		String path = statisticsOffsetPath ();
+		if (new File (path).exists ()) {
+			if (!FileUtils.deleteRecursive (path)) {
+				//log...
+				return;
+			}
+		}
+
+		String content = Integer.toString (offset);
+		if (!FileUtils.writeObjectToPath (content, path)) {
+			//log...
+			return;
+		}
+	}
+
+	public int loadStatisticsOffset () {
+		String path = statisticsOffsetPath ();
+		if (new File (path).exists ()) {
+			String content = FileUtils.readObjectFromPath (path);
+			if (content != null) {
+				return Integer.parseInt (content);
+			}
+		}
+
+		return -1; //file not found
+	}
+
 	private String statisticsPath () {
 		String pureFileName = FileUtils.pathByDeletingPathExtension (path);
 		return FileUtils.pathByAppendingPathExtension (pureFileName, "statistics");

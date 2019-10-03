@@ -197,6 +197,66 @@ public final class PackageManager {
 	}
 	//endregion
 
+	//region Calculating stat counts of a crossword
+	public ArrayList<Integer> collectMinimalStatCountCWIndices (String packageKey, HashMap<String, ArrayList<SavedCrossword>> savedCrosswords, int playedCWCount) {
+		ArrayList<SavedCrossword> cws = savedCrosswords.get (packageKey);
+
+		HashMap<Integer, ArrayList<Integer>> indices = new HashMap<> ();
+		int minCount = Integer.MAX_VALUE;
+		for (int i = 0; i < playedCWCount; ++i) {
+			SavedCrossword cw = cws.get (i);
+			ArrayList<Statistics> stat = cw.loadStatistics ();
+
+			int offset = cw.loadStatisticsOffset ();
+			if (offset < 0) {
+				offset = 0;
+			}
+
+			if (stat != null && stat.size () > 0 && stat.get (stat.size () - 1).isFilled == false) {
+				--offset;
+			}
+
+			int count = (stat == null ? 0 : stat.size ()) + offset;
+			Integer cnt = count;
+
+			ArrayList<Integer> idcs = indices.get (cnt);
+			if (idcs == null) {
+				idcs = new ArrayList<> ();
+				indices.put (cnt, idcs);
+			}
+
+			idcs.add (i);
+
+			if (count < minCount) {
+				minCount = count;
+			}
+		}
+
+		if (indices.size () <= 0) {
+			return null;
+		}
+
+		return indices.get (minCount);
+	}
+
+	public int getMaxStatCountOfCWSet (String packageKey) {
+		HashMap<String, ArrayList<SavedCrossword>> savedCrosswords = collectSavedCrosswords ();
+		ArrayList<SavedCrossword> cws = savedCrosswords.get (packageKey);
+
+		int maxCount = 0;
+		for (int i = 0, iEnd = cws == null ? 0 : cws.size (); i < iEnd; ++i) {
+			SavedCrossword cw = cws.get (i);
+			ArrayList<Statistics> stat = cw.loadStatistics ();
+
+			if (stat != null && stat.size () > maxCount) {
+				maxCount = stat.size ();
+			}
+		}
+
+		return maxCount;
+	}
+	//endregion
+
 	//region Collecting generation info
 	public native GeneratorInfo collectGeneratorInfo (ArrayList<Deck> decks);
 	public native void reloadUsedWords (String packagePath, GeneratorInfo info);
