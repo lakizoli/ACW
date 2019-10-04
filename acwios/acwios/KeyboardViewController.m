@@ -78,6 +78,7 @@
 		if ([_keyboardConfig rowKeys:row page:page outKeys:&keys outWeights:&weights] == YES) {
 			[self createButtonsForKeys:keys
 							   weights:weights
+								  page:page
 						   destination:[_rowViews objectAtIndex:row]
 						 buttonStorage:_rowButtons[row]
 					 constraintStorage:_constraints[row]];
@@ -87,6 +88,7 @@
 
 - (void) createButtonsForKeys:(NSArray<NSString*>*)keys
 					  weights:(NSArray<NSNumber*>*)weights
+						 page:(NSUInteger)page
 				  destination:(UIStackView*)destination
 				buttonStorage:(NSMutableArray<UIButton*>*)buttonStorage
 			constraintStorage:(NSMutableArray<NSLayoutConstraint*>*)constraintStorage
@@ -118,7 +120,7 @@
 		} else if ([key caseInsensitiveCompare:SWITCH] == NSOrderedSame) {
 			[button setImage:[UIImage imageNamed:@"switch-keyboard"] forState:UIControlStateNormal];
 		} else if ([key hasPrefix:@"Ex"]) { //Extra key
-			NSInteger extraKeyID = [self->_keyboardConfig getExtraKeyID:key page:self->_currentPage];
+			NSInteger extraKeyID = [self->_keyboardConfig getExtraKeyID:key page:page];
 			if (extraKeyID > 0) { //Used extra key
 				[button setTag:extraKeyID];
 				
