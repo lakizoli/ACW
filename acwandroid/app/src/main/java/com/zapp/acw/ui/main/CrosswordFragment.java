@@ -121,12 +121,12 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 
 		resetInput ();
 
+		savedCrossword.loadDB ();
+
 		mKeyboard = new Keyboard ();
 		mKeyboard.setUsedKeys (savedCrossword.getUsedKeys ());
 		mKeyboard.setup (activity);
 		mKeyboard.setEventHandler (this);
-
-		savedCrossword.loadDB ();
 
 		resetStatistics ();
 

@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -140,11 +142,16 @@ public class Keyboard {
 		button.setTypeface (typeface);
 		TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration (button, 3, 26, 1, TypedValue.COMPLEX_UNIT_SP);
 
+		LinearLayout.LayoutParams params= new LinearLayout.LayoutParams (ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+		params.width = 0;
+		params.weight = (float) weight;
+		button.setLayoutParams (params);
+
 		float[] hsv = new float[3];
 		Color.RGBToHSV (229, 193, 71, hsv);
-		int backgroundColor = Color.HSVToColor (hsv);
+		int textColor = Color.HSVToColor (hsv);
 
-		button.setBackgroundColor (backgroundColor);
+		button.setTextColor (textColor);
 
 		setupButtonsAction (button, key);
 		return button;
@@ -155,6 +162,11 @@ public class Keyboard {
 		destination.addView (imageView);
 
 		imageView.setImageResource (image);
+
+		LinearLayout.LayoutParams params= new LinearLayout.LayoutParams (ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+		params.width = 0;
+		params.weight = (float) weight;
+		imageView.setLayoutParams (params);
 
 		float[] hsv = new float[3];
 		Color.RGBToHSV (229, 193, 71, hsv);
@@ -224,7 +236,54 @@ public class Keyboard {
 	}
 
 	private KeyboardConfig chooseBestFitKeyboard () {
-		//TODO: implement...
+		try {
+			ArrayList<Class> keyboardClasses = new ArrayList<Class> () {{
+				add (Class.forName ("com.zapp.acw.ui.keyboardconfigs.USKeyboard"));
+				add (Class.forName ("com.zapp.acw.ui.keyboardconfigs.HunKeyboard"));
+//				[GreekKeyboard class],
+//				[RussianKeyboard class],
+//				[Arabic102Keyboard class],
+//				[PersianKeyboard class],
+//				[HindiTraditionalKeyboard class],
+//				[JapanKatakanaKeyboard class],
+//				[JapanHiraganaKeyboard class],
+//				[ThaiKedmaneeKeyboard class],
+//				[ThaiPattachoteKeyboard class],
+//				[ChineseBopomofoKeyboard class],
+//				[ChineseChaJeiKeyboard class]
+			}};
+
+			KeyboardConfig cfg = null;
+			HashSet<String> extraKeys = null;
+			int extraKeyCount = Integer.MAX_VALUE;
+
+			for (Class cls : keyboardClasses) {
+				KeyboardConfig kb = (KeyboardConfig) cls.newInstance ();
+
+				HashSet<String> kbExtraKeys = kb.collectExtraKeys (_usedKeys);
+				int kbExtraKeyCount = kbExtraKeys == null ? 0 : kbExtraKeys.size ();
+				if (kbExtraKeyCount <= 0) { //We found a full keyboard without needing any extra keys
+					cfg = kb;
+					extraKeys = kbExtraKeys;
+					extraKeyCount = kbExtraKeyCount;
+
+					break;
+				} else if (kbExtraKeyCount < extraKeyCount) { //We found a keyboard config with lower extra button needs
+					cfg = kb;
+					extraKeys = kbExtraKeys;
+					extraKeyCount = kbExtraKeyCount;
+				}
+			}
+
+			if (extraKeyCount > 0) {
+				cfg.addExtraPages (extraKeys);
+			}
+
+			return cfg;
+		} catch (Exception ex) {
+			Log.e ("Keyboard", "chooseBestFitKeyboard - Exception: " + ex.toString ());
+		}
+
 		return null;
 	}
 
