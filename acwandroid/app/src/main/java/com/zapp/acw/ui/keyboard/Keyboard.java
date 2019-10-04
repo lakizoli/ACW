@@ -1,6 +1,14 @@
 package com.zapp.acw.ui.keyboard;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.util.TypedValue;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.zapp.acw.R;
@@ -8,36 +16,282 @@ import com.zapp.acw.R;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import androidx.annotation.DrawableRes;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.core.widget.TextViewCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import static com.zapp.acw.ui.keyboard.KeyboardConfig.BACKSPACE;
+import static com.zapp.acw.ui.keyboard.KeyboardConfig.ENTER;
+import static com.zapp.acw.ui.keyboard.KeyboardConfig.SPACEBAR;
+import static com.zapp.acw.ui.keyboard.KeyboardConfig.SWITCH;
+import static com.zapp.acw.ui.keyboard.KeyboardConfig.TURNOFF;
+
 public class Keyboard {
+	private HashSet<String> _usedKeys;
+
+	private KeyboardConfig _keyboardConfig;
+	private int _currentPage = 0;
+
+	private EventHandler _eventHandler;
+
+	public interface EventHandler {
+		void deleteBackward ();
+		void insertText (String text);
+		void dismissKeyboard ();
+	}
+
+	public void setEventHandler (EventHandler eventHandler) {
+		_eventHandler = eventHandler;
+	}
+
 	public void showKeyboard (FragmentActivity activity) {
 		LinearLayout keyboard = activity.findViewById (R.id.cwview_keyboard);
 		keyboard.setVisibility (View.VISIBLE);
 	}
 
-	public void setUsedKeys (HashSet<String> usedKeys) {
+	public void hideKeyboard (FragmentActivity activity) {
+		LinearLayout keyboard = activity.findViewById (R.id.cwview_keyboard);
+		keyboard.setVisibility (View.INVISIBLE);
 	}
 
-	public void setup () {
-		//TODO: ...
+	public void setUsedKeys (HashSet<String> usedKeys) {
+		_usedKeys = usedKeys;
+	}
+
+	public void setup (FragmentActivity activity) {
+		_keyboardConfig = chooseBestFitKeyboard ();
+		createPage (activity, _currentPage);
 	}
 
 	//region Setup buttons
-	private void createPage (int page) {
-		ArrayList<String> keys = null;
-		ArrayList<Integer> weights = null;
+	private void createPage (final FragmentActivity activity, int page) {
+		ArrayList<LinearLayout> layouts = new ArrayList<LinearLayout> () {{
+			add ((LinearLayout) activity.findViewById (R.id.cwview_keyboard_row1));
+			add ((LinearLayout) activity.findViewById (R.id.cwview_keyboard_row2));
+			add ((LinearLayout) activity.findViewById (R.id.cwview_keyboard_row3));
+			add ((LinearLayout) activity.findViewById (R.id.cwview_keyboard_row4));
+		}};
+
+		for (LinearLayout layout : layouts) {
+			layout.removeAllViews ();
+		}
+
+		ArrayList<String> keys;
+		ArrayList<Double> weights;
 		for (int row = 0; row < 4; ++row) {
 			keys = new ArrayList<> ();
 			weights = new ArrayList<> ();
 
-//			if ([_keyboardConfig rowKeys:row page:page outKeys:&keys outWeights:&weights] == YES) {
-//				[self createButtonsForKeys:keys
-//					weights:weights
-//					destination:[_rowViews objectAtIndex:row]
-//					buttonStorage:_rowButtons[row]
-//					constraintStorage:_constraints[row]];
-//			}
+			if (_keyboardConfig.rowKeys (row, page, keys, weights)) {
+				createButtonsForKeys (activity, page, keys, weights, layouts.get (row));
+			}
+		}
+	}
+
+	private void createButtonsForKeys (FragmentActivity activity, int page, ArrayList<String> keys, ArrayList<Double> weights, LinearLayout destination) {
+		double sumWeight = 0;
+		for (double weight : weights) {
+			sumWeight += weight;
+		}
+
+		for (int idx = 0; idx < keys.size (); ++idx) {
+			String key = keys.get (idx);
+			double widthRatio = weights.get (idx) / sumWeight;
+
+			if (key.equalsIgnoreCase (BACKSPACE)) {
+				addImageView (activity, key, widthRatio, R.drawable.backspace_keyboard, destination);
+			} else if (key.equalsIgnoreCase (ENTER)) {
+				Button button = addTextButton (activity, key, widthRatio, "Done", destination);
+				button.setBackgroundColor (Color.HSVToColor (new float[] {0.67f, 0.97f, 0.95f}));
+			} else if (key.equalsIgnoreCase (SPACEBAR)) {
+				addTextButton (activity, key, widthRatio, "Space", destination);
+			} else if (key.equalsIgnoreCase (TURNOFF)) {
+				addImageView (activity, key, widthRatio, R.drawable.turn_off_keyboard, destination);
+			} else if (key.equalsIgnoreCase (SWITCH)) {
+				addImageView (activity, key, widthRatio, R.drawable.switch_keyboard, destination);
+			} else if (key.startsWith ("Ex")) { //Extra key
+				int extraKeyID = _keyboardConfig.getExtraKeyID (key, page);
+				if (extraKeyID > 0) { //Used extra key
+					Button button = addTextButton (activity, key, widthRatio, "", destination);
+					button.setTag (new Integer (extraKeyID));
+
+					String title = _keyboardConfig.getTitleForExtraKeyID (extraKeyID);
+					if (title != null && title.length () > 0) {
+//						Log.d ("title: " + title);
+						button.setText (title);
+					}
+				} else { //Unused extra key
+					addSpacerView (activity, widthRatio, destination);
+				}
+			} else { //Normal value key
+				addTextButton (activity, key, widthRatio, key, destination);
+			}
+		}
+	}
+
+	private Button addTextButton (FragmentActivity activity, String key, double weight, String text, LinearLayout destination) {
+		Button button = new Button (activity);
+		destination.addView (button);
+
+		button.setText (text);
+
+		Typeface typeface = ResourcesCompat.getFont (button.getContext (), R.font.bradley_hand);
+		button.setTypeface (typeface);
+		TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration (button, 3, 26, 1, TypedValue.COMPLEX_UNIT_SP);
+
+		float[] hsv = new float[3];
+		Color.RGBToHSV (229, 193, 71, hsv);
+		int backgroundColor = Color.HSVToColor (hsv);
+
+		button.setBackgroundColor (backgroundColor);
+
+		setupButtonsAction (button, key);
+		return button;
+	}
+
+	private void addImageView (FragmentActivity activity, String key, double weight, @DrawableRes int image, LinearLayout destination) {
+		ImageView imageView = new ImageView (activity);
+		destination.addView (imageView);
+
+		imageView.setImageResource (image);
+
+		float[] hsv = new float[3];
+		Color.RGBToHSV (229, 193, 71, hsv);
+		int backgroundColor = Color.HSVToColor (hsv);
+
+		imageView.setBackgroundColor (backgroundColor);
+
+		setupButtonsAction (imageView, key);
+	}
+
+	private void addSpacerView (FragmentActivity activity, double weight, LinearLayout destination) {
+		View view = new View (activity);
+		destination.addView (view);
+	}
+
+	private void setupButtonsAction (View view, String key) {
+		if (key.equalsIgnoreCase (BACKSPACE)) {
+			view.setOnClickListener (new View.OnClickListener () {
+				@Override
+				public void onClick (View v) {
+					backSpacePressed ();
+				}
+			});
+		} else if (key.equalsIgnoreCase (ENTER)) {
+			view.setOnClickListener (new View.OnClickListener () {
+				@Override
+				public void onClick (View v) {
+					enterPressed ();
+				}
+			});
+		} else if (key.equalsIgnoreCase (SPACEBAR)) {
+			view.setOnClickListener (new View.OnClickListener () {
+				@Override
+				public void onClick (View v) {
+					spacePressed ();
+				}
+			});
+		} else if (key.equalsIgnoreCase (TURNOFF)) {
+			view.setOnClickListener (new View.OnClickListener () {
+				@Override
+				public void onClick (View v) {
+					turnOffPressed ();
+				}
+			});
+		} else if (key.equalsIgnoreCase (SWITCH)) {
+			view.setOnClickListener (new View.OnClickListener () {
+				@Override
+				public void onClick (View v) {
+					switchPressed (v);
+				}
+			});
+		} else if (key.startsWith ("Ex")) { //Extra key
+			view.setOnClickListener (new View.OnClickListener () {
+				@Override
+				public void onClick (View v) {
+					extraKeyPressed (v);
+				}
+			});
+		} else { //Normal value key
+			view.setOnClickListener (new View.OnClickListener () {
+				@Override
+				public void onClick (View v) {
+					keyPressed (v);
+				}
+			});
+		}
+	}
+
+	private KeyboardConfig chooseBestFitKeyboard () {
+		//TODO: implement...
+		return null;
+	}
+
+	private FragmentActivity getActivityFromView (View view) {
+		Context context = view.getContext ();
+		while (context instanceof ContextWrapper) {
+			if (context instanceof FragmentActivity) {
+				return (FragmentActivity) context;
+			}
+			context = ((ContextWrapper) context).getBaseContext ();
+		}
+		return null;
+	}
+	//endregion
+
+	//region Key events
+	private void backSpacePressed () {
+		if (_eventHandler != null) {
+			_eventHandler.deleteBackward ();
+		}
+	}
+
+	private void enterPressed () {
+		if (_eventHandler != null) {
+			_eventHandler.insertText ("\n");
+		}
+	}
+
+	private void spacePressed () {
+		if (_eventHandler != null) {
+			_eventHandler.insertText (" ");
+		}
+	}
+
+	private void turnOffPressed () {
+		if (_eventHandler != null) {
+			_eventHandler.dismissKeyboard ();
+		}
+	}
+
+	private void switchPressed (View sender) {
+		++_currentPage;
+		if (_currentPage >= _keyboardConfig.getPageCount ()) {
+			_currentPage = 0;
+		}
+
+		createPage (getActivityFromView (sender), _currentPage);
+	}
+
+	private void extraKeyPressed (View sender) {
+		if (sender instanceof Button && _eventHandler != null) {
+			Button button = (Button) sender;
+			int extraKeyID = (Integer) button.getTag ();
+			if (extraKeyID > 0) {
+				String value = _keyboardConfig.getValueForExtraKeyID (extraKeyID);
+				if (value != null && value.length () > 0) {
+					_eventHandler.insertText (value);
+				}
+			}
+		}
+	}
+
+	private void keyPressed (View sender) {
+		if (sender instanceof Button && _eventHandler != null) {
+			Button button = (Button) sender;
+			String key = button.getText ().toString ();
+			_eventHandler.insertText (key);
 		}
 	}
 	//endregion

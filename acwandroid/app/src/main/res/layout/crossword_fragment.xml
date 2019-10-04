@@ -43,7 +43,41 @@
 		android:background="@color/colorGreenBack"
 		android:layout_gravity="bottom"
 		android:orientation="vertical"
-		android:visibility="invisible">
+		android:visibility="invisible"
+		android:weightSum="1">
+
+		<LinearLayout
+			android:id="@+id/cwview_keyboard_row1"
+			android:layout_width="match_parent"
+			android:layout_height="0dp"
+			android:layout_weight="0.25"
+			android:orientation="horizontal"
+			android:weightSum="1" />
+
+		<LinearLayout
+			android:id="@+id/cwview_keyboard_row2"
+			android:layout_width="match_parent"
+			android:layout_height="0dp"
+			android:layout_weight="0.25"
+			android:orientation="horizontal"
+			android:weightSum="1" />
+
+		<LinearLayout
+			android:id="@+id/cwview_keyboard_row3"
+			android:layout_width="match_parent"
+			android:layout_height="0dp"
+			android:layout_weight="0.25"
+			android:orientation="horizontal"
+			android:weightSum="1" />
+
+		<LinearLayout
+			android:id="@+id/cwview_keyboard_row4"
+			android:layout_width="match_parent"
+			android:layout_height="0dp"
+			android:layout_weight="0.25"
+			android:orientation="horizontal"
+			android:weightSum="1" />
+
 	</LinearLayout>
 
 </FrameLayout>

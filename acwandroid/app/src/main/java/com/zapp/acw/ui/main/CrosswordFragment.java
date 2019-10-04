@@ -33,7 +33,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
-public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemClickListener {
+public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemClickListener, Keyboard.EventHandler {
 	private CrosswordViewModel mViewModel;
 
 	private Keyboard mKeyboard;
@@ -70,6 +70,12 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 	public View onCreateView (@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
 							  @Nullable Bundle savedInstanceState) {
 		return inflater.inflate (R.layout.crossword_fragment, container, false);
+	}
+
+	@Override
+	public void onDestroyView () {
+		mKeyboard.setEventHandler (null);
+		super.onDestroyView ();
 	}
 
 	@Override
@@ -117,8 +123,8 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 
 		mKeyboard = new Keyboard ();
 		mKeyboard.setUsedKeys (savedCrossword.getUsedKeys ());
-		mKeyboard.setup ();
-		//TODO: build keyboard!
+		mKeyboard.setup (activity);
+		mKeyboard.setEventHandler (this);
 
 		savedCrossword.loadDB ();
 
@@ -718,7 +724,7 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 		return _currentAnswer != null && _currentAnswer.length () > 0;
 	}
 
-	private void deleteBackward () {
+	public void deleteBackward () {
 		//Alter answer
 		int len = _currentAnswer == null ? 0 : _currentAnswer.length ();
 		if (len > 1) {
@@ -738,7 +744,7 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 		rebuildCrosswordTable ();
 	}
 
-	private void insertText (String text) {
+	public void insertText (String text) {
 		//Handle input
 		if (text.equals ("\n")) { //Handle press of return (done button)
 			commitValidAnswer ();
@@ -790,6 +796,10 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 
 		//Fill grid
 		rebuildCrosswordTable ();
+	}
+
+	public void dismissKeyboard () {
+		mKeyboard.hideKeyboard (getActivity ());
 	}
 	//endregion
 }
