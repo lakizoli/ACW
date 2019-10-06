@@ -6,6 +6,7 @@
 
     <color name="colorYellowText">#FFDFC25D</color>
     <color name="colorGreenBack">#FF285050</color>
+    <color name="colorGreenBackDark">#FF1F3D3D</color>
     <color name="progressBackground">#EBEBEB</color>
 
     <color name="colorLightBlueBack">#FFD6DEE4</color>

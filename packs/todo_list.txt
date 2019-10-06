@@ -4,11 +4,12 @@ OK - Rohadt lassú a cw fel/újraépítése
 - Toolbar gombok színe rossz
 OK - Rohadt lassú a megoldás kiválasztása
 - Nem jó helyre pozícionál az ensureVisible
-- Van egy extra üres oldal a bill.-ben
-- A billentyűk mérete túl nagy. Legyen köztük spacer.
-- A billentyűzet háttérszíne legyen sötétebb
+OK - Van egy extra üres oldal a bill.-ben
+OK - A billentyűk mérete túl nagy. Legyen köztük spacer.
+OK - A billentyűzet háttérszíne legyen sötétebb
 OK - Nem marad meg a megoldás az újraépítés után
 - Inditóképernyő legyen megadva, mert most fehér a háttér induláskor. Legyen ua, mint a starting képernyő
+- CW nézet nagyítása nem működik
 
 
 

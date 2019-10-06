@@ -34,7 +34,7 @@ extern "C" JNIEXPORT void JNICALL Java_com_zapp_acw_bll_SavedCrossword_deleteUse
 		JavaIterator itWords = words.iterator ();
 		while (itWords.hasNext ()) {
 			JavaString word (itWords.next ());
-			std::vector<uint8_t> bytes = word.getBytesWithEncoding ("UTF-16LE");
+			std::vector<uint8_t> bytes = word.getBytesWithEncoding ("UTF-32LE");
 			std::wstring wordToErase ((const wchar_t *) &bytes[0], bytes.size () / sizeof (wchar_t));
 			updatedWords.erase (wordToErase);
 		}
@@ -235,7 +235,7 @@ extern "C" JNIEXPORT jstring JNICALL Java_com_zapp_acw_bll_SavedCrossword_getCel
 			if (qs.size () > questionIndex) {
 				const std::wstring& qStr = qs[questionIndex].question;
 				uint32_t len = qStr.length () * sizeof (wchar_t);
-				return (jstring) JavaString ((const char*) qStr.c_str (), (int32_t) len, "UTF-16LE").release ();
+				return (jstring) JavaString ((const char*) qStr.c_str (), (int32_t) len, "UTF-32LE").release ();
 			}
 		}
 	}
@@ -251,7 +251,7 @@ extern "C" JNIEXPORT jstring JNICALL Java_com_zapp_acw_bll_SavedCrossword_getCel
 		std::wstring chStr;
 		chStr += cell->GetValue ();
 		uint32_t len = chStr.length () * sizeof (wchar_t);
-		return (jstring) JavaString ((const char*) chStr.c_str (), (int32_t) len, "UTF-16LE").release ();
+		return (jstring) JavaString ((const char*) chStr.c_str (), (int32_t) len, "UTF-32LE").release ();
 	}
 
 	return nullptr;
@@ -298,7 +298,7 @@ extern "C" JNIEXPORT jobject JNICALL Java_com_zapp_acw_bll_SavedCrossword_getUse
 		std::wstring chStr;
 		chStr += ch;
 		uint32_t len = chStr.length () * sizeof (wchar_t);
-		JavaString jStr = JavaString ((const char*) chStr.c_str (), (int32_t) len, "UTF-16LE");
+		JavaString jStr = JavaString ((const char*) chStr.c_str (), (int32_t) len, "UTF-32LE");
 		usedKeys.add (jStr);
 	}
 

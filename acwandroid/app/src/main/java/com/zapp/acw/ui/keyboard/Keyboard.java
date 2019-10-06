@@ -100,22 +100,23 @@ public class Keyboard {
 		for (int idx = 0; idx < keys.size (); ++idx) {
 			String key = keys.get (idx);
 			double widthRatio = weights.get (idx) / sumWeight;
+			boolean addSpacer = idx > 0;
 
 			if (key.equalsIgnoreCase (BACKSPACE)) {
-				addImageView (activity, key, widthRatio, R.drawable.backspace_keyboard, destination);
+				addImageView (activity, key, widthRatio, R.drawable.backspace_keyboard, addSpacer, destination);
 			} else if (key.equalsIgnoreCase (ENTER)) {
-				Button button = addTextButton (activity, key, widthRatio, "Done", destination);
+				Button button = addTextButton (activity, key, widthRatio, "Done", addSpacer, destination);
 				button.setBackgroundColor (Color.rgb (13, 57, 228));
 			} else if (key.equalsIgnoreCase (SPACEBAR)) {
-				addTextButton (activity, key, widthRatio, "Space", destination);
+				addTextButton (activity, key, widthRatio, "Space", addSpacer, destination);
 			} else if (key.equalsIgnoreCase (TURNOFF)) {
-				addImageView (activity, key, widthRatio, R.drawable.turn_off_keyboard, destination);
+				addImageView (activity, key, widthRatio, R.drawable.turn_off_keyboard, addSpacer, destination);
 			} else if (key.equalsIgnoreCase (SWITCH)) {
-				addImageView (activity, key, widthRatio, R.drawable.switch_keyboard, destination);
+				addImageView (activity, key, widthRatio, R.drawable.switch_keyboard, addSpacer, destination);
 			} else if (key.startsWith ("Ex")) { //Extra key
 				int extraKeyID = _keyboardConfig.getExtraKeyID (key, page);
 				if (extraKeyID > 0) { //Used extra key
-					Button button = addTextButton (activity, key, widthRatio, "", destination);
+					Button button = addTextButton (activity, key, widthRatio, "", addSpacer, destination);
 					button.setTag (new Integer (extraKeyID));
 
 					String title = _keyboardConfig.getTitleForExtraKeyID (extraKeyID);
@@ -127,12 +128,16 @@ public class Keyboard {
 					addSpacerView (activity, widthRatio, destination);
 				}
 			} else { //Normal value key
-				addTextButton (activity, key, widthRatio, key, destination);
+				addTextButton (activity, key, widthRatio, key, addSpacer, destination);
 			}
 		}
 	}
 
-	private Button addTextButton (FragmentActivity activity, String key, double weight, String text, LinearLayout destination) {
+	private Button addTextButton (FragmentActivity activity, String key, double weight, String text, boolean addSpacer, LinearLayout destination) {
+		if (addSpacer) {
+			addSpacerView (activity, weight * .05, destination);
+		}
+
 		Button button = new Button (activity);
 		destination.addView (button);
 
@@ -144,7 +149,7 @@ public class Keyboard {
 
 		LinearLayout.LayoutParams params= new LinearLayout.LayoutParams (ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 		params.width = 0;
-		params.weight = (float) weight;
+		params.weight = (float) weight * .95f;
 		button.setLayoutParams (params);
 
 		float[] hsv = new float[3];
@@ -158,7 +163,11 @@ public class Keyboard {
 		return button;
 	}
 
-	private void addImageView (FragmentActivity activity, String key, double weight, @DrawableRes int image, LinearLayout destination) {
+	private void addImageView (FragmentActivity activity, String key, double weight, @DrawableRes int image, boolean addSpacer, LinearLayout destination) {
+		if (addSpacer) {
+			addSpacerView (activity, weight * .05, destination);
+		}
+
 		ImageView imageView = new ImageView (activity);
 		destination.addView (imageView);
 
@@ -166,14 +175,8 @@ public class Keyboard {
 
 		LinearLayout.LayoutParams params= new LinearLayout.LayoutParams (ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 		params.width = 0;
-		params.weight = (float) weight;
+		params.weight = (float) weight * .95f;
 		imageView.setLayoutParams (params);
-
-//		float[] hsv = new float[3];
-//		Color.RGBToHSV (229, 193, 71, hsv);
-//		int backgroundColor = Color.HSVToColor (hsv);
-//
-//		imageView.setBackgroundColor (backgroundColor);
 
 		imageView.setBackgroundColor (activity.getResources ().getColor (R.color.colorGreenBack));
 
@@ -182,6 +185,12 @@ public class Keyboard {
 
 	private void addSpacerView (FragmentActivity activity, double weight, LinearLayout destination) {
 		View view = new View (activity);
+
+		LinearLayout.LayoutParams params= new LinearLayout.LayoutParams (ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+		params.width = 0;
+		params.weight = (float) weight;
+		view.setLayoutParams (params);
+
 		destination.addView (view);
 	}
 

@@ -40,7 +40,7 @@
 		android:id="@+id/cwview_keyboard"
 		android:layout_width="match_parent"
 		android:layout_height="200dp"
-		android:background="@color/colorGreenBack"
+		android:background="@color/colorGreenBackDark"
 		android:layout_gravity="bottom"
 		android:orientation="vertical"
 		android:visibility="invisible"

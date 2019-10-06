@@ -190,7 +190,7 @@ extern "C" JNIEXPORT jobject JNICALL Java_com_zapp_acw_bll_PackageManager_collec
 				JavaHashSet words;
 				for (const std::wstring& word : loadedCW->GetWords ()) {
 					uint32_t len = word.length () * sizeof (wchar_t);
-					JavaString jWord ((const char*) word.c_str (), len, "UTF-16LE");
+					JavaString jWord ((const char*) word.c_str (), len, "UTF-32LE");
 					words.add (jWord);
 				}
 
@@ -308,7 +308,7 @@ extern "C" JNIEXPORT jobject JNICALL Java_com_zapp_acw_bll_PackageManager_collec
 	if (usedWords != nullptr) {
 		for (const std::wstring& word : usedWords->GetWords ()) {
 			uint32_t len = word.length () * sizeof (wchar_t);
-			JavaString jWord ((const char*) word.c_str (), len, "UTF-16LE");
+			JavaString jWord ((const char*) word.c_str (), len, "UTF-32LE");
 			info.AddUsedWord (jWord);
 		}
 	}
@@ -325,7 +325,7 @@ extern "C" JNIEXPORT void JNICALL Java_com_zapp_acw_bll_PackageManager_reloadUse
 	if (usedWords != nullptr) {
 		for (const std::wstring& word : usedWords->GetWords ()) {
 			uint32_t len = word.length () * sizeof (wchar_t);
-			JavaString jWord ((const char*) word.c_str (), len, "UTF-16LE");
+			JavaString jWord ((const char*) word.c_str (), len, "UTF-32LE");
 			info.AddUsedWord (jWord);
 		}
 	}
@@ -386,10 +386,10 @@ extern "C" JNIEXPORT jboolean JNICALL Java_com_zapp_acw_bll_PackageManager_gener
 		solutionFieldFilter.add (solutionVal);
 //		LOGD ("%s |||| %s", origSolutionVal.getString ().c_str (), solutionVal.getString ().c_str ());
 
-		std::vector<uint8_t> bytes = solutionVal.getBytesWithEncoding ("UTF-16LE");
+		std::vector<uint8_t> bytes = solutionVal.getBytesWithEncoding ("UTF-32LE");
 		solutionFieldValues.push_back (std::wstring ((const wchar_t*) &bytes[0], bytes.size () / sizeof (wchar_t)));
 
-		bytes = questionVal.getBytesWithEncoding ("UTF-16LE");
+		bytes = questionVal.getBytesWithEncoding ("UTF-32LE");
 		questionFieldValues.push_back (std::wstring ((const wchar_t*) &bytes[0], bytes.size () / sizeof (wchar_t)));
 	}
 
@@ -402,7 +402,7 @@ extern "C" JNIEXPORT jboolean JNICALL Java_com_zapp_acw_bll_PackageManager_gener
 	JavaArrayList<JavaString> jUsedWords = info.GetUsedWords ();
 	for (int idx = 0, iEnd = jUsedWords.size (); idx < iEnd; ++idx) {
 		JavaString word = jUsedWords.itemAt (idx);
-		std::vector<uint8_t> bytes = word.getBytesWithEncoding ("UTF-16LE");
+		std::vector<uint8_t> bytes = word.getBytesWithEncoding ("UTF-32LE");
 		usedWordValues.push_back (std::wstring ((const wchar_t*) &bytes[0], bytes.size () / sizeof (wchar_t)));
 	}
 
