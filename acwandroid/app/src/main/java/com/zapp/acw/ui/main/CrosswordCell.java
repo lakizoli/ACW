@@ -213,6 +213,10 @@ public class CrosswordCell {
 
 		imageView = cell.findViewById (R.id.cwcell_arrow_topright_down);
 		imageView.setVisibility (View.INVISIBLE);
+
+		//Clear text
+		TextView textView = cell.findViewById (R.id.cwcell_value);
+		textView.setText ("");
 	}
 
 	private static void setQuestionFont (TextView textView) {

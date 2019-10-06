@@ -2,6 +2,7 @@ package com.zapp.acw.ui.main;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TimingLogger;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -119,11 +120,11 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 		_cellFilledValues = new HashMap<> ();
 		savedCrossword.loadFilledValuesInto (_cellFilledValues);
 
+		mKeyboard = new Keyboard ();
 		resetInput ();
 
 		savedCrossword.loadDB ();
 
-		mKeyboard = new Keyboard ();
 		mKeyboard.setUsedKeys (savedCrossword.getUsedKeys ());
 		mKeyboard.setup (activity);
 		mKeyboard.setEventHandler (this);
@@ -131,6 +132,7 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 		resetStatistics ();
 
 		//Build crossword table
+		createCrosswordTable ();
 		rebuildCrosswordTable ();
 	}
 
@@ -210,14 +212,15 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 		return Math.round (50.0f * scale + 0.5f);
 	}
 
-	private void rebuildCrosswordTable () {
+	private void createCrosswordTable () {
 		final FragmentActivity activity = getActivity ();
 		TableLayout table = activity.findViewById (R.id.cw_table);
-		table.removeAllViews ();
 
 		int pixels = getCellSizeInPixels ();
 
 		SavedCrossword savedCrossword = mViewModel.getSavedCrossword ();
+		LayoutInflater inflater = LayoutInflater.from (activity);
+
 		for (int row = 0; row < savedCrossword.height;++row) {
 			TableRow tableRow = new TableRow (activity);
 			table.addView (tableRow);
@@ -225,7 +228,7 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 			tableRow.setLayoutParams (new LinearLayout.LayoutParams (ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
 			for (int col = 0; col < savedCrossword.width;++col) {
-				View cell = buildCell (activity, row, col);
+				View cell = inflater.inflate (R.layout.crossword_cell, tableRow, false);
 				tableRow.addView (cell);
 
 				cell.requestLayout ();
@@ -247,6 +250,21 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 		}
 	}
 
+	private void rebuildCrosswordTable () {
+		final FragmentActivity activity = getActivity ();
+		TableLayout table = activity.findViewById (R.id.cw_table);
+
+		SavedCrossword savedCrossword = mViewModel.getSavedCrossword ();
+		for (int row = 0; row < savedCrossword.height;++row) {
+			TableRow tableRow = (TableRow) table.getChildAt (row);
+
+			for (int col = 0; col < savedCrossword.width;++col) {
+				View cell = tableRow.getChildAt (col);
+				buildCell (cell, row, col);
+			}
+		}
+	}
+
 	private boolean shouldSelectCell (int row, int col) {
 		boolean startCell = mViewModel.getSavedCrossword ().isStartCell (row, col);
 		_canBecameFirstResponder = startCell;
@@ -255,6 +273,7 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 			_currentAnswer = null;
 		} else {
 			resetInput ();
+			rebuildCrosswordTable ();
 		}
 		return startCell;
 	}
@@ -425,10 +444,7 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 		}
 	}
 
-	private View buildCell (FragmentActivity activity, int row, int col) {
-		LayoutInflater inflater = LayoutInflater.from (activity);
-		View cell = inflater.inflate (R.layout.crossword_cell, null, false);
-
+	private View buildCell (View cell, int row, int col) {
 		SavedCrossword savedCrossword = mViewModel.getSavedCrossword ();
 		int cellType = savedCrossword.getCellTypeInRow (row, col);
 
@@ -622,12 +638,7 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 		_availableAnswerDirections = null;
 		_answerIndex = -1;
 
-		//Hide keyboard
-		FragmentActivity activity = getActivity ();
-		LinearLayout keyboard = activity.findViewById (R.id.cwview_keyboard);
-		keyboard.setVisibility (View.INVISIBLE);
-
-		rebuildCrosswordTable ();
+		mKeyboard.hideKeyboard (getActivity ());
 	}
 
 	private void resetStatistics () {
@@ -799,6 +810,8 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 	}
 
 	public void dismissKeyboard () {
+		commitValidAnswer ();
+		resetInput ();
 		mKeyboard.hideKeyboard (getActivity ());
 	}
 	//endregion

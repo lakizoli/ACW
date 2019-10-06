@@ -1,4 +1,30 @@
-Hibák:
+Hibák (Android):
+- Minden lista képernyő háttérszíne rossz
+OK - Rohadt lassú a cw fel/újraépítése
+- Toolbar gombok színe rossz
+OK - Rohadt lassú a megoldás kiválasztása
+- Nem jó helyre pozícionál az ensureVisible
+- Van egy extra üres oldal a bill.-ben
+- A billentyűk mérete túl nagy. Legyen köztük spacer.
+- A billentyűzet háttérszíne legyen sötétebb
+OK - Nem marad meg a megoldás az újraépítés után
+- Inditóképernyő legyen megadva, mert most fehér a háttér induláskor. Legyen ua, mint a starting képernyő
+
+
+
+
+
+Hibák (iOS):
+- Ha alert-ről vásárolok az első cw után, akkor nem a 2.-kal folytatódik a játék, hanem az 1.-vel újra
+- Az 1. cw-t korlátlan alkalommal lehet újra lejátszani ingyen. Ez rossz. Ne lehessen, csak egyszer/kétszer
+- A show hint/reset gomb elmagyarázása fontos lenne egy tour keretében (mint a fő lista plusz menüje esetében)
+- iOS 13 compatibility
+
+
+
+
+
+
 OK - jelenleg nem frissül a szintek/szavak száma a főképernyőn
 OK - vásárlás kipróbálása frissítéssel egybekötve
 OK - Legyen hindi billentyűzet is
