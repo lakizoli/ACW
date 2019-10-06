@@ -6,6 +6,8 @@ import androidx.annotation.Nullable;
 import java.io.Serializable;
 
 public final class Pos implements Serializable {
+	private static final long serialVersionUID = 0x0002;
+
 	private int _row = 0;
 	private int _col = 0;
 
@@ -44,6 +46,11 @@ public final class Pos implements Serializable {
 		}
 
 		return ((Pos) obj)._row == _row && ((Pos) obj)._col == _col;
+	}
+
+	@Override
+	public int hashCode () {
+		return (_row & 0xFFFF) << 16 | (_col & 0xFFFF);
 	}
 
 	@NonNull

@@ -789,7 +789,7 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 
 			//Add next non alphanumeric char automatically
 			String nextVal = savedCrossword.getCellsValue (nextRow, nextCol);
-			if (!isAplhaNumericValue (nextVal)) {
+			if (nextVal != null && !isAplhaNumericValue (nextVal)) {
 				insertText (nextVal);
 			}
 		}

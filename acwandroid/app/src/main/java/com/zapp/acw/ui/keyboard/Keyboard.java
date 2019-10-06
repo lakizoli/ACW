@@ -105,7 +105,7 @@ public class Keyboard {
 				addImageView (activity, key, widthRatio, R.drawable.backspace_keyboard, destination);
 			} else if (key.equalsIgnoreCase (ENTER)) {
 				Button button = addTextButton (activity, key, widthRatio, "Done", destination);
-				button.setBackgroundColor (Color.HSVToColor (new float[] {0.67f, 0.97f, 0.95f}));
+				button.setBackgroundColor (Color.rgb (13, 57, 228));
 			} else if (key.equalsIgnoreCase (SPACEBAR)) {
 				addTextButton (activity, key, widthRatio, "Space", destination);
 			} else if (key.equalsIgnoreCase (TURNOFF)) {
@@ -152,6 +152,7 @@ public class Keyboard {
 		int textColor = Color.HSVToColor (hsv);
 
 		button.setTextColor (textColor);
+		button.setBackgroundColor (activity.getResources ().getColor (R.color.colorGreenBack));
 
 		setupButtonsAction (button, key);
 		return button;
@@ -168,11 +169,13 @@ public class Keyboard {
 		params.weight = (float) weight;
 		imageView.setLayoutParams (params);
 
-		float[] hsv = new float[3];
-		Color.RGBToHSV (229, 193, 71, hsv);
-		int backgroundColor = Color.HSVToColor (hsv);
+//		float[] hsv = new float[3];
+//		Color.RGBToHSV (229, 193, 71, hsv);
+//		int backgroundColor = Color.HSVToColor (hsv);
+//
+//		imageView.setBackgroundColor (backgroundColor);
 
-		imageView.setBackgroundColor (backgroundColor);
+		imageView.setBackgroundColor (activity.getResources ().getColor (R.color.colorGreenBack));
 
 		setupButtonsAction (imageView, key);
 	}
