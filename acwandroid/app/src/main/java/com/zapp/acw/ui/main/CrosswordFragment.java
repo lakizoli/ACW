@@ -813,6 +813,7 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 		commitValidAnswer ();
 		resetInput ();
 		mKeyboard.hideKeyboard (getActivity ());
+		rebuildCrosswordTable ();
 	}
 	//endregion
 }

@@ -4,15 +4,12 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zapp.acw.R;
 
-import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.widget.TextViewCompat;
 
@@ -26,6 +23,9 @@ import static com.zapp.acw.ui.main.CrosswordFragment.CWCellType_Start_TopDown_Ri
 import static com.zapp.acw.ui.main.CrosswordFragment.CWCellType_Start_TopRight;
 
 public class CrosswordCell {
+	private static int _bradleyHandHashCode = 0;
+	private static int _sansSerifHashCode = 0;
+
 	public static void fillOneQuestion (View cell, String question) {
 		clearContent (cell);
 
@@ -33,7 +33,7 @@ public class CrosswordCell {
 		fullLabel.setBackgroundColor (cell.getResources ().getColor (R.color.colorLightBlueBack));
 		fullLabel.setTextColor (Color.BLACK);
 
-		fullLabel.setText (question);
+		setText (fullLabel, question);
 		setQuestionFont (fullLabel);
 
 		setHiddensForFullHidden (cell, false, true, true);
@@ -51,8 +51,8 @@ public class CrosswordCell {
 		topLabel.setTextColor (Color.BLACK);
 		bottomLabel.setTextColor (Color.BLACK);
 
-		topLabel.setText (questionTop);
-		bottomLabel.setText (questionBottom);
+		setText (topLabel, questionTop);
+		setText (bottomLabel, questionBottom);
 
 		setQuestionFont (topLabel);
 		setQuestionFont (bottomLabel);
@@ -85,7 +85,7 @@ public class CrosswordCell {
 		setValueFont (fullLabel);
 
 		if (showValue) {
-			fullLabel.setText (value.toUpperCase ());
+			setText (fullLabel, value.toUpperCase ());
 		}
 	}
 
@@ -216,20 +216,37 @@ public class CrosswordCell {
 
 		//Clear text
 		TextView textView = cell.findViewById (R.id.cwcell_value);
-		textView.setText ("");
+		CharSequence text = textView.getText ();
+		if (text != null && text.length () > 0) {
+			textView.setText ("");
+		}
 	}
 
 	private static void setQuestionFont (TextView textView) {
-		Typeface typeface = Typeface.create("sans-serif-condensed", Typeface.BOLD);
-		textView.setTypeface (typeface);
-		TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration (textView, 3, 14, 1, TypedValue.COMPLEX_UNIT_SP);
+		if (_sansSerifHashCode == 0 || textView.getTypeface ().hashCode () != _sansSerifHashCode) {
+			Typeface typeface = Typeface.create ("sans-serif-condensed", Typeface.BOLD);
+			_sansSerifHashCode = typeface.hashCode ();
+
+			textView.setTypeface (typeface);
+			TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration (textView, 3, 14, 1, TypedValue.COMPLEX_UNIT_SP);
+		}
 	}
 
 	private static void setValueFont (TextView textView) {
-		Typeface typeface = ResourcesCompat.getFont (textView.getContext (), R.font.bradley_hand);
-		textView.setTypeface (typeface);
-		TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration (textView, 3, 26, 1, TypedValue.COMPLEX_UNIT_SP);
+		if (_bradleyHandHashCode == 0 || textView.getTypeface ().hashCode () != _bradleyHandHashCode) {
+			Typeface typeface = ResourcesCompat.getFont (textView.getContext (), R.font.bradley_hand);
+			_bradleyHandHashCode = typeface.hashCode ();
+
+			textView.setTypeface (typeface);
+			TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration (textView, 3, 26, 1, TypedValue.COMPLEX_UNIT_SP);
+		}
 	}
 
+	private static void setText (TextView textView, String text) {
+		CharSequence curText = textView.getText ();
+		if (curText == null || !curText.equals (text)) {
+			textView.setText (text);
+		}
+	}
 	//endregion
 }
