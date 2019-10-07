@@ -260,17 +260,17 @@ public class Keyboard {
 			ArrayList<Class> keyboardClasses = new ArrayList<Class> () {{
 				add (Class.forName ("com.zapp.acw.ui.keyboardconfigs.USKeyboard"));
 				add (Class.forName ("com.zapp.acw.ui.keyboardconfigs.HunKeyboard"));
-//				[GreekKeyboard class],
-//				[RussianKeyboard class],
-//				[Arabic102Keyboard class],
-//				[PersianKeyboard class],
-//				[HindiTraditionalKeyboard class],
-//				[JapanKatakanaKeyboard class],
-//				[JapanHiraganaKeyboard class],
-//				[ThaiKedmaneeKeyboard class],
-//				[ThaiPattachoteKeyboard class],
-//				[ChineseBopomofoKeyboard class],
-//				[ChineseChaJeiKeyboard class]
+				add (Class.forName ("com.zapp.acw.ui.keyboardconfigs.GreekKeyboard"));
+				add (Class.forName ("com.zapp.acw.ui.keyboardconfigs.RussianKeyboard"));
+				add (Class.forName ("com.zapp.acw.ui.keyboardconfigs.Arabic102Keyboard"));
+				add (Class.forName ("com.zapp.acw.ui.keyboardconfigs.PersianKeyboard"));
+				add (Class.forName ("com.zapp.acw.ui.keyboardconfigs.HindiTraditionalKeyboard"));
+				add (Class.forName ("com.zapp.acw.ui.keyboardconfigs.JapanKatakanaKeyboard"));
+				add (Class.forName ("com.zapp.acw.ui.keyboardconfigs.JapanHiraganaKeyboard"));
+				add (Class.forName ("com.zapp.acw.ui.keyboardconfigs.ThaiKedmaneeKeyboard"));
+				add (Class.forName ("com.zapp.acw.ui.keyboardconfigs.ThaiPattachoteKeyboard"));
+				add (Class.forName ("com.zapp.acw.ui.keyboardconfigs.ChineseBopomofoKeyboard"));
+				add (Class.forName ("com.zapp.acw.ui.keyboardconfigs.ChineseChaJeiKeyboard"));
 			}};
 
 			KeyboardConfig cfg = null;
