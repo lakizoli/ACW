@@ -10,7 +10,7 @@ OK - A billentyűzet háttérszíne legyen sötétebb
 OK - Nem marad meg a megoldás az újraépítés után
 - Inditóképernyő legyen megadva, mert most fehér a háttér induláskor. Legyen ua, mint a starting képernyő
 - CW nézet nagyítása nem működik
-- keyboard nem jelzi, hogy megnyomták
+OK - keyboard nem jelzi, hogy megnyomták
 OK - Eszközön még mindig lassúnak tűnik a kitöltés
 
 
