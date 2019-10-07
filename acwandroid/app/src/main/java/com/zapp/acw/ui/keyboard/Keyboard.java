@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -196,6 +197,7 @@ public class Keyboard {
 
 	private void setupButtonsAction (View view, String key) {
 		if (key.equalsIgnoreCase (BACKSPACE)) {
+			view.setOnTouchListener (new ButtonTouchListener ());
 			view.setOnClickListener (new View.OnClickListener () {
 				@Override
 				public void onClick (View v) {
@@ -203,6 +205,7 @@ public class Keyboard {
 				}
 			});
 		} else if (key.equalsIgnoreCase (ENTER)) {
+			view.setOnTouchListener (new ButtonTouchListener ());
 			view.setOnClickListener (new View.OnClickListener () {
 				@Override
 				public void onClick (View v) {
@@ -210,6 +213,7 @@ public class Keyboard {
 				}
 			});
 		} else if (key.equalsIgnoreCase (SPACEBAR)) {
+			view.setOnTouchListener (new ButtonTouchListener ());
 			view.setOnClickListener (new View.OnClickListener () {
 				@Override
 				public void onClick (View v) {
@@ -217,6 +221,7 @@ public class Keyboard {
 				}
 			});
 		} else if (key.equalsIgnoreCase (TURNOFF)) {
+			view.setOnTouchListener (new ButtonTouchListener ());
 			view.setOnClickListener (new View.OnClickListener () {
 				@Override
 				public void onClick (View v) {
@@ -224,6 +229,7 @@ public class Keyboard {
 				}
 			});
 		} else if (key.equalsIgnoreCase (SWITCH)) {
+			view.setOnTouchListener (new ButtonTouchListener ());
 			view.setOnClickListener (new View.OnClickListener () {
 				@Override
 				public void onClick (View v) {
@@ -231,6 +237,7 @@ public class Keyboard {
 				}
 			});
 		} else if (key.startsWith ("Ex")) { //Extra key
+			view.setOnTouchListener (new ButtonTouchListener ());
 			view.setOnClickListener (new View.OnClickListener () {
 				@Override
 				public void onClick (View v) {
@@ -238,6 +245,7 @@ public class Keyboard {
 				}
 			});
 		} else { //Normal value key
+			view.setOnTouchListener (new ButtonTouchListener ());
 			view.setOnClickListener (new View.OnClickListener () {
 				@Override
 				public void onClick (View v) {
@@ -308,6 +316,26 @@ public class Keyboard {
 			context = ((ContextWrapper) context).getBaseContext ();
 		}
 		return null;
+	}
+
+	private class ButtonTouchListener implements View.OnTouchListener {
+		@Override
+		public boolean onTouch (View view, MotionEvent event) {
+			switch (event.getAction ()) {
+				case MotionEvent.ACTION_DOWN:
+					view.setBackgroundColor (Color.rgb (229,193,71));
+					break;
+				case MotionEvent.ACTION_UP: {
+					final FragmentActivity activity = getActivityFromView (view);
+					view.setBackgroundColor (activity.getResources ().getColor (R.color.colorGreenBack));
+					break;
+				}
+				default:
+					break;
+			}
+
+			return false;
+		}
 	}
 	//endregion
 
