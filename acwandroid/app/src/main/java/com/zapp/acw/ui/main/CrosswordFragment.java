@@ -1,8 +1,6 @@
 package com.zapp.acw.ui.main;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.util.TimingLogger;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -345,7 +343,7 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 		_currentAnswer = null;
 
 		//Ensure visibility of value is under entering
-		ensureVisibleRow (selRow, selCol);
+		ensureVisibleCell (selRow, selCol);
 
 		//Add next non alphanumeric char automatically
 		if (isNewStart) {
@@ -721,12 +719,13 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 		}
 	}
 
-	private void ensureVisibleRow (int row, int col) {
+	private void ensureVisibleCell (int row, int col) {
 		int pixels = getCellSizeInPixels ();
-		int scrollX = Math.max (col - 1, 0) * pixels;
-		int scrollY = Math.max (row - 1, 0) * pixels;
+		int scrollX = Math.max (col, 0) * pixels;
+		int scrollY = Math.max (row, 0) * pixels;
+
 		TwoDScrollView scrollView = getActivity ().findViewById (R.id.cwview_scroll);
-		scrollView.smoothScrollTo (scrollX, scrollY);
+		scrollView.ensureVisibleRect (scrollX, scrollY, pixels, pixels);
 	}
 	//endregion
 
@@ -746,9 +745,9 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 
 		//Ensure visibility of next char to enter
 		if (isInputInHorizontalDirection ()) {
-			ensureVisibleRow (_startCellRow, _startCellCol + (_currentAnswer == null ? 0 : _currentAnswer.length ()));
+			ensureVisibleCell (_startCellRow, _startCellCol + (_currentAnswer == null ? 0 : _currentAnswer.length ()));
 		} else {
-			ensureVisibleRow (_startCellRow + (_currentAnswer == null ? 0 : _currentAnswer.length ()), _startCellCol);
+			ensureVisibleCell (_startCellRow + (_currentAnswer == null ? 0 : _currentAnswer.length ()), _startCellCol);
 		}
 
 		//Fill grid
@@ -790,11 +789,11 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 			SavedCrossword savedCrossword = mViewModel.getSavedCrossword ();
 			if (isHorizontalInput) {
 				if (nextCol < savedCrossword.width) {
-					ensureVisibleRow (_startCellRow, nextCol);
+					ensureVisibleCell (_startCellRow, nextCol);
 				}
 			} else {
 				if (nextRow < savedCrossword.height) {
-					ensureVisibleRow (nextRow, _startCellCol);
+					ensureVisibleCell (nextRow, _startCellCol);
 				}
 			}
 

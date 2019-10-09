@@ -23,8 +23,8 @@
 package com.zapp.acw.ui.main;
 
 import android.content.Context;
+import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
@@ -32,6 +32,7 @@ import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.animation.AnimationUtils;
 import android.view.animation.ScaleAnimation;
 import android.widget.FrameLayout;
@@ -533,6 +534,46 @@ public class TwoDScrollView extends FrameLayout {
 	 */
 	public final void smoothScrollTo(int x, int y) {
 		smoothScrollBy((int) (x / mScale - getScrollX()), (int) (y / mScale - getScrollY()));
+	}
+
+	public final void ensureVisibleRect (int x, int y, int width, int height) {
+		float realX = x / mScale - getScrollX ();
+		float realY = y / mScale - getScrollY ();
+		float realWidth = width / mScale;
+		float realHeight = height / mScale;
+
+		ViewParent parent = getParent ();
+		if (!(parent instanceof ViewGroup)) {
+			return;
+		}
+
+		ViewGroup group = (ViewGroup) parent;
+		int viewWidth = group.getWidth ();
+		int viewHeight = group.getHeight ();
+
+		float marginX = viewWidth * 0.2f;
+		float marginY = viewHeight * 0.2f;
+
+		RectF noTouchZone = new RectF (marginX, marginY, viewWidth - marginX, viewHeight - marginY);
+		if (noTouchZone.contains (realX, realY, realX + realWidth, realY + realHeight)) { //Rect is on the screen already
+			return;
+		}
+
+		float destX = 0;
+		if (realX + realWidth / 2 < noTouchZone.centerX ()) { //Align to the left margin
+			destX = marginX;
+		} else { //Align to the right margin
+			destX = viewWidth - marginX - realWidth;
+		}
+
+		float destY = 0;
+		if (realY + realHeight / 2 < noTouchZone.centerY ()) { //Align to the top margin
+			destY = marginY;
+		} else { //Align to the bottom margin
+			destY = viewHeight - marginY - realHeight;
+		}
+
+		smoothScrollBy ((int) (realX - destX), (int) (realY - destY));
 	}
 
 	/**
