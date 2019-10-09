@@ -24,6 +24,7 @@ package com.zapp.acw.ui.main;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
@@ -90,6 +91,11 @@ public class TwoDScrollView extends FrameLayout {
 	private ScaleGestureDetector mScaleDetector;
 	private GestureDetector gestureDetector;
 	private boolean mEnableScaling = true;     // scaling is buggy when you click on child views
+
+	private float mCurrentEventX = 0;
+	private float mCurrentEventY = 0;
+	private int mCurrentDeltaX = 0;
+	private int mCurrentDeltaY = 0;
 
 	public TwoDScrollView(Context context) {
 		super(context);
@@ -243,15 +249,15 @@ public class TwoDScrollView extends FrameLayout {
 				float prevScale = mScale;
 				mScale += scale;
 
-				if (mScale < 0.2f) // Minimum scale condition:
-					mScale = 0.2f;
+				if (mScale < 0.5f) // Minimum scale condition:
+					mScale = 0.5f;
 
 				if (mScale > 1.0f) // Maximum scale condition:
 					mScale = 1.0f;
 
 				ScaleAnimation scaleAnimation = new ScaleAnimation(1f / prevScale, 1f / mScale,
 					1f / prevScale, 1f / mScale,
-					detector.getFocusX(), detector.getFocusY());
+					0, 0);
 				scaleAnimation.setDuration(0);
 				scaleAnimation.setFillAfter(true);
 				childLayout.startAnimation(scaleAnimation);
@@ -298,8 +304,8 @@ public class TwoDScrollView extends FrameLayout {
 			return false;
 		}
 
-		final float y = ev.getY();
-		final float x = ev.getX();
+		final float y = mCurrentEventY;
+		final float x = mCurrentEventX;
 
 		switch (action) {
 			case MotionEvent.ACTION_MOVE:
@@ -365,8 +371,8 @@ public class TwoDScrollView extends FrameLayout {
 		mVelocityTracker.addMovement(ev);
 
 		final int action = ev.getAction();
-		final float y = ev.getY();
-		final float x = ev.getX();
+		final float y = mCurrentEventY;
+		final float x = mCurrentEventX;
 
 		switch (action) {
 			case MotionEvent.ACTION_DOWN:
@@ -384,39 +390,10 @@ public class TwoDScrollView extends FrameLayout {
 				break;
 			case MotionEvent.ACTION_MOVE:
 				// Scroll to follow the motion event
-				int deltaX = (int) (mLastMotionX - x);
-				int deltaY = (int) (mLastMotionY - y);
+				mCurrentDeltaX = (int) (mLastMotionX - x);
+				mCurrentDeltaY = (int) (mLastMotionY - y);
 				mLastMotionX = x;
 				mLastMotionY = y;
-
-				if (deltaX < 0) {
-					if (getScrollX() < 0) {
-						deltaX = 0;
-					}
-				} else if (deltaX > 0) {
-					final int rightEdge = getWidth() - getPaddingRight();
-					final int availableToScroll = getChildAt(0).getRight() - getScrollX() - rightEdge;
-					if (availableToScroll > 0) {
-						deltaX = Math.min(availableToScroll, deltaX);
-					} else {
-						deltaX = 0;
-					}
-				}
-				if (deltaY < 0) {
-					if (getScrollY() < 0) {
-						deltaY = 0;
-					}
-				} else if (deltaY > 0) {
-					final int bottomEdge = getHeight() - getPaddingBottom();
-					final int availableToScroll = getChildAt(0).getBottom() - getScrollY() - bottomEdge;
-					if (availableToScroll > 0) {
-						deltaY = Math.min(availableToScroll, deltaY);
-					} else {
-						deltaY = 0;
-					}
-				}
-				if (deltaY != 0 || deltaX != 0)
-					scrollBy(deltaX, deltaY);
 				break;
 			case MotionEvent.ACTION_UP:
 				final VelocityTracker velocityTracker = mVelocityTracker;
@@ -439,12 +416,29 @@ public class TwoDScrollView extends FrameLayout {
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent event) {
 		if (mEnableScaling) {
+			mCurrentEventX = event.getX ();
+			mCurrentEventY = event.getY ();
+			mCurrentDeltaX = 0;
+			mCurrentDeltaY = 0;
+
+			event.setLocation(event.getX() * mScale, event.getY() * mScale);
+
+			int scrollX = getScrollX ();
+			int scrollY = getScrollY ();
+			setScrollX ((int) (scrollX * mScale));
+			setScrollY ((int) (scrollY * mScale));
+
 			super.dispatchTouchEvent(event);
+
+			setScrollX (scrollX + mCurrentDeltaX);
+			setScrollY (scrollY + mCurrentDeltaY);
+
+			event.setLocation (mCurrentEventX, mCurrentEventY);
 			mScaleDetector.onTouchEvent(event);
 
 			// scale event positions according to scale before passing them to children
-//			KayakLog.debug(TwoDScrollView.class.getSimpleName(),
-//				String.format(Locale.getDefault(), "Position (%.2f,%.2f) ScrollOffset (%d,%d) Scale %.2f",
+//			Log.d(TwoDScrollView.class.getSimpleName(),
+//				String.format("Position (%.2f,%.2f) ScrollOffset (%d,%d) Scale %.2f",
 //					event.getX(), event.getY(), getScrollX(), getScrollY(), mScale));
 			event.setLocation((getScrollX() + event.getX()) * mScale, (getScrollY() + event.getY()) * mScale);
 			return gestureDetector.onTouchEvent(event);
@@ -538,7 +532,7 @@ public class TwoDScrollView extends FrameLayout {
 	 * @param y the position where to scroll on the Y axis
 	 */
 	public final void smoothScrollTo(int x, int y) {
-		smoothScrollBy(x - getScrollX(), y - getScrollY());
+		smoothScrollBy((int) (x / mScale - getScrollX()), (int) (y / mScale - getScrollY()));
 	}
 
 	/**
@@ -635,11 +629,11 @@ public class TwoDScrollView extends FrameLayout {
 	public void fling(int velocityX, int velocityY) {
 		if (getChildCount() > 0) {
 			int height = getHeight() - getPaddingBottom() - getPaddingTop();
-			int bottom = getChildAt(0).getHeight();
+			int bottom = (int) (getChildAt(0).getHeight() / mScale);
 			int width = getWidth() - getPaddingRight() - getPaddingLeft();
-			int right = getChildAt(0).getWidth();
+			int right = (int) (getChildAt(0).getWidth() / mScale);
 
-			mScroller.fling(getScrollX(), getScrollY(), velocityX, velocityY, 0, right - width, 0, bottom - height);
+			mScroller.fling((int) (getScrollX() / mScale), (int) (getScrollY() / mScale), velocityX, velocityY, 0, right - width, 0, bottom - height);
 
 			awakenScrollBars(mScroller.getDuration());
 			invalidate();
@@ -664,6 +658,7 @@ public class TwoDScrollView extends FrameLayout {
 	}
 
 	private int clamp(int n, int my, int child) {
+		child = (int) (child / mScale);
 		if (my >= child || n < 0) {
 			/* my >= child is this case:
 			 *                    |--------------- me ---------------|
