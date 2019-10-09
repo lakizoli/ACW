@@ -1,6 +1,5 @@
 package com.zapp.acw.ui.keyboard;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.graphics.Color;
@@ -11,6 +10,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -51,11 +51,21 @@ public class Keyboard {
 	public void showKeyboard (FragmentActivity activity) {
 		LinearLayout keyboard = activity.findViewById (R.id.cwview_keyboard);
 		keyboard.setVisibility (View.VISIBLE);
+
+		LinearLayout cwLayout = activity.findViewById (R.id.cwview_cwlayout);
+		FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) cwLayout.getLayoutParams ();
+		params.setMargins (0, 0, 0, getDPSizeInPixels (activity, 200));
+		cwLayout.setLayoutParams (params);
 	}
 
 	public void hideKeyboard (FragmentActivity activity) {
 		LinearLayout keyboard = activity.findViewById (R.id.cwview_keyboard);
 		keyboard.setVisibility (View.INVISIBLE);
+
+		LinearLayout cwLayout = activity.findViewById (R.id.cwview_cwlayout);
+		FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) cwLayout.getLayoutParams ();
+		params.setMargins (0, 0, 0, 0);
+		cwLayout.setLayoutParams (params);
 	}
 
 	public void setUsedKeys (HashSet<String> usedKeys) {
@@ -336,6 +346,11 @@ public class Keyboard {
 
 			return false;
 		}
+	}
+
+	private static int getDPSizeInPixels (Context context, int dpSize) {
+		final float scale = context.getResources().getDisplayMetrics().density;
+		return Math.round (dpSize * scale + 0.5f);
 	}
 	//endregion
 
