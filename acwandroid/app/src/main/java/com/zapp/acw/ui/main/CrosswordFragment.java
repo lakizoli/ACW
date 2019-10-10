@@ -32,6 +32,8 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
+import com.plattysoft.leonids.ParticleSystem;
+
 public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemClickListener, Keyboard.EventHandler {
 	private CrosswordViewModel mViewModel;
 
@@ -357,7 +359,7 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 		rebuildCrosswordTable ();
 
 		//TEST
-//		[self showWinScreen];
+//		showWinScreen ();
 		//END TEST
 	}
 
@@ -619,7 +621,7 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 
 				//Go to win, if all field filled
 				if (_isFilled) {
-//					[self showWinScreen];
+					showWinScreen ();
 				}
 			} else {
 				++_failCount;
@@ -711,6 +713,14 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 		}
 
 		return 3;
+	}
+
+	private void showWinView () {
+		//TODO: implement
+	}
+
+	private void showWinScreen () {
+		//TODO: implement...
 	}
 
 	private void addAvailableInputDirection (int cellType, int checkCellType) {
