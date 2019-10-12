@@ -6,6 +6,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -13,10 +15,12 @@ import android.widget.TextView;
 
 import com.zapp.acw.R;
 import com.zapp.acw.bll.NetLogger;
+import com.zapp.acw.bll.PackageManager;
 import com.zapp.acw.bll.Pos;
 import com.zapp.acw.bll.SavedCrossword;
 import com.zapp.acw.bll.Statistics;
 import com.zapp.acw.bll.SubscriptionManager;
+import com.zapp.acw.bll.Package;
 import com.zapp.acw.ui.keyboard.Keyboard;
 
 import java.text.FieldPosition;
@@ -112,6 +116,14 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 		};
 		requireActivity ().getOnBackPressedDispatcher ().addCallback (this, callback);
 
+		Button congratsButton = activity.findViewById (R.id.cwview_win_close_button);
+		congratsButton.setOnClickListener (new View.OnClickListener () {
+			@Override
+			public void onClick (View v) {
+				congratsButtonPressed ();
+			}
+		});
+
 		//Init view model
 		mViewModel.init (getArguments ());
 
@@ -147,18 +159,7 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 	public boolean onMenuItemClick (MenuItem item) {
 		switch (item.getItemId ()) {
 			case R.id.cwview_reset: {
-				SavedCrossword savedCrossword = mViewModel.getSavedCrossword ();
-
-				_cellFilledValues.clear ();
-				savedCrossword.saveFilledValues (_cellFilledValues);
-				rebuildCrosswordTable ();
-
-				//Reset statistics
-				resetStatistics ();
-				savedCrossword.resetStatistics ();
-
-				//Send netlog
-				NetLogger.logEvent ("Crossword_ResetPressed");
+				resetButtonPressed ();
 				return true;
 			}
 			case R.id.cwview_hint: {
@@ -194,6 +195,57 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 
 		//Send netlog
 		NetLogger.logEvent ("Crossword_BackPressed");
+	}
+
+	private void resetButtonPressed () {
+		SavedCrossword savedCrossword = mViewModel.getSavedCrossword ();
+
+		_cellFilledValues.clear ();
+		savedCrossword.saveFilledValues (_cellFilledValues);
+		rebuildCrosswordTable ();
+
+		//Reset statistics
+		resetStatistics ();
+		savedCrossword.resetStatistics ();
+
+		//Send netlog
+		NetLogger.logEvent ("Crossword_ResetPressed");
+	}
+
+	private void congratsButtonPressed () {
+		int starCount = _starCount;
+		resetButtonPressed ();
+
+		FragmentActivity activity = getActivity ();
+		LinearLayout layout = activity.findViewById (R.id.cwview_winscreen);
+		layout.setVisibility (View.INVISIBLE);
+
+		if (starCount < 3) { //Failed
+			return; //Fill again
+		}
+
+		SavedCrossword savedCrossword = mViewModel.getSavedCrossword ();
+		ArrayList<SavedCrossword> allSavedCrossword = mViewModel.getAllSavedCrossword ();
+
+		savedCrossword.unloadDB ();
+		if (mViewModel.getIsMultiLevelGame ()) {
+			int nextCWIdx = mViewModel.getCurrentCrosswordIndex () + 1;
+			boolean hasMoreLevel = nextCWIdx < (allSavedCrossword == null ? 0 : allSavedCrossword.size ());
+
+			if (hasMoreLevel) { //We have more level available
+				//Check subscription
+				boolean isSubscribed = SubscriptionManager.sharedInstance ().isSubscribed ();
+				if (isSubscribed) { //Go to the next level
+//					[self performSegueWithIdentifier:@"ShowCW" sender:self];
+				} else { //Show store alert
+					showSubscription ();
+				}
+			} else { //No more level
+				Navigation.findNavController (getView ()).navigateUp ();
+			}
+		} else { //Single level game
+			Navigation.findNavController (getView ()).navigateUp ();
+		}
 	}
 	//endregion
 
@@ -766,10 +818,79 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 		TextView winFailCountLabel = activity.findViewById (R.id.cwview_win_fail_count_label);
 		winFailCountLabel.setText (String.format ("Fail count: %d", currentStat.failCount));
 
+		//Handle stars
+		_starCount = calculateStarCount (currentStat);
+
+		ImageView starView = activity.findViewById (R.id.cwview_win_star1);
+		if (_starCount > 0) {
+			starView.setImageDrawable (activity.getResources ().getDrawable (R.drawable.star));
+		} else {
+			starView.setImageDrawable (activity.getResources ().getDrawable (R.drawable.gray_star));
+		}
+
+		starView = activity.findViewById (R.id.cwview_win_star2);
+		if (_starCount > 1) {
+			starView.setImageDrawable (activity.getResources ().getDrawable (R.drawable.star));
+		} else {
+			starView.setImageDrawable (activity.getResources ().getDrawable (R.drawable.gray_star));
+		}
+
+		starView = activity.findViewById (R.id.cwview_win_star3);
+		if (_starCount > 2) {
+			starView.setImageDrawable (activity.getResources ().getDrawable (R.drawable.star));
+		} else {
+			starView.setImageDrawable (activity.getResources ().getDrawable (R.drawable.gray_star));
+		}
+
+		//Handle multi level game
+		TextView winMessageLabel = activity.findViewById (R.id.cwview_win_message_label);
+		Button winCloseButton = activity.findViewById (R.id.cwview_win_close_button);
+
+		if (mViewModel.getIsMultiLevelGame ()) {
+			if (_starCount < 3) { //Fail
+				winMessageLabel.setText ("You can do this better!\nTry again!");
+				winCloseButton.setText ("Try again");
+			} else { //Go to the next level, or end of all levels
+				Package currentPackage = mViewModel.getCurrentPackage ();
+				ArrayList<SavedCrossword> allSavedCrossword = mViewModel.getAllSavedCrossword ();
+				boolean isSubscribed = SubscriptionManager.sharedInstance ().isSubscribed ();
+				if (isSubscribed && currentPackage.state != null && currentPackage.state.filledLevel < currentPackage.state.levelCount) {
+					currentPackage.state.filledLevel += 1;
+					currentPackage.state.filledWordCount += savedCrossword.words == null ? 0 : savedCrossword.words.size ();
+				}
+
+				int nextCWIdx = mViewModel.getCurrentCrosswordIndex () + 1;
+				boolean hasMoreLevel = nextCWIdx < (allSavedCrossword == null ? 0 : allSavedCrossword.size ());
+
+				if (hasMoreLevel) {
+					if (isSubscribed && currentPackage.state != null) {
+						currentPackage.state.crosswordName = allSavedCrossword.get (nextCWIdx).name;
+					}
+
+					winMessageLabel.setText ("You earn 3 stars!\nGo to the next level!");
+					winCloseButton.setText ("Next Level");
+				} else {
+					winMessageLabel.setText ("You filled all levels!");
+					winCloseButton.setText ("OK");
+				}
+
+				if (isSubscribed) {
+					PackageManager.sharedInstance ().savePackageState (currentPackage);
+				}
+			}
+		} else { //Single level game
+			if (_starCount < 3) {
+				winMessageLabel.setText ("You can do this better!\nTry again!");
+				winCloseButton.setText ("Try again");
+			} else {
+				winMessageLabel.setText ("You earn 3 stars!");
+				winCloseButton.setText ("OK");
+			}
+		}
+
 		//Show statistics view
 		LinearLayout layout = activity.findViewById (R.id.cwview_winscreen);
 		layout.setVisibility (View.VISIBLE);
-		//TODO: implement
 	}
 
 	private void showWinScreen () {

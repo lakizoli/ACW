@@ -102,9 +102,37 @@
 
 		<LinearLayout
 			android:id="@+id/cwview_win_stars"
-			android:layout_width="match_parent"
+			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:orientation="horizontal" />
+			android:orientation="horizontal" >
+
+			<Space
+				android:layout_width="60dp"
+				android:layout_height="wrap_content"/>
+
+			<ImageView
+				android:id="@+id/cwview_win_star1"
+				android:layout_width="50dp"
+				android:layout_height="wrap_content"
+				android:src="@drawable/gray_star" />
+
+			<ImageView
+				android:id="@+id/cwview_win_star2"
+				android:layout_width="50dp"
+				android:layout_height="wrap_content"
+				android:src="@drawable/gray_star" />
+
+			<ImageView
+				android:id="@+id/cwview_win_star3"
+				android:layout_width="50dp"
+				android:layout_height="wrap_content"
+				android:src="@drawable/gray_star" />
+
+			<Space
+				android:layout_width="60dp"
+				android:layout_height="wrap_content"/>
+
+		</LinearLayout>
 
 		<TextView
 			android:id="@+id/cwview_win_message_label"
@@ -153,6 +181,7 @@
 			android:textSize="17sp"/>
 
 		<Button
+			android:id="@+id/cwview_win_close_button"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_marginTop="6dp"
