@@ -279,12 +279,12 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 	}
 
 	private void didSelectCell (int row, int col) {
-		SavedCrossword savedCrossword = mViewModel.getSavedCrossword ();
+		final SavedCrossword savedCrossword = mViewModel.getSavedCrossword ();
 
 		//Determine answer's current direction
-		int selRow = row;
-		int selCol = col;
-		boolean isNewStart = _startCellRow < 0 || _startCellCol < 0 || _answerIndex < 0 || _startCellRow != selRow || _startCellCol != selCol;
+		final int selRow = row;
+		final int selCol = col;
+		final boolean isNewStart = _startCellRow < 0 || _startCellCol < 0 || _answerIndex < 0 || _startCellRow != selRow || _startCellCol != selCol;
 		if (isNewStart) {
 			//Collect available answer directions
 			_availableAnswerDirections = new ArrayList<> ();
@@ -341,26 +341,37 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 		}
 
 		//Show keyboard
-		mKeyboard.showKeyboard (getActivity ());
+		final FragmentActivity activity = getActivity ();
+		mKeyboard.showKeyboard (activity);
 		_currentAnswer = null;
 
-		//Ensure visibility of value is under entering
-		ensureVisibleCell (selRow, selCol);
+		new Thread (new Runnable () {
+			@Override
+			public void run () {
+				activity.runOnUiThread (new Runnable () {
+					@Override
+					public void run () {
+						//Ensure visibility of value is under entering
+						ensureVisibleCell (selRow, selCol);
 
-		//Add next non alphanumeric char automatically
-		if (isNewStart) {
-			String nextVal = savedCrossword.getCellsValue (_startCellRow, _startCellCol);
-			if (!isAplhaNumericValue (nextVal)) {
-				insertText (nextVal);
+						//Add next non alphanumeric char automatically
+						if (isNewStart) {
+							String nextVal = savedCrossword.getCellsValue (_startCellRow, _startCellCol);
+							if (!isAplhaNumericValue (nextVal)) {
+								insertText (nextVal);
+							}
+						}
+
+						//Highlight the word have to be enter
+						rebuildCrosswordTable ();
+
+						//TEST
+//						showWinScreen ();
+						//END TEST
+					}
+				});
 			}
-		}
-
-		//Highlight the word have to be enter
-		rebuildCrosswordTable ();
-
-		//TEST
-//		showWinScreen ();
-		//END TEST
+		}).start ();
 	}
 
 	private boolean isInputInHorizontalDirection () {

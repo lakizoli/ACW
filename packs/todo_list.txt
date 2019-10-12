@@ -12,7 +12,7 @@ OK - Nem marad meg a megoldás az újraépítés után
 OK - CW nézet nagyítása nem működik
 OK - keyboard nem jelzi, hogy megnyomták
 OK - Eszközön még mindig lassúnak tűnik a kitöltés
-- a bill. feljovesekor az eltakart mezok nem gordulnek be a kepernzore, mert nem tudja frissiteni a showKeyboard utan a layout-ot. Esetleg kesleltetett ensurevisible kell majd...
+OK - a bill. feljovesekor az eltakart mezok nem gordulnek be a kepernyore, mert nem tudja frissiteni a showKeyboard utan a layout-ot. Esetleg kesleltetett ensurevisible kell majd...
 
 
 
