@@ -10,4 +10,10 @@
     <string name="random_button_label"><u>Choose random crossword from solved levels</u></string>
 	<string name="cw_subscribe_now"><u>Subscribe Now</u></string>
     <string name="subscribe_warning">You have to subscribe to the application to play the disabled crosswords!</string>
+	<string name="cwview_win_congratulation">Congratulation!</string>
+	<string name="cwview_win_you_filled_the_crossword">You filled the crossword!</string>
+	<string name="cwview_win_time_label">Time: %s</string>
+	<string name="cwview_win_hint_count_label">Hint show count: %s</string>
+	<string name="cwview_win_word_count_label">Word count: %d</string>
+	<string name="cwview_win_fail_count_label">Fail count: %d</string>
 </resources>

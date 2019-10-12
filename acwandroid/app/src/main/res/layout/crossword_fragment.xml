@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
@@ -41,7 +41,7 @@
 		android:id="@+id/cwview_keyboard"
 		android:layout_width="match_parent"
 		android:layout_height="200dp"
-		android:layout_below="@id/cwview_cwlayout"
+		android:layout_alignParentBottom="true"
 		android:background="@color/colorGreenBackDark"
 		android:layout_gravity="bottom"
 		android:orientation="vertical"
@@ -82,4 +82,84 @@
 
 	</LinearLayout>
 
-</FrameLayout>
+	<LinearLayout
+		android:id="@+id/cwview_winscreen"
+		android:padding="12dp"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_centerInParent="true"
+		android:orientation="vertical"
+		android:background="@color/colorLightBlueBack"
+		android:visibility="invisible">
+
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/cwview_win_congratulation"
+			android:fontFamily="@font/bradley_hand"
+			android:textAlignment="center"
+			android:textSize="28sp"/>
+
+		<LinearLayout
+			android:id="@+id/cwview_win_stars"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal" />
+
+		<TextView
+			android:id="@+id/cwview_win_message_label"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/cwview_win_you_filled_the_crossword"
+			android:fontFamily="@font/bradley_hand"
+			android:textAlignment="center"
+			android:textSize="20sp"/>
+
+		<TextView
+			android:id="@+id/cwview_win_time_label"
+			android:layout_marginTop="12dp"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/cwview_win_time_label"
+			android:fontFamily="@font/bradley_hand"
+			android:textAlignment="center"
+			android:textSize="17sp"/>
+
+		<TextView
+			android:id="@+id/cwview_win_hint_count_label"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/cwview_win_hint_count_label"
+			android:fontFamily="@font/bradley_hand"
+			android:textAlignment="center"
+			android:textSize="17sp"/>
+
+		<TextView
+			android:id="@+id/cwview_win_word_count_label"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/cwview_win_word_count_label"
+			android:fontFamily="@font/bradley_hand"
+			android:textAlignment="center"
+			android:textSize="17sp"/>
+
+		<TextView
+			android:id="@+id/cwview_win_fail_count_label"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/cwview_win_fail_count_label"
+			android:fontFamily="@font/bradley_hand"
+			android:textAlignment="center"
+			android:textSize="17sp"/>
+
+		<Button
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="6dp"
+			android:background="@color/colorGreenBack"
+			android:textColor="@color/colorYellowText"
+			android:text="OK" />
+
+	</LinearLayout>
+
+</RelativeLayout>

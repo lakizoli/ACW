@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.TextView;
 
 import com.zapp.acw.R;
 import com.zapp.acw.bll.NetLogger;
@@ -18,10 +19,15 @@ import com.zapp.acw.bll.Statistics;
 import com.zapp.acw.bll.SubscriptionManager;
 import com.zapp.acw.ui.keyboard.Keyboard;
 
+import java.text.FieldPosition;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.SimpleTimeZone;
+import java.util.TimeZone;
 import java.util.Timer;
+import java.util.TimerTask;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -366,7 +372,7 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 						rebuildCrosswordTable ();
 
 						//TEST
-//						showWinScreen ();
+						showWinScreen ();
 						//END TEST
 					}
 				});
@@ -727,11 +733,96 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 	}
 
 	private void showWinView () {
+		SavedCrossword savedCrossword = mViewModel.getSavedCrossword ();
+		ArrayList<Statistics> stats = savedCrossword.loadStatistics ();
+		if (stats == null || stats.size () <= 0) {
+			return;
+		}
+
+		Statistics currentStat = stats.get (stats.size () - 1);
+		if (currentStat == null) {
+			return;
+		}
+
+		//Fill statistics view
+		FragmentActivity activity = getActivity ();
+
+		Calendar date = Calendar.getInstance ();
+		date.setTimeZone (new SimpleTimeZone (0, "UTC"));
+		date.setTimeInMillis (currentStat.fillDuration * 1000);
+		SimpleDateFormat dateFormatter = new SimpleDateFormat ("HH:mm:ss");
+		dateFormatter.setTimeZone (date.getTimeZone ());
+		String formattedDate = dateFormatter.format (date.getTime ());
+
+		TextView winTimeLabel = activity.findViewById (R.id.cwview_win_time_label);
+		winTimeLabel.setText (String.format ("Time: %s", formattedDate));
+
+		TextView winHintCountLabel = activity.findViewById (R.id.cwview_win_hint_count_label);
+		winHintCountLabel.setText (String.format ("Hint show count: %d", currentStat.hintCount));
+
+		TextView winWordCountLabel = activity.findViewById (R.id.cwview_win_word_count_label);
+		winWordCountLabel.setText (String.format ("Word count: %d", savedCrossword.words == null ? 0 : savedCrossword.words.size ()));
+
+		TextView winFailCountLabel = activity.findViewById (R.id.cwview_win_fail_count_label);
+		winFailCountLabel.setText (String.format ("Fail count: %d", currentStat.failCount));
+
+		//Show statistics view
+		LinearLayout layout = activity.findViewById (R.id.cwview_winscreen);
+		layout.setVisibility (View.VISIBLE);
 		//TODO: implement
 	}
 
 	private void showWinScreen () {
-		//TODO: implement...
+		final FragmentActivity activity = getActivity ();
+
+		resetInput ();
+		mKeyboard.hideKeyboard (activity);
+
+		//Save statistics
+		saveStatistics (1.0, true);
+
+		//Send netlog
+		NetLogger.logEvent ("Crossword_Win");
+
+		//Start emitters
+		//TODO: ...
+
+		final Calendar[] start = {null};
+		_timerWin = new Timer ();
+		_timerWin.schedule (new TimerTask () {
+			@Override
+			public void run () {
+				double duration = 2.0;
+				if (start[0] == null) {
+					start[0] = Calendar.getInstance ();
+				}
+
+				long dT = (Calendar.getInstance ().getTimeInMillis () - _startTime.getTimeInMillis ()) / 1000; //Elapsed time: [sec]
+
+				//The function of the fireball is: y=x*x
+				//TODO: ...
+
+
+				//End of animation
+				if (dT >= duration * 1.005) {
+//					[self->_emitterWin[0] stop];
+//					[self->_emitterWin[1] stop];
+//
+//					[self->_emitterWin[2] startFireWorks:[self view] pt:pt0];
+//					[self->_emitterWin[3] startFireWorks:[self view] pt:pt1];
+
+					_timerWin.cancel ();
+					_timerWin.purge ();
+
+					activity.runOnUiThread (new Runnable () {
+						@Override
+						public void run () {
+							showWinView ();
+						}
+					});
+				}
+			}
+		}, 50, 50);
 	}
 
 	private void addAvailableInputDirection (int cellType, int checkCellType) {

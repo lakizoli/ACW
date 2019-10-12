@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.zapp.acw.R;
 
@@ -53,7 +54,7 @@ public class Keyboard {
 		keyboard.setVisibility (View.VISIBLE);
 
 		LinearLayout cwLayout = activity.findViewById (R.id.cwview_cwlayout);
-		FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) cwLayout.getLayoutParams ();
+		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) cwLayout.getLayoutParams ();
 		params.setMargins (0, 0, 0, getDPSizeInPixels (activity, 200));
 		cwLayout.setLayoutParams (params);
 	}
@@ -63,7 +64,7 @@ public class Keyboard {
 		keyboard.setVisibility (View.INVISIBLE);
 
 		LinearLayout cwLayout = activity.findViewById (R.id.cwview_cwlayout);
-		FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) cwLayout.getLayoutParams ();
+		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) cwLayout.getLayoutParams ();
 		params.setMargins (0, 0, 0, 0);
 		cwLayout.setLayoutParams (params);
 	}
