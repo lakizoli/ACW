@@ -12,6 +12,8 @@ import androidx.navigation.Navigation;
 public final class SubscriptionManager {
 	private static SubscriptionManager _instance = new SubscriptionManager ();
 
+	private String mPendingSubscriptionAlert = null;
+
 	private SubscriptionManager () {
 	}
 
@@ -19,6 +21,15 @@ public final class SubscriptionManager {
 		return _instance;
 	}
 
+	public void setPendingSubscriptionAlert (String msg) {
+		mPendingSubscriptionAlert = msg;
+	}
+
+	public String popPendingSubscriptionAlert () {
+		String msg = mPendingSubscriptionAlert;
+		mPendingSubscriptionAlert = null;
+		return msg;
+	}
 
 	public void showSubscriptionAlert (Context context, final View view, String msg) {
 		AlertDialog.Builder builder = new AlertDialog.Builder (context);

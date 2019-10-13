@@ -2,6 +2,9 @@ package com.zapp.acw.bll;
 
 import java.io.Serializable;
 
+import androidx.annotation.Keep;
+
+@Keep
 public final class Statistics implements Serializable {
 	private static final long serialVersionUID = 0x0001;
 

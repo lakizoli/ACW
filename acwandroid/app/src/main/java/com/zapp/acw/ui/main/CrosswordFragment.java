@@ -567,9 +567,10 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 
 	//region Implementation
 	private void showSubscription () {
-		SubscriptionManager.sharedInstance ().showSubscriptionAlert (getActivity (), getView (),
+		SubscriptionManager.sharedInstance ().setPendingSubscriptionAlert (
 			"You have to subscribe to the application to play more than one demo crossword! If you press yes, then we take you to our store screen to do that."
 		);
+		Navigation.findNavController (getView ()).navigateUp ();
 	}
 
 	private Pos getPositionFromCoords (int row, int col) {

@@ -15,6 +15,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.HashMap;
 
+import androidx.annotation.Keep;
+
+@Keep
 public final class SavedCrossword implements Parcelable {
 	private int nativeObjID = 0;
 

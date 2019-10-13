@@ -3,6 +3,9 @@ package com.zapp.acw.bll;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.Keep;
+
+@Keep
 public final class Deck implements Parcelable {
 	public long deckID = 0;
 	public String name;

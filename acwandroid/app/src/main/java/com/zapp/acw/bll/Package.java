@@ -6,6 +6,9 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import androidx.annotation.Keep;
+
+@Keep
 public final class Package implements Parcelable {
 	public String path;
 	public String name;

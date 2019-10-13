@@ -13,6 +13,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 
+import androidx.annotation.Keep;
+
+@Keep
 public final class GameState implements Parcelable {
 	public String crosswordName;
 	public String overriddenPackageName;

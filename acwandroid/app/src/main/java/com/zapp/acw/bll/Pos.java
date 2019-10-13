@@ -1,10 +1,12 @@
 package com.zapp.acw.bll;
 
+import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.io.Serializable;
 
+@Keep
 public final class Pos implements Serializable {
 	private static final long serialVersionUID = 0x0002;
 
