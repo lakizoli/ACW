@@ -62,8 +62,8 @@
                     <connections>
                         <outlet property="backgroundView" destination="Ecz-6Q-JSQ" id="zEg-8z-M09"/>
                         <outlet property="labelStarting" destination="vp1-Kz-fZs" id="U3Q-Qf-wpe"/>
-                        <segue destination="wXJ-rU-IJ6" kind="presentation" identifier="ShowDownload" id="srx-TL-Vej"/>
-                        <segue destination="FV3-9x-5W9" kind="presentation" identifier="ShowChooseCW" id="Cr4-IC-9mz"/>
+                        <segue destination="wXJ-rU-IJ6" kind="presentation" identifier="ShowDownload" modalPresentationStyle="fullScreen" id="srx-TL-Vej"/>
+                        <segue destination="FV3-9x-5W9" kind="presentation" identifier="ShowChooseCW" modalPresentationStyle="fullScreen" id="Cr4-IC-9mz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w5t-OV-Gtr" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -212,8 +212,8 @@
                         <outlet property="tabBar" destination="7zU-xg-k5S" id="UHc-SA-vIj"/>
                         <outlet property="tableView" destination="gtm-tY-hzW" id="pRM-cc-vC4"/>
                         <outlet property="webView" destination="Pvy-GZ-3SD" id="IGO-85-qzD"/>
-                        <segue destination="FV3-9x-5W9" kind="presentation" identifier="ShowChooseCW" id="wzb-eU-too"/>
-                        <segue destination="BIt-XU-0MQ" kind="presentation" identifier="ShowGen" id="5cq-0e-m5q"/>
+                        <segue destination="FV3-9x-5W9" kind="presentation" identifier="ShowChooseCW" modalPresentationStyle="fullScreen" id="wzb-eU-too"/>
+                        <segue destination="BIt-XU-0MQ" kind="presentation" identifier="ShowGen" modalPresentationStyle="fullScreen" id="5cq-0e-m5q"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0AW-ga-8Bt" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -239,7 +239,7 @@
                                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="YAF-q6-YaR">
                                             <color key="tintColor" red="0.8980392157" green="0.75686274509999996" blue="0.2784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <connections>
-                                                <segue destination="wXJ-rU-IJ6" kind="presentation" identifier="ShowDownload" id="HFo-hg-Wad"/>
+                                                <segue destination="wXJ-rU-IJ6" kind="presentation" identifier="ShowDownload" modalPresentationStyle="fullScreen" id="HFo-hg-Wad"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
@@ -312,7 +312,7 @@
                                             <outlet property="packageName" destination="cCb-oB-Bs0" id="VlN-1P-NgA"/>
                                             <outlet property="randomButton" destination="3Ej-Wz-gez" id="CsS-WK-m5q"/>
                                             <outlet property="statistics" destination="1dB-ee-Rk9" id="TrC-yL-hgU"/>
-                                            <segue destination="pK3-3b-RQF" kind="presentation" identifier="ShowCW" id="iAA-Ju-5Gr"/>
+                                            <segue destination="pK3-3b-RQF" kind="presentation" identifier="ShowCW" modalPresentationStyle="fullScreen" id="iAA-Ju-5Gr"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -1169,6 +1169,7 @@
         <image name="star" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="Ham-QI-sfl"/>
         <segue reference="dun-09-81M"/>
         <segue reference="Cr4-IC-9mz"/>
         <segue reference="HFo-hg-Wad"/>
