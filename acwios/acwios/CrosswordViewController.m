@@ -23,6 +23,8 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *showHideButton;
 @property (strong, nonatomic) IBOutlet UIPinchGestureRecognizer *pinchRecognizer;
 
+@property (strong, nonatomic) IBOutlet UIView *helpView;
+
 @property (weak, nonatomic) IBOutlet UIView *winView;
 @property (weak, nonatomic) IBOutlet UIImageView *star1;
 @property (weak, nonatomic) IBOutlet UIImageView *star2;
@@ -473,6 +475,26 @@
 	}];
 }
 
+-(void) showHelpScreen {
+	//Show statistics view
+	[self->_helpView setHidden:NO];
+	[[self->_helpView layer] setCornerRadius:5];
+	[[self->_helpView layer] setMasksToBounds:YES];
+	[[self->_helpView layer] setBorderWidth:1];
+	[[self->_helpView layer] setBorderColor: [UIColor blackColor].CGColor];
+	
+	CGRect windowFrame = [[self view] bounds];
+//	CGPoint scrollPos = [self->_crosswordView contentOffset];
+	CGFloat flX = (windowFrame.size.width - 250); // / 2 + scrollPos.x;
+	CGFloat flY = 4; //(windowFrame.size.height - 315); // / 2 + scrollPos.y;
+	[self->_helpView setFrame:CGRectMake (flX, flY, 246, 315)];
+	
+	[self->_crosswordView addSubview:self->_helpView];
+	
+//	[self->_crosswordView setNeedsLayout];
+//	[self->_crosswordView layoutIfNeeded];
+}
+
 #pragma mark - Appearance
 
 - (BOOL)prefersStatusBarHidden {
@@ -519,6 +541,10 @@
 	[self resetStatistics];
 	
 	[self.collectionView addGestureRecognizer:_pinchRecognizer];
+}
+
+- (void)viewDidLayoutSubviews {
+	[self showHelpScreen];
 }
 
 - (void)didReceiveMemoryWarning {

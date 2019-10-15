@@ -640,6 +640,7 @@
                     <connections>
                         <outlet property="crosswordLayout" destination="OMD-ao-fhc" id="fRO-Yu-jUx"/>
                         <outlet property="crosswordView" destination="2cv-y5-ykh" id="GFF-b3-dpf"/>
+                        <outlet property="helpView" destination="1zr-xv-aom" id="7DP-99-j62"/>
                         <outlet property="pinchRecognizer" destination="BCc-vj-Zb6" id="TJD-kf-IOc"/>
                         <outlet property="showHideButton" destination="HKg-DE-Fbq" id="rLh-0v-bQq"/>
                         <outlet property="star1" destination="VFW-wK-0Yc" id="gyJ-kv-hXM"/>
@@ -655,6 +656,35 @@
                         <segue destination="pK3-3b-RQF" kind="custom" identifier="ShowCW" customClass="SwitchCWSegue" id="dun-09-81M"/>
                     </connections>
                 </collectionViewController>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1zr-xv-aom" userLabel="Help View">
+                    <rect key="frame" x="0.0" y="0.0" width="246" height="315"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="help-arrow-right" translatesAutoresizingMaskIntoConstraints="NO" id="r7d-4X-cQF">
+                            <rect key="frame" x="198" y="0.0" width="48" height="48"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="48" id="3gc-Hr-XDS"/>
+                                <constraint firstAttribute="width" constant="48" id="6Vl-lJ-QFf"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="13" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hOV-54-g3T">
+                            <rect key="frame" x="8" y="12" width="182" height="285"/>
+                            <string key="text">The aim of this game, that you  have to fill the entire crossword as fast as you can, wtihout hints and failures as much as you can. However, if you don't know one of the solutions, you can easiliy show all solutions with "Show Hint" button above.</string>
+                            <fontDescription key="fontDescription" name="BradleyHandITCTT-Bold" family="Bradley Hand" pointSize="19"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="r7d-4X-cQF" firstAttribute="top" secondItem="1zr-xv-aom" secondAttribute="top" id="GI2-Rq-K7F"/>
+                        <constraint firstAttribute="height" constant="315" id="cZd-11-zc8"/>
+                        <constraint firstItem="hOV-54-g3T" firstAttribute="leading" secondItem="1zr-xv-aom" secondAttribute="leading" constant="8" id="ewQ-sq-vh9"/>
+                        <constraint firstItem="hOV-54-g3T" firstAttribute="trailing" secondItem="r7d-4X-cQF" secondAttribute="leading" constant="-8" id="lUm-N7-VnD"/>
+                        <constraint firstAttribute="width" constant="246" id="tUw-4W-Km1"/>
+                        <constraint firstAttribute="trailing" secondItem="r7d-4X-cQF" secondAttribute="trailing" id="uN7-7l-eI0"/>
+                        <constraint firstItem="hOV-54-g3T" firstAttribute="top" secondItem="1zr-xv-aom" secondAttribute="top" constant="12" id="vUC-Br-GyJ"/>
+                    </constraints>
+                    <viewLayoutGuide key="safeArea" id="fjp-6f-5pA"/>
+                </view>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nr3-O3-cCq" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <pinchGestureRecognizer id="BCc-vj-Zb6">
                     <connections>
@@ -1169,7 +1199,6 @@
         <image name="star" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Ham-QI-sfl"/>
         <segue reference="dun-09-81M"/>
         <segue reference="Cr4-IC-9mz"/>
         <segue reference="HFo-hg-Wad"/>
