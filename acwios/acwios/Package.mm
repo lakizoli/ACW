@@ -114,6 +114,7 @@
 		_wordCount = 0;
 		_filledLevel = 0;
 		_levelCount = 0;
+		_wasHelpShown = NO;
 	}
 	return self;
 }
@@ -138,6 +139,11 @@
 	_wordCount = [[json objectForKey:@"wordCount"] unsignedIntegerValue];
 	_filledLevel = [[json objectForKey:@"filledLevel"] unsignedIntegerValue];
 	_levelCount = [[json objectForKey:@"levelCount"] unsignedIntegerValue];
+	
+	NSNumber* helpObj = [json objectForKey:@"wasHelpShown"];
+	if (helpObj) {
+		_wasHelpShown = [helpObj boolValue];
+	}
 }
 
 -(void) saveToURL:(NSURL*)url {
@@ -146,7 +152,8 @@
 						   @"filledWordCount" : [NSNumber numberWithUnsignedInteger:_filledWordCount],
 						   @"wordCount" : [NSNumber numberWithUnsignedInteger:_wordCount],
 						   @"filledLevel" : [NSNumber numberWithUnsignedInteger:_filledLevel],
-						   @"levelCount" : [NSNumber numberWithUnsignedInteger:_levelCount] };
+						   @"levelCount" : [NSNumber numberWithUnsignedInteger:_levelCount],
+						   @"wasHelpShown" : [NSNumber numberWithBool:_wasHelpShown] };
 	
 	NSError *error = nil;
 	NSData *data = [NSJSONSerialization dataWithJSONObject:json options:0 error:&error];

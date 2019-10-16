@@ -65,6 +65,7 @@
 @property (assign) NSUInteger wordCount;
 @property (assign) NSUInteger filledLevel;
 @property (assign) NSUInteger levelCount;
+@property (assign) BOOL wasHelpShown;
 
 -(void) loadFromURL:(NSURL*)url;
 -(void) saveToURL:(NSURL*)url;

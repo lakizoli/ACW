@@ -21,7 +21,7 @@ OK - a bill. feljovesekor az eltakart mezok nem gordulnek be a kepernyore, mert 
 Hibák (iOS):
 - Ha alert-ről vásárolok az első cw után, akkor nem a 2.-kal folytatódik a játék, hanem az 1.-vel újra
 - Az 1. cw-t korlátlan alkalommal lehet újra lejátszani ingyen. Ez rossz. Ne lehessen, csak egyszer/kétszer
-- A show hint/reset gomb elmagyarázása fontos lenne egy tour keretében (mint a fő lista plusz menüje esetében)
+OK - A show hint/reset gomb elmagyarázása fontos lenne egy tour keretében (mint a fő lista plusz menüje esetében)
 OK - iOS 13 compatibility
 
 

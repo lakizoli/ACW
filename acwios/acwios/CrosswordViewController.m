@@ -476,70 +476,42 @@
 }
 
 -(void) showHelpScreen {
-	//Show statistics view
+	[_helpView removeFromSuperview];
+	
 	[self->_helpView setHidden:NO];
 	[[self->_helpView layer] setCornerRadius:5];
 	[[self->_helpView layer] setMasksToBounds:YES];
 	[[self->_helpView layer] setBorderWidth:1];
 	[[self->_helpView layer] setBorderColor: [UIColor blackColor].CGColor];
 	
-	CGRect windowFrame = [[self view] bounds];
-////	CGPoint scrollPos = [self->_crosswordView contentOffset];
-	CGFloat flX = (windowFrame.size.width - 250); // / 2 + scrollPos.x;
-	CGFloat fMargin = 8; //(windowFrame.size.height - 315); // / 2 + scrollPos.y;
-	CGFloat fNavHeight = 42;
-//	[self->_helpView setFrame:CGRectMake (flX, flY, 246, 305)];
+	CGFloat fMargin = 4;
+	CGFloat fNavHeight = self.navigationController.navigationBar.frame.size.height;
 
 	[[self view] addSubview:self->_helpView];
 	
 	self->_helpView.translatesAutoresizingMaskIntoConstraints = NO;
 	
-	NSLayoutConstraint *trailing =[NSLayoutConstraint
-								   constraintWithItem:self->_helpView
-								   attribute:NSLayoutAttributeTrailing
-								   relatedBy:NSLayoutRelationEqual
-								   toItem:[self view]
-								   attribute:NSLayoutAttributeTrailing
-								   multiplier:1.0f
-								   constant:-fMargin / 2.f];
+	NSLayoutConstraint *trailing = [NSLayoutConstraint
+									constraintWithItem:self->_helpView
+									attribute:NSLayoutAttributeTrailing
+									relatedBy:NSLayoutRelationEqual
+									toItem:[self view]
+									attribute:NSLayoutAttributeTrailing
+									multiplier:1.0f
+									constant:-fMargin];
 	
-	NSLayoutConstraint *leading = [NSLayoutConstraint
-								   constraintWithItem:self->_helpView
-								   attribute:NSLayoutAttributeLeading
-								   relatedBy:NSLayoutRelationEqual
-								   toItem:[self view]
-								   attribute:NSLayoutAttributeLeading
-								   multiplier:1.0f
-								   constant:flX];
-	
-	NSLayoutConstraint *bottom =[NSLayoutConstraint
-								 constraintWithItem:self->_helpView
-								 attribute:NSLayoutAttributeBottom
-								 relatedBy:NSLayoutRelationEqual
-								 toItem:[self view]
-								 attribute:NSLayoutAttributeTop
-								 multiplier:1.0f
-								 constant:fMargin + 305 + fNavHeight];
-	
-	NSLayoutConstraint *height = [NSLayoutConstraint
-								  constraintWithItem:self->_helpView
-								  attribute:NSLayoutAttributeHeight
-								  relatedBy:NSLayoutRelationEqual
-								  toItem:nil
-								  attribute:NSLayoutAttributeNotAnAttribute
-								  multiplier:0
-								  constant:305];
+	NSLayoutConstraint *top = [NSLayoutConstraint
+							   constraintWithItem:self->_helpView
+							   attribute:NSLayoutAttributeTop
+							   relatedBy:NSLayoutRelationEqual
+							   toItem:[self view]
+							   attribute:NSLayoutAttributeTop
+							   multiplier:1.0f
+							   constant:fMargin + fNavHeight];
 	
 	//Add constraints to the Parent
 	[[self view] addConstraint:trailing];
-	[[self view] addConstraint:bottom];
-	[[self view] addConstraint:leading];
-	
-	//Add height constraint to the subview, as subview owns it.
-	[self->_helpView addConstraint:height];
-	
-//	[self->_crosswordView setNeedsLayout];
-//	[self->_crosswordView layoutIfNeeded];
+	[[self view] addConstraint:top];
 }
 
 #pragma mark - Appearance
@@ -589,14 +561,13 @@
 	
 	[self.collectionView addGestureRecognizer:_pinchRecognizer];
 	
-	[self showHelpScreen];
+	if (_currentPackage.state.wasHelpShown == NO) {
+		[self showHelpScreen];
+		
+		_currentPackage.state.wasHelpShown = YES;
+		[[PackageManager sharedInstance] savePackageState:_currentPackage];
+	}
 }
-
-//- (void)viewDidLayoutSubviews {
-//	[super viewDidLayoutSubviews];
-//
-//	
-//}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -640,13 +611,19 @@
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
 	__block BOOL winViewHidden = [_winView isHidden];
+	__block BOOL helpViewHidden = [_helpView isHidden];
 	[_winView setHidden:YES];
+	[_helpView setHidden:YES];
 	
 	[coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
 		//Nothing to do...
 	} completion:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
 		if (!winViewHidden) {
 			[self showWinView];
+		}
+		
+		if (!helpViewHidden) {
+			[self showHelpScreen];
 		}
 	}];
 }
@@ -698,6 +675,12 @@
 	
 	[_crosswordLayout setScaleFactor: scale];
 	[_crosswordView reloadData];
+}
+
+- (void) touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+	[super touchesBegan:touches withEvent:event];
+	
+	[_helpView setHidden:YES];
 }
 
 #pragma mark - Navigation
@@ -975,6 +958,8 @@
 */
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+	[_helpView setHidden:YES];
+	
 	uint32_t row = [self getRowFromIndexPath:indexPath];
 	uint32_t col = [self getColFromIndexPath:indexPath];
 	BOOL startCell = [_savedCrossword isStartCell:row col:col];
