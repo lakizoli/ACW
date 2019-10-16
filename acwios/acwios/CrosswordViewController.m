@@ -484,12 +484,59 @@
 	[[self->_helpView layer] setBorderColor: [UIColor blackColor].CGColor];
 	
 	CGRect windowFrame = [[self view] bounds];
-//	CGPoint scrollPos = [self->_crosswordView contentOffset];
+////	CGPoint scrollPos = [self->_crosswordView contentOffset];
 	CGFloat flX = (windowFrame.size.width - 250); // / 2 + scrollPos.x;
-	CGFloat flY = 4; //(windowFrame.size.height - 315); // / 2 + scrollPos.y;
-	[self->_helpView setFrame:CGRectMake (flX, flY, 246, 315)];
+	CGFloat fMargin = 8; //(windowFrame.size.height - 315); // / 2 + scrollPos.y;
+	CGFloat fNavHeight = 42;
+//	[self->_helpView setFrame:CGRectMake (flX, flY, 246, 305)];
+
+	[[self view] addSubview:self->_helpView];
 	
-	[self->_crosswordView addSubview:self->_helpView];
+	self->_helpView.translatesAutoresizingMaskIntoConstraints = NO;
+	
+	NSLayoutConstraint *trailing =[NSLayoutConstraint
+								   constraintWithItem:self->_helpView
+								   attribute:NSLayoutAttributeTrailing
+								   relatedBy:NSLayoutRelationEqual
+								   toItem:[self view]
+								   attribute:NSLayoutAttributeTrailing
+								   multiplier:1.0f
+								   constant:-fMargin / 2.f];
+	
+	NSLayoutConstraint *leading = [NSLayoutConstraint
+								   constraintWithItem:self->_helpView
+								   attribute:NSLayoutAttributeLeading
+								   relatedBy:NSLayoutRelationEqual
+								   toItem:[self view]
+								   attribute:NSLayoutAttributeLeading
+								   multiplier:1.0f
+								   constant:flX];
+	
+	NSLayoutConstraint *bottom =[NSLayoutConstraint
+								 constraintWithItem:self->_helpView
+								 attribute:NSLayoutAttributeBottom
+								 relatedBy:NSLayoutRelationEqual
+								 toItem:[self view]
+								 attribute:NSLayoutAttributeTop
+								 multiplier:1.0f
+								 constant:fMargin + 305 + fNavHeight];
+	
+	NSLayoutConstraint *height = [NSLayoutConstraint
+								  constraintWithItem:self->_helpView
+								  attribute:NSLayoutAttributeHeight
+								  relatedBy:NSLayoutRelationEqual
+								  toItem:nil
+								  attribute:NSLayoutAttributeNotAnAttribute
+								  multiplier:0
+								  constant:305];
+	
+	//Add constraints to the Parent
+	[[self view] addConstraint:trailing];
+	[[self view] addConstraint:bottom];
+	[[self view] addConstraint:leading];
+	
+	//Add height constraint to the subview, as subview owns it.
+	[self->_helpView addConstraint:height];
 	
 //	[self->_crosswordView setNeedsLayout];
 //	[self->_crosswordView layoutIfNeeded];
@@ -541,11 +588,15 @@
 	[self resetStatistics];
 	
 	[self.collectionView addGestureRecognizer:_pinchRecognizer];
-}
-
-- (void)viewDidLayoutSubviews {
+	
 	[self showHelpScreen];
 }
+
+//- (void)viewDidLayoutSubviews {
+//	[super viewDidLayoutSubviews];
+//
+//	
+//}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
