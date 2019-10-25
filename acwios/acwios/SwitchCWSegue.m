@@ -17,6 +17,7 @@
 	__block UIViewController *parentViewController = [navigationController presentingViewController];
 	[navigationController dismissViewControllerAnimated:YES completion:^{
 		UIViewController *destinationController = (UIViewController*)[self destinationViewController];
+		destinationController.modalPresentationStyle = UIModalPresentationFullScreen;
 		[parentViewController presentViewController:destinationController animated:YES completion:nil];
 	}];
 }

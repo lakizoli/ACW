@@ -247,6 +247,7 @@
 
 - (void)showStore:(UIViewController *)parent {
 	UIViewController *storeVC = [parent.storyboard instantiateViewControllerWithIdentifier:@"StoreVC"];
+	storeVC.modalPresentationStyle = UIModalPresentationFullScreen;
 	
 	dispatch_async (dispatch_get_global_queue (DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
 		[self validateProductIDs:[self productIDs]];
