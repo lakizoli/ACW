@@ -1,5 +1,7 @@
 package com.zapp.acw.ui.main;
 
+import android.app.Activity;
+
 import com.zapp.acw.FileUtils;
 import com.zapp.acw.bll.Package;
 import com.zapp.acw.bll.PackageManager;
@@ -23,9 +25,6 @@ public class ChooseCWViewModel extends ViewModel {
 	private HashMap<String, Integer> _currentSavedCrosswordIndices; ///< The index of the currently played crossword of packages
 	private HashMap<String, Integer> _filledWordCounts; ///< The filled word counts of packages
 	private HashMap<String, ArrayList<SavedCrossword>> _savedCrosswords; ///< All of the generated crosswords of packages
-	private String _selectedPackageKey;
-	private int _selectedCrosswordIndex = 0;
-	private boolean _isRandomGame = false;
 
 	private MutableLiveData<Integer> _action = new MutableLiveData<> ();
 
@@ -51,15 +50,13 @@ public class ChooseCWViewModel extends ViewModel {
 		return _savedCrosswords;
 	}
 
-	public void startReloadPackages () {
+	public void startReloadPackages (final Activity activity) {
 		new Thread (new Runnable () {
 			@Override
 			public void run () {
-				_selectedPackageKey = null;
-				_selectedCrosswordIndex = 0;
-				_isRandomGame = false;
-
-				_isSubscribed = SubscriptionManager.sharedInstance ().isSubscribed ();
+				SubscriptionManager subscriptionManager = SubscriptionManager.sharedInstance ();
+				_isSubscribed = subscriptionManager.isSubscribed ();
+				subscriptionManager.connectBilling (activity);
 
 				PackageManager man = PackageManager.sharedInstance ();
 				ArrayList<Package> packs = man.collectPackages ();

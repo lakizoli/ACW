@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -142,5 +143,29 @@ public final class FileUtils {
 		}
 
 		return null;
+	}
+
+	public static boolean writeFile (String path, String content) {
+		FileWriter writer = null;
+		try {
+			File file = new File (path);
+
+			writer = new FileWriter (file);
+			writer.write (content);
+
+			return true;
+		} catch (Exception ex) {
+			Log.e ("FileUtils", "writeFile exception (1): " + ex);
+		} finally {
+			try {
+				if (writer != null) {
+					writer.close ();
+				}
+			} catch (Exception ex) {
+				Log.e ("FileUtils", "writeFile exception (2): " + ex);
+			}
+		}
+
+		return false;
 	}
 }

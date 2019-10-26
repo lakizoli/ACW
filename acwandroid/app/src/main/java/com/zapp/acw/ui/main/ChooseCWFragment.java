@@ -174,7 +174,7 @@ public class ChooseCWFragment extends Fragment implements Toolbar.OnMenuItemClic
 		};
 		requireActivity ().getOnBackPressedDispatcher ().addCallback (this, callback);
 
-		mViewModel.startReloadPackages ();
+		mViewModel.startReloadPackages (activity);
 
 		//Show pending subscription alert
 		String pendingSubscriptionAlert = SubscriptionManager.sharedInstance ().popPendingSubscriptionAlert ();
