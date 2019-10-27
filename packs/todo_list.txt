@@ -2,6 +2,7 @@ Hibák (Android):
 - Minden lista képernyő háttérszíne rossz
 OK - Rohadt lassú a cw fel/újraépítése
 - Toolbar gombok színe rossz
+- download anki packages nezet tab bar-ja fekvo helyzetben nem teljes szelessegu
 OK - Rohadt lassú a megoldás kiválasztása
 - Nem jó helyre pozícionál az ensureVisible
 OK - Van egy extra üres oldal a bill.-ben
@@ -16,6 +17,8 @@ OK - a bill. feljovesekor az eltakart mezok nem gordulnek be a kepernyore, mert 
 - Win particle hianyzik
 - package megnyitasa file-bol tetszoleges helyrol
 - package törlésének végrehajtása
+- cw nezet elsotetul forgataskor
+- a store html szovegenek google-ra szabasa
 
 
 

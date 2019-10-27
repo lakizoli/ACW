@@ -5,9 +5,15 @@
 	android:layout_height="match_parent"
 	tools:context=".ui.main.StoreFragment">
 
-	<TextView
+	<ScrollView
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:text="Hello! This is the store view!" />
+		android:background="#D5E0E5">
+
+		<WebView
+			android:id="@+id/store_webview"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent" />
+	</ScrollView>
 
 </FrameLayout>
