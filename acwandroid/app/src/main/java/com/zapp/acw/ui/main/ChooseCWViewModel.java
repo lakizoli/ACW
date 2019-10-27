@@ -55,8 +55,8 @@ public class ChooseCWViewModel extends ViewModel {
 			@Override
 			public void run () {
 				SubscriptionManager subscriptionManager = SubscriptionManager.sharedInstance ();
-				_isSubscribed = subscriptionManager.isSubscribed ();
 				subscriptionManager.connectBilling (activity);
+				_isSubscribed = subscriptionManager.isSubscribed ();
 
 				PackageManager man = PackageManager.sharedInstance ();
 				ArrayList<Package> packs = man.collectPackages ();
