@@ -146,6 +146,8 @@ public class ChooseCWFragment extends Fragment implements Toolbar.OnMenuItemClic
 							}
 						}));
 						itemTouchHelper.attachToRecyclerView (rvCWs);
+
+						RefreshSubscriptionFragment ();
 						break;
 					default:
 						break;
@@ -174,7 +176,12 @@ public class ChooseCWFragment extends Fragment implements Toolbar.OnMenuItemClic
 		};
 		requireActivity ().getOnBackPressedDispatcher ().addCallback (this, callback);
 
-		mViewModel.startReloadPackages (activity);
+		mViewModel.startReloadPackages (activity, new SubscriptionManager.SubscribeChangeListener () {
+			@Override
+			public void SubscribeChanged () {
+				RefreshSubscriptionFragment ();
+			}
+		});
 
 		//Show pending subscription alert
 		String pendingSubscriptionAlert = SubscriptionManager.sharedInstance ().popPendingSubscriptionAlert ();
@@ -243,5 +250,12 @@ public class ChooseCWFragment extends Fragment implements Toolbar.OnMenuItemClic
 		bundle.putBoolean ("isMultiLevelGame", !isRandomGame);
 
 		return bundle;
+	}
+
+	private void RefreshSubscriptionFragment () {
+		FragmentActivity activity = getActivity ();
+		LinearLayout linearLayout = activity.findViewById (R.id.cw_subscriber_warning);
+		boolean isSubscribed = SubscriptionManager.sharedInstance ().isSubscribed ();
+		linearLayout.setVisibility (isSubscribed ? View.INVISIBLE : View.VISIBLE);
 	}
 }

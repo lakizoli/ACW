@@ -3,7 +3,6 @@ package com.zapp.acw.bll;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.util.Log;
 import android.view.View;
 
 import com.android.billingclient.api.AcknowledgePurchaseParams;
@@ -24,7 +23,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -62,8 +60,13 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 	private BillingClient _billingClient;
 	private Timer _billingReconnectTimer;
 	private List<SkuDetails> _products;
+	private SubscribeChangeListener _subscribeChangeListener;
 
-	public void connectBilling (Activity activity) {
+	public interface SubscribeChangeListener {
+		void SubscribeChanged ();
+	}
+
+	public void connectBilling (Activity activity, SubscribeChangeListener subscribeChangeListener) {
 		//Check multiple call of connect
 		if (_isConnectBillingRunning || _isBillingConnected) {
 			return;
@@ -73,6 +76,7 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 
 		//Connect billing
 		_activity = activity;
+		_subscribeChangeListener = subscribeChangeListener;
 		if (_billingClient == null) {
 			SubscriptionManager man = SubscriptionManager.sharedInstance ();
 			_billingClient = BillingClient.newBuilder (_activity)
@@ -107,7 +111,7 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 					});
 
 					//Query purchases
-					//TODO: implement query of recent purchases...
+					queryPurchases ();
 				} else { //Something wrong with billing
 					reconnectAfterDelay (20000);
 				}
@@ -137,9 +141,25 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 		_billingReconnectTimer.schedule (new TimerTask () {
 			@Override
 			public void run () {
-				connectBilling (_activity);
+				connectBilling (_activity, _subscribeChangeListener);
 			}
 		}, delay);
+	}
+
+	public void queryPurchases () {
+		if (!_isBillingConnected) {
+			return;
+		}
+
+		Purchase.PurchasesResult purchasesResult = _billingClient.queryPurchases (BillingClient.SkuType.SUBS);
+		if (purchasesResult.getBillingResult ().getResponseCode () == BillingClient.BillingResponseCode.OK) {
+			List<Purchase> purchases = purchasesResult.getPurchasesList ();
+			if (purchases != null) {
+				for (Purchase purchase : purchases) {
+					handlePurchase (purchase);
+				}
+			}
+		}
 	}
 
 	public SkuDetails getSubscribedProductForMonth () {
@@ -241,6 +261,10 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 		if (!FileUtils.writeFile (purchasePath (), str)) {
 			showOKAlert ("Cannot store your purchase on local storage!", "Error");
 			return false;
+		}
+
+		if (_subscribeChangeListener != null) {
+			_subscribeChangeListener.SubscribeChanged ();
 		}
 
 		return true;

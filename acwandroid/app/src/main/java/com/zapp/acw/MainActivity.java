@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.zapp.acw.bll.PackageManager;
+import com.zapp.acw.bll.SubscriptionManager;
 import com.zapp.acw.ui.main.MainFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,5 +33,12 @@ public class MainActivity extends AppCompatActivity {
 
 		Common.exitFullscreen (this);
 		Common.unregisterSystemUiVisibility (this);
+	}
+
+	@Override
+	protected void onResume () {
+		super.onResume ();
+
+		SubscriptionManager.sharedInstance ().queryPurchases ();
 	}
 }

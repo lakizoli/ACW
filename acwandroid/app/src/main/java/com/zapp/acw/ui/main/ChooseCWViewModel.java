@@ -50,12 +50,12 @@ public class ChooseCWViewModel extends ViewModel {
 		return _savedCrosswords;
 	}
 
-	public void startReloadPackages (final Activity activity) {
+	public void startReloadPackages (final Activity activity, final SubscriptionManager.SubscribeChangeListener subscribeChangeListener) {
 		new Thread (new Runnable () {
 			@Override
 			public void run () {
 				SubscriptionManager subscriptionManager = SubscriptionManager.sharedInstance ();
-				subscriptionManager.connectBilling (activity);
+				subscriptionManager.connectBilling (activity, subscribeChangeListener);
 				_isSubscribed = subscriptionManager.isSubscribed ();
 
 				PackageManager man = PackageManager.sharedInstance ();
