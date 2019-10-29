@@ -1,9 +1,6 @@
 package com.zapp.acw.ui.main;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.HandlerThread;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,12 +16,12 @@ import android.widget.TextView;
 
 import com.zapp.acw.R;
 import com.zapp.acw.bll.NetLogger;
+import com.zapp.acw.bll.Package;
 import com.zapp.acw.bll.PackageManager;
 import com.zapp.acw.bll.Pos;
 import com.zapp.acw.bll.SavedCrossword;
 import com.zapp.acw.bll.Statistics;
 import com.zapp.acw.bll.SubscriptionManager;
-import com.zapp.acw.bll.Package;
 import com.zapp.acw.ui.keyboard.Keyboard;
 
 import java.text.SimpleDateFormat;
@@ -47,9 +44,6 @@ import androidx.navigation.Navigation;
 
 public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemClickListener, Keyboard.EventHandler {
 	private CrosswordViewModel mViewModel;
-
-	private HandlerThread mTableBuilderThread;
-	private Handler mTableBuilderHandler;
 	private Keyboard mKeyboard;
 
 	//Common view data
@@ -150,10 +144,6 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 						mKeyboard = new Keyboard ();
 						resetInput ();
 
-						mTableBuilderThread = new HandlerThread ("BackgroundTableBuilder");
-						mTableBuilderThread.start ();
-
-						mTableBuilderHandler = new Handler (mTableBuilderThread.getLooper ());
 						new Thread (new Runnable () {
 							@Override
 							public void run () {
@@ -292,93 +282,30 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 	public static final int CWCellType_Start_LeftRight_Bottom	= 0x0800;
 	public static final int CWCellType_HasValue					= 0x0FF8;
 
-	private int _cwCellCountToBuild = 0;
-
 	private int getCellSizeInPixels () {
 		final float scale = getContext().getResources().getDisplayMetrics().density;
 		return Math.round (50.0f * scale + 0.5f);
 	}
 
 	private void createCrosswordTable (final FragmentActivity activity) {
-		final TableLayout table = activity.findViewById (R.id.cw_table);
-
-		activity.runOnUiThread (new Runnable () {
-			@Override
-			public void run () {
-				table.removeAllViews ();
-			}
-		});
+		final TableLayout table = new TableLayout (activity);
+		TableLayout.LayoutParams params= new TableLayout.LayoutParams (ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+		table.setLayoutParams (params);
 
 		int pixels = getCellSizeInPixels ();
 
 		SavedCrossword savedCrossword = mViewModel.getSavedCrossword ();
 		LayoutInflater inflater = LayoutInflater.from (activity);
 
-		_cwCellCountToBuild = savedCrossword.height * savedCrossword.width;
-
 		for (int row = 0; row < savedCrossword.height;++row) {
-			createCrosswordRow (activity, row, inflater, table, pixels);
-		}
+			TableRow tableRow = new TableRow (activity);
+			table.addView (tableRow);
 
-		waitForCellCountToBuild ();
+			tableRow.setLayoutParams (new LinearLayout.LayoutParams (ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
-		activity.runOnUiThread (new Runnable () {
-			@Override
-			public void run () {
-				//Stop background worker
-				mTableBuilderHandler = null;
-
-				if (mTableBuilderHandler != null) {
-					mTableBuilderThread.quit ();
-					mTableBuilderThread = null;
-				}
-
-				//Rebuild the cw
-				rebuildCrosswordTable ();
-
-				//Hide the progress bar
-				final ProgressBar progressCW = activity.findViewById (R.id.cwview_progress);
-				progressCW.setVisibility (View.INVISIBLE);
-			}
-		});
-	}
-
-	private void createCrosswordRow (final FragmentActivity activity, final int row, final LayoutInflater inflater, final TableLayout table, final int pixels) {
-		final SavedCrossword savedCrossword = mViewModel.getSavedCrossword ();
-
-		activity.runOnUiThread (new Runnable () {
-			@Override
-			public void run () {
-				final TableRow tableRow = new TableRow (activity);
-				table.addView (tableRow);
-
-				tableRow.setLayoutParams (new LinearLayout.LayoutParams (ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-
-				mTableBuilderHandler.post (new Runnable () {
-					@Override
-					public void run () {
-						for (int col = 0; col < savedCrossword.width; ++col) {
-							createCrosswordCell (activity, row, col, inflater, tableRow, pixels);
-						}
-					}
-				});
-			}
-		});
-	}
-
-	private void createCrosswordCell (final FragmentActivity activity, final int row, final int col,
-									  final LayoutInflater inflater, final TableRow tableRow, final int pixels)
-	{
-		activity.runOnUiThread (new Runnable () {
-			@Override
-			public void run () {
+			for (int col = 0; col < savedCrossword.width; ++col) {
 				View cell = inflater.inflate (R.layout.crossword_cell, tableRow, false);
-				tableRow.addView (cell);
-
-				cell.requestLayout ();
-
-				cell.getLayoutParams ().width = pixels;
-				cell.getLayoutParams ().height = pixels;
+				tableRow.addView (cell, pixels, pixels);
 
 				final int cellRow = row;
 				final int cellCol = col;
@@ -390,31 +317,31 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 						}
 					}
 				});
+			}
+		}
 
-				decreaseCellCountToBuild ();
+		activity.runOnUiThread (new Runnable () {
+			@Override
+			public void run () {
+				//Add table to scroll view
+				TwoDScrollView scrollView = activity.findViewById (R.id.cwview_scroll);
+				scrollView.removeAllViews (); //TODO: remove this, when the observer will be run only once after tilt
+				scrollView.addView (table);
+
+				//Rebuild the cw
+				rebuildCrosswordTable ();
+
+				//Hide the progress bar
+				final ProgressBar progressCW = activity.findViewById (R.id.cwview_progress);
+				progressCW.setVisibility (View.INVISIBLE);
 			}
 		});
 	}
 
-	private synchronized void waitForCellCountToBuild () {
-		while (_cwCellCountToBuild > 0) {
-			try {
-				wait ();
-			} catch (Exception ex) {
-				Log.e ("CrosswordFragment", "Wait () - Exception: " + ex.toString ());
-				return;
-			}
-		}
-	}
-
-	private synchronized void decreaseCellCountToBuild () {
-		--_cwCellCountToBuild;
-		notifyAll ();
-	}
-
 	private void rebuildCrosswordTable () {
 		final FragmentActivity activity = getActivity ();
-		TableLayout table = activity.findViewById (R.id.cw_table);
+		TwoDScrollView scrollView = activity.findViewById (R.id.cwview_scroll);
+		TableLayout table = (TableLayout) scrollView.getChildAt (0);
 
 		SavedCrossword savedCrossword = mViewModel.getSavedCrossword ();
 		for (int row = 0; row < savedCrossword.height;++row) {
