@@ -125,45 +125,38 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 		final ProgressBar progressCW = activity.findViewById (R.id.cwview_progress);
 		progressCW.setVisibility (View.VISIBLE);
 
-		mViewModel.getAction ().observe (getViewLifecycleOwner (), new Observer<Integer> () {
+		mViewModel.setInitEndedObserver (new BackgroundInitViewModel.InitEndedObserver () {
 			@Override
-			public void onChanged (final Integer action) {
-				switch (action) {
-					case ActionCodes.CWVIEW_INIT_ENDED: {
-						//Init crossword
-						final SavedCrossword savedCrossword = mViewModel.getSavedCrossword ();
-						NetLogger.logEvent ("Crossword_ShowView", new HashMap<String, Object> () {{
-							put ("package", savedCrossword.packageName);
-							put ("name", savedCrossword.name);
-						}});
+			public void onInitEnded () {
+				//Init crossword
+				final SavedCrossword savedCrossword = mViewModel.getSavedCrossword ();
+				NetLogger.logEvent ("Crossword_ShowView", new HashMap<String, Object> () {{
+					put ("package", savedCrossword.packageName);
+					put ("name", savedCrossword.name);
+				}});
 
-						_areAnswersVisible = false;
-						_cellFilledValues = mViewModel.getCellFilledValues ();
+				_areAnswersVisible = false;
+				_cellFilledValues = mViewModel.getCellFilledValues ();
 
-						//Create keyboard
-						mKeyboard = new Keyboard ();
-						resetInput ();
+				//Create keyboard
+				mKeyboard = new Keyboard ();
+				resetInput ();
 
-						new Thread (new Runnable () {
-							@Override
-							public void run () {
-								//Build keyboard
-								mKeyboard.setUsedKeys (savedCrossword.getUsedKeys ());
-								mKeyboard.setup (activity);
-								mKeyboard.setEventHandler (keyboardEventHandler);
+				new Thread (new Runnable () {
+					@Override
+					public void run () {
+						//Build keyboard
+						mKeyboard.setUsedKeys (savedCrossword.getUsedKeys ());
+						mKeyboard.setup (activity);
+						mKeyboard.setEventHandler (keyboardEventHandler);
 
-								//Reset state
-								resetStatistics ();
+						//Reset state
+						resetStatistics ();
 
-								//Build crossword table
-								createCrosswordTable (activity);
-							}
-						}).start ();
-						break;
+						//Build crossword table
+						createCrosswordTable (activity);
 					}
-					default:
-						break;
-				}
+				}).start ();
 			}
 		});
 
@@ -325,7 +318,6 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 			public void run () {
 				//Add table to scroll view
 				TwoDScrollView scrollView = activity.findViewById (R.id.cwview_scroll);
-				scrollView.removeAllViews (); //TODO: remove this, when the observer will be run only once after tilt
 				scrollView.addView (table);
 
 				//Rebuild the cw

@@ -10,9 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
-public class CrosswordViewModel extends ViewModel {
+public class CrosswordViewModel extends BackgroundInitViewModel {
 	private boolean isMultiLevelGame;
 	private Package currentPackage;
 	private int currentCrosswordIndex;
@@ -45,9 +44,9 @@ public class CrosswordViewModel extends ViewModel {
 	}
 
 	public void startInit (final Bundle args) {
-		new Thread (new Runnable () {
+		startInit (new InitListener () {
 			@Override
-			public void run () {
+			public void initInBackground () {
 				//Parse paramteres
 				currentPackage = args.getParcelable ("package");
 				savedCrossword = args.getParcelable ("savedCrossword");
@@ -59,10 +58,7 @@ public class CrosswordViewModel extends ViewModel {
 				cellFilledValues = new HashMap<> ();
 				savedCrossword.loadFilledValuesInto (cellFilledValues);
 				savedCrossword.loadDB ();
-
-				//Init ended
-				_action.postValue (ActionCodes.CWVIEW_INIT_ENDED);
 			}
-		}).start ();
+		});
 	}
 }

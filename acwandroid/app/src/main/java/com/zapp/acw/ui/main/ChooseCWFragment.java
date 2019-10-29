@@ -30,8 +30,6 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import static com.zapp.acw.ui.main.ActionCodes.CHOOSE_CW_RELOAD_PACKAGES_ENDED;
-
 public class ChooseCWFragment extends Fragment implements Toolbar.OnMenuItemClickListener {
 
 	private ChooseCWViewModel mViewModel;
@@ -62,89 +60,83 @@ public class ChooseCWFragment extends Fragment implements Toolbar.OnMenuItemClic
 		final ProgressBar progressCW = activity.findViewById (R.id.cw_progress);
 		progressCW.setVisibility (View.VISIBLE);
 
-		mViewModel.getAction ().observe (getViewLifecycleOwner (), new Observer<Integer> () {
+		mViewModel.setInitEndedObserver (new BackgroundInitViewModel.InitEndedObserver () {
 			@Override
-			public void onChanged (Integer action) {
-				switch (action) {
-					case CHOOSE_CW_RELOAD_PACKAGES_ENDED:
-						progressCW.setVisibility (View.INVISIBLE);
-						helpLayout.setVisibility (mViewModel.hasSomePackages () ? View.INVISIBLE : View.VISIBLE);
-						rvCWs.setVisibility (mViewModel.hasSomePackages () ? View.VISIBLE : View.INVISIBLE);
+			public void onInitEnded () {
+				progressCW.setVisibility (View.INVISIBLE);
+				helpLayout.setVisibility (mViewModel.hasSomePackages () ? View.INVISIBLE : View.VISIBLE);
+				rvCWs.setVisibility (mViewModel.hasSomePackages () ? View.VISIBLE : View.INVISIBLE);
 
-						ChooseCWAdapter adapter = new ChooseCWAdapter (mViewModel.isSubscribed (), mViewModel.getSortedPackageKeys (), mViewModel.getPackages (),
-							mViewModel.getCurrentSavedCrosswordIndices (), mViewModel.getFilledWordCounts (), new ChooseCWAdapter.OnItemClickListener () {
-							@Override
-							public void onItemClick (final int position, Package pack) {
-								boolean cwEnabled = position == 0 || mViewModel.isSubscribed ();
-								if (!cwEnabled) {
-									showSubscription ();
-								} else {
-									final FragmentActivity activity = getActivity ();
-									runWithProgress (new Runnable () {
+				ChooseCWAdapter adapter = new ChooseCWAdapter (mViewModel.isSubscribed (), mViewModel.getSortedPackageKeys (), mViewModel.getPackages (),
+					mViewModel.getCurrentSavedCrosswordIndices (), mViewModel.getFilledWordCounts (), new ChooseCWAdapter.OnItemClickListener () {
+					@Override
+					public void onItemClick (final int position, Package pack) {
+						boolean cwEnabled = position == 0 || mViewModel.isSubscribed ();
+						if (!cwEnabled) {
+							showSubscription ();
+						} else {
+							final FragmentActivity activity = getActivity ();
+							runWithProgress (new Runnable () {
+								@Override
+								public void run () {
+									String packageKey = mViewModel.getSortedPackageKeys ().get (position);
+									int idx = mViewModel.getCurrentSavedCrosswordIndices ().get (packageKey);
+
+									final Bundle args = buildShowCWBundle (packageKey, idx, false);
+									activity.runOnUiThread (new Runnable () {
 										@Override
 										public void run () {
-											String packageKey = mViewModel.getSortedPackageKeys ().get (position);
-											int idx = mViewModel.getCurrentSavedCrosswordIndices ().get (packageKey);
-
-											final Bundle args = buildShowCWBundle (packageKey, idx, false);
-											activity.runOnUiThread (new Runnable () {
-												@Override
-												public void run () {
-													Navigation.findNavController (getView ()).navigate (R.id.ShowCW, args);
-												}
-											});
+											Navigation.findNavController (getView ()).navigate (R.id.ShowCW, args);
 										}
 									});
 								}
-							}
+							});
+						}
+					}
 
-							@Override
-							public void onRandomButtonClick (final int position, Package pack) {
-								boolean cwEnabled = position == 0 || mViewModel.isSubscribed ();
-								if (!cwEnabled) {
-									showSubscription ();
-								} else {
-									final FragmentActivity activity = getActivity ();
-									runWithProgress (new Runnable () {
+					@Override
+					public void onRandomButtonClick (final int position, Package pack) {
+						boolean cwEnabled = position == 0 || mViewModel.isSubscribed ();
+						if (!cwEnabled) {
+							showSubscription ();
+						} else {
+							final FragmentActivity activity = getActivity ();
+							runWithProgress (new Runnable () {
+								@Override
+								public void run () {
+									String packageKey = mViewModel.getSortedPackageKeys ().get (position);
+									int idx = mViewModel.getCurrentSavedCrosswordIndices ().get (packageKey);
+
+									ArrayList<Integer> randIndices = mViewModel.getRandIndices (packageKey, idx);
+									int randCount = randIndices != null ? randIndices.size () : 0;
+
+									int randIdx = new Random ().nextInt (randCount + 1);
+									randIdx = randIndices != null ? randIndices.get (randIdx) : 0;
+
+									final Bundle args = buildShowCWBundle (packageKey, randIdx, true);
+									activity.runOnUiThread (new Runnable () {
 										@Override
 										public void run () {
-											String packageKey = mViewModel.getSortedPackageKeys ().get (position);
-											int idx = mViewModel.getCurrentSavedCrosswordIndices ().get (packageKey);
-
-											ArrayList<Integer> randIndices = mViewModel.getRandIndices (packageKey, idx);
-											int randCount = randIndices != null ? randIndices.size () : 0;
-
-											int randIdx = new Random ().nextInt (randCount + 1);
-											randIdx = randIndices != null ? randIndices.get (randIdx) : 0;
-
-											final Bundle args = buildShowCWBundle (packageKey, randIdx, true);
-											activity.runOnUiThread (new Runnable () {
-												@Override
-												public void run () {
-													Navigation.findNavController (getView ()).navigate (R.id.ShowCW, args);
-												}
-											});
+											Navigation.findNavController (getView ()).navigate (R.id.ShowCW, args);
 										}
 									});
 								}
-							}
-						});
+							});
+						}
+					}
+				});
 
-						rvCWs.setAdapter (adapter);
-						rvCWs.setLayoutManager (new LinearLayoutManager (activity));
-						ItemTouchHelper itemTouchHelper = new ItemTouchHelper (new SwipeToDeleteCallback (activity, new SwipeToDeleteCallback.OnDeleteCallback () {
-							@Override
-							public void onDeleteItem (int position) {
-								//TODO: handle deletion of the package!!
-							}
-						}));
-						itemTouchHelper.attachToRecyclerView (rvCWs);
+				rvCWs.setAdapter (adapter);
+				rvCWs.setLayoutManager (new LinearLayoutManager (activity));
+				ItemTouchHelper itemTouchHelper = new ItemTouchHelper (new SwipeToDeleteCallback (activity, new SwipeToDeleteCallback.OnDeleteCallback () {
+					@Override
+					public void onDeleteItem (int position) {
+						//TODO: handle deletion of the package!!
+					}
+				}));
+				itemTouchHelper.attachToRecyclerView (rvCWs);
 
-						RefreshSubscriptionFragment ();
-						break;
-					default:
-						break;
-				}
+				RefreshSubscriptionFragment ();
 			}
 		});
 
@@ -169,7 +161,7 @@ public class ChooseCWFragment extends Fragment implements Toolbar.OnMenuItemClic
 		};
 		requireActivity ().getOnBackPressedDispatcher ().addCallback (this, callback);
 
-		mViewModel.startReloadPackages (activity, new SubscriptionManager.SubscribeChangeListener () {
+		mViewModel.startInit (activity, new SubscriptionManager.SubscribeChangeListener () {
 			@Override
 			public void SubscribeChanged () {
 				RefreshSubscriptionFragment ();

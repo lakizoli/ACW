@@ -13,10 +13,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
-
-public class ChooseCWViewModel extends ViewModel {
+public class ChooseCWViewModel extends BackgroundInitViewModel {
 	private boolean _isSubscribed = false;
 	private ArrayList<String> _sortedPackageKeys; ///< The keys of the packages sorted by package name
 	private HashMap<String, Package> _packages;
@@ -24,11 +21,6 @@ public class ChooseCWViewModel extends ViewModel {
 	private HashMap<String, Integer> _filledWordCounts; ///< The filled word counts of packages
 	private HashMap<String, ArrayList<SavedCrossword>> _savedCrosswords; ///< All of the generated crosswords of packages
 
-	private MutableLiveData<Integer> _action = new MutableLiveData<> ();
-
-	public MutableLiveData<Integer> getAction () {
-		return _action;
-	}
 	public boolean isSubscribed () {
 		return _isSubscribed;
 	}
@@ -48,10 +40,10 @@ public class ChooseCWViewModel extends ViewModel {
 		return _savedCrosswords;
 	}
 
-	public void startReloadPackages (final Activity activity, final SubscriptionManager.SubscribeChangeListener subscribeChangeListener) {
-		new Thread (new Runnable () {
+	public void startInit (final Activity activity, final SubscriptionManager.SubscribeChangeListener subscribeChangeListener) {
+		startInit (new InitListener () {
 			@Override
-			public void run () {
+			public void initInBackground () {
 				SubscriptionManager subscriptionManager = SubscriptionManager.sharedInstance ();
 				subscriptionManager.connectBilling (activity, subscribeChangeListener);
 				_isSubscribed = subscriptionManager.isSubscribed ();
@@ -130,10 +122,8 @@ public class ChooseCWViewModel extends ViewModel {
 
 					_filledWordCounts.put (packageKey, sumWordCount);
 				}
-
-				_action.postValue (ActionCodes.CHOOSE_CW_RELOAD_PACKAGES_ENDED);
 			}
-		}).start ();
+		});
 	}
 
 	public boolean hasSomePackages () {

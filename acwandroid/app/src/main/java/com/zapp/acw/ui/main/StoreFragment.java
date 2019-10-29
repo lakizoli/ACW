@@ -39,25 +39,18 @@ public class StoreFragment extends Fragment {
 
 		final FragmentActivity activity = getActivity ();
 
-		mViewModel.getAction ().observe (getViewLifecycleOwner (), new Observer<Integer> () {
+		mViewModel.setInitEndedObserver (new BackgroundInitViewModel.InitEndedObserver () {
 			@Override
-			public void onChanged (Integer action) {
-				switch (action) {
-					case ActionCodes.STORE_LOAD_ENDED: {
-						WebView webView = activity.findViewById (R.id.store_webview);
-						webView.loadDataWithBaseURL ("file:///android_asset/",
-							mViewModel.getConsiderationsHTML (),
-							"text/html",
-							"UTF-8",
-							"about:blank");
-						break;
-					}
-					default:
-						break;
-				}
+			public void onInitEnded () {
+				WebView webView = activity.findViewById (R.id.store_webview);
+				webView.loadDataWithBaseURL ("file:///android_asset/",
+					mViewModel.getConsiderationsHTML (),
+					"text/html",
+					"UTF-8",
+					"about:blank");
 			}
 		});
 
-		mViewModel.startLoad (activity);
+		mViewModel.startInit (activity);
 	}
 }

@@ -9,43 +9,31 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 import androidx.annotation.RawRes;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
-public class StoreViewModel extends ViewModel {
-	private MutableLiveData<Integer> _action = new MutableLiveData<> ();
-
+public class StoreViewModel extends BackgroundInitViewModel {
 	private String _considerationsHTML;
 	private String _privacyPolicyHTML;
 	private String _termsOfUseHTML;
 
-	public MutableLiveData<Integer> getAction () {
-		return _action;
-	}
-
 	public String getConsiderationsHTML () {
 		return _considerationsHTML;
 	}
-
 	public String getPrivacyPolicyHTML () {
 		return _privacyPolicyHTML;
 	}
-
 	public String getTermsOfUseHTML () {
 		return _termsOfUseHTML;
 	}
 
-	public void startLoad (final Activity activity) {
-		new Thread (new Runnable () {
+	public void startInit (final Activity activity) {
+		startInit (new InitListener () {
 			@Override
-			public void run () {
+			public void initInBackground () {
 				_considerationsHTML = readRAWResourceFile (activity, R.raw.considerations);
 				_privacyPolicyHTML = readRAWResourceFile (activity, R.raw.privacy_policy);
 				_termsOfUseHTML = readRAWResourceFile (activity, R.raw.terms_of_use);
-
-				_action.postValue (ActionCodes.STORE_LOAD_ENDED);
 			}
-		}).start ();
+		});
 	}
 
 	private static String readRAWResourceFile (Activity activity, @RawRes int id) {
