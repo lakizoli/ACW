@@ -30,9 +30,9 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class ChooseCWFragment extends Fragment implements Toolbar.OnMenuItemClickListener {
-
+public class ChooseCWFragment extends BackgroundInitFragment implements Toolbar.OnMenuItemClickListener {
 	private ChooseCWViewModel mViewModel;
+	private boolean mIsInProgress = false;
 
 	public static ChooseCWFragment newInstance () {
 		return new ChooseCWFragment ();
@@ -47,6 +47,7 @@ public class ChooseCWFragment extends Fragment implements Toolbar.OnMenuItemClic
 	@Override
 	public void onActivityCreated (@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated (savedInstanceState);
+		mIsInProgress = false;
 
 		mViewModel = ViewModelProviders.of (this).get (ChooseCWViewModel.class);
 
@@ -137,6 +138,9 @@ public class ChooseCWFragment extends Fragment implements Toolbar.OnMenuItemClic
 				itemTouchHelper.attachToRecyclerView (rvCWs);
 
 				RefreshSubscriptionFragment ();
+
+				//Sign end of init
+				endInit ();
 			}
 		});
 
@@ -144,7 +148,9 @@ public class ChooseCWFragment extends Fragment implements Toolbar.OnMenuItemClic
 		subscribeButton.setOnClickListener (new View.OnClickListener () {
 			@Override
 			public void onClick (View v) {
-				Navigation.findNavController (getView ()).navigate (R.id.ShowStore);
+				if (!isInInit () && !mIsInProgress) {
+					Navigation.findNavController (getView ()).navigate (R.id.ShowStore);
+				}
 			}
 		});
 
@@ -164,7 +170,9 @@ public class ChooseCWFragment extends Fragment implements Toolbar.OnMenuItemClic
 		mViewModel.startInit (activity, new SubscriptionManager.SubscribeChangeListener () {
 			@Override
 			public void SubscribeChanged () {
-				RefreshSubscriptionFragment ();
+				if (!isInInit () && !mIsInProgress) {
+					RefreshSubscriptionFragment ();
+				}
 			}
 		});
 
@@ -199,6 +207,12 @@ public class ChooseCWFragment extends Fragment implements Toolbar.OnMenuItemClic
 	}
 
 	private void runWithProgress (final Runnable block) {
+		if (mIsInProgress || isInInit ()) {
+			return;
+		}
+		mIsInProgress = true;
+		lockOrientation ();
+
 		final FragmentActivity activity = getActivity ();
 		final ProgressBar progressCW = activity.findViewById (R.id.cw_progress);
 		progressCW.setVisibility (View.VISIBLE);

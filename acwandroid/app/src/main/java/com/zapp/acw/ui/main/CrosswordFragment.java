@@ -42,7 +42,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
-public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemClickListener, Keyboard.EventHandler {
+public class CrosswordFragment extends BackgroundInitFragment implements Toolbar.OnMenuItemClickListener, Keyboard.EventHandler {
 	private CrosswordViewModel mViewModel;
 	private Keyboard mKeyboard;
 
@@ -66,9 +66,10 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 	private boolean _isFilled = false;
 
 	//Win screen effects
-	Timer _timerWin;
+	private boolean _isWinScreenOn = false;
+	private Timer _timerWin;
 //	EmitterEffect *_emitterWin[4];
-	int _starCount = 0;
+	private int _starCount = 0;
 
 	public static CrosswordFragment newInstance () {
 		return new CrosswordFragment ();
@@ -173,21 +174,7 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 				return true;
 			}
 			case R.id.cwview_hint: {
-				_areAnswersVisible = !_areAnswersVisible;
-
-				FragmentActivity activity = getActivity ();
-				Toolbar toolbar = activity.findViewById (R.id.cwview_toolbar);
-				Menu menu = toolbar.getMenu ();
-				MenuItem showHideButton = menu.findItem (R.id.cwview_hint);
-				showHideButton.setTitle (_areAnswersVisible ? "Hide Hint" : "Show Hint");
-				rebuildCrosswordTable ();
-
-				if (_areAnswersVisible) {
-					++_hintCount;
-
-					//Send netlog
-					NetLogger.logEvent ("Crossword_HintShow");
-				}
+				hintButtonPressed ();
 				return true;
 			}
 			default:
@@ -197,6 +184,10 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 	}
 
 	private void backButtonPressed () {
+		if (_isWinScreenOn || isInInit ()) {
+			return;
+		}
+
 		mergeStatistics ();
 
 		SavedCrossword savedCrossword = mViewModel.getSavedCrossword ();
@@ -208,6 +199,10 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 	}
 
 	private void resetButtonPressed () {
+		if (_isWinScreenOn || isInInit ()) {
+			return;
+		}
+
 		SavedCrossword savedCrossword = mViewModel.getSavedCrossword ();
 
 		_cellFilledValues.clear ();
@@ -220,6 +215,28 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 
 		//Send netlog
 		NetLogger.logEvent ("Crossword_ResetPressed");
+	}
+
+	private void hintButtonPressed () {
+		if (_isWinScreenOn || isInInit ()) {
+			return;
+		}
+
+		_areAnswersVisible = !_areAnswersVisible;
+
+		FragmentActivity activity = getActivity ();
+		Toolbar toolbar = activity.findViewById (R.id.cwview_toolbar);
+		Menu menu = toolbar.getMenu ();
+		MenuItem showHideButton = menu.findItem (R.id.cwview_hint);
+		showHideButton.setTitle (_areAnswersVisible ? "Hide Hint" : "Show Hint");
+		rebuildCrosswordTable ();
+
+		if (_areAnswersVisible) {
+			++_hintCount;
+
+			//Send netlog
+			NetLogger.logEvent ("Crossword_HintShow");
+		}
 	}
 
 	private void congratsButtonPressed () {
@@ -326,6 +343,9 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 				//Hide the progress bar
 				final ProgressBar progressCW = activity.findViewById (R.id.cwview_progress);
 				progressCW.setVisibility (View.INVISIBLE);
+
+				//Sign end of init
+				endInit ();
 			}
 		});
 	}
@@ -918,6 +938,9 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 	}
 
 	private void showWinScreen () {
+		_isWinScreenOn = true;
+		lockOrientation ();
+
 		final FragmentActivity activity = getActivity ();
 
 		resetInput ();

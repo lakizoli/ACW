@@ -416,7 +416,7 @@ public class TwoDScrollView extends FrameLayout {
 
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent event) {
-		if (mEnableScaling) {
+		if (mEnableScaling && mScaleDetector != null) {
 			mCurrentEventX = event.getX ();
 			mCurrentEventY = event.getY ();
 			mCurrentDeltaX = 0;

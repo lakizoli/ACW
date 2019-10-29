@@ -22,6 +22,8 @@ OK - a bill. feljovesekor az eltakart mezok nem gordulnek be a kepernyore, mert 
 - a store-rol hianyzik a navigation bar!
 OK - meg kell szuntetni, hogy az obszerverek tobbszor fussanak az action-re!!!!
 - implement generator view
+OK - crash van, ha a cw view-t tapolom progress kozben
+OK - crash van, ha tul gyorsan (meg init kozben) valotok nezetet (pl cw chooser -> store view)
 
 
 
