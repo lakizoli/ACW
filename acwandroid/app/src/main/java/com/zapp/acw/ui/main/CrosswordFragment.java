@@ -1,6 +1,9 @@
 package com.zapp.acw.ui.main;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -9,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -23,13 +27,11 @@ import com.zapp.acw.bll.SubscriptionManager;
 import com.zapp.acw.bll.Package;
 import com.zapp.acw.ui.keyboard.Keyboard;
 
-import java.text.FieldPosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.SimpleTimeZone;
-import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -39,14 +41,15 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
-
-import com.plattysoft.leonids.ParticleSystem;
 
 public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemClickListener, Keyboard.EventHandler {
 	private CrosswordViewModel mViewModel;
 
+	private HandlerThread mTableBuilderThread;
+	private Handler mTableBuilderHandler;
 	private Keyboard mKeyboard;
 
 	//Common view data
@@ -95,6 +98,7 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 		mViewModel = ViewModelProviders.of (this).get (CrosswordViewModel.class);
 
 		final FragmentActivity activity = getActivity ();
+		final Keyboard.EventHandler keyboardEventHandler = this;
 
 		//Init toolbar
 		Toolbar toolbar = activity.findViewById (R.id.cwview_toolbar);
@@ -124,34 +128,57 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 			}
 		});
 
+		final ProgressBar progressCW = activity.findViewById (R.id.cwview_progress);
+		progressCW.setVisibility (View.VISIBLE);
+
+		mViewModel.getAction ().observe (getViewLifecycleOwner (), new Observer<Integer> () {
+			@Override
+			public void onChanged (final Integer action) {
+				switch (action) {
+					case ActionCodes.CWVIEW_INIT_ENDED: {
+						//Init crossword
+						final SavedCrossword savedCrossword = mViewModel.getSavedCrossword ();
+						NetLogger.logEvent ("Crossword_ShowView", new HashMap<String, Object> () {{
+							put ("package", savedCrossword.packageName);
+							put ("name", savedCrossword.name);
+						}});
+
+						_areAnswersVisible = false;
+						_cellFilledValues = mViewModel.getCellFilledValues ();
+
+						//Create keyboard
+						mKeyboard = new Keyboard ();
+						resetInput ();
+
+						mTableBuilderThread = new HandlerThread ("BackgroundTableBuilder");
+						mTableBuilderThread.start ();
+
+						mTableBuilderHandler = new Handler (mTableBuilderThread.getLooper ());
+						new Thread (new Runnable () {
+							@Override
+							public void run () {
+								//Build keyboard
+								mKeyboard.setUsedKeys (savedCrossword.getUsedKeys ());
+								mKeyboard.setup (activity);
+								mKeyboard.setEventHandler (keyboardEventHandler);
+
+								//Reset state
+								resetStatistics ();
+
+								//Build crossword table
+								createCrosswordTable (activity);
+							}
+						}).start ();
+						break;
+					}
+					default:
+						break;
+				}
+			}
+		});
+
 		//Init view model
-		mViewModel.init (getArguments ());
-
-		//Init crossword
-		final SavedCrossword savedCrossword = mViewModel.getSavedCrossword ();
-		NetLogger.logEvent ("Crossword_ShowView", new HashMap<String, Object> () {{
-			put ("package", savedCrossword.packageName);
-			put ("name", savedCrossword.name);
-		}});
-
-		_areAnswersVisible = false;
-		_cellFilledValues = new HashMap<> ();
-		savedCrossword.loadFilledValuesInto (_cellFilledValues);
-
-		mKeyboard = new Keyboard ();
-		resetInput ();
-
-		savedCrossword.loadDB ();
-
-		mKeyboard.setUsedKeys (savedCrossword.getUsedKeys ());
-		mKeyboard.setup (activity);
-		mKeyboard.setEventHandler (this);
-
-		resetStatistics ();
-
-		//Build crossword table
-		createCrosswordTable ();
-		rebuildCrosswordTable ();
+		mViewModel.startInit (getArguments ());
 	}
 
 	//region Event handlers
@@ -265,27 +292,86 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 	public static final int CWCellType_Start_LeftRight_Bottom	= 0x0800;
 	public static final int CWCellType_HasValue					= 0x0FF8;
 
+	private int _cwCellCountToBuild = 0;
+
 	private int getCellSizeInPixels () {
 		final float scale = getContext().getResources().getDisplayMetrics().density;
 		return Math.round (50.0f * scale + 0.5f);
 	}
 
-	private void createCrosswordTable () {
-		final FragmentActivity activity = getActivity ();
-		TableLayout table = activity.findViewById (R.id.cw_table);
+	private void createCrosswordTable (final FragmentActivity activity) {
+		final TableLayout table = activity.findViewById (R.id.cw_table);
+
+		activity.runOnUiThread (new Runnable () {
+			@Override
+			public void run () {
+				table.removeAllViews ();
+			}
+		});
 
 		int pixels = getCellSizeInPixels ();
 
 		SavedCrossword savedCrossword = mViewModel.getSavedCrossword ();
 		LayoutInflater inflater = LayoutInflater.from (activity);
 
+		_cwCellCountToBuild = savedCrossword.height * savedCrossword.width;
+
 		for (int row = 0; row < savedCrossword.height;++row) {
-			TableRow tableRow = new TableRow (activity);
-			table.addView (tableRow);
+			createCrosswordRow (activity, row, inflater, table, pixels);
+		}
 
-			tableRow.setLayoutParams (new LinearLayout.LayoutParams (ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+		waitForCellCountToBuild ();
 
-			for (int col = 0; col < savedCrossword.width;++col) {
+		activity.runOnUiThread (new Runnable () {
+			@Override
+			public void run () {
+				//Stop background worker
+				mTableBuilderHandler = null;
+
+				if (mTableBuilderHandler != null) {
+					mTableBuilderThread.quit ();
+					mTableBuilderThread = null;
+				}
+
+				//Rebuild the cw
+				rebuildCrosswordTable ();
+
+				//Hide the progress bar
+				final ProgressBar progressCW = activity.findViewById (R.id.cwview_progress);
+				progressCW.setVisibility (View.INVISIBLE);
+			}
+		});
+	}
+
+	private void createCrosswordRow (final FragmentActivity activity, final int row, final LayoutInflater inflater, final TableLayout table, final int pixels) {
+		final SavedCrossword savedCrossword = mViewModel.getSavedCrossword ();
+
+		activity.runOnUiThread (new Runnable () {
+			@Override
+			public void run () {
+				final TableRow tableRow = new TableRow (activity);
+				table.addView (tableRow);
+
+				tableRow.setLayoutParams (new LinearLayout.LayoutParams (ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+				mTableBuilderHandler.post (new Runnable () {
+					@Override
+					public void run () {
+						for (int col = 0; col < savedCrossword.width; ++col) {
+							createCrosswordCell (activity, row, col, inflater, tableRow, pixels);
+						}
+					}
+				});
+			}
+		});
+	}
+
+	private void createCrosswordCell (final FragmentActivity activity, final int row, final int col,
+									  final LayoutInflater inflater, final TableRow tableRow, final int pixels)
+	{
+		activity.runOnUiThread (new Runnable () {
+			@Override
+			public void run () {
 				View cell = inflater.inflate (R.layout.crossword_cell, tableRow, false);
 				tableRow.addView (cell);
 
@@ -304,8 +390,26 @@ public class CrosswordFragment extends Fragment implements Toolbar.OnMenuItemCli
 						}
 					}
 				});
+
+				decreaseCellCountToBuild ();
+			}
+		});
+	}
+
+	private synchronized void waitForCellCountToBuild () {
+		while (_cwCellCountToBuild > 0) {
+			try {
+				wait ();
+			} catch (Exception ex) {
+				Log.e ("CrosswordFragment", "Wait () - Exception: " + ex.toString ());
+				return;
 			}
 		}
+	}
+
+	private synchronized void decreaseCellCountToBuild () {
+		--_cwCellCountToBuild;
+		notifyAll ();
 	}
 
 	private void rebuildCrosswordTable () {

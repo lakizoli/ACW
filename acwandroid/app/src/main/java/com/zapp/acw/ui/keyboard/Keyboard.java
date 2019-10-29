@@ -87,8 +87,13 @@ public class Keyboard {
 			add ((LinearLayout) activity.findViewById (R.id.cwview_keyboard_row4));
 		}};
 
-		for (LinearLayout layout : layouts) {
-			layout.removeAllViews ();
+		for (final LinearLayout layout : layouts) {
+			activity.runOnUiThread (new Runnable () {
+				@Override
+				public void run () {
+					layout.removeAllViews ();
+				}
+			});
 		}
 
 		ArrayList<String> keys;
@@ -103,44 +108,88 @@ public class Keyboard {
 		}
 	}
 
-	private void createButtonsForKeys (FragmentActivity activity, int page, ArrayList<String> keys, ArrayList<Double> weights, LinearLayout destination) {
+	private void createButtonsForKeys (final FragmentActivity activity, int page, ArrayList<String> keys, ArrayList<Double> weights, final LinearLayout destination) {
 		double sumWeight = 0;
 		for (double weight : weights) {
 			sumWeight += weight;
 		}
 
 		for (int idx = 0; idx < keys.size (); ++idx) {
-			String key = keys.get (idx);
-			double widthRatio = weights.get (idx) / sumWeight;
-			boolean addSpacer = idx > 0;
+			final String key = keys.get (idx);
+			final double widthRatio = weights.get (idx) / sumWeight;
+			final boolean addSpacer = idx > 0;
 
 			if (key.equalsIgnoreCase (BACKSPACE)) {
-				addImageView (activity, key, widthRatio, R.drawable.backspace_keyboard, addSpacer, destination);
-			} else if (key.equalsIgnoreCase (ENTER)) {
-				Button button = addTextButton (activity, key, widthRatio, "Done", addSpacer, destination);
-				button.setBackgroundColor (Color.rgb (13, 57, 228));
-			} else if (key.equalsIgnoreCase (SPACEBAR)) {
-				addTextButton (activity, key, widthRatio, "Space", addSpacer, destination);
-			} else if (key.equalsIgnoreCase (TURNOFF)) {
-				addImageView (activity, key, widthRatio, R.drawable.turn_off_keyboard, addSpacer, destination);
-			} else if (key.equalsIgnoreCase (SWITCH)) {
-				addImageView (activity, key, widthRatio, R.drawable.switch_keyboard, addSpacer, destination);
-			} else if (key.startsWith ("Ex")) { //Extra key
-				int extraKeyID = _keyboardConfig.getExtraKeyID (key, page);
-				if (extraKeyID > 0) { //Used extra key
-					Button button = addTextButton (activity, key, widthRatio, "", addSpacer, destination);
-					button.setTag (new Integer (extraKeyID));
+				activity.runOnUiThread (new Runnable () {
+					@Override
+					public void run () {
+						addImageView (activity, key, widthRatio, R.drawable.backspace_keyboard, addSpacer, destination);
 
-					String title = _keyboardConfig.getTitleForExtraKeyID (extraKeyID);
-					if (title != null && title.length () > 0) {
-//						Log.d ("title: " + title);
-						button.setText (title);
 					}
+				});
+			} else if (key.equalsIgnoreCase (ENTER)) {
+				activity.runOnUiThread (new Runnable () {
+					@Override
+					public void run () {
+						Button button = addTextButton (activity, key, widthRatio, "Done", addSpacer, destination);
+						button.setBackgroundColor (Color.rgb (13, 57, 228));
+
+					}
+				});
+			} else if (key.equalsIgnoreCase (SPACEBAR)) {
+				activity.runOnUiThread (new Runnable () {
+					@Override
+					public void run () {
+						addTextButton (activity, key, widthRatio, "Space", addSpacer, destination);
+					}
+				});
+			} else if (key.equalsIgnoreCase (TURNOFF)) {
+				activity.runOnUiThread (new Runnable () {
+					@Override
+					public void run () {
+						addImageView (activity, key, widthRatio, R.drawable.turn_off_keyboard, addSpacer, destination);
+					}
+				});
+			} else if (key.equalsIgnoreCase (SWITCH)) {
+				activity.runOnUiThread (new Runnable () {
+					@Override
+					public void run () {
+						addImageView (activity, key, widthRatio, R.drawable.switch_keyboard, addSpacer, destination);
+					}
+				});
+			} else if (key.startsWith ("Ex")) { //Extra key
+				final int extraKeyID = _keyboardConfig.getExtraKeyID (key, page);
+				if (extraKeyID > 0) { //Used extra key
+					activity.runOnUiThread (new Runnable () {
+						@Override
+						public void run () {
+							Button button = addTextButton (activity, key, widthRatio, "", addSpacer, destination);
+							button.setTag (new Integer (extraKeyID));
+
+							String title = _keyboardConfig.getTitleForExtraKeyID (extraKeyID);
+							if (title != null && title.length () > 0) {
+//								Log.d ("title: " + title);
+								button.setText (title);
+							}
+
+						}
+					});
 				} else { //Unused extra key
-					addSpacerView (activity, widthRatio, destination);
+					activity.runOnUiThread (new Runnable () {
+						@Override
+						public void run () {
+							addSpacerView (activity, widthRatio, destination);
+
+						}
+					});
 				}
 			} else { //Normal value key
-				addTextButton (activity, key, widthRatio, key, addSpacer, destination);
+				activity.runOnUiThread (new Runnable () {
+					@Override
+					public void run () {
+						addTextButton (activity, key, widthRatio, key, addSpacer, destination);
+					}
+				});
 			}
 		}
 	}

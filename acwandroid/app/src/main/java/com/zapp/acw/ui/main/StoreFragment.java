@@ -43,7 +43,7 @@ public class StoreFragment extends Fragment {
 			@Override
 			public void onChanged (Integer action) {
 				switch (action) {
-					case StoreViewModel.LOAD_STORE_ENDED: {
+					case ActionCodes.STORE_LOAD_ENDED: {
 						WebView webView = activity.findViewById (R.id.store_webview);
 						webView.loadDataWithBaseURL ("file:///android_asset/",
 							mViewModel.getConsiderationsHTML (),

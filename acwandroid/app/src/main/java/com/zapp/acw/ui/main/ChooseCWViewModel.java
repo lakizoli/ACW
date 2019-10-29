@@ -17,8 +17,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 public class ChooseCWViewModel extends ViewModel {
-	public static final int RELOAD_PACKAGES_ENDED = 1;
-
 	private boolean _isSubscribed = false;
 	private ArrayList<String> _sortedPackageKeys; ///< The keys of the packages sorted by package name
 	private HashMap<String, Package> _packages;
@@ -133,7 +131,7 @@ public class ChooseCWViewModel extends ViewModel {
 					_filledWordCounts.put (packageKey, sumWordCount);
 				}
 
-				_action.postValue (RELOAD_PACKAGES_ENDED);
+				_action.postValue (ActionCodes.CHOOSE_CW_RELOAD_PACKAGES_ENDED);
 			}
 		}).start ();
 	}

@@ -5,24 +5,17 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 import com.zapp.acw.R;
 import com.zapp.acw.bll.Package;
 import com.zapp.acw.bll.SavedCrossword;
-import com.zapp.acw.bll.Statistics;
 import com.zapp.acw.bll.SubscriptionManager;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -37,7 +30,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import static com.zapp.acw.ui.main.ChooseCWViewModel.RELOAD_PACKAGES_ENDED;
+import static com.zapp.acw.ui.main.ActionCodes.CHOOSE_CW_RELOAD_PACKAGES_ENDED;
 
 public class ChooseCWFragment extends Fragment implements Toolbar.OnMenuItemClickListener {
 
@@ -73,7 +66,7 @@ public class ChooseCWFragment extends Fragment implements Toolbar.OnMenuItemClic
 			@Override
 			public void onChanged (Integer action) {
 				switch (action) {
-					case RELOAD_PACKAGES_ENDED:
+					case CHOOSE_CW_RELOAD_PACKAGES_ENDED:
 						progressCW.setVisibility (View.INVISIBLE);
 						helpLayout.setVisibility (mViewModel.hasSomePackages () ? View.INVISIBLE : View.VISIBLE);
 						rvCWs.setVisibility (mViewModel.hasSomePackages () ? View.VISIBLE : View.INVISIBLE);
