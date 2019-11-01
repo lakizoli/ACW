@@ -1,8 +1,8 @@
 Hibák (Android):
-- Minden lista képernyő háttérszíne rossz
+OK - Minden lista képernyő háttérszíne rossz
 OK - Rohadt lassú a cw fel/újraépítése
 - Toolbar gombok színe rossz
-- download anki packages nezet tab bar-ja fekvo helyzetben nem teljes szelessegu
+OK - download anki packages nezet tab bar-ja fekvo helyzetben nem teljes szelessegu
 OK - Rohadt lassú a megoldás kiválasztása
 - Nem jó helyre pozícionál az ensureVisible
 OK - Van egy extra üres oldal a bill.-ben
