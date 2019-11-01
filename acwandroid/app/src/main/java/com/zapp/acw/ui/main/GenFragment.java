@@ -1,6 +1,9 @@
 package com.zapp.acw.ui.main;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -88,11 +91,18 @@ public class GenFragment extends Fragment implements Toolbar.OnMenuItemClickList
 				//Set question chooser
 				final RecyclerView rvQuestion = activity.findViewById (R.id.question_chooser);
 
-				GenAdapter adapter = new GenAdapter (generatorInfo, new GenAdapter.OnItemClickListener () {
+				GenAdapter adapter = new GenAdapter (generatorInfo, mViewModel.getQuestionFieldIndex (), new GenAdapter.OnItemClickListener () {
 					@Override
 					public void onItemClick (int position, Field field) {
 						mViewModel.setQuestionFieldIndex (position);
 
+						TextView textView = activity.findViewById (R.id.text_question_value);
+						String fieldValue = mViewModel.getFieldValue (field);
+						updatePickerLabel (textView, "Question field:", fieldValue);
+					}
+				}, new GenAdapter.OnInitialSelectionListener () {
+					@Override
+					public void onInitialSelection (int position, Field field) {
 						TextView textView = activity.findViewById (R.id.text_question_value);
 						String fieldValue = mViewModel.getFieldValue (field);
 						updatePickerLabel (textView, "Question field:", fieldValue);
@@ -105,11 +115,18 @@ public class GenFragment extends Fragment implements Toolbar.OnMenuItemClickList
 				//Set solution chooser
 				final RecyclerView rvSolution = activity.findViewById (R.id.solution_chooser);
 
-				adapter = new GenAdapter (generatorInfo, new GenAdapter.OnItemClickListener () {
+				adapter = new GenAdapter (generatorInfo, mViewModel.getSolutionFieldIndex (), new GenAdapter.OnItemClickListener () {
 					@Override
 					public void onItemClick (int position, Field field) {
 						mViewModel.setSolutionFieldIndex (position);
 
+						TextView textView = activity.findViewById (R.id.text_solution_value);
+						String fieldValue = mViewModel.getFieldValue (field);
+						updatePickerLabel (textView, "Solution field:", fieldValue);
+					}
+				}, new GenAdapter.OnInitialSelectionListener () {
+					@Override
+					public void onInitialSelection (int position, Field field) {
 						TextView textView = activity.findViewById (R.id.text_solution_value);
 						String fieldValue = mViewModel.getFieldValue (field);
 						updatePickerLabel (textView, "Solution field:", fieldValue);
@@ -206,7 +223,12 @@ public class GenFragment extends Fragment implements Toolbar.OnMenuItemClickList
 		}
 
 		String example = String.format ("(e.g.: \"%s\")", exampleContent);
-		String content = String.format ("%s %s", text, example);
+		Spanned content;
+		if (Build.VERSION.SDK_INT >= 24) {
+			content = Html.fromHtml (String.format ("<span>%s</span> <i><font color='#AAAAAA'>%s</font></i>", text, example), Html.FROM_HTML_MODE_COMPACT);
+		} else {
+			content = Html.fromHtml (String.format ("<span>%s</span> <i><font color='#AAAAAA'>%s</font></i>", text, example));
+		}
 		label.setText (content);
 	}
 }

@@ -45,8 +45,16 @@ public class GenViewModel extends ViewModel {
 	public ArrayList<Deck> getDecks () {
 		return _decks;
 	}
+
+	public int getQuestionFieldIndex () {
+		return _questionFieldIndex;
+	}
 	public void setQuestionFieldIndex (int questionFieldIndex) {
 		_questionFieldIndex = questionFieldIndex;
+	}
+
+	public int getSolutionFieldIndex () {
+		return _solutionFieldIndex;
 	}
 	public void setSolutionFieldIndex (int solutionFieldIndex) {
 		_solutionFieldIndex = solutionFieldIndex;

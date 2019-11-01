@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:weightSum="1">
+        android:weightSum="1"
+        android:background="@color/blueBackground">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/gen_toolbar"
@@ -26,7 +27,13 @@
             android:id="@+id/text_question_value"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:text="Question field:"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:padding="6dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            app:fontFamily="@font/avenir_next_condensed_bold" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/question_chooser"
@@ -38,7 +45,13 @@
             android:id="@+id/text_solution_value"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:text="Solution field:"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:padding="6dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            app:fontFamily="@font/avenir_next_condensed_bold" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/solution_chooser"

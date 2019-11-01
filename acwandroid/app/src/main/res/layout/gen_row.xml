@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
         android:id="@+id/field_name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="TextView" />
+        android:layout_centerInParent="true"
+        android:textAlignment="center"
+        android:text="TextView"
+        android:textSize="24sp"
+        android:padding="6dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:fontFamily="@font/avenir_next_condensed_bold"/>
 
-</LinearLayout>
+</RelativeLayout>
