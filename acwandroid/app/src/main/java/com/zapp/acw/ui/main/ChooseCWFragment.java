@@ -195,6 +195,7 @@ public class ChooseCWFragment extends BackgroundInitFragment implements Toolbar.
 							@Override
 							public void run () {
 								Navigation.findNavController (getView ()).navigate (R.id.ShowDownload);
+								unlockOrientation ();
 							}
 						});
 					}

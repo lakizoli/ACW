@@ -9,7 +9,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="left"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/blueBackground">
 
         <TextView
             android:id="@+id/cw_package_name"
@@ -36,7 +37,7 @@
             app:fontFamily="@font/avenir_next_condensed" />
 
         <View
-            android:background="#88CCCCCC"
+            android:background="#88AAAAAA"
             android:layout_width="wrap_content"
             android:layout_height="1dp"
             android:layout_marginTop="6dp"

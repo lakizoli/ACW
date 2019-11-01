@@ -31,7 +31,8 @@
                 android:id="@+id/package_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scrollbars="vertical" />
+                android:scrollbars="vertical"
+                android:background="@color/blueBackground" />
 
             <WebView
                 android:id="@+id/web_search"
@@ -45,6 +46,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            app:tabGravity="fill"
+            app:tabMaxWidth="0dp"
+            app:tabMode="fixed"
             app:tabBackground="@color/colorGreenBack"
             app:tabTextColor="@color/colorYellowText"
             app:tabIconTint="@color/colorYellowText"

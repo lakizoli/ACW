@@ -8,6 +8,7 @@
     <color name="colorGreenBack">#FF285050</color>
     <color name="colorGreenBackDark">#FF1F3D3D</color>
     <color name="progressBackground">#EBEBEB</color>
+    <color name="blueBackground">#D5E0E6</color>
 
     <color name="colorLightBlueBack">#FFD6DEE4</color>
     <color name="highlightedCurrentCell">#FF387070</color>
