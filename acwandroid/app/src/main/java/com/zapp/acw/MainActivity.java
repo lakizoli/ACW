@@ -1,13 +1,11 @@
 package com.zapp.acw;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 
 import com.zapp.acw.bll.PackageManager;
 import com.zapp.acw.bll.SubscriptionManager;
-import com.zapp.acw.ui.main.MainFragment;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 	static {
