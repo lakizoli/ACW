@@ -5,6 +5,8 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.zapp.acw.R;
@@ -53,6 +55,7 @@ public class ChooseCWAdapter extends RecyclerView.Adapter<ChooseCWAdapter.ViewHo
 		public TextView packageName;
 		public TextView statistics;
 		public TextView randomButton;
+		public ImageView arrowView;
 
 		public ViewHolder (View itemView) {
 			super (itemView);
@@ -60,6 +63,7 @@ public class ChooseCWAdapter extends RecyclerView.Adapter<ChooseCWAdapter.ViewHo
 			packageName = itemView.findViewById (R.id.cw_package_name);
 			statistics = itemView.findViewById (R.id.cw_statistic);
 			randomButton = itemView.findViewById (R.id.cw_random_button);
+			arrowView = itemView.findViewById (R.id.cw_row_arrow);
 		}
 	}
 
@@ -104,8 +108,9 @@ public class ChooseCWAdapter extends RecyclerView.Adapter<ChooseCWAdapter.ViewHo
 				holder.statistics.setTextColor (_normalSubTextColor);
 				holder.randomButton.setTextColor (_normalSubTextColor);
 
-				holder.itemView.setBackgroundColor (0);
+				holder.itemView.setBackgroundColor (holder.itemView.getResources ().getColor (R.color.blueBackground));
 			}
+			holder.arrowView.setVisibility (View.VISIBLE);
 		} else {
 			if (_selectedPosition == position) {
 				holder.packageName.setTextColor (_disabledSelectedPackColor);
@@ -118,8 +123,9 @@ public class ChooseCWAdapter extends RecyclerView.Adapter<ChooseCWAdapter.ViewHo
 				holder.statistics.setTextColor (_disabledPackColor);
 				holder.randomButton.setTextColor (_disabledPackColor);
 
-				holder.itemView.setBackgroundColor (0);
+				holder.itemView.setBackgroundColor (holder.itemView.getResources ().getColor (R.color.blueBackground));
 			}
+			holder.arrowView.setVisibility (View.INVISIBLE);
 		}
 
 		String title = pack.state.overriddenPackageName;
@@ -132,12 +138,6 @@ public class ChooseCWAdapter extends RecyclerView.Adapter<ChooseCWAdapter.ViewHo
 			pack.state.levelCount,
 			pack.state.filledLevel >= pack.state.levelCount ? pack.state.wordCount : filledWordCount,
 			pack.state.wordCount));
-
-//		if (cwEnabled) {
-//			[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-//		} else {
-//			[cell setAccessoryType:UITableViewCellAccessoryNone];
-//		}
 
 		// Set the click listener
 		holder.itemView.setOnClickListener (new View.OnClickListener () {
