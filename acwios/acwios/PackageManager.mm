@@ -472,10 +472,17 @@
 	NSUInteger maxCount = 0;
 	for (NSUInteger i = 0, iEnd = [cws count]; i < iEnd; ++i) {
 		SavedCrossword *cw = [cws objectAtIndex:i];
+		
+		int32_t offset = [cw loadStatisticsOffset];
+		if (offset < 0) {
+			offset = 0;
+		}
+		
 		NSArray<Statistics*> *stat = [cw loadStatistics];
 		
-		if (stat.count > maxCount) {
-			maxCount = stat.count;
+		int32_t count = (int32_t) stat.count + offset;
+		if (count > maxCount) {
+			maxCount = count;
 		}
 	}
 	

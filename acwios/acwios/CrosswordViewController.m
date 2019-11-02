@@ -255,7 +255,7 @@
 	if (statOffset < 0) {
 		NSString* packageKey = [_currentPackage getPackageKey];
 		uint32_t maxStatCount = [[PackageManager sharedInstance] getMaxStatCountOfCWSet:packageKey];
-		[_savedCrossword saveStatisticsOffset:maxStatCount];
+		[_savedCrossword saveStatisticsOffset:maxStatCount-1];
 	}
 	
 	[self resetStatistics];
