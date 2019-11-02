@@ -3,6 +3,8 @@ package com.zapp.acw.bll;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.zapp.acw.FileUtils;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -16,6 +18,10 @@ public final class Package implements Parcelable {
 	public GameState state;
 
 	public Package () {
+	}
+
+	public String getPackageKey () {
+		return FileUtils.getFileName (path);
 	}
 
 	//region Parcelable implementation

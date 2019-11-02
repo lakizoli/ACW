@@ -16,7 +16,7 @@ OK - Eszközön még mindig lassúnak tűnik a kitöltés
 OK - a bill. feljovesekor az eltakart mezok nem gordulnek be a kepernyore, mert nem tudja frissiteni a showKeyboard utan a layout-ot. Esetleg kesleltetett ensurevisible kell majd...
 - Win particle hianyzik
 - package megnyitasa file-bol tetszoleges helyrol
-- package törlésének végrehajtása
+OK - package törlésének végrehajtása
 OK - cw nezet elsotetul forgataskor
 - a store html szovegenek google-ra szabasa
 - a store-rol hianyzik a navigation bar!

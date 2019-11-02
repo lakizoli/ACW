@@ -809,6 +809,14 @@ public class CrosswordFragment extends BackgroundInitFragment implements Toolbar
 
 		SavedCrossword savedCrossword = mViewModel.getSavedCrossword ();
 		savedCrossword.mergeStatistics (_failCount, _hintCount, fillRatio, isFilled, (int) duration);
+
+		int statOffset = savedCrossword.loadStatisticsOffset ();
+		if (statOffset < 0) {
+			String packageKey = mViewModel.getCurrentPackage ().getPackageKey ();
+			int maxStatCount = PackageManager.sharedInstance ().getMaxStatCountOfCWSet (packageKey);
+			savedCrossword.saveStatisticsOffset (maxStatCount-1);
+		}
+
 		resetStatistics ();
 	}
 

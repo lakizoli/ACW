@@ -1,6 +1,8 @@
 package com.zapp.acw.ui.main;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -9,17 +11,21 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.zapp.acw.FileUtils;
 import com.zapp.acw.R;
+import com.zapp.acw.bll.NetLogger;
 import com.zapp.acw.bll.Package;
 import com.zapp.acw.bll.SavedCrossword;
 import com.zapp.acw.bll.SubscriptionManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -131,8 +137,36 @@ public class ChooseCWFragment extends BackgroundInitFragment implements Toolbar.
 				rvCWs.setLayoutManager (new LinearLayoutManager (activity));
 				ItemTouchHelper itemTouchHelper = new ItemTouchHelper (new SwipeToDeleteCallback (activity, new SwipeToDeleteCallback.OnDeleteCallback () {
 					@Override
-					public void onDeleteItem (int position) {
-						//TODO: handle deletion of the package!!
+					public void onDeleteItem (final int position) {
+						AlertDialog.Builder builder = new AlertDialog.Builder (activity);
+						builder.setTitle ("Do you want to delete this crossword?");
+
+						builder.setMessage ("You cannot undo this action.");
+
+						builder.setNegativeButton (R.string.cancel, new DialogInterface.OnClickListener () {
+							@Override
+							public void onClick (DialogInterface dialog, int which) {
+								activity.recreate ();
+							}
+						});
+						builder.setPositiveButton (R.string.delete, new DialogInterface.OnClickListener () {
+							@Override
+							public void onClick (DialogInterface dialog, int which) {
+								String packageKey = mViewModel.getSortedPackageKeys ().get (position);
+								final Package pack = mViewModel.getPackages ().get (packageKey);
+								NetLogger.logEvent ("SUIChooseCW_DeleteCW", new HashMap<String, Object> () {{
+									put ("package", FileUtils.getFileName (pack.path));
+								}});
+
+								if (!FileUtils.deleteRecursive (pack.path)) {
+									Log.e ("ChooseCWFragment", "Cannot remove package at path: " + pack.path);
+								}
+
+								activity.recreate ();
+							}
+						});
+
+						builder.show ();
 					}
 				}));
 				itemTouchHelper.attachToRecyclerView (rvCWs);

@@ -246,10 +246,17 @@ public final class PackageManager {
 		int maxCount = 0;
 		for (int i = 0, iEnd = cws == null ? 0 : cws.size (); i < iEnd; ++i) {
 			SavedCrossword cw = cws.get (i);
+
+			int offset = cw.loadStatisticsOffset ();
+			if (offset < 0) {
+				offset = 0;
+			}
+
 			ArrayList<Statistics> stat = cw.loadStatistics ();
 
-			if (stat != null && stat.size () > maxCount) {
-				maxCount = stat.size ();
+			int count = (stat == null ? 0 : stat.size ()) + offset;
+			if (count > maxCount) {
+				maxCount = count;
 			}
 		}
 

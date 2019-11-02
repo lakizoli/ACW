@@ -55,7 +55,7 @@ public class ChooseCWViewModel extends BackgroundInitViewModel {
 				_sortedPackageKeys = new ArrayList<> ();
 				_packages = new HashMap<> ();
 				for (Package obj : packs) {
-					String packageKey = FileUtils.getFileName (obj.path);
+					String packageKey = obj.getPackageKey ();
 					ArrayList<SavedCrossword> cws = _savedCrosswords.get (packageKey);
 					if (cws != null && cws.size () > 0) {
 						_sortedPackageKeys.add (packageKey);
