@@ -29,10 +29,11 @@ OK - crash van, ha a cw view-t tapolom progress kozben
 OK - crash van, ha tul gyorsan (meg init kozben) valotok nezetet (pl cw chooser -> store view)
 - Netlogger implementalasa
 - Help buborek a jatekon implementalasa
-- done gomb nem mindig lesz kek
-- nem mindig latszik a gombnyomas sarga szine
-- meg mindig lassu az iras
+OK - done gomb nem mindig lesz kek
+OK - nem mindig latszik a gombnyomas sarga szine
+OK - meg mindig lassu az iras
 - tenyleg csak a legelso csomagot lehessen játszani (ha letörli a csomagot, akkor mindegyik legyen piros a továbbiakban!)
+- forgatasnal nem marad meg a beirt ertek a cw-ben
 
 
 

@@ -19,6 +19,8 @@ import com.zapp.acw.R;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import androidx.annotation.DrawableRes;
 import androidx.core.content.res.ResourcesCompat;
@@ -32,6 +34,10 @@ import static com.zapp.acw.ui.keyboard.KeyboardConfig.SWITCH;
 import static com.zapp.acw.ui.keyboard.KeyboardConfig.TURNOFF;
 
 public class Keyboard {
+	private static final int _doneColor = Color.rgb (13, 57, 228);
+	private static final int _highlightColor = Color.rgb (229,193,71);
+	private static int _greenColor = 0;
+
 	private HashSet<String> _usedKeys;
 
 	private KeyboardConfig _keyboardConfig;
@@ -57,6 +63,8 @@ public class Keyboard {
 		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) cwLayout.getLayoutParams ();
 		params.setMargins (0, 0, 0, getDPSizeInPixels (activity, 200));
 		cwLayout.setLayoutParams (params);
+
+		_greenColor = activity.getResources ().getColor (R.color.colorGreenBack);
 	}
 
 	public void hideKeyboard (FragmentActivity activity) {
@@ -132,8 +140,7 @@ public class Keyboard {
 					@Override
 					public void run () {
 						Button button = addTextButton (activity, key, widthRatio, "Done", addSpacer, destination);
-						button.setBackgroundColor (Color.rgb (13, 57, 228));
-
+						button.setBackgroundColor (_doneColor);
 					}
 				});
 			} else if (key.equalsIgnoreCase (SPACEBAR)) {
@@ -257,7 +264,7 @@ public class Keyboard {
 
 	private void setupButtonsAction (View view, String key) {
 		if (key.equalsIgnoreCase (BACKSPACE)) {
-			view.setOnTouchListener (new ButtonTouchListener ());
+			view.setOnTouchListener (new ButtonTouchListener (false));
 			view.setOnClickListener (new View.OnClickListener () {
 				@Override
 				public void onClick (View v) {
@@ -265,7 +272,7 @@ public class Keyboard {
 				}
 			});
 		} else if (key.equalsIgnoreCase (ENTER)) {
-			view.setOnTouchListener (new ButtonTouchListener ());
+			view.setOnTouchListener (new ButtonTouchListener (true));
 			view.setOnClickListener (new View.OnClickListener () {
 				@Override
 				public void onClick (View v) {
@@ -273,7 +280,7 @@ public class Keyboard {
 				}
 			});
 		} else if (key.equalsIgnoreCase (SPACEBAR)) {
-			view.setOnTouchListener (new ButtonTouchListener ());
+			view.setOnTouchListener (new ButtonTouchListener (false));
 			view.setOnClickListener (new View.OnClickListener () {
 				@Override
 				public void onClick (View v) {
@@ -281,7 +288,7 @@ public class Keyboard {
 				}
 			});
 		} else if (key.equalsIgnoreCase (TURNOFF)) {
-			view.setOnTouchListener (new ButtonTouchListener ());
+			view.setOnTouchListener (new ButtonTouchListener (false));
 			view.setOnClickListener (new View.OnClickListener () {
 				@Override
 				public void onClick (View v) {
@@ -289,7 +296,7 @@ public class Keyboard {
 				}
 			});
 		} else if (key.equalsIgnoreCase (SWITCH)) {
-			view.setOnTouchListener (new ButtonTouchListener ());
+			view.setOnTouchListener (new ButtonTouchListener (false));
 			view.setOnClickListener (new View.OnClickListener () {
 				@Override
 				public void onClick (View v) {
@@ -297,7 +304,7 @@ public class Keyboard {
 				}
 			});
 		} else if (key.startsWith ("Ex")) { //Extra key
-			view.setOnTouchListener (new ButtonTouchListener ());
+			view.setOnTouchListener (new ButtonTouchListener (false));
 			view.setOnClickListener (new View.OnClickListener () {
 				@Override
 				public void onClick (View v) {
@@ -305,7 +312,7 @@ public class Keyboard {
 				}
 			});
 		} else { //Normal value key
-			view.setOnTouchListener (new ButtonTouchListener ());
+			view.setOnTouchListener (new ButtonTouchListener (false));
 			view.setOnClickListener (new View.OnClickListener () {
 				@Override
 				public void onClick (View v) {
@@ -379,17 +386,21 @@ public class Keyboard {
 	}
 
 	private class ButtonTouchListener implements View.OnTouchListener {
+		private boolean _isDoneHandler = false;
+
+		public ButtonTouchListener (boolean isDoneHandler) {
+			_isDoneHandler = isDoneHandler;
+		}
+
 		@Override
-		public boolean onTouch (View view, MotionEvent event) {
+		public boolean onTouch (final View view, MotionEvent event) {
 			switch (event.getAction ()) {
 				case MotionEvent.ACTION_DOWN:
-					view.setBackgroundColor (Color.rgb (229,193,71));
+					view.setBackgroundColor (_highlightColor);
 					break;
-				case MotionEvent.ACTION_UP: {
-					final FragmentActivity activity = getActivityFromView (view);
-					view.setBackgroundColor (activity.getResources ().getColor (R.color.colorGreenBack));
+				case MotionEvent.ACTION_UP:
+					view.setBackgroundColor (_isDoneHandler ? _doneColor : _greenColor);
 					break;
-				}
 				default:
 					break;
 			}
