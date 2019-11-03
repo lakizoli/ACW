@@ -9,7 +9,7 @@ OK - Van egy extra üres oldal a bill.-ben
 OK - A billentyűk mérete túl nagy. Legyen köztük spacer.
 OK - A billentyűzet háttérszíne legyen sötétebb
 OK - Nem marad meg a megoldás az újraépítés után
-- Inditóképernyő legyen megadva, mert most fehér a háttér induláskor. Legyen ua, mint a starting képernyő
+Nem kell - Inditóképernyő legyen megadva, mert most fehér a háttér induláskor. Legyen ua, mint a starting képernyő
 OK - CW nézet nagyítása nem működik
 OK - keyboard nem jelzi, hogy megnyomták
 OK - Eszközön még mindig lassúnak tűnik a kitöltés
@@ -18,8 +18,11 @@ OK - Win particle hianyzik
 OK - package megnyitasa file-bol tetszoleges helyrol
 OK - package törlésének végrehajtása
 OK - cw nezet elsotetul forgataskor
-- a store html szovegenek google-ra szabasa
-- a store-rol hianyzik a navigation bar!
+OK - a store html szovegenek google-ra szabasa
+OK - a store-rol hianyzik a navigation bar!
+OK - store árak kitöltése
+OK - store gombok bekötése
+OK - store kiiktatott mukodes implementalasa (teszt)
 OK - meg kell szuntetni, hogy az obszerverek tobbszor fussanak az action-re!!!!
 OK - implement generator view
 OK - crash van, ha a cw view-t tapolom progress kozben
@@ -29,13 +32,14 @@ OK - crash van, ha tul gyorsan (meg init kozben) valotok nezetet (pl cw chooser 
 - done gomb nem mindig lesz kek
 - nem mindig latszik a gombnyomas sarga szine
 - meg mindig lassu az iras
-
+- tenyleg csak a legelso csomagot lehessen játszani (ha letörli a csomagot, akkor mindegyik legyen piros a továbbiakban!)
 
 
 
 
 Hibák (iOS):
 - file importalas soran generalas vegrehajtasa
+- tenyleg csak a legelso csomagot lehessen játszani (ha letörli a csomagot, akkor mindegyik legyen piros a továbbiakban!)
 - Ha alert-ről vásárolok az első cw után, akkor nem a 2.-kal folytatódik a játék, hanem az 1.-vel újra
 - Az 1. cw-t korlátlan alkalommal lehet újra lejátszani ingyen. Ez rossz. Ne lehessen, csak egyszer/kétszer
 OK - A show hint/reset gomb elmagyarázása fontos lenne egy tour keretében (mint a fő lista plusz menüje esetében)

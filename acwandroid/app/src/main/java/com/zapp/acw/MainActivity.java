@@ -1,5 +1,6 @@
 package com.zapp.acw;
 
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -40,6 +41,14 @@ public class MainActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate (savedInstanceState);
+
+		final MainActivity activity = this;
+		SubscriptionManager.sharedInstance ().setActivityProvider (new SubscriptionManager.ActivityProvider () {
+			@Override
+			public Activity getActivity () {
+				return activity;
+			}
+		});
 
 		String openInFileName = OpenIn ();
 		if (openInFileName != null) { //If a file has been opened in the app

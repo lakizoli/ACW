@@ -32,12 +32,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.navigation.Navigation;
 
 public final class SubscriptionManager implements PurchasesUpdatedListener {
-	// Testing in app purchase
+	// Testing in app purchase (only success case may be tested!)
 	private boolean TEST_PURCHASE = false;
-
-	// Answer types of in app purchase test
-	private boolean TEST_PURCHASE_SUCCEEDED = false;
-	private boolean TEST_PURCHASE_FAILED = false;
 
 	//region Singleton construction
 	private static SubscriptionManager _instance = new SubscriptionManager ();
@@ -56,17 +52,25 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 
 	private boolean _isConnectBillingRunning = false;
 	private boolean _isBillingConnected = false;
-	private Activity _activity = null;
 	private BillingClient _billingClient;
 	private Timer _billingReconnectTimer;
 	private List<SkuDetails> _products;
+	private ActivityProvider _activityProvider;
 	private SubscribeChangeListener _subscribeChangeListener;
+
+	public interface ActivityProvider {
+		Activity getActivity ();
+	}
 
 	public interface SubscribeChangeListener {
 		void SubscribeChanged ();
 	}
 
-	public void connectBilling (Activity activity, SubscribeChangeListener subscribeChangeListener) {
+	public void setActivityProvider (ActivityProvider activityProvider) {
+		_activityProvider = activityProvider;
+	}
+
+	public void connectBilling (SubscribeChangeListener subscribeChangeListener) {
 		//Check multiple call of connect
 		if (_isConnectBillingRunning || _isBillingConnected) {
 			return;
@@ -75,11 +79,16 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 		_isBillingConnected = false;
 
 		//Connect billing
-		_activity = activity;
 		_subscribeChangeListener = subscribeChangeListener;
+
+		if (TEST_PURCHASE) { //In test cases after start remove the purchase file
+			deletePurchase ();
+		}
+
 		if (_billingClient == null) {
 			SubscriptionManager man = SubscriptionManager.sharedInstance ();
-			_billingClient = BillingClient.newBuilder (_activity)
+			Activity activity = _activityProvider.getActivity ();
+			_billingClient = BillingClient.newBuilder (activity)
 				.enablePendingPurchases ()
 				.setListener (man)
 				.build ();
@@ -141,7 +150,7 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 		_billingReconnectTimer.schedule (new TimerTask () {
 			@Override
 			public void run () {
-				connectBilling (_activity, _subscribeChangeListener);
+				connectBilling (_subscribeChangeListener);
 			}
 		}, delay);
 	}
@@ -182,6 +191,36 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 			return;
 		}
 
+		////////////////////////////////////////////
+		// Testing purchase
+		if (TEST_PURCHASE) {
+			String purchaseJson = "{\"productId\" : \"%s\", \"purchaseState\" : 1," +
+				" \"purchaseTime\" : \"%d\", \"acknowledged\" : \"true\"," +
+				" \"token\" : \"testToken\", \"purchaseToken\" : \"testPurchaseToken\"," +
+				" \"orderId\" : \"testOrderId\"}";
+
+			Purchase purchase = null;
+			if (product.getSku ().equals (MONTHLY_SUBS_PRODUCTID)) {
+				try {
+					purchase = new Purchase (String.format (purchaseJson, MONTHLY_SUBS_PRODUCTID, Calendar.getInstance ().getTimeInMillis ()), "fakeSignature");
+				} catch (Exception ex) {
+				}
+			} else if (product.getSku ().equals (YEARLY_SUBS_PRODUCTID)) {
+				try {
+					purchase = new Purchase (String.format (purchaseJson, YEARLY_SUBS_PRODUCTID, Calendar.getInstance ().getTimeInMillis ()), "fakeSignature");
+				} catch (Exception ex) {
+				}
+			}
+
+			if (purchase != null) {
+				handlePurchase (purchase);
+			}
+
+			return;
+		}
+
+		////////////////////////////////////////////
+		// Real purchase flow
 		BillingResult featureRes = _billingClient.isFeatureSupported (BillingClient.FeatureType.SUBSCRIPTIONS);
 		if (featureRes.getResponseCode () != BillingClient.BillingResponseCode.OK) {
 			NetLogger.logEvent ("Subscription_Buy_NotSupported", new HashMap<String, Object> () {{
@@ -196,10 +235,11 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 			put ("productIdentifier", product.getSku ());
 		}});
 
+		Activity activity = _activityProvider.getActivity ();
 		BillingFlowParams flowParams = BillingFlowParams.newBuilder ()
 			.setSkuDetails (product)
 			.build ();
-		final BillingResult billingFlowResult = _billingClient.launchBillingFlow (_activity, flowParams);
+		final BillingResult billingFlowResult = _billingClient.launchBillingFlow (activity, flowParams);
 		if (billingFlowResult.getResponseCode () != BillingClient.BillingResponseCode.OK) {
 			NetLogger.logEvent ("Subscription_Buy_Failure", new HashMap<String, Object> () {{
 				put ("productIdentifier", product.getSku ());
@@ -211,6 +251,28 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 	}
 
 	private SkuDetails getSubscribedProductWithID (String productID) {
+		////////////////////////////////////////////
+		// Testing purchase
+		if (TEST_PURCHASE) {
+			String skuJson = "{\"productId\" : \"" + productID + "\", \"price\" : \"%s\"}";
+
+			if (productID.equals (MONTHLY_SUBS_PRODUCTID)) {
+				try {
+					return new SkuDetails (String.format (skuJson, "$0.99"));
+				} catch (Exception ex) {
+				}
+			} else if (productID.equals (YEARLY_SUBS_PRODUCTID)) {
+				try {
+					return new SkuDetails (String.format (skuJson, "$9.99"));
+				} catch (Exception ex) {
+				}
+			}
+
+			return null;
+		}
+
+		////////////////////////////////////////////
+		// Real purchase flow
 		if (_products == null) {
 			return null;
 		}
@@ -225,7 +287,9 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 	}
 
 	private void showOKAlert (String msg, String title) {
-		AlertDialog.Builder builder = new AlertDialog.Builder (_activity);
+		Activity activity = _activityProvider.getActivity ();
+
+		AlertDialog.Builder builder = new AlertDialog.Builder (activity);
 		builder.setTitle (title);
 
 		builder.setMessage (msg);
@@ -233,11 +297,8 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 		builder.setPositiveButton (R.string.ok, new DialogInterface.OnClickListener () {
 			@Override
 			public void onClick (DialogInterface dialog, int which) {
-				View view = _activity.findViewById (android.R.id.content);
-				if (view == null) {
-					view = _activity.getWindow ().getDecorView ().findViewById (android.R.id.content);
-				}
-
+				Activity activity = _activityProvider.getActivity ();
+				View view = activity.findViewById (R.id.nav_host_fragment);
 				Navigation.findNavController (view).navigateUp ();
 			}
 		});
@@ -246,7 +307,8 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 	}
 
 	private String purchasePath () {
-		String purchasePath = FileUtils.pathByAppendingPathComponent (_activity.getFilesDir ().getAbsolutePath (), "purchase.dat");
+		Activity activity = _activityProvider.getActivity ();
+		String purchasePath = FileUtils.pathByAppendingPathComponent (activity.getFilesDir ().getAbsolutePath (), "purchase.dat");
 		return purchasePath;
 	}
 
@@ -287,28 +349,30 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 
 		String productID = values[1];
 
-//	#ifdef TEST_SANDBOX_PURCHASE
-//		if ([productID compare:[usedProductIDs objectAtIndex:MONTH_INDEX]] == NSOrderedSame) { //Monthly subscription
-//			[dateComponents setMinute:5];
-//		} else if ([productID compare:[usedProductIDs objectAtIndex:YEAR_INDEX]] == NSOrderedSame) { //Yearly subscription
-//			[dateComponents setMinute:60];
-//		} else {
-//			return nil;
-//		}
-//	#else //TEST_SANDBOX_PURCHASE
-		//////////////////////////////
-		// Real purchase expiration date (1 month + 3 day lease time)
-		//////////////////////////////
+		if (TEST_PURCHASE) {
+			////////////////////////////////////////////
+			// Testing purchase
 
-		if (productID.equals (MONTHLY_SUBS_PRODUCTID)) { //Monthly subscription
-			purchaseDate.add (Calendar.MONTH, 1);
-		} else if (productID.equals (YEARLY_SUBS_PRODUCTID)) { //Yearly subscription
-			purchaseDate.add (Calendar.YEAR, 1);
+			if (productID.equals (MONTHLY_SUBS_PRODUCTID)) { //Monthly subscription
+				purchaseDate.add (Calendar.MINUTE, 5);
+			} else if (productID.equals (YEARLY_SUBS_PRODUCTID)) { //Yearly subscription
+				purchaseDate.add (Calendar.MINUTE, 60);
+			} else {
+				return null;
+			}
 		} else {
-			return null;
+			////////////////////////////////////////////
+			// Real purchase expiration date (1 month + 3 day lease time)
+
+			if (productID.equals (MONTHLY_SUBS_PRODUCTID)) { //Monthly subscription
+				purchaseDate.add (Calendar.MONTH, 1);
+			} else if (productID.equals (YEARLY_SUBS_PRODUCTID)) { //Yearly subscription
+				purchaseDate.add (Calendar.YEAR, 1);
+			} else {
+				return null;
+			}
+			purchaseDate.add (Calendar.DATE, 3); //+ 3 days lease
 		}
-		purchaseDate.add (Calendar.DATE, 3); //+ 3 days lease
-//	#endif //TEST_SANDBOX_PURCHASE
 
 		return purchaseDate;
 	}

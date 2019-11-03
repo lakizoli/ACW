@@ -201,7 +201,7 @@ public class ChooseCWFragment extends BackgroundInitFragment implements Toolbar.
 		};
 		requireActivity ().getOnBackPressedDispatcher ().addCallback (this, callback);
 
-		mViewModel.startInit (activity, new SubscriptionManager.SubscribeChangeListener () {
+		mViewModel.startInit (new SubscriptionManager.SubscribeChangeListener () {
 			@Override
 			public void SubscribeChanged () {
 				if (!isInInit () && !mIsInProgress) {
@@ -288,8 +288,12 @@ public class ChooseCWFragment extends BackgroundInitFragment implements Toolbar.
 
 	private void RefreshSubscriptionFragment () {
 		FragmentActivity activity = getActivity ();
-		LinearLayout linearLayout = activity.findViewById (R.id.cw_subscriber_warning);
-		boolean isSubscribed = SubscriptionManager.sharedInstance ().isSubscribed ();
-		linearLayout.setVisibility (isSubscribed ? View.INVISIBLE : View.VISIBLE);
+		if (activity != null) {
+			LinearLayout linearLayout = activity.findViewById (R.id.cw_subscriber_warning);
+			if (linearLayout != null) {
+				boolean isSubscribed = SubscriptionManager.sharedInstance ().isSubscribed ();
+				linearLayout.setVisibility (isSubscribed ? View.INVISIBLE : View.VISIBLE);
+			}
+		}
 	}
 }

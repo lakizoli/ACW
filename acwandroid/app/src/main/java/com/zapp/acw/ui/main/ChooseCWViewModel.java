@@ -40,12 +40,12 @@ public class ChooseCWViewModel extends BackgroundInitViewModel {
 		return _savedCrosswords;
 	}
 
-	public void startInit (final Activity activity, final SubscriptionManager.SubscribeChangeListener subscribeChangeListener) {
+	public void startInit (final SubscriptionManager.SubscribeChangeListener subscribeChangeListener) {
 		startInit (new InitListener () {
 			@Override
 			public void initInBackground () {
 				SubscriptionManager subscriptionManager = SubscriptionManager.sharedInstance ();
-				subscriptionManager.connectBilling (activity, subscribeChangeListener);
+				subscriptionManager.connectBilling (subscribeChangeListener);
 				_isSubscribed = subscriptionManager.isSubscribed ();
 
 				PackageManager man = PackageManager.sharedInstance ();
