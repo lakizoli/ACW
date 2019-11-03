@@ -1,6 +1,8 @@
 package com.zapp.acw.ui.main;
 
+import android.graphics.PointF;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,6 +16,9 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.plattysoft.leonids.ParticleSystem;
+import com.plattysoft.leonids.modifiers.AlphaModifier;
+import com.plattysoft.leonids.modifiers.ScaleModifier;
 import com.zapp.acw.R;
 import com.zapp.acw.bll.NetLogger;
 import com.zapp.acw.bll.Package;
@@ -36,9 +41,7 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
@@ -68,7 +71,7 @@ public class CrosswordFragment extends BackgroundInitFragment implements Toolbar
 	//Win screen effects
 	private boolean _isWinScreenOn = false;
 	private Timer _timerWin;
-//	EmitterEffect *_emitterWin[4];
+	ParticleSystem _emitterWin[] = new ParticleSystem[4];
 	private int _starCount = 0;
 
 	public static CrosswordFragment newInstance () {
@@ -467,7 +470,7 @@ public class CrosswordFragment extends BackgroundInitFragment implements Toolbar
 						rebuildCrosswordTable ();
 
 						//TEST
-						showWinScreen ();
+//						showWinScreen ();
 						//END TEST
 					}
 				});
@@ -961,31 +964,76 @@ public class CrosswordFragment extends BackgroundInitFragment implements Toolbar
 		NetLogger.logEvent ("Crossword_Win");
 
 		//Start emitters
-		//TODO: ...
+		View view = getView ();
+		int originX = view.getLeft ();
+		int originY = view.getTop ();
+		int viewWidth = view.getWidth ();
+		int viewHeight = view.getHeight ();
+		final float sizeX = viewWidth / 2.0f * 0.8f;
+		final float sizeY = 2.0f * viewHeight / 3.0f * 0.8f;
+
+		final PointF ptStart0 = new PointF (originX + viewWidth * 0.1f, originY + viewHeight);
+		_emitterWin[0] = new ParticleSystem (activity, 200, R.drawable.star, 400);
+		_emitterWin[0].setRotationSpeed (144f);
+		_emitterWin[0].emit ((int) ptStart0.x, (int) ptStart0.y, 20);
+
+		final PointF ptStart1 = new PointF (originX + viewWidth * 0.9f, originY + viewHeight);
+		_emitterWin[1] = new ParticleSystem (activity, 200, R.drawable.star, 400);
+		_emitterWin[1].setRotationSpeed (144f);
+		_emitterWin[1].emit ((int) ptStart1.x, (int) ptStart1.y, 20);
+
+		_emitterWin[2] = new ParticleSystem (activity, 200, R.drawable.star, 10000);
+		_emitterWin[2].setSpeedRange (0.2f, 0.5f);
+		_emitterWin[3] = new ParticleSystem (activity, 200, R.drawable.star, 10000);
+		_emitterWin[3].setSpeedRange (0.2f, 0.5f);
 
 		final Calendar[] start = {null};
 		_timerWin = new Timer ();
 		_timerWin.schedule (new TimerTask () {
 			@Override
 			public void run () {
-				double duration = 2.0;
+				float duration = 2.0f;
 				if (start[0] == null) {
 					start[0] = Calendar.getInstance ();
 				}
 
-				long dT = (Calendar.getInstance ().getTimeInMillis () - _startTime.getTimeInMillis ()) / 1000; //Elapsed time: [sec]
+				float dT = (Calendar.getInstance ().getTimeInMillis () - _startTime.getTimeInMillis ()) / 1000.0f; //Elapsed time: [sec]
 
 				//The function of the fireball is: y=x*x
-				//TODO: ...
+				float velocity = 100.0f; //velocity: [dx / sec]
+				float maxX = duration * velocity;
+				float maxY = maxX * maxX;
 
+				float xPos = velocity * (duration - dT);
+				float yPos = xPos * xPos;
+				xPos /= maxX;
+				yPos /= maxY;
+
+				xPos = 1.0f - xPos;
+				yPos = 1.0f - yPos;
+
+//				Log.d ("CrosswordFragment", String.format ("dT: %.3f, xPos: %.3f, yPos: %.3f", dT, xPos, yPos));
+
+				PointF pt0 = new PointF (ptStart0.x + xPos * sizeX, ptStart0.y - yPos * sizeY);
+				PointF pt1 = new PointF (ptStart1.x - xPos * sizeX, ptStart1.y - yPos * sizeY);
+//				Log.d ("CrosswordFragment", String.format ("ptF: %.3f, %.3f, ptS: %.3f, %.3f", pt0.x, pt0.y, pt1.x, pt1.y));
+
+				_emitterWin[0].updateEmitPoint ((int) pt0.x, (int) pt0.y);
+				_emitterWin[1].updateEmitPoint ((int) pt1.x, (int) pt1.y);
 
 				//End of animation
 				if (dT >= duration * 1.005) {
-//					[self->_emitterWin[0] stop];
-//					[self->_emitterWin[1] stop];
-//
-//					[self->_emitterWin[2] startFireWorks:[self view] pt:pt0];
-//					[self->_emitterWin[3] startFireWorks:[self view] pt:pt1];
+					_emitterWin[0].stopEmitting ();
+					_emitterWin[1].stopEmitting ();
+
+					activity.runOnUiThread (new Runnable () {
+						@Override
+						public void run () {
+							LinearLayout layout = activity.findViewById (R.id.cwview_winscreen);
+							_emitterWin[2].oneShot (layout, 100); // startFireWorks:[self view] pt:pt0];
+							_emitterWin[3].oneShot (layout, 100); // startFireWorks:[self view] pt:pt1];
+						}
+					});
 
 					_timerWin.cancel ();
 					_timerWin.purge ();
