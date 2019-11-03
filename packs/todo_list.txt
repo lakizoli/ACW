@@ -28,7 +28,8 @@ OK - implement generator view
 OK - crash van, ha a cw view-t tapolom progress kozben
 OK - crash van, ha tul gyorsan (meg init kozben) valotok nezetet (pl cw chooser -> store view)
 - Netlogger implementalasa
-- Help buborek a jatekon implementalasa
+- Hint Help buborek implementalasa
+- Start Help buborek implementalasa
 OK - done gomb nem mindig lesz kek
 OK - nem mindig latszik a gombnyomas sarga szine
 OK - meg mindig lassu az iras
