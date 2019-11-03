@@ -103,6 +103,8 @@ public class GenFragment extends Fragment implements Toolbar.OnMenuItemClickList
 				}, new GenAdapter.OnInitialSelectionListener () {
 					@Override
 					public void onInitialSelection (int position, Field field) {
+						mViewModel.setQuestionFieldIndex (position);
+
 						TextView textView = activity.findViewById (R.id.text_question_value);
 						String fieldValue = mViewModel.getFieldValue (field);
 						updatePickerLabel (textView, "Question field:", fieldValue);
@@ -127,6 +129,8 @@ public class GenFragment extends Fragment implements Toolbar.OnMenuItemClickList
 				}, new GenAdapter.OnInitialSelectionListener () {
 					@Override
 					public void onInitialSelection (int position, Field field) {
+						mViewModel.setSolutionFieldIndex (position);
+
 						TextView textView = activity.findViewById (R.id.text_solution_value);
 						String fieldValue = mViewModel.getFieldValue (field);
 						updatePickerLabel (textView, "Solution field:", fieldValue);

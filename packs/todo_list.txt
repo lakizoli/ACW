@@ -4,7 +4,7 @@ OK - Rohadt lassú a cw fel/újraépítése
 OK - Toolbar gombok színe rossz
 OK - download anki packages nezet tab bar-ja fekvo helyzetben nem teljes szelessegu
 OK - Rohadt lassú a megoldás kiválasztása
-- Nem jó helyre pozícionál az ensureVisible
+OK - Nem jó helyre pozícionál az ensureVisible
 OK - Van egy extra üres oldal a bill.-ben
 OK - A billentyűk mérete túl nagy. Legyen köztük spacer.
 OK - A billentyűzet háttérszíne legyen sötétebb
@@ -15,7 +15,7 @@ OK - keyboard nem jelzi, hogy megnyomták
 OK - Eszközön még mindig lassúnak tűnik a kitöltés
 OK - a bill. feljovesekor az eltakart mezok nem gordulnek be a kepernyore, mert nem tudja frissiteni a showKeyboard utan a layout-ot. Esetleg kesleltetett ensurevisible kell majd...
 OK - Win particle hianyzik
-- package megnyitasa file-bol tetszoleges helyrol
+OK - package megnyitasa file-bol tetszoleges helyrol
 OK - package törlésének végrehajtása
 OK - cw nezet elsotetul forgataskor
 - a store html szovegenek google-ra szabasa
@@ -25,11 +25,17 @@ OK - implement generator view
 OK - crash van, ha a cw view-t tapolom progress kozben
 OK - crash van, ha tul gyorsan (meg init kozben) valotok nezetet (pl cw chooser -> store view)
 - Netlogger implementalasa
+- Help buborek a jatekon implementalasa
+- done gomb nem mindig lesz kek
+- nem mindig latszik a gombnyomas sarga szine
+- meg mindig lassu az iras
+
 
 
 
 
 Hibák (iOS):
+- file importalas soran generalas vegrehajtasa
 - Ha alert-ről vásárolok az első cw után, akkor nem a 2.-kal folytatódik a játék, hanem az 1.-vel újra
 - Az 1. cw-t korlátlan alkalommal lehet újra lejátszani ingyen. Ez rossz. Ne lehessen, csak egyszer/kétszer
 OK - A show hint/reset gomb elmagyarázása fontos lenne egy tour keretében (mint a fő lista plusz menüje esetében)

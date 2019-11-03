@@ -42,7 +42,12 @@ public final class GameState implements Parcelable {
 						crosswordName = reader.nextString ();
 						break;
 					case "overriddenPackageName":
-						overriddenPackageName = reader.nextString ();
+						try {
+							overriddenPackageName = reader.nextString ();
+						} catch (Exception ex) {
+							overriddenPackageName = null;
+							reader.skipValue ();
+						}
 						break;
 					case "filledWordCount":
 						filledWordCount = reader.nextInt ();

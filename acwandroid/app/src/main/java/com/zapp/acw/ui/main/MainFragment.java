@@ -1,5 +1,6 @@
 package com.zapp.acw.ui.main;
 
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.zapp.acw.Common;
+import com.zapp.acw.MainActivity;
 import com.zapp.acw.R;
 import com.zapp.acw.bll.Package;
 import com.zapp.acw.bll.SavedCrossword;
@@ -31,9 +33,16 @@ public class MainFragment extends Fragment {
 	private int _animCounter = 0;
 	private boolean _packagesLoaded = false;
 	private boolean _crosswordsLoaded = false;
+	private String _startGenerationFileName = null;
 
 	public static MainFragment newInstance () {
 		return new MainFragment ();
+	}
+
+	public static Bundle buildStartArgs (String fileName) {
+		Bundle args = new Bundle ();
+		args.putString ("genFileName", fileName);
+		return args;
 	}
 
 	@Nullable
@@ -47,6 +56,12 @@ public class MainFragment extends Fragment {
 	public void onActivityCreated (@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated (savedInstanceState);
 		_viewModel = ViewModelProviders.of (this).get (MainViewModel.class);
+
+		_startGenerationFileName = null;
+		Bundle args = MainActivity.getStartArgs ();
+		if (args != null) {
+			_startGenerationFileName = args.getString ("genFileName");
+		}
 
 		_viewModel.getPackages ().observe (getViewLifecycleOwner (), new Observer<ArrayList<Package>> () {
 			@Override
@@ -70,7 +85,9 @@ public class MainFragment extends Fragment {
 					_timer.cancel ();
 					_timer.purge ();
 
-					if (hasNonEmptyPackage ()) { //There are some package already downloaded
+					if (_startGenerationFileName != null) { //A file has been opened via open in
+						startWithGeneration ();
+					} else if (hasNonEmptyPackage ()) { //There are some package already downloaded
 						Navigation.findNavController (getView ()).navigate (R.id.ShowChooseCW);
 					} else { // No packages found
 						Bundle args = new Bundle ();
@@ -97,5 +114,20 @@ public class MainFragment extends Fragment {
 			}
 		}
 		return res;
+	}
+
+	private void startWithGeneration () {
+		ArrayList<Package> packages = _viewModel.getPackages ().getValue ();
+		if (packages != null) {
+			for (Package pack : packages) {
+				if (pack.getPackageKey ().equals (_startGenerationFileName)) {
+					Bundle args = new Bundle ();
+					args.putParcelable ("package", pack);
+					args.putBoolean ("moveChooseInsteadOfDismiss", true);
+					Navigation.findNavController (getView ()).navigate (R.id.ShowGenStart, args);
+					return;
+				}
+			}
+		}
 	}
 }
