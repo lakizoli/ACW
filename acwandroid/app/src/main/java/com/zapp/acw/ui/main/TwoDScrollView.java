@@ -551,8 +551,8 @@ public class TwoDScrollView extends FrameLayout {
 		int viewWidth = group.getWidth ();
 		int viewHeight = group.getHeight ();
 
-		float marginX = viewWidth * 0.2f;
-		float marginY = viewHeight * 0.2f;
+		float marginX = viewWidth * 0.3f;
+		float marginY = viewHeight * 0.3f;
 
 		RectF noTouchZone = new RectF (marginX, marginY, viewWidth - marginX, viewHeight - marginY);
 		if (noTouchZone.contains (realX, realY, realX + realWidth, realY + realHeight)) { //Rect is on the screen already
