@@ -115,6 +115,7 @@
 		_filledLevel = 0;
 		_levelCount = 0;
 		_wasHelpShown = NO;
+		_wasTapHelpShown = NO;
 	}
 	return self;
 }
@@ -144,6 +145,11 @@
 	if (helpObj) {
 		_wasHelpShown = [helpObj boolValue];
 	}
+	
+	NSNumber* tapHelpObj = [json objectForKey:@"wasTapHelpShown"];
+	if (tapHelpObj) {
+		_wasTapHelpShown = [helpObj boolValue];
+	}
 }
 
 -(void) saveToURL:(NSURL*)url {
@@ -153,7 +159,8 @@
 						   @"wordCount" : [NSNumber numberWithUnsignedInteger:_wordCount],
 						   @"filledLevel" : [NSNumber numberWithUnsignedInteger:_filledLevel],
 						   @"levelCount" : [NSNumber numberWithUnsignedInteger:_levelCount],
-						   @"wasHelpShown" : [NSNumber numberWithBool:_wasHelpShown] };
+						   @"wasHelpShown" : [NSNumber numberWithBool:_wasHelpShown],
+						   @"wasTapHelpShown" : [NSNumber numberWithBool:_wasTapHelpShown] };
 	
 	NSError *error = nil;
 	NSData *data = [NSJSONSerialization dataWithJSONObject:json options:0 error:&error];

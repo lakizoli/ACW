@@ -66,6 +66,7 @@
 @property (assign) NSUInteger filledLevel;
 @property (assign) NSUInteger levelCount;
 @property (assign) BOOL wasHelpShown;
+@property (assign) BOOL wasTapHelpShown;
 
 -(void) loadFromURL:(NSURL*)url;
 -(void) saveToURL:(NSURL*)url;

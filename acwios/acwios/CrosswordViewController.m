@@ -24,6 +24,7 @@
 @property (strong, nonatomic) IBOutlet UIPinchGestureRecognizer *pinchRecognizer;
 
 @property (strong, nonatomic) IBOutlet UIView *helpView;
+@property (strong, nonatomic) IBOutlet UIView *tapHelpView;
 
 @property (weak, nonatomic) IBOutlet UIView *winView;
 @property (weak, nonatomic) IBOutlet UIImageView *star1;
@@ -514,6 +515,47 @@
 	[[self view] addConstraint:top];
 }
 
+- (void) showTapHelpScreen {
+	[_tapHelpView removeFromSuperview];
+	
+	[self->_tapHelpView setHidden:NO];
+	[[self->_tapHelpView layer] setCornerRadius:5];
+	[[self->_tapHelpView layer] setMasksToBounds:YES];
+	[[self->_tapHelpView layer] setBorderWidth:1];
+	[[self->_tapHelpView layer] setBorderColor: [UIColor blackColor].CGColor];
+	
+	CGFloat fMargin = 4;
+	CGFloat fNavHeight = self.navigationController.navigationBar.frame.size.height;
+	CGFloat fCellHeight = _crosswordLayout.cellHeight;
+	CGFloat fCellWidth = _crosswordLayout.cellWidth;
+	
+	[[self view] addSubview:self->_tapHelpView];
+	
+	self->_tapHelpView.translatesAutoresizingMaskIntoConstraints = NO;
+	
+	NSLayoutConstraint *leading = [NSLayoutConstraint
+								   constraintWithItem:self->_tapHelpView
+								   attribute:NSLayoutAttributeLeading
+								   relatedBy:NSLayoutRelationEqual
+								   toItem:[self view]
+								   attribute:NSLayoutAttributeLeading
+								   multiplier:1.0f
+								   constant:fMargin + fCellWidth / 3.0];
+	
+	NSLayoutConstraint *top = [NSLayoutConstraint
+							   constraintWithItem:self->_tapHelpView
+							   attribute:NSLayoutAttributeTop
+							   relatedBy:NSLayoutRelationEqual
+							   toItem:[self view]
+							   attribute:NSLayoutAttributeTop
+							   multiplier:1.0f
+							   constant:fMargin + fNavHeight + 4.0 * fCellHeight / 3.0];
+	
+	//Add constraints to the Parent
+	[[self view] addConstraint:leading];
+	[[self view] addConstraint:top];
+}
+
 #pragma mark - Appearance
 
 - (BOOL)prefersStatusBarHidden {
@@ -563,7 +605,7 @@
 	
 	if (_currentPackage.state.wasHelpShown == NO) {
 		[self showHelpScreen];
-		
+
 		_currentPackage.state.wasHelpShown = YES;
 		[[PackageManager sharedInstance] savePackageState:_currentPackage];
 	}
@@ -612,8 +654,10 @@
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
 	__block BOOL winViewHidden = [_winView isHidden];
 	__block BOOL helpViewHidden = [_helpView isHidden];
+	__block BOOL tapHelpViewHidden = [_tapHelpView isHidden];
 	[_winView setHidden:YES];
 	[_helpView setHidden:YES];
+	[_tapHelpView setHidden:YES];
 	
 	[coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
 		//Nothing to do...
@@ -624,6 +668,10 @@
 		
 		if (!helpViewHidden) {
 			[self showHelpScreen];
+		}
+		
+		if (!tapHelpViewHidden) {
+			[self showTapHelpScreen];
 		}
 	}];
 }
@@ -681,6 +729,15 @@
 	[super touchesBegan:touches withEvent:event];
 	
 	[_helpView setHidden:YES];
+	
+	if (_currentPackage.state.wasTapHelpShown == NO) {
+		[self showTapHelpScreen];
+		
+		_currentPackage.state.wasTapHelpShown = YES;
+		[[PackageManager sharedInstance] savePackageState:_currentPackage];
+	} else {
+		[_tapHelpView setHidden:YES];
+	}
 }
 
 #pragma mark - Navigation
@@ -959,6 +1016,16 @@
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 	[_helpView setHidden:YES];
+	
+	if (_currentPackage.state.wasTapHelpShown == NO) {
+		[self showTapHelpScreen];
+		
+		_currentPackage.state.wasTapHelpShown = YES;
+		[[PackageManager sharedInstance] savePackageState:_currentPackage];
+		return NO;
+	} else {
+		[_tapHelpView setHidden:YES];
+	}
 	
 	uint32_t row = [self getRowFromIndexPath:indexPath];
 	uint32_t col = [self getColFromIndexPath:indexPath];

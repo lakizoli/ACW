@@ -646,6 +646,7 @@
                         <outlet property="star1" destination="VFW-wK-0Yc" id="gyJ-kv-hXM"/>
                         <outlet property="star2" destination="d9E-dj-EPg" id="YKJ-xG-Y33"/>
                         <outlet property="star3" destination="HpI-EU-h7A" id="XLT-Ox-Wve"/>
+                        <outlet property="tapHelpView" destination="Ur6-Cq-Sdj" id="70V-Rs-5cf"/>
                         <outlet property="winCloseButton" destination="miu-40-5ZJ" id="zze-di-wog"/>
                         <outlet property="winFailCountLabel" destination="sJn-aa-aNK" id="g8F-ib-m3i"/>
                         <outlet property="winHintCountLabel" destination="iUw-Mc-dWJ" id="Mhq-q9-xXk"/>
@@ -656,6 +657,34 @@
                         <segue destination="pK3-3b-RQF" kind="custom" identifier="ShowCW" customClass="SwitchCWSegue" id="dun-09-81M"/>
                     </connections>
                 </collectionViewController>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ur6-Cq-Sdj" userLabel="Tap Help View">
+                    <rect key="frame" x="0.0" y="0.0" width="270" height="88"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="help-arrow-left" translatesAutoresizingMaskIntoConstraints="NO" id="A6Y-KK-xbY">
+                            <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="48" id="Br1-Df-a3S"/>
+                                <constraint firstAttribute="width" constant="48" id="tFb-oB-Ppv"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You can easily start writing each solutions by tapping their first cell." lineBreakMode="tailTruncation" numberOfLines="13" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pna-EA-zPR">
+                            <rect key="frame" x="56" y="12" width="206" height="67.5"/>
+                            <fontDescription key="fontDescription" name="BradleyHandITCTT-Bold" family="Bradley Hand" pointSize="18"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="Pna-EA-zPR" firstAttribute="top" secondItem="Ur6-Cq-Sdj" secondAttribute="top" constant="12" id="TkS-Cg-fjx"/>
+                        <constraint firstItem="A6Y-KK-xbY" firstAttribute="top" secondItem="Ur6-Cq-Sdj" secondAttribute="top" id="ZMC-hc-tMk"/>
+                        <constraint firstAttribute="width" constant="270" id="aEM-PP-zSb"/>
+                        <constraint firstItem="Pna-EA-zPR" firstAttribute="trailing" secondItem="Ur6-Cq-Sdj" secondAttribute="trailing" constant="-8" id="fO7-bI-EvA"/>
+                        <constraint firstAttribute="height" constant="88" id="ien-SG-AHj"/>
+                        <constraint firstItem="Pna-EA-zPR" firstAttribute="leading" secondItem="A6Y-KK-xbY" secondAttribute="trailing" constant="8" id="vcb-h0-Qse"/>
+                        <constraint firstAttribute="leading" secondItem="A6Y-KK-xbY" secondAttribute="leading" id="xHm-kG-8S6"/>
+                    </constraints>
+                    <viewLayoutGuide key="safeArea" id="zSf-Bx-L1p"/>
+                </view>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1zr-xv-aom" userLabel="Help View">
                     <rect key="frame" x="0.0" y="0.0" width="270" height="268"/>
                     <subviews>
@@ -805,7 +834,7 @@
                     <viewLayoutGuide key="safeArea" id="pM4-tS-04b"/>
                 </view>
             </objects>
-            <point key="canvasLocation" x="1950" y="1750"/>
+            <point key="canvasLocation" x="2229" y="1766"/>
         </scene>
         <!--Generator View Controller-->
         <scene sceneID="LWg-bW-RcJ">
@@ -1195,11 +1224,11 @@
         <image name="arrow-back" width="24" height="24"/>
         <image name="background_pattern_blue" width="1298" height="1298"/>
         <image name="game_logo" width="426" height="277"/>
+        <image name="help-arrow-left" width="596" height="596"/>
         <image name="help-arrow-right" width="596" height="596"/>
         <image name="star" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Ham-QI-sfl"/>
         <segue reference="dun-09-81M"/>
         <segue reference="Cr4-IC-9mz"/>
         <segue reference="HFo-hg-Wad"/>
