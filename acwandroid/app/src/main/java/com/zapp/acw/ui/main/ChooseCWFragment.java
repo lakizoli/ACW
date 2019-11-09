@@ -154,7 +154,7 @@ public class ChooseCWFragment extends BackgroundInitFragment implements Toolbar.
 							public void onClick (DialogInterface dialog, int which) {
 								String packageKey = mViewModel.getSortedPackageKeys ().get (position);
 								final Package pack = mViewModel.getPackages ().get (packageKey);
-								NetLogger.logEvent ("SUIChooseCW_DeleteCW", new HashMap<String, Object> () {{
+								NetLogger.logEvent ("SUIChooseCW_DeleteCW", new HashMap<String, String> () {{
 									put ("package", FileUtils.getFileName (pack.path));
 								}});
 

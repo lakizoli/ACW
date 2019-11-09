@@ -26,10 +26,17 @@ android {
 		release {
 			minifyEnabled true
 			shrinkResources true
+
 			proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+			buildConfigField ("boolean", "TEST_PURCHASE", "false")
+			buildConfigField ("boolean", "SIMULATE_NETLOGGER", "false")
 		}
 		debug {
 			debuggable true
+
+			buildConfigField ("boolean", "TEST_PURCHASE", "true")
+			buildConfigField ("boolean", "SIMULATE_NETLOGGER", "true")
 		}
 	}
 	flavorDimensions "abi"
@@ -91,6 +98,7 @@ dependencies {
 	implementation 'com.android.billingclient:billing:2.0.3'
 
 	implementation 'com.plattysoft.leonids:LeonidsLib:1.3.2'
+	implementation 'com.flurry.android:analytics:12.0.3'
 }
 repositories {
 	mavenCentral()

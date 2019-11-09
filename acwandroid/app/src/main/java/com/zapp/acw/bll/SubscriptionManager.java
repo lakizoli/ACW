@@ -16,6 +16,7 @@ import com.android.billingclient.api.PurchasesUpdatedListener;
 import com.android.billingclient.api.SkuDetails;
 import com.android.billingclient.api.SkuDetailsParams;
 import com.android.billingclient.api.SkuDetailsResponseListener;
+import com.zapp.acw.BuildConfig;
 import com.zapp.acw.FileUtils;
 import com.zapp.acw.R;
 
@@ -33,7 +34,7 @@ import androidx.navigation.Navigation;
 
 public final class SubscriptionManager implements PurchasesUpdatedListener {
 	// Testing in app purchase (only success case may be tested!)
-	private boolean TEST_PURCHASE = false;
+	private final boolean TEST_PURCHASE = BuildConfig.TEST_PURCHASE;
 
 	//region Singleton construction
 	private static SubscriptionManager _instance = new SubscriptionManager ();
@@ -223,7 +224,7 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 		// Real purchase flow
 		BillingResult featureRes = _billingClient.isFeatureSupported (BillingClient.FeatureType.SUBSCRIPTIONS);
 		if (featureRes.getResponseCode () != BillingClient.BillingResponseCode.OK) {
-			NetLogger.logEvent ("Subscription_Buy_NotSupported", new HashMap<String, Object> () {{
+			NetLogger.logEvent ("Subscription_Buy_NotSupported", new HashMap<String, String> () {{
 				put ("productIdentifier", product.getSku ());
 			}});
 
@@ -231,7 +232,7 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 			return;
 		}
 
-		NetLogger.logEvent ("Subscription_Buy", new HashMap<String, Object> () {{
+		NetLogger.logEvent ("Subscription_Buy", new HashMap<String, String> () {{
 			put ("productIdentifier", product.getSku ());
 		}});
 
@@ -241,7 +242,7 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 			.build ();
 		final BillingResult billingFlowResult = _billingClient.launchBillingFlow (activity, flowParams);
 		if (billingFlowResult.getResponseCode () != BillingClient.BillingResponseCode.OK) {
-			NetLogger.logEvent ("Subscription_Buy_Failure", new HashMap<String, Object> () {{
+			NetLogger.logEvent ("Subscription_Buy_Failure", new HashMap<String, String> () {{
 				put ("productIdentifier", product.getSku ());
 				put ("error", billingFlowResult.getDebugMessage ());
 			}});
@@ -254,7 +255,7 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 		////////////////////////////////////////////
 		// Testing purchase
 		if (TEST_PURCHASE) {
-			String skuJson = "{\"productId\" : \"" + productID + "\", \"price\" : \"%s\"}";
+			String skuJson = "{\"productId\" : \"" + productID + "\", \"price\" : \"%s\", \"price_currency_code\" : \"USD\"}";
 
 			if (productID.equals (MONTHLY_SUBS_PRODUCTID)) {
 				try {
@@ -391,7 +392,7 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 			case BillingClient.BillingResponseCode.USER_CANCELED: {
 				if (purchases != null) {
 					for (final Purchase purchase : purchases) {
-						NetLogger.logEvent ("Subscription_End_UserCancelled", new HashMap<String, Object> () {{
+						NetLogger.logEvent ("Subscription_End_UserCancelled", new HashMap<String, String> () {{
 							put ("productIdentifier", purchase.getSku ());
 							put ("purchaseToken", purchase.getPurchaseToken ());
 							put ("orderID", purchase.getOrderId ());
@@ -403,11 +404,11 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 			default: {
 				if (purchases != null) {
 					for (final Purchase purchase : purchases) {
-						NetLogger.logEvent ("Subscription_End_Failed", new HashMap<String, Object> () {{
+						NetLogger.logEvent ("Subscription_End_Failed", new HashMap<String, String> () {{
 							put ("productIdentifier", purchase.getSku ());
 							put ("purchaseToken", purchase.getPurchaseToken ());
 							put ("orderID", purchase.getOrderId ());
-							put ("responseCode", billingResult.getResponseCode ());
+							put ("responseCode", Integer.toString (billingResult.getResponseCode ()));
 							put ("responseMsg", billingResult.getDebugMessage ());
 						}});
 					}
@@ -421,7 +422,7 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 		if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
 			//Grant entitlement to the user
 			if (!storePurchaseDate (purchase.getPurchaseTime (), purchase.getSku ())) {
-				NetLogger.logEvent ("Subscription_End_CannotStore", new HashMap<String, Object> () {{
+				NetLogger.logEvent ("Subscription_End_CannotStore", new HashMap<String, String> () {{
 					put ("productIdentifier", purchase.getSku ());
 					put ("purchaseToken", purchase.getPurchaseToken ());
 					put ("orderID", purchase.getOrderId ());
@@ -439,18 +440,19 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 					@Override
 					public void onAcknowledgePurchaseResponse (BillingResult billingResult) {
 						if (billingResult.getResponseCode () == BillingClient.BillingResponseCode.OK) {
-							NetLogger.logEvent ("Subscription_End_Acknowledged", new HashMap<String, Object> () {{
+							NetLogger.logEvent ("Subscription_End_Acknowledged", new HashMap<String, String> () {{
 								put ("productIdentifier", purchase.getSku ());
 								put ("purchaseToken", purchase.getPurchaseToken ());
 								put ("orderID", purchase.getOrderId ());
 							}});
+							NetLogger.logPaymentTransaction (purchase.getSku (), purchase.getPurchaseToken (), purchase.getOrderId (), _products);
 							showOKAlert ("Subscription purchased successfully!", "Success");
 						} else { //Cannot acknowledge
 							//Remove user's entitlement
 							deletePurchase ();
 
 							//Show some information to the user
-							NetLogger.logEvent ("Subscription_End_CannotAcknowledge", new HashMap<String, Object> () {{
+							NetLogger.logEvent ("Subscription_End_CannotAcknowledge", new HashMap<String, String> () {{
 								put ("productIdentifier", purchase.getSku ());
 								put ("purchaseToken", purchase.getPurchaseToken ());
 								put ("orderID", purchase.getOrderId ());
@@ -460,11 +462,12 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 					}
 				});
 			} else { //Must not acknowledge
-				NetLogger.logEvent ("Subscription_End_Purchased", new HashMap<String, Object> () {{
+				NetLogger.logEvent ("Subscription_End_Purchased", new HashMap<String, String> () {{
 					put ("productIdentifier", purchase.getSku ());
 					put ("purchaseToken", purchase.getPurchaseToken ());
 					put ("orderID", purchase.getOrderId ());
 				}});
+				NetLogger.logPaymentTransaction (purchase.getSku (), purchase.getPurchaseToken (), purchase.getOrderId (), _products);
 				showOKAlert ("Subscription purchased successfully!", "Success");
 			}
 		} else if (purchase.getPurchaseState() == Purchase.PurchaseState.PENDING) {
@@ -472,7 +475,7 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 				"Finish the subscription process to get your subscription and use the app without limitation...\n" +
 				"Order ID: " + purchase.getOrderId (), "Information");
 
-			NetLogger.logEvent ("Subscription_Pending", new HashMap<String, Object> () {{
+			NetLogger.logEvent ("Subscription_Pending", new HashMap<String, String> () {{
 				put ("productIdentifier", purchase.getSku ());
 				put ("purchaseToken", purchase.getPurchaseToken ());
 				put ("orderID", purchase.getOrderId ());
@@ -526,7 +529,7 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 		final Calendar expiration = expirationDate ();
 		if (expiration == null) {
 			if (!_notSubscribedWithoutDateSent) {
-				NetLogger.logEvent ("Subscription_NotSubscribed", new HashMap<String, Object> () {{
+				NetLogger.logEvent ("Subscription_NotSubscribed", new HashMap<String, String> () {{
 					put ("expirationDate", "null");
 				}});
 				_notSubscribedWithoutDateSent = true;
@@ -538,7 +541,7 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 		final Calendar cur = Calendar.getInstance ();
 		if (expiration.getTimeInMillis () >= cur.getTimeInMillis ()) {
 			if (!_subscribedSent) {
-				NetLogger.logEvent ("Subscription_Subscribed", new HashMap<String, Object> () {{
+				NetLogger.logEvent ("Subscription_Subscribed", new HashMap<String, String> () {{
 					put ("expirationDate", expiration.toString ());
 					put ("currentDate", cur.toString ());
 				}});
@@ -549,7 +552,7 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 		}
 
 		if (!_notSubscribedWithDateSent) {
-			NetLogger.logEvent ("Subscription_NotSubscribed", new HashMap<String, Object> () {{
+			NetLogger.logEvent ("Subscription_NotSubscribed", new HashMap<String, String> () {{
 				put ("expirationDate", expiration.toString ());
 			}});
 			_notSubscribedWithDateSent = true;

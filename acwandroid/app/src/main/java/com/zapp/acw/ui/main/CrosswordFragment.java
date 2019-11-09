@@ -134,7 +134,7 @@ public class CrosswordFragment extends BackgroundInitFragment implements Toolbar
 			public void onInitEnded () {
 				//Init crossword
 				final SavedCrossword savedCrossword = mViewModel.getSavedCrossword ();
-				NetLogger.logEvent ("Crossword_ShowView", new HashMap<String, Object> () {{
+				NetLogger.logEvent ("Crossword_ShowView", new HashMap<String, String> () {{
 					put ("package", savedCrossword.packageName);
 					put ("name", savedCrossword.name);
 				}});

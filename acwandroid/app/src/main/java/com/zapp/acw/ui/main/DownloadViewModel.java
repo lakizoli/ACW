@@ -203,17 +203,17 @@ public class DownloadViewModel extends ViewModel {
 					}
 					case DownloadResult_Failed:
 						showFailedAlert = true;
-						NetLogger.logEvent ("Obtain_NetPackage_Failed", new HashMap<String, Object> () {{
+						NetLogger.logEvent ("Obtain_NetPackage_Failed", new HashMap<String, String> () {{
 							put ("url", url);
 						}});
 						break;
 					case DownloadResult_Cancelled:
-						NetLogger.logEvent ("Obtain_NetPackage_Cancelled", new HashMap<String, Object> () {{
+						NetLogger.logEvent ("Obtain_NetPackage_Cancelled", new HashMap<String, String> () {{
 							put ("url", url);
 						}});
 						break;
 					default:
-						NetLogger.logEvent ("Obtain_NetPackage_Unknown", new HashMap<String, Object> () {{
+						NetLogger.logEvent ("Obtain_NetPackage_Unknown", new HashMap<String, String> () {{
 							put ("url", url);
 						}});
 						break;
@@ -252,7 +252,7 @@ public class DownloadViewModel extends ViewModel {
 	public void startDownloadPackage (final Activity activity, final NetPackConfig.NetPackConfigItem configItem) {
 		final String url = getDownloadLinkForGoogleDrive (configItem.fileID);
 
-		NetLogger.logEvent ("Obtain_NetPackage_Selected", new HashMap<String, Object> () {{
+		NetLogger.logEvent ("Obtain_NetPackage_Selected", new HashMap<String, String> () {{
 			put ("label", configItem.label);
 			put ("url", url);
 		}});
@@ -262,7 +262,7 @@ public class DownloadViewModel extends ViewModel {
 		downloadFileFromGoogleDrive (activity, url, true, new ContentHandler () {
 			@Override
 			public void apply (final String downloadedFile, final String fileName) {
-				NetLogger.logEvent ("Obtain_NetPackage_Downloaded", new HashMap<String, Object> () {{
+				NetLogger.logEvent ("Obtain_NetPackage_Downloaded", new HashMap<String, String> () {{
 					put ("label", configItem.label);
 					put ("url", downloadedFile);
 					put ("fileName", fileName);
@@ -286,7 +286,7 @@ public class DownloadViewModel extends ViewModel {
 
 	//region Anki package download
 	public void startDownloadOfAnkiPackage (final Activity activity, final String url, final boolean doGenerationAfterDownload) {
-		NetLogger.logEvent ("Obtain_AnkiPackage_Selected", new HashMap<String, Object> () {{
+		NetLogger.logEvent ("Obtain_AnkiPackage_Selected", new HashMap<String, String> () {{
 			put ("url", url);
 		}});
 
@@ -298,10 +298,10 @@ public class DownloadViewModel extends ViewModel {
 		}, new Downloader.DownloaderCompletionHandler () {
 			@Override
 			public void apply (final Downloader.DownloadResult resultCode, String downloadedFile, final String fileName) {
-				NetLogger.logEvent ("Obtain_AnkiPackage_Downloaded", new HashMap<String, Object> () {{
+				NetLogger.logEvent ("Obtain_AnkiPackage_Downloaded", new HashMap<String, String> () {{
 					put ("url", url);
 					put ("fileName", fileName.length () > 0 ? fileName : "null");
-					put ("resultCode", resultCode);
+					put ("resultCode", resultCode.toString ());
 				}});
 
 				String destFileName = null;
@@ -326,17 +326,17 @@ public class DownloadViewModel extends ViewModel {
 					}
 					case DownloadResult_Failed:
 						showFailedAlert = true;
-						NetLogger.logEvent ("Obtain_AnkiPackage_Failed", new HashMap<String, Object> () {{
+						NetLogger.logEvent ("Obtain_AnkiPackage_Failed", new HashMap<String, String> () {{
 							put ("url", url);
 						}});
 						break;
 					case DownloadResult_Cancelled:
-						NetLogger.logEvent ("Obtain_AnkiPackage_Cancelled", new HashMap<String, Object> () {{
+						NetLogger.logEvent ("Obtain_AnkiPackage_Cancelled", new HashMap<String, String> () {{
 							put ("url", url);
 						}});
 						break;
 					default:
-						NetLogger.logEvent ("Obtain_AnkiPackage_Unknown", new HashMap<String, Object> () {{
+						NetLogger.logEvent ("Obtain_AnkiPackage_Unknown", new HashMap<String, String> () {{
 							put ("url", url);
 						}});
 						break;
