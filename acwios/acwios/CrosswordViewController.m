@@ -42,6 +42,10 @@
 @implementation CrosswordViewController {
 	BOOL _areAnswersVisible;
 	NSMutableDictionary<NSIndexPath*, NSString*> *_cellFilledValues; ///< The current fill state of the whole grid.
+	
+	//Show hide button repeat protection
+	BOOL _showHidePressed;
+	NSTimer *_showHideTimer;
 
 	//Text input data
 	BOOL _canBecameFirstResponder;
@@ -580,6 +584,7 @@
 	
     // Do any additional setup after loading the view.
 	_areAnswersVisible = NO;
+	_showHidePressed = NO;
 	_cellFilledValues = [NSMutableDictionary<NSIndexPath*, NSString*> new];
 	[_savedCrossword loadFilledValuesInto:_cellFilledValues];
 
@@ -628,6 +633,11 @@
 }
 
 - (IBAction)showHideButtonPressed:(id)sender {
+	if (_showHidePressed) {
+		return;
+	}
+	_showHidePressed = YES;
+	
 	_areAnswersVisible = _areAnswersVisible ? NO : YES;
 	[_showHideButton setTitle:_areAnswersVisible ? @"Hide Hint" : @"Show Hint"];
 	[_crosswordView reloadData];
@@ -638,6 +648,14 @@
 		//Send netlog
 		[NetLogger logEvent:@"Crossword_HintShow"];
 	}
+	
+	_showHideTimer = [NSTimer scheduledTimerWithTimeInterval:0.05
+												repeats:NO
+												  block:^(NSTimer * _Nonnull timer)
+	{
+		self->_showHidePressed = NO;
+		[self->_showHideTimer invalidate];
+	}];
 }
 
 - (IBAction)resetButtonPressed:(id)sender {
