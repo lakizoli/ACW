@@ -50,6 +50,7 @@ public final class NetLogger {
 
 	public static void logPaymentTransaction (String sku, final String purchaseToken, String orderID, List<SkuDetails> products) {
 		if (SIMULATE_NETLOGGER) {
+			Log.i ("NetLogger", "NetLogger payment! sku:" + sku + ", purchaseToken: " + purchaseToken + ", orederID: " + orderID);
 		} else {
 			double price = 0;
 			String currency = "";

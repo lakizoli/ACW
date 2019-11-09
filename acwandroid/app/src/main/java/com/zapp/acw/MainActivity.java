@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
 
+import com.zapp.acw.bll.NetLogger;
 import com.zapp.acw.bll.PackageManager;
 import com.zapp.acw.bll.SubscriptionManager;
 import com.zapp.acw.ui.main.MainFragment;
@@ -41,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate (savedInstanceState);
+
+		NetLogger.startSession (this);
 
 		final MainActivity activity = this;
 		SubscriptionManager.sharedInstance ().setActivityProvider (new SubscriptionManager.ActivityProvider () {
