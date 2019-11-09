@@ -119,11 +119,13 @@ public class CrosswordFragment extends BackgroundInitFragment implements Toolbar
 		super.onActivityCreated (savedInstanceState);
 		mViewModel = ViewModelProviders.of (this).get (CrosswordViewModel.class);
 
-		final FragmentActivity activity = getActivity ();
+		_isWinScreenOn = false;
+
+		View parentView = getView ();
 		final Keyboard.EventHandler keyboardEventHandler = this;
 
 		//Init toolbar
-		Toolbar toolbar = activity.findViewById (R.id.cwview_toolbar);
+		Toolbar toolbar = parentView.findViewById (R.id.cwview_toolbar);
 		toolbar.inflateMenu (R.menu.cwview_menu);
 		toolbar.setOnMenuItemClickListener (this);
 		toolbar.setNavigationIcon (R.drawable.ic_arrow_back_black_24dp);
@@ -142,7 +144,7 @@ public class CrosswordFragment extends BackgroundInitFragment implements Toolbar
 		};
 		requireActivity ().getOnBackPressedDispatcher ().addCallback (this, callback);
 
-		Button congratsButton = activity.findViewById (R.id.cwview_win_close_button);
+		Button congratsButton = parentView.findViewById (R.id.cwview_win_close_button);
 		congratsButton.setOnClickListener (new View.OnClickListener () {
 			@Override
 			public void onClick (View v) {
@@ -150,7 +152,7 @@ public class CrosswordFragment extends BackgroundInitFragment implements Toolbar
 			}
 		});
 
-		final ProgressBar progressCW = activity.findViewById (R.id.cwview_progress);
+		final ProgressBar progressCW = parentView.findViewById (R.id.cwview_progress);
 		progressCW.setVisibility (View.VISIBLE);
 
 		mViewModel.setInitEndedObserver (new BackgroundInitViewModel.InitEndedObserver () {
@@ -173,6 +175,8 @@ public class CrosswordFragment extends BackgroundInitFragment implements Toolbar
 				new Thread (new Runnable () {
 					@Override
 					public void run () {
+						final FragmentActivity activity = getActivity ();
+
 						//Build keyboard
 						mKeyboard.setUsedKeys (savedCrossword.getUsedKeys ());
 						mKeyboard.setup (activity);
@@ -326,7 +330,7 @@ public class CrosswordFragment extends BackgroundInitFragment implements Toolbar
 					showSubscription ();
 				}
 			} else { //No more level
-				Navigation.findNavController (getView ()).navigateUp ();
+				Navigation.findNavController (getView ()).popBackStack (R.id.chooseCW, false);
 			}
 		} else { //Single level game
 			Navigation.findNavController (getView ()).navigateUp ();
