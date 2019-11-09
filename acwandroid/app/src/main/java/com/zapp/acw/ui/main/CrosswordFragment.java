@@ -897,9 +897,12 @@ public class CrosswordFragment extends BackgroundInitFragment implements Toolbar
 
 		int statOffset = savedCrossword.loadStatisticsOffset ();
 		if (statOffset < 0) {
+			ArrayList<Statistics> stats = savedCrossword.loadStatistics ();
+			int statCount = stats == null ? 0 : stats.size ();
+
 			String packageKey = mViewModel.getCurrentPackage ().getPackageKey ();
 			int maxStatCount = PackageManager.sharedInstance ().getMaxStatCountOfCWSet (packageKey);
-			savedCrossword.saveStatisticsOffset (maxStatCount-1);
+			savedCrossword.saveStatisticsOffset (maxStatCount - statCount - 1);
 		}
 
 		resetStatistics ();
