@@ -24,7 +24,7 @@
 -(NSArray<NSNumber*>*)collectMinimalStatCountCWIndices:(NSString*)packageKey
 									   savedCrosswords:(NSDictionary<NSString*, NSArray<SavedCrossword*>*>*)savedCrosswords
 										 playedCWCount:(NSUInteger)playedCWCount;
--(uint32_t)getMaxStatCountOfCWSet:(NSString*)packageKey;
+-(NSUInteger)getMaxStatCountOfCWSet:(NSString*)packageKey;
 -(GeneratorInfo*)collectGeneratorInfo:(NSArray<Deck*>*)decks;
 -(void)reloadUsedWords:(NSURL*)packagePath info:(GeneratorInfo*)info;
 

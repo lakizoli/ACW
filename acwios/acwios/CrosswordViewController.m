@@ -254,9 +254,11 @@
 	
 	int32_t statOffset = [_savedCrossword loadStatisticsOffset];
 	if (statOffset < 0) {
+		NSArray<Statistics*> *stats = [_savedCrossword loadStatistics];
+		
 		NSString* packageKey = [_currentPackage getPackageKey];
-		uint32_t maxStatCount = [[PackageManager sharedInstance] getMaxStatCountOfCWSet:packageKey];
-		[_savedCrossword saveStatisticsOffset:maxStatCount-1];
+		NSUInteger maxStatCount = [[PackageManager sharedInstance] getMaxStatCountOfCWSet:packageKey];
+		[_savedCrossword saveStatisticsOffset:(uint32_t) (maxStatCount - [stats count] - 1)];
 	}
 	
 	[self resetStatistics];

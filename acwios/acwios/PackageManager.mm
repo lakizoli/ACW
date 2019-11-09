@@ -465,7 +465,7 @@
 	return [indices objectForKey:[NSNumber numberWithUnsignedInteger:minCount]];
 }
 
--(uint32_t)getMaxStatCountOfCWSet:(NSString*)packageKey {
+-(NSUInteger)getMaxStatCountOfCWSet:(NSString*)packageKey {
 	NSDictionary<NSString*, NSArray<SavedCrossword*>*> *savedCrosswords = [self collectSavedCrosswords];
 	NSArray<SavedCrossword*>* cws = [savedCrosswords objectForKey:packageKey];
 	
@@ -486,7 +486,7 @@
 		}
 	}
 	
-	return (uint32_t) maxCount;
+	return maxCount;
 }
 
 #pragma mark - Collecting generation info
