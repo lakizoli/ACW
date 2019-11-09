@@ -19,4 +19,6 @@
 	<string name="cwview_win_hint_count_label">Hint show count: %s</string>
 	<string name="cwview_win_word_count_label">Word count: %d</string>
 	<string name="cwview_win_fail_count_label">Fail count: %d</string>
+	<string name="cwview_help_content">The aim of this game is, that you have to fill the entire crossword as fast as you can, without any hints and failures. However, if you don\'t know one of the solutions, you can easiliy show all solutions using "Show Hint" button above to help learning.</string>
+	<string name="cwview_tap_help_content">You can easily start writing each solutions by tapping their first cell.</string>
 </resources>

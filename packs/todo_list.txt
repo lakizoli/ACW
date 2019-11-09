@@ -28,11 +28,12 @@ OK - implement generator view
 OK - crash van, ha a cw view-t tapolom progress kozben
 OK - crash van, ha tul gyorsan (meg init kozben) valotok nezetet (pl cw chooser -> store view)
 OK - Netlogger implementalasa
-- Hint Help buborek implementalasa
-- Start Help buborek implementalasa
+OK - Hint Help buborek implementalasa
+OK - Start Help buborek implementalasa
 OK - done gomb nem mindig lesz kek
 OK - nem mindig latszik a gombnyomas sarga szine
 OK - meg mindig lassu az iras
+- next level gomb nem muxik
 - tenyleg csak a legelso csomagot lehessen játszani (ha letörli a csomagot, akkor mindegyik legyen piros a továbbiakban!)
 - forgatasnal nem marad meg a beirt ertek a cw-ben
 

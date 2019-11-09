@@ -165,6 +165,10 @@ public final class PackageManager {
 	public void savePackageState (Package pack) {
 		pack.state.saveTo (packageStateURL (pack.path));
 	}
+
+	public void loadPackageState (Package pack) {
+		pack.state.loadFrom (packageStateURL (pack.path));
+	}
 	//endregion
 
 	//region Collecting saved crosswords of package

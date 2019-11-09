@@ -184,6 +184,68 @@
 
 	</LinearLayout>
 
+	<LinearLayout
+		android:id="@+id/cwview_help"
+		android:layout_width="360dp"
+		android:layout_height="wrap_content"
+		android:layout_alignParentRight="true"
+		android:layout_alignParentEnd="true"
+		android:layout_marginTop="60dp"
+		android:layout_marginRight="6dp"
+		android:layout_marginEnd="6dp"
+		android:padding="3dp"
+		android:orientation="horizontal"
+		android:background="@drawable/helpbg"
+		android:visibility="invisible">
+
+		<TextView
+			android:layout_width="0dp"
+			android:layout_weight="0.8"
+			android:layout_height="wrap_content"
+			android:fontFamily="@font/bradley_hand"
+			android:text="@string/cwview_help_content"
+			android:textSize="22sp"
+			android:gravity="end"
+			android:padding="3dp"/>
+
+		<ImageView
+			android:layout_width="64dp"
+			android:layout_height="64dp"
+			android:src="@drawable/help_arrow_right" />
+
+	</LinearLayout>
+
+	<LinearLayout
+		android:id="@+id/cwview_tap_help"
+		android:layout_width="360dp"
+		android:layout_height="wrap_content"
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentStart="true"
+		android:layout_marginTop="130dp"
+		android:layout_marginLeft="30dp"
+		android:layout_marginStart="30dp"
+		android:padding="3dp"
+		android:orientation="horizontal"
+		android:background="@drawable/helpbg"
+		android:visibility="invisible">
+
+		<ImageView
+			android:layout_width="64dp"
+			android:layout_height="64dp"
+			android:src="@drawable/help_arrow_left" />
+
+		<TextView
+			android:layout_width="0dp"
+			android:layout_weight="0.8"
+			android:layout_height="wrap_content"
+			android:fontFamily="@font/bradley_hand"
+			android:text="@string/cwview_tap_help_content"
+			android:textSize="22sp"
+			android:gravity="start"
+			android:padding="3dp"/>
+
+	</LinearLayout>
+
 	<ProgressBar
 		android:id="@+id/cwview_progress"
 		style="@android:style/Widget.ProgressBar"

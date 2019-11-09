@@ -3,6 +3,7 @@ package com.zapp.acw.ui.main;
 import android.os.Bundle;
 
 import com.zapp.acw.bll.Package;
+import com.zapp.acw.bll.PackageManager;
 import com.zapp.acw.bll.Pos;
 import com.zapp.acw.bll.SavedCrossword;
 
@@ -43,6 +44,9 @@ public class CrosswordViewModel extends BackgroundInitViewModel {
 		return cellFilledValues;
 	}
 
+	public boolean wasHelpShownBeforeRotation = false;
+	public boolean wasTapHelpShownBeforeRotation = false;
+
 	public void startInit (final Bundle args) {
 		startInit (new InitListener () {
 			@Override
@@ -53,6 +57,9 @@ public class CrosswordViewModel extends BackgroundInitViewModel {
 				currentCrosswordIndex = args.getInt ("currentCrosswordIndex");
 				allSavedCrossword = args.getParcelableArrayList ("allSavedCrossword");
 				isMultiLevelGame = args.getBoolean ("isMultiLevelGame");
+
+				//Reload package state
+				PackageManager.sharedInstance ().loadPackageState (currentPackage);
 
 				//Load database info
 				cellFilledValues = new HashMap<> ();

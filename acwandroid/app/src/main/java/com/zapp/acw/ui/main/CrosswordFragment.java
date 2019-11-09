@@ -1,11 +1,13 @@
 package com.zapp.acw.ui.main;
 
+import android.content.res.Configuration;
 import android.graphics.PointF;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -81,7 +83,29 @@ public class CrosswordFragment extends BackgroundInitFragment implements Toolbar
 	@Override
 	public View onCreateView (@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
 							  @Nullable Bundle savedInstanceState) {
-		return inflater.inflate (R.layout.crossword_fragment, container, false);
+		View view = inflater.inflate (R.layout.crossword_fragment, container, false);
+		view.setOnTouchListener (new View.OnTouchListener () {
+			@Override
+			public boolean onTouch (View v, MotionEvent event) {
+				if (event.getAction () == MotionEvent.ACTION_UP) {
+					showHelpScreen (false);
+
+					Package pack = mViewModel.getCurrentPackage ();
+					if (pack.state != null && !pack.state.wasTapHelpShown) {
+						showTapHelpScreen (true);
+
+						pack.state.wasTapHelpShown = true;
+						PackageManager.sharedInstance ().savePackageState (pack);
+						return true; //Event consumed
+					} else {
+						showTapHelpScreen (false);
+					}
+				}
+
+				return false; //Event may continue
+			}
+		});
+		return view;
 	}
 
 	@Override
@@ -159,6 +183,36 @@ public class CrosswordFragment extends BackgroundInitFragment implements Toolbar
 
 						//Build crossword table
 						createCrosswordTable (activity);
+
+						//Show help
+						if (mViewModel.wasHelpShownBeforeRotation) {
+							activity.runOnUiThread (new Runnable () {
+								@Override
+								public void run () {
+									showHelpScreen (true);
+								}
+							});
+						} else if (mViewModel.wasTapHelpShownBeforeRotation) {
+							activity.runOnUiThread (new Runnable () {
+								@Override
+								public void run () {
+									showTapHelpScreen (true);
+								}
+							});
+						} else {
+							Package pack = mViewModel.getCurrentPackage ();
+							if (pack.state != null && !pack.state.wasHelpShown) {
+								activity.runOnUiThread (new Runnable () {
+									@Override
+									public void run () {
+										showHelpScreen (true);
+									}
+								});
+
+								pack.state.wasHelpShown = true;
+								PackageManager.sharedInstance ().savePackageState (pack);
+							}
+						}
 					}
 				}).start ();
 			}
@@ -396,6 +450,19 @@ public class CrosswordFragment extends BackgroundInitFragment implements Toolbar
 	}
 
 	private boolean shouldSelectCell (int row, int col) {
+		showHelpScreen (false);
+
+		Package pack = mViewModel.getCurrentPackage ();
+		if (pack.state != null && !pack.state.wasTapHelpShown) {
+			showTapHelpScreen (true);
+
+			pack.state.wasTapHelpShown = true;
+			PackageManager.sharedInstance ().savePackageState (pack);
+			return false;
+		} else {
+			showTapHelpScreen (false);
+		}
+
 		boolean startCell = mViewModel.getSavedCrossword ().isStartCell (row, col);
 		_canBecameFirstResponder = startCell;
 		commitValidAnswer ();
@@ -1132,6 +1199,18 @@ public class CrosswordFragment extends BackgroundInitFragment implements Toolbar
 				}
 			}
 		}, 50, 50);
+	}
+
+	private void showHelpScreen (boolean show) {
+		LinearLayout helpView = getActivity ().findViewById (R.id.cwview_help);
+		helpView.setVisibility (show ? View.VISIBLE : View.INVISIBLE);
+		mViewModel.wasHelpShownBeforeRotation = show;
+	}
+
+	private void showTapHelpScreen (boolean show) {
+		LinearLayout tapHelpView = getActivity ().findViewById (R.id.cwview_tap_help);
+		tapHelpView.setVisibility (show ? View.VISIBLE : View.INVISIBLE);
+		mViewModel.wasTapHelpShownBeforeRotation = show;
 	}
 
 	private void addAvailableInputDirection (int cellType, int checkCellType) {
