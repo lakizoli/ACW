@@ -65,5 +65,9 @@
         android:id="@+id/crosswordFragment"
         android:name="com.zapp.acw.ui.main.CrosswordFragment"
         android:label="crossword_fragment"
-        tools:layout="@layout/crossword_fragment" />
+        tools:layout="@layout/crossword_fragment" >
+        <action
+            android:id="@+id/ShowNextCW"
+            app:destination="@id/crosswordFragment" />
+    </fragment>
 </navigation>

@@ -249,7 +249,7 @@ public class CrosswordFragment extends BackgroundInitFragment implements Toolbar
 
 		SavedCrossword savedCrossword = mViewModel.getSavedCrossword ();
 		savedCrossword.unloadDB ();
-		Navigation.findNavController (getView ()).navigateUp ();
+		Navigation.findNavController (getView ()).popBackStack (R.id.chooseCW, false);
 
 		//Send netlog
 		NetLogger.logEvent ("Crossword_BackPressed");
@@ -320,7 +320,8 @@ public class CrosswordFragment extends BackgroundInitFragment implements Toolbar
 				//Check subscription
 				boolean isSubscribed = SubscriptionManager.sharedInstance ().isSubscribed ();
 				if (isSubscribed) { //Go to the next level
-//					[self performSegueWithIdentifier:@"ShowCW" sender:self];
+					Bundle args = buildShowCWBundle (nextCWIdx, false);
+					Navigation.findNavController (getView ()).navigate (R.id.ShowNextCW, args);
 				} else { //Show store alert
 					showSubscription ();
 				}
@@ -330,6 +331,21 @@ public class CrosswordFragment extends BackgroundInitFragment implements Toolbar
 		} else { //Single level game
 			Navigation.findNavController (getView ()).navigateUp ();
 		}
+	}
+
+	private Bundle buildShowCWBundle (int crosswordIndex, boolean isRandomGame) {
+		Bundle bundle = new Bundle ();
+
+		Package pack = mViewModel.getCurrentPackage ();
+		ArrayList<SavedCrossword> cws = mViewModel.getAllSavedCrossword ();
+
+		bundle.putParcelable ("package", pack);
+		bundle.putParcelable ("savedCrossword", cws.get (crosswordIndex));
+		bundle.putInt ("currentCrosswordIndex", crosswordIndex);
+		bundle.putParcelableArrayList ("allSavedCrossword", cws);
+		bundle.putBoolean ("isMultiLevelGame", !isRandomGame);
+
+		return bundle;
 	}
 	//endregion
 

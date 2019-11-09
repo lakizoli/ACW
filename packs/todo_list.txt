@@ -33,8 +33,11 @@ OK - Start Help buborek implementalasa
 OK - done gomb nem mindig lesz kek
 OK - nem mindig latszik a gombnyomas sarga szine
 OK - meg mindig lassu az iras
-- next level gomb nem muxik
-- tenyleg csak a legelso csomagot lehessen játszani (ha letörli a csomagot, akkor mindegyik legyen piros a továbbiakban!)
+OK - next level gomb nem muxik
+- next level fragment-en nem jelenik meg a menu, nem muxik a kovetkezo next level gomb sem
+OK - vissza gomb nem jo a next level-en
+- ha kitoltes utan alert-rol vasarolok, akkor megmarad a teljes kitoltes a cw-ben, mikor ujra belepek
+Nem kell - tenyleg csak a legelso csomagot lehessen játszani (ha letörli a csomagot, akkor mindegyik legyen piros a továbbiakban!)
 - forgatasnal nem marad meg a beirt ertek a cw-ben
 
 
