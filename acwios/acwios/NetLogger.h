@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <StoreKit/StoreKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 +(void)startSession;
 +(void)logEvent:(NSString *)eventName;
 +(void)logEvent:(NSString *)eventName withParameters:(NSDictionary<NSString *,NSObject *> *)params;
++(void)logPaymentTransaction:(SKPaymentTransaction*)transaction;
 
 @end
 

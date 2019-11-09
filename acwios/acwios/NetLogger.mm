@@ -44,4 +44,14 @@
 #endif
 }
 
++(void)logPaymentTransaction:(SKPaymentTransaction*)transaction {
+#if TARGET_OS_SIMULATOR
+	NSLog (@"NetLogger logPaymentTransaction: %@", [transaction description]);
+#else
+	[Flurry logPaymentTransaction:transaction statusCallback:^(FlurryTransactionRecordStatus status) {
+	
+	}];
+#endif
+}
+
 @end

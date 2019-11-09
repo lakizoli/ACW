@@ -27,7 +27,7 @@ OK - meg kell szuntetni, hogy az obszerverek tobbszor fussanak az action-re!!!!
 OK - implement generator view
 OK - crash van, ha a cw view-t tapolom progress kozben
 OK - crash van, ha tul gyorsan (meg init kozben) valotok nezetet (pl cw chooser -> store view)
-- Netlogger implementalasa
+OK - Netlogger implementalasa
 - Hint Help buborek implementalasa
 - Start Help buborek implementalasa
 OK - done gomb nem mindig lesz kek
