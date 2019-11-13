@@ -441,7 +441,7 @@
 			case SKPaymentTransactionStateFailed:
 				[errors addObject:[transaction error]];
 				[queue finishTransaction:transaction]; //Consume transactions with error!
-				[NetLogger logEvent:@"Subscription_End_Failed" withParameters:@{ @"error" : [transaction error] }];
+				[NetLogger logEvent:@"Subscription_End_Failed" withParameters:@{ @"error" : [[transaction error] description] }];
 				break;
 			default:
 				// For debugging
