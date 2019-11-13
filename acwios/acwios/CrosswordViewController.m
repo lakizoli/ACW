@@ -262,7 +262,12 @@
 		
 		NSString* packageKey = [_currentPackage getPackageKey];
 		NSUInteger maxStatCount = [[PackageManager sharedInstance] getMaxStatCountOfCWSet:packageKey];
-		[_savedCrossword saveStatisticsOffset:(uint32_t) (maxStatCount - [stats count] - 1)];
+		int32_t statOffset = (int32_t) (maxStatCount - [stats count] - 1);
+		if (statOffset < 0) {
+			statOffset = 0;
+		}
+		
+		[_savedCrossword saveStatisticsOffset:(uint32_t) statOffset];
 	}
 	
 	[self resetStatistics];
