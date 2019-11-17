@@ -42,7 +42,7 @@ Nem kell - tenyleg csak a legelso csomagot lehessen játszani (ha letörli a cso
 - forgatasnal nem marad meg a beirt ertek a cw-ben
 Nem kell - hindi nyelvnel rosszul detektalja a jeleket a keyboard, es sok karaktert beir a cw-be
 OK - neha nem jo a subscribed ellenorzes a choosecw nezeten
-- nem jo a koreai billentyuzet
+Nem kell - nem jo a koreai billentyuzet
 - right to left nyelveket is meg kene csinalni
 
 
