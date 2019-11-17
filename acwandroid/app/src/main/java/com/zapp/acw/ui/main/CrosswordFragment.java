@@ -234,7 +234,7 @@ public class CrosswordFragment extends BackgroundInitFragment implements Toolbar
 	public boolean onMenuItemClick (MenuItem item) {
 		switch (item.getItemId ()) {
 			case R.id.cwview_reset: {
-				resetButtonPressed ();
+				resetButtonPressed (false);
 				return true;
 			}
 			case R.id.cwview_hint: {
@@ -279,9 +279,13 @@ public class CrosswordFragment extends BackgroundInitFragment implements Toolbar
 		}).start ();
 	}
 
-	private void resetButtonPressed () {
-		if (_isWinScreenOn || isInInit ()) {
-			return;
+	private void resetButtonPressed (boolean calledFromWinScreen) {
+		if (calledFromWinScreen) { //Called from win screen
+			//... Nothing to do ...
+		} else { //Pressed during game
+			if (_isWinScreenOn || isInInit ()) {
+				return;
+			}
 		}
 
 		SavedCrossword savedCrossword = mViewModel.getSavedCrossword ();
@@ -322,7 +326,7 @@ public class CrosswordFragment extends BackgroundInitFragment implements Toolbar
 
 	private void congratsButtonPressed () {
 		int starCount = _starCount;
-		resetButtonPressed ();
+		resetButtonPressed (true);
 
 		FragmentActivity activity = getActivity ();
 		LinearLayout layout = activity.findViewById (R.id.cwview_winscreen);
