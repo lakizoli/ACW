@@ -1,5 +1,6 @@
 package com.zapp.acw.ui.main;
 
+import android.app.Activity;
 import android.content.res.Configuration;
 import android.graphics.PointF;
 import android.os.Bundle;
@@ -52,6 +53,7 @@ public class CrosswordFragment extends BackgroundInitFragment implements Toolbar
 	private Keyboard mKeyboard;
 
 	//Common view data
+	private boolean _isBackButtonPressed = false;
 	private boolean _areAnswersVisible = false;
 	private HashMap<Pos, String> _cellFilledValues = new HashMap<> (); ///< The current fill state of the whole grid.
 
@@ -165,6 +167,7 @@ public class CrosswordFragment extends BackgroundInitFragment implements Toolbar
 					put ("name", savedCrossword.name);
 				}});
 
+				_isBackButtonPressed = false;
 				_areAnswersVisible = false;
 				_cellFilledValues = mViewModel.getCellFilledValues ();
 
@@ -245,18 +248,35 @@ public class CrosswordFragment extends BackgroundInitFragment implements Toolbar
 	}
 
 	private void backButtonPressed () {
-		if (_isWinScreenOn || isInInit ()) {
+		if (_isWinScreenOn || isInInit () || _isBackButtonPressed) {
 			return;
 		}
 
-		mergeStatistics ();
+		_isBackButtonPressed = true;
 
-		SavedCrossword savedCrossword = mViewModel.getSavedCrossword ();
-		savedCrossword.unloadDB ();
-		Navigation.findNavController (getView ()).popBackStack (R.id.chooseCW, false);
+		final FragmentActivity activity = getActivity ();
+		final ProgressBar progressCW = activity.findViewById (R.id.cwview_progress);
+		progressCW.setVisibility (View.VISIBLE);
 
-		//Send netlog
-		NetLogger.logEvent ("Crossword_BackPressed");
+		new Thread (new Runnable () {
+			@Override
+			public void run () {
+				mergeStatistics ();
+
+				SavedCrossword savedCrossword = mViewModel.getSavedCrossword ();
+				savedCrossword.unloadDB ();
+
+				activity.runOnUiThread (new Runnable () {
+					@Override
+					public void run () {
+						Navigation.findNavController (getView ()).popBackStack (R.id.chooseCW, false);
+
+						//Send netlog
+						NetLogger.logEvent ("Crossword_BackPressed");
+					}
+				});
+			}
+		}).start ();
 	}
 
 	private void resetButtonPressed () {
