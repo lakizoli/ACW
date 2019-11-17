@@ -243,10 +243,7 @@ public final class PackageManager {
 		return indices.get (minCount);
 	}
 
-	public int getMaxStatCountOfCWSet (String packageKey) {
-		HashMap<String, ArrayList<SavedCrossword>> savedCrosswords = collectSavedCrosswords ();
-		ArrayList<SavedCrossword> cws = savedCrosswords.get (packageKey);
-
+	public int getMaxStatCountOfCWSet (ArrayList<SavedCrossword> cws) {
 		int maxCount = 0;
 		for (int i = 0, iEnd = cws == null ? 0 : cws.size (); i < iEnd; ++i) {
 			SavedCrossword cw = cws.get (i);

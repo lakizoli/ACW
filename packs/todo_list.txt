@@ -38,9 +38,10 @@ OK - next level fragment-en nem jelenik meg a menu, nem muxik a kovetkezo next l
 OK - vissza gomb nem jo a next level-en
 - ha kitoltes utan alert-rol vasarolok, akkor megmarad a teljes kitoltes a cw-ben, mikor ujra belepek
 Nem kell - tenyleg csak a legelso csomagot lehessen játszani (ha letörli a csomagot, akkor mindegyik legyen piros a továbbiakban!)
+- Ne lehessen törölni, csak előfizetéssel
 - forgatasnal nem marad meg a beirt ertek a cw-ben
 - hindi nyelvnel rosszul detektalja a jeleket a keyboard, es sok karaktert beir a cw-be
-- neha nem jo a subscribed ellenorzes a choosecw nezeten
+OK - neha nem jo a subscribed ellenorzes a choosecw nezeten
 - nem jo a koreai billentyuzet
 - right to left nyelveket is meg kene csinalni
 
@@ -49,9 +50,10 @@ Nem kell - tenyleg csak a legelso csomagot lehessen játszani (ha letörli a cso
 
 Hibák (iOS):
 - file importalas soran generalas vegrehajtasa
-- tenyleg csak a legelso csomagot lehessen játszani (ha letörli a csomagot, akkor mindegyik legyen piros a továbbiakban!)
+Nem kell - tenyleg csak a legelso csomagot lehessen játszani (ha letörli a csomagot, akkor mindegyik legyen piros a továbbiakban!)
+- Ne lehessen törölni, csak előfizetéssel
 - Ha alert-ről vásárolok az első cw után, akkor nem a 2.-kal folytatódik a játék, hanem az 1.-vel újra
-- Az 1. cw-t korlátlan alkalommal lehet újra lejátszani ingyen. Ez rossz. Ne lehessen, csak egyszer/kétszer
+Nem kell - Az 1. cw-t korlátlan alkalommal lehet újra lejátszani ingyen. Ez rossz. Ne lehessen, csak egyszer/kétszer
 OK - A show hint/reset gomb elmagyarázása fontos lenne egy tour keretében (mint a fő lista plusz menüje esetében)
 OK - iOS 13 compatibility
 

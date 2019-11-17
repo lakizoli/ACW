@@ -261,7 +261,7 @@ public class CrosswordFragment extends BackgroundInitFragment implements Toolbar
 		new Thread (new Runnable () {
 			@Override
 			public void run () {
-				mergeStatistics ();
+				mergeStatistics (mViewModel.getAllSavedCrossword ());
 
 				SavedCrossword savedCrossword = mViewModel.getSavedCrossword ();
 				savedCrossword.unloadDB ();
@@ -991,12 +991,12 @@ public class CrosswordFragment extends BackgroundInitFragment implements Toolbar
 		return res;
 	}
 
-	private void mergeStatistics () {
+	private void mergeStatistics (ArrayList<SavedCrossword> allSavedCrossword) {
 		FillRatio fillRatio = calculateFillRatio ();
-		saveStatistics (fillRatio.fillRatio, fillRatio.isFilled);
+		saveStatistics (fillRatio.fillRatio, fillRatio.isFilled, allSavedCrossword);
 	}
 
-	private void saveStatistics (double fillRatio, boolean isFilled) {
+	private void saveStatistics (double fillRatio, boolean isFilled, ArrayList<SavedCrossword> allSavedCrossword) {
 		long duration = (Calendar.getInstance ().getTimeInMillis () - _startTime.getTimeInMillis ()) / 1000;
 
 		SavedCrossword savedCrossword = mViewModel.getSavedCrossword ();
@@ -1008,7 +1008,7 @@ public class CrosswordFragment extends BackgroundInitFragment implements Toolbar
 			int statCount = stats == null ? 0 : stats.size ();
 
 			String packageKey = mViewModel.getCurrentPackage ().getPackageKey ();
-			int maxStatCount = PackageManager.sharedInstance ().getMaxStatCountOfCWSet (packageKey);
+			int maxStatCount = PackageManager.sharedInstance ().getMaxStatCountOfCWSet (allSavedCrossword);
 			savedCrossword.saveStatisticsOffset (maxStatCount - statCount - 1);
 		}
 
@@ -1150,7 +1150,7 @@ public class CrosswordFragment extends BackgroundInitFragment implements Toolbar
 		mKeyboard.hideKeyboard (activity);
 
 		//Save statistics
-		saveStatistics (1.0, true);
+		saveStatistics (1.0, true, mViewModel.getAllSavedCrossword ());
 
 		//Send netlog
 		NetLogger.logEvent ("Crossword_Win");
