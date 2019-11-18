@@ -52,11 +52,13 @@ Hibák (iOS):
 - right to left nyelveket is meg kene csinalni
 - file importalas soran generalas vegrehajtasa
 Nem kell - tenyleg csak a legelso csomagot lehessen játszani (ha letörli a csomagot, akkor mindegyik legyen piros a továbbiakban!)
-- Ne lehessen törölni, csak előfizetéssel
+OK - Ne lehessen törölni, csak előfizetéssel
 - Ha alert-ről vásárolok az első cw után, akkor nem a 2.-kal folytatódik a játék, hanem az 1.-vel újra
 Nem kell - Az 1. cw-t korlátlan alkalommal lehet újra lejátszani ingyen. Ez rossz. Ne lehessen, csak egyszer/kétszer
 OK - A show hint/reset gomb elmagyarázása fontos lenne egy tour keretében (mint a fő lista plusz menüje esetében)
 OK - iOS 13 compatibility
+- magyar lokalizáció
+- spanyol lokalizáció
 
 
 
