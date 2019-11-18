@@ -43,6 +43,11 @@
 															msg:@"You have to subscribe to the application to play the disabled crosswords! If you press yes, then we take you to our store screen to do that."];
 }
 
+-(void) showSubscriptionOnDelete {
+	[[SubscriptionManager sharedInstance] showSubscriptionAlert:self
+															msg:@"You have to subscribe to the application to delete crosswords! Only the first crossword may be played without a subscription! If you press yes, then we take you to our store screen to do that."];
+}
+
 -(void)reloadPackages {
 	_selectedPackageKey = nil;
 	_selectedCrosswordIndex = 0;
@@ -119,6 +124,11 @@
 }
 
 -(void) deleteCrosswordAt:(NSIndexPath*)indexPath {
+	if (!_isSubscribed) {
+		[self showSubscriptionOnDelete];
+		return;
+	}
+	
 	UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Do you want to delete this crossword?"
 																   message:@"You cannot undo this action."
 															preferredStyle:UIAlertControllerStyleAlert];
