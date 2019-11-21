@@ -279,7 +279,7 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 		}
 
 		for (SkuDetails sku : _products) {
-			if (sku.getSku () == productID) {
+			if (sku.getSku ().equals (productID)) {
 				return sku;
 			}
 		}

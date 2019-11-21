@@ -47,6 +47,7 @@ Nem kell - nem jo a koreai billentyuzet
 - crash log event dir beallitasa indulaskor
 - crash log kuldes flurry-be
 - implement Netlogger.throwFromSignal ()
+- queryPurchases induljon a sku details lekerdezes utan
 
 
 
