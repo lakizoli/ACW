@@ -17,10 +17,12 @@ import java.util.List;
 public final class NetLogger {
 	private static final boolean SIMULATE_NETLOGGER = BuildConfig.SIMULATE_NETLOGGER;
 
-	public static void startSession (Context context) {
+	public static void startSession (Context context, String eventsPath) {
 		if (SIMULATE_NETLOGGER) {
 			Log.i ("NetLogger", "Netlogger started");
 		} else {
+			setEventsPath (eventsPath);
+
 			FlurryAgent.setVersionName (BuildConfig.VERSION_NAME);
 
 			new FlurryAgent.Builder ()
@@ -74,4 +76,6 @@ public final class NetLogger {
 			}});
 		}
 	}
+
+	private static native void setEventsPath (String eventsPath);
 }

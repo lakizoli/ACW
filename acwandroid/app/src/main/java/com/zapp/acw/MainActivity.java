@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate (savedInstanceState);
 
-		NetLogger.startSession (this);
+		NetLogger.startSession (this, getFilesDir ().getAbsolutePath () + "/events");
 
 		final MainActivity activity = this;
 		SubscriptionManager.sharedInstance ().setActivityProvider (new SubscriptionManager.ActivityProvider () {

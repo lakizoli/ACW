@@ -44,7 +44,7 @@ Nem kell - hindi nyelvnel rosszul detektalja a jeleket a keyboard, es sok karakt
 OK - neha nem jo a subscribed ellenorzes a choosecw nezeten
 Nem kell - nem jo a koreai billentyuzet
 - right to left nyelveket is meg kene csinalni
-- crash log event dir beallitasa indulaskor
+OK - crash log event dir beallitasa indulaskor
 - crash log kuldes flurry-be
 - implement Netlogger.throwFromSignal ()
 - queryPurchases induljon a sku details lekerdezes utan
