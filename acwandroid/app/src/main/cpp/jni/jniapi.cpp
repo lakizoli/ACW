@@ -630,7 +630,7 @@ void throwFromSignal (void* context, const char* signalName, int signalCode, int
 
 	if (g_signalSDKVersion < 21) { // Below Android 5.0
 		JNIEnv* env = GetEnv ();
-		AutoLocalRef<jclass> vm_class (FindClass ("com/graphisoft/bimx/utils/NetLogger"), "Java class of com/graphisoft/bimx/utils/NetLogger");
+		AutoLocalRef<jclass> vm_class (FindClass ("com/zapp/acw/bll/NetLogger"), "Java class of com/zapp/acw/bll/NetLogger");
 		jmethodID method = env->GetStaticMethodID (vm_class, "throwFromSignal", "(Ljava/lang/String;Ljava/lang/String;)V");
 		env->CallStaticVoidMethod (vm_class, method, JavaString (signalName).get (), JavaString (std::string (pars)).get ());
 	} else { //Android 5.0 or above

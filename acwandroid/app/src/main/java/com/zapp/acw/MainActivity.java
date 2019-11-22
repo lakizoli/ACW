@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.OpenableColumns;
 
 import com.zapp.acw.bll.NetLogger;
@@ -44,6 +45,12 @@ public class MainActivity extends AppCompatActivity {
 		super.onCreate (savedInstanceState);
 
 		NetLogger.startSession (this, getFilesDir ().getAbsolutePath () + "/events");
+		new Thread (new Runnable () {
+			@Override
+			public void run () {
+				NetLogger.sendAllEventFromFiles ();
+			}
+		}).start ();
 
 		final MainActivity activity = this;
 		SubscriptionManager.sharedInstance ().setActivityProvider (new SubscriptionManager.ActivityProvider () {

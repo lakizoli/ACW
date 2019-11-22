@@ -45,9 +45,9 @@ OK - neha nem jo a subscribed ellenorzes a choosecw nezeten
 Nem kell - nem jo a koreai billentyuzet
 - right to left nyelveket is meg kene csinalni
 OK - crash log event dir beallitasa indulaskor
-- crash log kuldes flurry-be
-- implement Netlogger.throwFromSignal ()
-- queryPurchases induljon a sku details lekerdezes utan
+OK - crash log kuldes flurry-be
+OK - implement Netlogger.throwFromSignal ()
+nem kell - queryPurchases induljon a sku details lekerdezes utan
 - magyarázó szöveg az elejére, hogy mennyi hint, idő, és hiba szükséges a szintlépéshez
 - magyar lokalizáció
 - spanyol lokalizáció
