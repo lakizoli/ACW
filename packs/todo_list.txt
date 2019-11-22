@@ -48,6 +48,10 @@ Nem kell - nem jo a koreai billentyuzet
 - crash log kuldes flurry-be
 - implement Netlogger.throwFromSignal ()
 - queryPurchases induljon a sku details lekerdezes utan
+- magyarázó szöveg az elejére, hogy mennyi hint, idő, és hiba szükséges a szintlépéshez
+- magyar lokalizáció
+- spanyol lokalizáció
+- német lokalizáció
 
 
 
@@ -61,8 +65,10 @@ OK - Ne lehessen törölni, csak előfizetéssel
 Nem kell - Az 1. cw-t korlátlan alkalommal lehet újra lejátszani ingyen. Ez rossz. Ne lehessen, csak egyszer/kétszer
 OK - A show hint/reset gomb elmagyarázása fontos lenne egy tour keretében (mint a fő lista plusz menüje esetében)
 OK - iOS 13 compatibility
+- magyarázó szöveg az elejére, hogy mennyi hint, idő, és hiba szükséges a szintlépéshez
 - magyar lokalizáció
 - spanyol lokalizáció
+- német lokalizáció
 
 
 
