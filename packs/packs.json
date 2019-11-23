@@ -5,14 +5,14 @@
     "size": 5368470
   },
   {
-    "name": "Chinese -> English v2 (7195 words)",
-    "fileID": "1Q2wU-vT1bdFd-D253IibdirAxYqJtMvG",
-    "size": 6527426
-  },
-  {
     "name": "English -> Chinese (9125 words)",
     "fileID": "1xRPpGnvZGT_PQEn_fYXQoOjTLIknFekB",
     "size": 5368470
+  },
+  {
+    "name": "Chinese -> English v2 (7195 words)",
+    "fileID": "1Q2wU-vT1bdFd-D253IibdirAxYqJtMvG",
+    "size": 6527426
   },
   {
     "name": "English -> Chinese v2 (7859 words)",
@@ -20,68 +20,13 @@
     "size": 6527426
   },
   {
-    "name": "English -> French (5000 words)",
-    "fileID": "1BN2UrzNk2pYZ9iTOdOI8es493M5U6Hlf",
-    "size": 5368470
-  },
-  {
-    "name": "English -> German (4191 words)",
-    "fileID": "1Cgm--SjY5dliegKANeb_l_KEPkymW33h",
-    "size": 2056410
-  },
-  {
-    "name": "English -> Hindi (16096 words)",
-    "fileID": "1sGR3Q8fmP-QeotaZ97Ia3FQ1---VJMlx",
-    "size": 5368470
-  },
-  {
-    "name": "English -> Hungarian (3523 words)",
-    "fileID": "1OAEf53aZX5Y-w9m_hqicjkUs06ZVniNH",
-    "size": 2369410
-  },
-  {
-    "name": "English -> Italian (1749 words)",
-    "fileID": "1kqiuMy_AfKfocitV6bueMchEj2VIJonj",
-    "size": 449861
-  },
-  {
-    "name": "English -> Japanese (1897 words)",
-    "fileID": "14KcpVYErlH1w8iv-7MA6JO8SVEpR_127",
-    "size": 646393
-  },
-  {
-    "name": "English -> Japanese v2 (2200 words)",
-    "fileID": "1kgjIGmLx5XNilivTOIGSgNLTwzfgXjvi",
-    "size": 804708
-  },
-  {
-    "name": "English -> Korean (5320 words)",
-    "fileID": "1LDY_vZ6W1LtlyPEZlOqsQhWrgWi_0Nqv",
-    "size": 3025595
-  },
-  {
-    "name": "English -> Turkish (1123 words)",
-    "fileID": "1Dh37K3tg0eFPbJgCUxY7ZGMLijIb1X1o",
-    "size": 309365
-  },
-  {
-    "name": "English -> Portuguese (3828 words)",
-    "fileID": "1XjOEf1daQy1aL1WB3YHKozKgkPs8XY6F",
-    "size": 967435
-  },
-  {
-    "name": "English -> Russian (4837 words)",
-    "fileID": "1Oef0g0VIFHeSJvKulWkyg8jEfR3jqJUl",
-    "size": 5368470
-  },
-  {
-    "name": "English -> Spanish (4881 words)",
-    "fileID": "16br6npcTRo8i1QCglXGEaI8STi3t16eQ",
-    "size": 1894773
-  },
-  {
     "name": "French -> English (4373 words)",
     "fileID": "1ph-csaarvK1W0FGOxAkAc2ezfn9uvlKx",
+    "size": 5368470
+  },
+  {
+    "name": "English -> French (5000 words)",
+    "fileID": "1BN2UrzNk2pYZ9iTOdOI8es493M5U6Hlf",
     "size": 5368470
   },
   {
@@ -90,18 +35,18 @@
     "size": 2056410
   },
   {
-    "name": "German -> Hungarian (1686 words)",
-    "fileID": "1R0xh825io5Rrv0VjECDrZhIZabV32zEG",
-    "size": 1140645
-  },
-  {
-    "name": "German -> Japanese (2200 words)",
-    "fileID": "1dcEPFSdLBsjUYZIu0TtIpVsq8h8c-5Iq",
-    "size": 804708
+    "name": "English -> German (4191 words)",
+    "fileID": "1Cgm--SjY5dliegKANeb_l_KEPkymW33h",
+    "size": 2056410
   },
   {
     "name": "Hindi -> English (11577 words)",
     "fileID": "1BkZfcmHx_fTRnG26CLNOVfSk_M1kWbsm",
+    "size": 5368470
+  },
+  {
+    "name": "English -> Hindi (16096 words)",
+    "fileID": "1sGR3Q8fmP-QeotaZ97Ia3FQ1---VJMlx",
     "size": 5368470
   },
   {
@@ -110,9 +55,9 @@
     "size": 2369410
   },
   {
-    "name": "Hungarian -> German (1989 words)",
-    "fileID": "1cwJ_jLoTHgcZyNsr4dT-bW7CYUhC7PK4",
-    "size": 1140645
+    "name": "English -> Hungarian (3523 words)",
+    "fileID": "1OAEf53aZX5Y-w9m_hqicjkUs06ZVniNH",
+    "size": 2369410
   },
   {
     "name": "Italian -> English (1640 words)",
@@ -120,13 +65,18 @@
     "size": 449861
   },
   {
-    "name": "Japanese Basic Hiragana -> Voice (46 words)",
-    "fileID": "1Ax0JzfZR_5Sl3GOqQzqd8UKiIOGL6jDp",
-    "size": 15941
+    "name": "English -> Italian (1749 words)",
+    "fileID": "1kqiuMy_AfKfocitV6bueMchEj2VIJonj",
+    "size": 449861
   },
   {
     "name": "Japanese -> English (1863 words)",
     "fileID": "1z-We9zl1Yz4qyQl_buhggax6mco1l6hZ",
+    "size": 646393
+  },
+  {
+    "name": "English -> Japanese (1897 words)",
+    "fileID": "14KcpVYErlH1w8iv-7MA6JO8SVEpR_127",
     "size": 646393
   },
   {
@@ -135,14 +85,9 @@
     "size": 804708
   },
   {
-    "name": "Japanese -> German (2190 words)",
-    "fileID": "1zIGZ45w35pDbdk-g77SDo8buWyTzjYSU",
+    "name": "English -> Japanese v2 (2200 words)",
+    "fileID": "1kgjIGmLx5XNilivTOIGSgNLTwzfgXjvi",
     "size": 804708
-  },
-  {
-    "name": "Japanese -> Russian (9250 words)",
-    "fileID": "1-hFIbYYRdseJfn6xH9OkAPLfu3Aju319",
-    "size": 3307612
   },
   {
     "name": "Korean -> English (4267 words)",
@@ -150,8 +95,28 @@
     "size": 3025595
   },
   {
+    "name": "English -> Korean (5320 words)",
+    "fileID": "1LDY_vZ6W1LtlyPEZlOqsQhWrgWi_0Nqv",
+    "size": 3025595
+  },
+  {
+    "name": "Turkish -> English (1056 words)",
+    "fileID": "1sA9Lcf2Dvb8pbZKBEkK51lg1tKk4QXtP",
+    "size": 309365
+  },
+  {
+    "name": "English -> Turkish (1123 words)",
+    "fileID": "1Dh37K3tg0eFPbJgCUxY7ZGMLijIb1X1o",
+    "size": 309365
+  },
+  {
     "name": "Portuguese -> English (4349 words)",
     "fileID": "1qZJOOriMGSm9jxAIXEMovOt8ddG2PTH_",
+    "size": 967435
+  },
+  {
+    "name": "English -> Portuguese (3828 words)",
+    "fileID": "1XjOEf1daQy1aL1WB3YHKozKgkPs8XY6F",
     "size": 967435
   },
   {
@@ -160,9 +125,9 @@
     "size": 5368470
   },
   {
-    "name": "Russian -> Japanese (13224 words)",
-    "fileID": "1uL7K-KI-EZwGFc9PnQ8M6083W09NSNx2",
-    "size": 3307612
+    "name": "English -> Russian (4837 words)",
+    "fileID": "1Oef0g0VIFHeSJvKulWkyg8jEfR3jqJUl",
+    "size": 5368470
   },
   {
     "name": "Spanish -> English (4361 words)",
@@ -170,9 +135,44 @@
     "size": 1894773
   },
   {
-    "name": "Turkish -> English (1056 words)",
-    "fileID": "1sA9Lcf2Dvb8pbZKBEkK51lg1tKk4QXtP",
-    "size": 309365
+    "name": "English -> Spanish (4881 words)",
+    "fileID": "16br6npcTRo8i1QCglXGEaI8STi3t16eQ",
+    "size": 1894773
+  },
+  {
+    "name": "Hungarian -> German (1989 words)",
+    "fileID": "1cwJ_jLoTHgcZyNsr4dT-bW7CYUhC7PK4",
+    "size": 1140645
+  },
+  {
+    "name": "German -> Hungarian (1686 words)",
+    "fileID": "1R0xh825io5Rrv0VjECDrZhIZabV32zEG",
+    "size": 1140645
+  },
+  {
+    "name": "Japanese -> German (2190 words)",
+    "fileID": "1zIGZ45w35pDbdk-g77SDo8buWyTzjYSU",
+    "size": 804708
+  },
+  {
+    "name": "German -> Japanese (2200 words)",
+    "fileID": "1dcEPFSdLBsjUYZIu0TtIpVsq8h8c-5Iq",
+    "size": 804708
+  },
+  {
+    "name": "Japanese -> Russian (9250 words)",
+    "fileID": "1-hFIbYYRdseJfn6xH9OkAPLfu3Aju319",
+    "size": 3307612
+  },
+  {
+    "name": "Russian -> Japanese (13224 words)",
+    "fileID": "1uL7K-KI-EZwGFc9PnQ8M6083W09NSNx2",
+    "size": 3307612
+  },
+  {
+    "name": "Japanese Basic Hiragana -> Voice (46 words)",
+    "fileID": "1Ax0JzfZR_5Sl3GOqQzqd8UKiIOGL6jDp",
+    "size": 15941
   },
   {
     "name": "Voice -> Japanese Basic Hiragana (46 words)",

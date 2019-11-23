@@ -67,22 +67,22 @@
 		}
 	}];
 	
-	[_sortedPackageKeys sortUsingComparator:^NSComparisonResult(NSString*  _Nonnull obj1, NSString*  _Nonnull obj2) {
-		Package *pack1 = [self->_packages objectForKey:obj1];
-		Package *pack2 = [self->_packages objectForKey:obj2];
-		
-		NSString *name1 = pack1.state.overriddenPackageName;
-		if ([name1 length] <= 0) {
-			name1 = pack1.name;
-		}
-		
-		NSString *name2 = pack2.state.overriddenPackageName;
-		if ([name2 length] <= 0) {
-			name2 = pack2.name;
-		}
-		
-		return [name1 compare:name2];
-	}];
+//	[_sortedPackageKeys sortUsingComparator:^NSComparisonResult(NSString*  _Nonnull obj1, NSString*  _Nonnull obj2) {
+//		Package *pack1 = [self->_packages objectForKey:obj1];
+//		Package *pack2 = [self->_packages objectForKey:obj2];
+//
+//		NSString *name1 = pack1.state.overriddenPackageName;
+//		if ([name1 length] <= 0) {
+//			name1 = pack1.name;
+//		}
+//
+//		NSString *name2 = pack2.state.overriddenPackageName;
+//		if ([name2 length] <= 0) {
+//			name2 = pack2.name;
+//		}
+//
+//		return [name1 compare:name2];
+//	}];
 	
 	_currentSavedCrosswordIndices = [NSMutableDictionary new];
 	_filledWordCounts = [NSMutableDictionary new];
