@@ -7,7 +7,6 @@
 //
 
 #import "MainViewController.h"
-#import "CWConfiguratorViewController.h"
 #import "NetLogger.h"
 
 @interface MainViewController ()
@@ -79,22 +78,6 @@
 	
 	[super preferredInterfaceOrientationForPresentation];
 	return UIInterfaceOrientationPortrait;
-}
-
-#pragma mark - Navigatiob
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-	if ([segue.identifier compare:@"ShowPlayChooseCW"] == NSOrderedSame &&
-		[segue.destinationViewController isKindOfClass:[CWConfiguratorViewController class]])
-	{
-		CWConfiguratorViewController *configuratorVC = (CWConfiguratorViewController*) [segue destinationViewController];
-		configuratorVC.isStatisticsView = NO;
-	} else if ([segue.identifier compare:@"ShowStatisticsChooseCW"] == NSOrderedSame &&
-			   [segue.destinationViewController isKindOfClass:[CWConfiguratorViewController class]])
-	{
-		CWConfiguratorViewController *configuratorVC = (CWConfiguratorViewController*) [segue destinationViewController];
-		configuratorVC.isStatisticsView = YES;
-	}
 }
 
 @end

@@ -8,9 +8,6 @@
       location = "group:gencw/gencw.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Charts/Charts.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:sqlite3/sqlite3.xcodeproj">
    </FileRef>
    <FileRef
