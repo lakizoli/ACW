@@ -7,7 +7,6 @@
 //
 
 #import "KeyboardViewController.h"
-#import "GlossyButton.h"
 #import "KeyboardConfigs.h"
 
 //TODO: refine keyboard's button images!
@@ -103,15 +102,12 @@
 	
 	[keys enumerateObjectsUsingBlock:^(NSString * _Nonnull key, NSUInteger idx, BOOL * _Nonnull stop) {
 		//Create button
-		GlossyButton *button = [[GlossyButton alloc] initWithFrame:CGRectMake (0, 0, 0, 0)];
+		UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake (0, 0, 0, 0)];
 
 		if ([key caseInsensitiveCompare:BACKSPACE] == NSOrderedSame) {
 			[button setImage:[UIImage imageNamed:@"backspace-keyboard"] forState:UIControlStateNormal];
 		} else if ([key caseInsensitiveCompare:ENTER] == NSOrderedSame) {
-			[button setHue:0.67];
-			[button setSaturation:0.97];
-			[button setBrightness:0.95];
-			
+			[button setBackgroundColor:[UIColor colorWithHue:0.67 saturation:0.97 brightness:0.95 alpha:1]];
 			[button setTitle:@"Done" forState:UIControlStateNormal];
 		} else if ([key caseInsensitiveCompare:SPACEBAR] == NSOrderedSame) {
 			[button setTitle:@"Space" forState:UIControlStateNormal];
@@ -136,8 +132,15 @@
 		} else { //Normal value key
 			[button setTitle:key forState:UIControlStateNormal];
 		}
+
+		[button.layer setBorderWidth:1.0];
+		[button.layer setBorderColor:[[UIColor blackColor] CGColor]];
 		
-		CGFloat fontSize = 26;
+		[button.layer setShadowOffset:CGSizeMake(3, 3)];
+		[button.layer setShadowColor:[[UIColor blackColor] CGColor]];
+		[button.layer setShadowOpacity:0.5];
+
+		CGFloat fontSize = 22;
 		UIFont* font = [UIFont fontWithName:@"BradleyHandITCTT-Bold" size:fontSize];
 		if (font == nil) {
 			font = [UIFont fontWithName:@"Baskerville-BoldItalic" size:fontSize];
@@ -170,16 +173,17 @@
 }
 
 -(void) setupButtonsAction:(UIButton*)button key:(NSString*)key {
+	[button addTarget:self action:@selector (buttonTouchDown:) forControlEvents:UIControlEventTouchDown];
 	if ([key caseInsensitiveCompare:BACKSPACE] == NSOrderedSame) {
-		[button addTarget:self action:@selector (backSpacePressed) forControlEvents:UIControlEventTouchUpInside];
+		[button addTarget:self action:@selector (backSpacePressed:) forControlEvents:UIControlEventTouchUpInside];
 	} else if ([key caseInsensitiveCompare:ENTER] == NSOrderedSame) {
-		[button addTarget:self action:@selector (enterPressed) forControlEvents:UIControlEventTouchUpInside];
+		[button addTarget:self action:@selector (enterPressed:) forControlEvents:UIControlEventTouchUpInside];
 	} else if ([key caseInsensitiveCompare:SPACEBAR] == NSOrderedSame) {
-		[button addTarget:self action:@selector (spacePressed) forControlEvents:UIControlEventTouchUpInside];
+		[button addTarget:self action:@selector (spacePressed:) forControlEvents:UIControlEventTouchUpInside];
 	} else if ([key caseInsensitiveCompare:TURNOFF] == NSOrderedSame) {
-		[button addTarget:self action:@selector (turnOffPressed) forControlEvents:UIControlEventTouchUpInside];
+		[button addTarget:self action:@selector (turnOffPressed:) forControlEvents:UIControlEventTouchUpInside];
 	} else if ([key caseInsensitiveCompare:SWITCH] == NSOrderedSame) {
-		[button addTarget:self action:@selector (switchPressed) forControlEvents:UIControlEventTouchUpInside];
+		[button addTarget:self action:@selector (switchPressed:) forControlEvents:UIControlEventTouchUpInside];
 	} else if ([key hasPrefix:@"Ex"]) { //Extra key
 		[button addTarget:self action:@selector (extraKeyPressed:) forControlEvents:UIControlEventTouchUpInside];
 	} else { //Normal value key
@@ -247,23 +251,55 @@
 
 #pragma mark - Key events
 
--(void) backSpacePressed {
+-(void) buttonTouchDown:(id)sender {
+	if ([sender isKindOfClass:[UIButton class]]) {
+		UIButton *button = (UIButton*) sender;
+		[button setBackgroundColor:[UIColor colorWithRed:229.0f / 255.0f green:193.0f / 255.0f blue:71.0f / 255.0f alpha:1]];
+	}
+}
+
+-(void) backSpacePressed:(id)sender {
+	if ([sender isKindOfClass:[UIButton class]]) {
+		UIButton *button = (UIButton*) sender;
+		[button setBackgroundColor:[UIColor clearColor]];
+	}
+	
 	[[self textDocumentProxy] deleteBackward];
 }
 
--(void) enterPressed {
+-(void) enterPressed:(id)sender {
+	if ([sender isKindOfClass:[UIButton class]]) {
+		UIButton *button = (UIButton*) sender;
+		[button setBackgroundColor:[UIColor colorWithHue:0.67 saturation:0.97 brightness:0.95 alpha:1]];
+	}
+	
 	[[self textDocumentProxy] insertText:@"\n"];
 }
 
--(void) spacePressed {
+-(void) spacePressed:(id)sender {
+	if ([sender isKindOfClass:[UIButton class]]) {
+		UIButton *button = (UIButton*) sender;
+		[button setBackgroundColor:[UIColor clearColor]];
+	}
+	
 	[[self textDocumentProxy] insertText:@" "];
 }
 
--(void) turnOffPressed {
+-(void) turnOffPressed:(id)sender {
+	if ([sender isKindOfClass:[UIButton class]]) {
+		UIButton *button = (UIButton*) sender;
+		[button setBackgroundColor:[UIColor clearColor]];
+	}
+	
 	[self dismissKeyboard];
 }
 
--(void) switchPressed {
+-(void) switchPressed:(id)sender {
+	if ([sender isKindOfClass:[UIButton class]]) {
+		UIButton *button = (UIButton*) sender;
+		[button setBackgroundColor:[UIColor clearColor]];
+	}
+	
 	[self removeAllButtons];
 	
 	++_currentPage;
@@ -277,6 +313,8 @@
 -(void) extraKeyPressed:(id)sender {
 	if ([sender isKindOfClass:[UIButton class]]) {
 		UIButton *button = (UIButton*) sender;
+		[button setBackgroundColor:[UIColor clearColor]];
+		
 		NSInteger extraKeyID = [button tag];
 		if (extraKeyID > 0) {
 			NSString *value = [_keyboardConfig getValueForExtraKeyID:extraKeyID];
@@ -290,6 +328,8 @@
 -(void) keyPressed:(id)sender {
 	if ([sender isKindOfClass:[UIButton class]]) {
 		UIButton *button = (UIButton*) sender;
+		[button setBackgroundColor:[UIColor clearColor]];
+		
 		NSString *key = [[button titleLabel] text];
 		[[self textDocumentProxy] insertText:key];
 	}

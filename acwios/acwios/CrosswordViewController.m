@@ -12,7 +12,6 @@
 #import "KeyboardViewController.h"
 #import "EmitterEffect.h"
 #import "NetLogger.h"
-#import "GlossyButton.h"
 #import "PackageManager.h"
 #import "SubscriptionManager.h"
 
@@ -35,7 +34,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *winHintCountLabel;
 @property (weak, nonatomic) IBOutlet UILabel *winWordCountLabel;
 @property (weak, nonatomic) IBOutlet UILabel *winFailCountLabel;
-@property (weak, nonatomic) IBOutlet GlossyButton *winCloseButton;
+@property (weak, nonatomic) IBOutlet UIButton *winCloseButton;
 
 @end
 

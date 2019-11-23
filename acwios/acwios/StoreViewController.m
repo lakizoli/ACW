@@ -8,7 +8,6 @@
 
 #import "StoreViewController.h"
 #import "SubscriptionManager.h"
-#import "GlossyButton.h"
 #import "NetLogger.h"
 
 @interface StoreViewController ()
