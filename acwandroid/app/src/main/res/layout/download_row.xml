@@ -25,7 +25,9 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <View android:background="#88CCCCCC"
+    <View
+        android:id="@+id/border_view"
+        android:background="#88AAAAAA"
         android:layout_width = "wrap_content"
         android:layout_height="1dp"
         android:layout_marginTop="12dp"

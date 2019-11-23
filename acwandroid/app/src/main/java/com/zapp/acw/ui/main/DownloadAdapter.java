@@ -1,6 +1,7 @@
 package com.zapp.acw.ui.main;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,6 +60,14 @@ public class DownloadAdapter extends RecyclerView.Adapter<DownloadAdapter.ViewHo
 		// Set item views based on your views and data model
 		TextView textView = holder.languageName;
 		textView.setText (item.label);
+
+		//Add border to cell
+		View border = holder.itemView.findViewById (R.id.border_view);
+		if (position % 2 == 1) { //Double border
+			border.setBackgroundColor (Color.BLACK);
+		} else { //Normal color
+			border.setBackgroundColor (0x88AAAAAA);
+		}
 
 		// Set the click listener
 		holder.itemView.setOnClickListener (new View.OnClickListener () {

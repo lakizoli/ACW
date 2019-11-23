@@ -55,7 +55,7 @@ nem kell - queryPurchases induljon a sku details lekerdezes utan
 - Ki kell venni a nyelvek sort-olását, és a pack-ban meg kell csinálni a listát
 - ShowHint flurry küldje be a kitöltöttséget
 - tablet méretben a keresztrejtvény középre igazítása
-- nyelv lista aláhúzása kettesével
+OK - nyelv lista aláhúzása kettesével
 
 
 
