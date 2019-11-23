@@ -54,6 +54,7 @@ nem kell - queryPurchases induljon a sku details lekerdezes utan
 - német lokalizáció
 - Ki kell venni a nyelvek sort-olását, és a pack-ban meg kell csinálni a listát
 - ShowHint flurry küldje be a kitöltöttséget
+- tablet méretben a keresztrejtvény középre igazítása
 
 
 

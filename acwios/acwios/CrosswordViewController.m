@@ -303,8 +303,10 @@
 	CGContextDrawImage(context, imageRect, [image CGImage]);
 	CGImageRef mask = CGBitmapContextCreateImage(context);
 	
-	UIImage *newImage = [UIImage imageWithCGImage:CGImageCreateWithMask(imageRef, mask)];
+	CGImageRef maskImage = CGImageCreateWithMask(imageRef, mask);
+	UIImage *newImage = [UIImage imageWithCGImage:maskImage];
 	
+	CGImageRelease(maskImage);
 	CGImageRelease(imageRef);
 	CGImageRelease(mask);
 	CGContextRelease(context);

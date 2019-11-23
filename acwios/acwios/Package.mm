@@ -142,12 +142,12 @@
 	_levelCount = [[json objectForKey:@"levelCount"] unsignedIntegerValue];
 	
 	NSNumber* helpObj = [json objectForKey:@"wasHelpShown"];
-	if (helpObj) {
+	if (helpObj != nil) {
 		_wasHelpShown = [helpObj boolValue];
 	}
 	
 	NSNumber* tapHelpObj = [json objectForKey:@"wasTapHelpShown"];
-	if (tapHelpObj) {
+	if (tapHelpObj != nil) {
 		_wasTapHelpShown = [helpObj boolValue];
 	}
 }

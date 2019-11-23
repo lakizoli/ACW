@@ -110,10 +110,14 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	
 	_isSubscribed = [[SubscriptionManager sharedInstance] isSubscribed];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+	
 	PackageManager* pacMan = [PackageManager sharedInstance];
 	
 	NSString *fieldValue = [self getFieldValue:_questionFieldIndex];

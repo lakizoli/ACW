@@ -126,6 +126,8 @@
 }
 	
 - (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+	
 #ifdef TEST_PURCHASE
 	if (0) {
 #else //TEST_PURCHASE

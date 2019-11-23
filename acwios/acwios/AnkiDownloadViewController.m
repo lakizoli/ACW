@@ -195,7 +195,7 @@
 	NSDictionary<NSFileAttributeKey, id> *attrs = [[NSFileManager defaultManager] attributesOfItemAtPath:[filePath path] error:nil];
 	if (attrs) {
 		NSNumber *size = [attrs objectForKey:NSFileSize];
-		if (size) {
+		if (size != nil) {
 			fileSize = [size integerValue];
 		}
 	}
@@ -231,7 +231,7 @@
 	NSDictionary<NSFileAttributeKey, id> *attrs = [[NSFileManager defaultManager] attributesOfItemAtPath:[filePath path] error:nil];
 	if (attrs) {
 		NSNumber *size = [attrs objectForKey:NSFileSize];
-		if (size) {
+		if (size != nil) {
 			fileSize = [size integerValue];
 		}
 	}
