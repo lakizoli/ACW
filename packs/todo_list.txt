@@ -53,6 +53,7 @@ nem kell - queryPurchases induljon a sku details lekerdezes utan
 - spanyol lokalizáció
 - német lokalizáció
 - Ki kell venni a nyelvek sort-olását, és a pack-ban meg kell csinálni a listát
+- ShowHint flurry küldje be a kitöltöttséget
 
 
 
@@ -73,6 +74,7 @@ OK - iOS 13 compatibility
 OK - Ki kell venni a nyelvek sort-olását, és a pack-ban meg kell csinálni a listát
 - ki kell venni a promo szövegből az itunes files sharing támogatását
 OK - a gen view-t érdemes lenne rendbehozni. Csak az legyen rajta, aminek muszály.
+OK - ShowHint flurry küldje be a kitöltöttséget
 
 
 

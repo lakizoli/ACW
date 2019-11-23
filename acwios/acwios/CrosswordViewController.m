@@ -650,7 +650,11 @@
 		++_hintCount;
 		
 		//Send netlog
-		[NetLogger logEvent:@"Crossword_HintShow"];
+		BOOL isFilled = NO;
+		double fillRatio = [self calculateFillRatio:&isFilled];
+
+		[NetLogger logEvent:@"Crossword_HintShow" withParameters:@{ @"fillRatio" : [NSString stringWithFormat:@"%.3f", fillRatio],
+																	@"isFiled" : (isFilled ? @"YES" : @"NO") }];
 	}
 	
 	_showHideTimer = [NSTimer scheduledTimerWithTimeInterval:0.05
