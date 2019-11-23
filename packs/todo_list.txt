@@ -38,7 +38,7 @@ OK - next level fragment-en nem jelenik meg a menu, nem muxik a kovetkezo next l
 OK - vissza gomb nem jo a next level-en
 OK - ha kitoltes utan alert-rol vasarolok, akkor megmarad a teljes kitoltes a cw-ben, mikor ujra belepek
 Nem kell - tenyleg csak a legelso csomagot lehessen játszani (ha letörli a csomagot, akkor mindegyik legyen piros a továbbiakban!)
-- Ne lehessen törölni, csak előfizetéssel
+OK - Ne lehessen törölni, csak előfizetéssel
 - forgatasnal nem marad meg a beirt ertek a cw-ben
 Nem kell - hindi nyelvnel rosszul detektalja a jeleket a keyboard, es sok karaktert beir a cw-be
 OK - neha nem jo a subscribed ellenorzes a choosecw nezeten

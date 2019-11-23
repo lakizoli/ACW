@@ -138,6 +138,16 @@ public class ChooseCWFragment extends BackgroundInitFragment implements Toolbar.
 				ItemTouchHelper itemTouchHelper = new ItemTouchHelper (new SwipeToDeleteCallback (activity, new SwipeToDeleteCallback.OnDeleteCallback () {
 					@Override
 					public void onDeleteItem (final int position) {
+						if (!mViewModel.isSubscribed ()) {
+							showSubscriptionOnDelete (new Runnable () {
+								@Override
+								public void run () {
+									activity.recreate ();
+								}
+							});
+							return;
+						}
+
 						AlertDialog.Builder builder = new AlertDialog.Builder (activity);
 						builder.setTitle ("Do you want to delete this crossword?");
 
@@ -269,6 +279,13 @@ public class ChooseCWFragment extends BackgroundInitFragment implements Toolbar.
 		SubscriptionManager.sharedInstance ().showSubscriptionAlert (getActivity (), getView (),
 			"You have to subscribe to the application to play the disabled crosswords!" +
 				" If you press yes, then we take you to our store screen to do that.");
+	}
+
+	private void showSubscriptionOnDelete (Runnable onNo) {
+		SubscriptionManager.sharedInstance ().showSubscriptionAlert (getActivity (), getView (),
+			"You have to subscribe to the application to delete crosswords!" +
+				" Only the first crossword may be played without a subscription!" +
+				" If you press yes, then we take you to our store screen to do that.", onNo, null);
 	}
 
 	private Bundle buildShowCWBundle (String packageKey, int crosswordIndex, boolean isRandomGame) {

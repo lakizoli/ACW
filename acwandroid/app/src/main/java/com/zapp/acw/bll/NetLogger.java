@@ -34,12 +34,12 @@ public final class NetLogger {
 	private static String mEventsPath;
 
 	public static void startSession (Context context, String eventsPath) {
+		setEventsPath (eventsPath);
+		mEventsPath = eventsPath;
+
 		if (SIMULATE_NETLOGGER) {
 			Log.i ("NetLogger", "Netlogger started");
 		} else {
-			setEventsPath (eventsPath);
-			mEventsPath = eventsPath;
-
 			FlurryAgent.setVersionName (BuildConfig.VERSION_NAME);
 
 			new FlurryAgent.Builder ()

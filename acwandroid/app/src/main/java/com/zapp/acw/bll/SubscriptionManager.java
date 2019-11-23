@@ -498,6 +498,10 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 	}
 
 	public void showSubscriptionAlert (Context context, final View view, String msg) {
+		showSubscriptionAlert (context, view, msg, null, null);
+	}
+
+	public void showSubscriptionAlert (Context context, final View view, String msg, final Runnable onNo, final Runnable onYes) {
 		AlertDialog.Builder builder = new AlertDialog.Builder (context);
 		builder.setTitle ("Subscribe Alert!");
 
@@ -506,12 +510,18 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 		builder.setNegativeButton (R.string.no, new DialogInterface.OnClickListener () {
 			@Override
 			public void onClick (DialogInterface dialog, int which) {
-				// ... Nothing to do here ...
+				if (onNo != null) {
+					onNo.run ();
+				}
 			}
 		});
 		builder.setPositiveButton (R.string.yes, new DialogInterface.OnClickListener () {
 			@Override
 			public void onClick (DialogInterface dialog, int which) {
+				if (onYes != null) {
+					onYes.run ();
+				}
+
 				Navigation.findNavController (view).navigate (R.id.ShowStore);
 			}
 		});
