@@ -349,7 +349,6 @@
 		CWGeneratorViewController *genView = (CWGeneratorViewController*) segue.destinationViewController;
 		[genView setPackage: _package];
 		[genView setDecks:_package.decks];
-		[genView setFullGeneration:YES];
 	}
 }
 

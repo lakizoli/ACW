@@ -9,10 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "Package.h"
 
-@interface CWGeneratorViewController : UIViewController<UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
+@interface CWGeneratorViewController : UIViewController<UIPickerViewDelegate, UIPickerViewDataSource>
 
 @property (nonatomic, strong) Package *package;
 @property (nonatomic, strong) NSArray<Deck*> *decks;
-@property (nonatomic, assign) BOOL fullGeneration;
 
 @end

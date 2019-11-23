@@ -15,19 +15,12 @@
 @interface CWGeneratorViewController ()
 
 @property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
-@property (weak, nonatomic) IBOutlet UILabel *labelName;
-@property (weak, nonatomic) IBOutlet UITextField *textCrosswordName;
-@property (weak, nonatomic) IBOutlet UIStackView *stackViewSizes;
-@property (weak, nonatomic) IBOutlet UITextField *textWidth;
-@property (weak, nonatomic) IBOutlet UITextField *textHeight;
 @property (weak, nonatomic) IBOutlet UILabel *labelQuestion;
 @property (weak, nonatomic) IBOutlet UIPickerView *pickerQuestion;
 @property (weak, nonatomic) IBOutlet UILabel *labelSolution;
 @property (weak, nonatomic) IBOutlet UIPickerView *pickerSolution;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *doneButton;
 @property (weak, nonatomic) IBOutlet ProgressView *progressView;
-@property (weak, nonatomic) IBOutlet UILabel *labelSwitchGenerateAllVariations;
-@property (weak, nonatomic) IBOutlet UISwitch *switchGenerateAllVariations;
 
 @end
 
@@ -43,49 +36,6 @@
 }
 
 #pragma mark - Implementation
-
--(void) showSubscription:(NSInteger)maxSize {
-	NSString *msg = [NSString stringWithFormat:@"You have to subscribe to the application to generate crossword with a size more than %li! If you press yes, then we take you to our store screen to do that.", maxSize];
-	[[SubscriptionManager sharedInstance] showSubscriptionAlert:self msg:msg];
-}
-
--(void) showMaximalSizeAlert:(NSInteger)maxSize {
-	NSString *msg = [NSString stringWithFormat:@"You can enter only smaller sizes, than the maximal crossword size of %li!", maxSize];
-	UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Maximal size limit reached!"
-																   message:msg
-															preferredStyle:UIAlertControllerStyleAlert];
-	
-	UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-		//... nothing to do ...
-	}];
-	[alert addAction: action];
-	
-	[self presentViewController:alert animated:YES completion:nil];
-}
-
--(void) showMinimalSizeAlert:(NSInteger)minSize {
-	NSString *msg = [NSString stringWithFormat:@"You can enter only bigger sizes, than the minimal crossword size of %li!", minSize];
-	UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Minimal size limit reached!"
-																   message:msg
-															preferredStyle:UIAlertControllerStyleAlert];
-	
-	UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-		//... nothing to do ...
-	}];
-	[alert addAction: action];
-	
-	[self presentViewController:alert animated:YES completion:nil];
-}
-
--(void) showNameAlert {
-	UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Name error" message:@"You have to give a name for the generated crossword!" preferredStyle:UIAlertControllerStyleAlert];
-	
-	UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-														  handler:^(UIAlertAction * action) {}];
-	
-	[alert addAction:defaultAction];
-	[self presentViewController:alert animated:YES completion:nil];
-}
 
 -(NSString*) getFieldValue:(NSUInteger)row {
 	NSString *fieldValue = nil;
@@ -149,22 +99,11 @@
 		_crosswordName = [firstDeck name];
 	}
 	
-	if (_fullGeneration) {
-		_crosswordName = @"cw";
-		_width = 25;
-		_height = 25;
-		
-		[_labelName setHidden:YES];
-		[_textCrosswordName setHidden:YES];
-		[_stackViewSizes setHidden:YES];
-		[_labelSwitchGenerateAllVariations setHidden:YES];
-		[_switchGenerateAllVariations setHidden:YES];
-		
-		[_navigationBar.topItem setLeftBarButtonItem:nil];
-	} else {
-		_width = 5;
-		_height = 5;
-	}
+	_crosswordName = @"cw";
+	_width = 25;
+	_height = 25;
+	
+	[_navigationBar.topItem setLeftBarButtonItem:nil];
 	
 	_questionFieldIndex = 0;
 	_solutionFieldIndex = 0;
@@ -175,12 +114,6 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-	if (!_fullGeneration) {
-		[_textCrosswordName setText:_crosswordName];
-		[_textWidth setText:[NSString stringWithFormat:@"%lu", _width]];
-		[_textHeight setText:[NSString stringWithFormat:@"%lu", _height]];
-	}
-	
 	PackageManager* pacMan = [PackageManager sharedInstance];
 	
 	NSString *fieldValue = [self getFieldValue:_questionFieldIndex];
@@ -208,21 +141,6 @@
 - (IBAction)doneButtonPressed:(id)sender {
 	[NetLogger logEvent:@"GenCW_DonePressed"];
 
-	//Resign first responders
-	if (!_fullGeneration) {
-		if ([_textCrosswordName isFirstResponder]) {
-			[_textCrosswordName resignFirstResponder];
-		}
-		
-		if ([_textWidth isFirstResponder]) {
-			[_textWidth resignFirstResponder];
-		}
-		
-		if ([_textHeight isFirstResponder]) {
-			[_textHeight resignFirstResponder];
-		}
-	}
-	
 	//Show progress
 	__block volatile BOOL isGenerationCancelled = NO;
 
@@ -243,7 +161,7 @@
 	[_generatorInfo setSolutionFieldIndex: _solutionFieldIndex];
 	
 	//Generate crossword
-	__block BOOL generateAllVariations = _fullGeneration ? YES : [_switchGenerateAllVariations isOn];
+	__block BOOL generateAllVariations = YES;
 	dispatch_async (dispatch_get_global_queue (DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
 		__block int32_t lastPercent = -1;
 
@@ -316,53 +234,6 @@
 			}];
 		});
 	});
-}
-
-- (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
-	if (textField == _textWidth || textField == _textHeight) {
-		NSInteger maxSize = _isSubscribed ? 99 : 10;
-		NSInteger givenSize = [[textField text] integerValue];
-
-		if (givenSize > maxSize) { //Show alert for user
-			if (_isSubscribed) { //Size alert
-				[self showMaximalSizeAlert:maxSize];
-			} else { //Subscription alert
-				[self showSubscription:maxSize];
-			}
-
-			[textField setText:[NSString stringWithFormat:@"%li", maxSize]];
-			
-			if (textField == _textWidth) {
-				_width = (NSUInteger) maxSize;
-			} else if (textField == _textHeight) {
-				_height = (NSUInteger) maxSize;
-			}
-		} else if (givenSize < 5) { //Minimal size is 5
-			[self showMinimalSizeAlert:5];
-			
-			[textField setText:@"5"];
-			
-			if (textField == _textWidth) {
-				_width = 5;
-			} else if (textField == _textHeight) {
-				_height = 5;
-			}
-		} else { //Allowed size given
-			if (textField == _textWidth) {
-				_width = (NSUInteger) givenSize;
-			} else if (textField == _textHeight) {
-				_height = (NSUInteger) givenSize;
-			}
-		}
-	} else if (textField == _textCrosswordName) {
-		if ([[textField text] length] <= 0) {
-			[self showNameAlert];
-		}
-		
-		_crosswordName = [textField text];
-	}
-
-	return YES;
 }
 
 #pragma mark - Picker view datasource
