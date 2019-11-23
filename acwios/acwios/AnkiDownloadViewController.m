@@ -358,6 +358,12 @@
 	[self dismissView];
 }
 
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+	if ([[_tabBar selectedItem] tag] == 1) {
+		[self->_tableView reloadData];
+	}
+}
+
 #pragma mark - Tab Bar navigation
 
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
@@ -392,6 +398,21 @@
 	
 	NetPackConfigItem *configItem = [_packageConfigs objectAtIndex:indexPath.row];
 	[[cell textLabel] setText:configItem.label];
+	
+	//Add border to cell
+	for (UIView* view in cell.contentView.subviews) {
+		if (view.tag == 100) {
+			[view removeFromSuperview];
+			break;
+		}
+	}
+	
+	if (indexPath.row % 2 == 1) {
+		UIView* bottomLineView = [[UIView alloc] initWithFrame:CGRectMake(0, cell.bounds.size.height - 1, self.view.bounds.size.width, 1)];
+		bottomLineView.backgroundColor = [UIColor blackColor];
+		bottomLineView.tag = 100;
+		[cell.contentView addSubview:bottomLineView];
+	}
 	
 	return cell;
 }
