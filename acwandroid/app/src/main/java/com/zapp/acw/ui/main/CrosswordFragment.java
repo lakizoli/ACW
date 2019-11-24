@@ -75,7 +75,7 @@ public class CrosswordFragment extends BackgroundInitFragment implements Toolbar
 	//Win screen effects
 	private boolean _isWinScreenOn = false;
 	private Timer _timerWin;
-	ParticleSystem _emitterWin[] = new ParticleSystem[4];
+	ParticleSystem[] _emitterWin = new ParticleSystem[4];
 	private int _starCount = 0;
 
 	public static CrosswordFragment newInstance () {

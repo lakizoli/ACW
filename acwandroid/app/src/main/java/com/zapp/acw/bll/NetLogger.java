@@ -17,6 +17,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.nio.charset.StandardCharsets;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -167,7 +168,7 @@ public final class NetLogger {
 				for (int i = 0; i < chunkCount && i < 8; ++i) {
 					String stackItem = null;
 					if (i == chunkCount - 1) { // Last chunk
-						stackItem = stackTrace.substring (i * chunkLen, stackTrace.length ());
+						stackItem = stackTrace.substring (i * chunkLen);
 					} else { // Full chunk
 						stackItem = stackTrace.substring (i * chunkLen, (i + 1) * chunkLen);
 					}

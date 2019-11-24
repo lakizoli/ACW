@@ -138,10 +138,7 @@ public class GenViewModel extends ViewModel {
 								_progress.postValue (percentVal);
 							}
 
-							if (_isGenerationCancelled) {
-								return false; //break generation
-							}
-							return true; //continue generation
+							return !_isGenerationCancelled; //continue generation if not cancelled
 						}
 					});
 
