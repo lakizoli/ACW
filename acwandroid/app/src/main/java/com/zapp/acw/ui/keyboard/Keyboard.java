@@ -121,17 +121,19 @@ public class Keyboard {
 		for (double weight : weights) {
 			sumWeight += weight;
 		}
+		sumWeight += (weights.size () - 1) * 0.05; //The weights of the spacers
 
 		for (int idx = 0; idx < keys.size (); ++idx) {
 			final String key = keys.get (idx);
 			final double widthRatio = weights.get (idx) / sumWeight;
+			final double spacerWidthRatio = 0.05 / sumWeight;
 			final boolean addSpacer = idx > 0;
 
 			if (key.equalsIgnoreCase (BACKSPACE)) {
 				activity.runOnUiThread (new Runnable () {
 					@Override
 					public void run () {
-						addImageView (activity, key, widthRatio, R.drawable.backspace_keyboard, addSpacer, destination);
+						addImageView (activity, key, widthRatio, spacerWidthRatio, R.drawable.backspace_keyboard, addSpacer, destination);
 
 					}
 				});
@@ -139,7 +141,7 @@ public class Keyboard {
 				activity.runOnUiThread (new Runnable () {
 					@Override
 					public void run () {
-						Button button = addTextButton (activity, key, widthRatio, "Done", addSpacer, destination);
+						Button button = addTextButton (activity, key, widthRatio, spacerWidthRatio, "Done", addSpacer, destination);
 						button.setBackgroundColor (_doneColor);
 					}
 				});
@@ -147,21 +149,21 @@ public class Keyboard {
 				activity.runOnUiThread (new Runnable () {
 					@Override
 					public void run () {
-						addTextButton (activity, key, widthRatio, "Space", addSpacer, destination);
+						addTextButton (activity, key, widthRatio, spacerWidthRatio, "Space", addSpacer, destination);
 					}
 				});
 			} else if (key.equalsIgnoreCase (TURNOFF)) {
 				activity.runOnUiThread (new Runnable () {
 					@Override
 					public void run () {
-						addImageView (activity, key, widthRatio, R.drawable.turn_off_keyboard, addSpacer, destination);
+						addImageView (activity, key, widthRatio, spacerWidthRatio, R.drawable.turn_off_keyboard, addSpacer, destination);
 					}
 				});
 			} else if (key.equalsIgnoreCase (SWITCH)) {
 				activity.runOnUiThread (new Runnable () {
 					@Override
 					public void run () {
-						addImageView (activity, key, widthRatio, R.drawable.switch_keyboard, addSpacer, destination);
+						addImageView (activity, key, widthRatio, spacerWidthRatio, R.drawable.switch_keyboard, addSpacer, destination);
 					}
 				});
 			} else if (key.startsWith ("Ex")) { //Extra key
@@ -170,7 +172,7 @@ public class Keyboard {
 					activity.runOnUiThread (new Runnable () {
 						@Override
 						public void run () {
-							Button button = addTextButton (activity, key, widthRatio, "", addSpacer, destination);
+							Button button = addTextButton (activity, key, widthRatio, spacerWidthRatio, "", addSpacer, destination);
 							button.setTag (Integer.valueOf (extraKeyID));
 
 							String title = _keyboardConfig.getTitleForExtraKeyID (extraKeyID);
@@ -185,7 +187,7 @@ public class Keyboard {
 					activity.runOnUiThread (new Runnable () {
 						@Override
 						public void run () {
-							addSpacerView (activity, widthRatio, destination);
+							addSpacerView (activity, widthRatio + (addSpacer ? spacerWidthRatio : 0), destination);
 
 						}
 					});
@@ -194,16 +196,18 @@ public class Keyboard {
 				activity.runOnUiThread (new Runnable () {
 					@Override
 					public void run () {
-						addTextButton (activity, key, widthRatio, key, addSpacer, destination);
+						addTextButton (activity, key, widthRatio, spacerWidthRatio, key, addSpacer, destination);
 					}
 				});
 			}
 		}
 	}
 
-	private Button addTextButton (FragmentActivity activity, String key, double weight, String text, boolean addSpacer, LinearLayout destination) {
+	private Button addTextButton (FragmentActivity activity, String key, double weight, double spacerWeight,
+								  String text, boolean addSpacer, LinearLayout destination)
+	{
 		if (addSpacer) {
-			addSpacerView (activity, weight * .05, destination);
+			addSpacerView (activity, spacerWeight, destination);
 		}
 
 		Button button = new Button (activity);
@@ -215,9 +219,9 @@ public class Keyboard {
 		button.setTypeface (typeface);
 		TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration (button, 3, 26, 1, TypedValue.COMPLEX_UNIT_SP);
 
-		LinearLayout.LayoutParams params= new LinearLayout.LayoutParams (ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+		LinearLayout.LayoutParams params= new LinearLayout.LayoutParams (ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
 		params.width = 0;
-		params.weight = (float) weight * .95f;
+		params.weight = (float) weight;
 		button.setLayoutParams (params);
 
 		float[] hsv = new float[3];
@@ -231,9 +235,11 @@ public class Keyboard {
 		return button;
 	}
 
-	private void addImageView (FragmentActivity activity, String key, double weight, @DrawableRes int image, boolean addSpacer, LinearLayout destination) {
+	private void addImageView (FragmentActivity activity, String key, double weight, double spacerWeight,
+							   @DrawableRes int image, boolean addSpacer, LinearLayout destination)
+	{
 		if (addSpacer) {
-			addSpacerView (activity, weight * .05, destination);
+			addSpacerView (activity, spacerWeight, destination);
 		}
 
 		ImageView imageView = new ImageView (activity);
@@ -241,9 +247,9 @@ public class Keyboard {
 
 		imageView.setImageResource (image);
 
-		LinearLayout.LayoutParams params= new LinearLayout.LayoutParams (ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+		LinearLayout.LayoutParams params= new LinearLayout.LayoutParams (ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
 		params.width = 0;
-		params.weight = (float) weight * .95f;
+		params.weight = (float) weight;
 		imageView.setLayoutParams (params);
 
 		imageView.setBackgroundColor (activity.getResources ().getColor (R.color.colorGreenBack));
@@ -254,7 +260,7 @@ public class Keyboard {
 	private void addSpacerView (FragmentActivity activity, double weight, LinearLayout destination) {
 		View view = new View (activity);
 
-		LinearLayout.LayoutParams params= new LinearLayout.LayoutParams (ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+		LinearLayout.LayoutParams params= new LinearLayout.LayoutParams (ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
 		params.width = 0;
 		params.weight = (float) weight;
 		view.setLayoutParams (params);

@@ -57,6 +57,7 @@ OK - ShowHint flurry küldje be a kitöltöttséget
 Nem jo! - tablet méretben a keresztrejtvény középre igazítása
 OK - nyelv lista aláhúzása kettesével
 OK - letoltes kozben nem muxik a forgatas
+OK - billentyuzet magassaganak emelese 
 
 
 

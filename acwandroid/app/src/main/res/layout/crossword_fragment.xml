@@ -33,7 +33,7 @@
 	<LinearLayout
 		android:id="@+id/cwview_keyboard"
 		android:layout_width="match_parent"
-		android:layout_height="200dp"
+		android:layout_height="280dp"
 		android:layout_alignParentBottom="true"
 		android:background="@color/colorGreenBackDark"
 		android:layout_gravity="bottom"
@@ -45,31 +45,46 @@
 			android:id="@+id/cwview_keyboard_row1"
 			android:layout_width="match_parent"
 			android:layout_height="0dp"
-			android:layout_weight="0.25"
+			android:layout_weight="0.235"
 			android:orientation="horizontal"
 			android:weightSum="1" />
+
+		<Space
+			android:layout_width="match_parent"
+			android:layout_height="0dp"
+			android:layout_weight="0.02"/>
 
 		<LinearLayout
 			android:id="@+id/cwview_keyboard_row2"
 			android:layout_width="match_parent"
 			android:layout_height="0dp"
-			android:layout_weight="0.25"
+			android:layout_weight="0.235"
 			android:orientation="horizontal"
 			android:weightSum="1" />
+
+		<Space
+			android:layout_width="match_parent"
+			android:layout_height="0dp"
+			android:layout_weight="0.02"/>
 
 		<LinearLayout
 			android:id="@+id/cwview_keyboard_row3"
 			android:layout_width="match_parent"
 			android:layout_height="0dp"
-			android:layout_weight="0.25"
+			android:layout_weight="0.235"
 			android:orientation="horizontal"
 			android:weightSum="1" />
+
+		<Space
+			android:layout_width="match_parent"
+			android:layout_height="0dp"
+			android:layout_weight="0.02"/>
 
 		<LinearLayout
 			android:id="@+id/cwview_keyboard_row4"
 			android:layout_width="match_parent"
 			android:layout_height="0dp"
-			android:layout_weight="0.25"
+			android:layout_weight="0.235"
 			android:orientation="horizontal"
 			android:weightSum="1" />
 
