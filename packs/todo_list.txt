@@ -80,7 +80,7 @@ OK - Ki kell venni a nyelvek sort-olását, és a pack-ban meg kell csinálni a 
 OK - a gen view-t érdemes lenne rendbehozni. Csak az legyen rajta, aminek muszály.
 OK - ShowHint flurry küldje be a kitöltöttséget
 OK - nyelv lista aláhúzása kettesével
-- fix typo in hungarian store subscription (automaikusan -> automatikusan)
+- fix typo in hungarian store subscription (automaikusan -> automatikusan, jog -> jogi)
 - remove file sharing option from store subscription
 
 
