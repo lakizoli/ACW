@@ -61,7 +61,7 @@ public class Keyboard {
 
 		LinearLayout cwLayout = activity.findViewById (R.id.cwview_cwlayout);
 		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) cwLayout.getLayoutParams ();
-		params.setMargins (0, 0, 0, getDPSizeInPixels (activity, 200));
+		params.setMargins (0, 0, 0, getDPSizeInPixels (activity, 280));
 		cwLayout.setLayoutParams (params);
 
 		_greenColor = activity.getResources ().getColor (R.color.colorGreenBack);
