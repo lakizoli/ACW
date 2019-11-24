@@ -18,6 +18,8 @@
             android:layout_height="wrap_content"
             android:text="Name of the package"
             android:textSize="28sp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginStart="6dp"
             app:fontFamily="@font/avenir_next_condensed_bold"
             tools:ignore="HardcodedText" />
 
@@ -27,6 +29,8 @@
             android:layout_height="wrap_content"
             android:text="100 of 322 levels (1000 of 3622 words) solved"
             android:textSize="16sp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginStart="6dp"
             app:fontFamily="@font/avenir_next_condensed"
             tools:ignore="HardcodedText" />
 
@@ -36,6 +40,8 @@
             android:layout_height="wrap_content"
             android:text="@string/random_button_label"
             android:textSize="18sp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginStart="6dp"
             app:fontFamily="@font/avenir_next_condensed" />
 
         <View

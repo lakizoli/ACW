@@ -20,7 +20,7 @@
 			android:background="@color/colorGreenBack"
 			android:minHeight="?attr/actionBarSize"
 			android:theme="?attr/actionBarTheme"
-			app:title="Play Crossword"
+			app:title="@string/play_crossword"
 			app:titleTextColor="@color/colorYellowText" />
 
 		<com.zapp.acw.ui.main.TwoDScrollView

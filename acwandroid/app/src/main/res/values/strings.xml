@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Anki Crossword</string>
+    <string name="app_name" translatable="false">Anki Crossword</string>
 
     <string name="yes">Yes</string>
     <string name="no">No</string>
@@ -61,8 +61,8 @@
 	<string name="solution_field">Solution field:</string>
 
 	<string name="store">Store</string>
-	<string name="privacy_policy">Privacy Policy</string>
-	<string name="terms_of_use">Terms Of Use</string>
+	<string name="privacy_policy" translatable="false">Privacy Policy</string>
+	<string name="terms_of_use" translatable="false">Terms Of Use</string>
 
 	<string name="obtain_anki_packages">Obtain Anki Packages</string>
 	<string name="download_help_plus_button">To download crosswords or Anki Flashcard packages, press the + button above!</string>
@@ -72,4 +72,7 @@
 	<string name="downloading">Downloading…</string>
 
 	<string name="starting">Starting…</string>
+	<string name="choose_crossword">Choose Crossword</string>
+	<string name="gen_crossword">Generate crossword</string>
+	<string name="play_crossword">Play Crossword</string>
 </resources>

@@ -21,7 +21,7 @@
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
             app:titleTextColor="@color/colorYellowText"
-            app:title="Generate crossword" />
+            app:title="@string/gen_crossword" />
 
         <TextView
             android:id="@+id/text_question_value"

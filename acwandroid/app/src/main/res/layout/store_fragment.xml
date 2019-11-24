@@ -19,7 +19,7 @@
 			android:minHeight="?attr/actionBarSize"
 			android:theme="?attr/actionBarTheme"
 			app:titleTextColor="@color/colorYellowText"
-			app:title="Store" />
+			app:title="@string/store" />
 
 		<ScrollView
 			android:id="@+id/store_scroll"

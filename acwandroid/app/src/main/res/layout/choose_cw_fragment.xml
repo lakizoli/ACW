@@ -20,7 +20,7 @@
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
             app:titleTextColor="@color/colorYellowText"
-            app:title="Choose Crossword" />
+            app:title="@string/choose_crossword" />
 
         <RelativeLayout
             android:layout_width="match_parent"
