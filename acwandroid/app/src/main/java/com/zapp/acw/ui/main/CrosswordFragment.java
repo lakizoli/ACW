@@ -337,7 +337,12 @@ public class CrosswordFragment extends BackgroundInitFragment implements Toolbar
 			++_hintCount;
 
 			//Send netlog
-			NetLogger.logEvent ("Crossword_HintShow");
+			final FillRatio fillRatio = calculateFillRatio ();
+
+			NetLogger.logEvent ("Crossword_HintShow", new HashMap<String, String> () {{
+				put ("fillRatio", String.format ("%.3f", fillRatio.fillRatio));
+				put ("isFiled", fillRatio.isFilled ? "YES" : "NO");
+			}});
 		}
 	}
 

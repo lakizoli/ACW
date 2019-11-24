@@ -53,7 +53,7 @@ OK - magyarázó szöveg az elejére, hogy mennyi hint, idő, és hiba szükség
 - spanyol lokalizáció
 - német lokalizáció
 Nem is volt benne - Ki kell venni a nyelvek sort-olását, és a pack-ban meg kell csinálni a listát
-- ShowHint flurry küldje be a kitöltöttséget
+OK - ShowHint flurry küldje be a kitöltöttséget
 - tablet méretben a keresztrejtvény középre igazítása
 OK - nyelv lista aláhúzása kettesével
 - letoltes kozben nem muxik a forgatas
