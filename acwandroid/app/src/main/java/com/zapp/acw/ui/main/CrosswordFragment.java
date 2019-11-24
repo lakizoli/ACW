@@ -93,6 +93,16 @@ public class CrosswordFragment extends BackgroundInitFragment implements Toolbar
 					showHelpScreen (false);
 
 					Package pack = mViewModel.getCurrentPackage ();
+					if (pack.state != null && !pack.state.wasGameHelpShown) {
+						showGameHelpScreen (true);
+
+						pack.state.wasGameHelpShown = true;
+						PackageManager.sharedInstance ().savePackageState (pack);
+						return true; //Event consumed
+					} else {
+						showGameHelpScreen (false);
+					}
+
 					if (pack.state != null && !pack.state.wasTapHelpShown) {
 						showTapHelpScreen (true);
 
@@ -197,6 +207,13 @@ public class CrosswordFragment extends BackgroundInitFragment implements Toolbar
 								@Override
 								public void run () {
 									showHelpScreen (true);
+								}
+							});
+						} else if (mViewModel.wasGameHelpShownBeforeRotation) {
+							activity.runOnUiThread (new Runnable () {
+								@Override
+								public void run () {
+									showGameHelpScreen (true);
 								}
 							});
 						} else if (mViewModel.wasTapHelpShownBeforeRotation) {
@@ -494,9 +511,20 @@ public class CrosswordFragment extends BackgroundInitFragment implements Toolbar
 	}
 
 	private boolean shouldSelectCell (int row, int col) {
+		//Handle help bubbles
 		showHelpScreen (false);
 
 		Package pack = mViewModel.getCurrentPackage ();
+		if (pack.state != null && !pack.state.wasGameHelpShown) {
+			showGameHelpScreen (true);
+
+			pack.state.wasGameHelpShown = true;
+			PackageManager.sharedInstance ().savePackageState (pack);
+			return false;
+		} else {
+			showGameHelpScreen (false);
+		}
+
 		if (pack.state != null && !pack.state.wasTapHelpShown) {
 			showTapHelpScreen (true);
 
@@ -507,6 +535,7 @@ public class CrosswordFragment extends BackgroundInitFragment implements Toolbar
 			showTapHelpScreen (false);
 		}
 
+		//Should select cell
 		boolean startCell = mViewModel.getSavedCrossword ().isStartCell (row, col);
 		_canBecameFirstResponder = startCell;
 		commitValidAnswer ();
@@ -1255,6 +1284,12 @@ public class CrosswordFragment extends BackgroundInitFragment implements Toolbar
 		LinearLayout tapHelpView = getActivity ().findViewById (R.id.cwview_tap_help);
 		tapHelpView.setVisibility (show ? View.VISIBLE : View.INVISIBLE);
 		mViewModel.wasTapHelpShownBeforeRotation = show;
+	}
+
+	private void showGameHelpScreen (boolean show) {
+		LinearLayout gameHelpView = getActivity ().findViewById (R.id.cwview_game_help);
+		gameHelpView.setVisibility (show ? View.VISIBLE : View.INVISIBLE);
+		mViewModel.wasGameHelpShownBeforeRotation = show;
 	}
 
 	private void addAvailableInputDirection (int cellType, int checkCellType) {

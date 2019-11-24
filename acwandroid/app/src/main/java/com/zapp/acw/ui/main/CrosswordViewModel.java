@@ -46,6 +46,7 @@ public class CrosswordViewModel extends BackgroundInitViewModel {
 
 	public boolean wasHelpShownBeforeRotation = false;
 	public boolean wasTapHelpShownBeforeRotation = false;
+	public boolean wasGameHelpShownBeforeRotation = false;
 
 	public void startInit (final Bundle args) {
 		startInit (new InitListener () {

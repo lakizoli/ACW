@@ -25,6 +25,7 @@ public final class GameState implements Parcelable {
 	public int levelCount = 0;
 	public boolean wasHelpShown = false;
 	public boolean wasTapHelpShown = false;
+	public boolean wasGameHelpShown = false;
 
 	public GameState () {
 	}
@@ -69,6 +70,9 @@ public final class GameState implements Parcelable {
 					case "wasTapHelpShown":
 						wasTapHelpShown = reader.nextBoolean ();
 						break;
+					case "wasGameHelpShown":
+						wasGameHelpShown = reader.nextBoolean ();
+						break;
 					default:
 						reader.skipValue ();
 						break;
@@ -111,6 +115,7 @@ public final class GameState implements Parcelable {
 			writer.name ("levelCount").value (levelCount);
 			writer.name ("wasHelpShown").value (wasHelpShown);
 			writer.name ("wasTapHelpShown").value (wasTapHelpShown);
+			writer.name ("wasGameHelpShown").value (wasGameHelpShown);
 			writer.endObject ();
 		} catch (Exception ex) {
 			Log.e ("GameState", "saveTo throws exception (1): " + ex);
@@ -152,6 +157,9 @@ public final class GameState implements Parcelable {
 		wordCount = parcel.readInt ();
 		filledLevel = parcel.readInt ();
 		levelCount = parcel.readInt ();
+		wasHelpShown = parcel.readInt () != 0;
+		wasTapHelpShown = parcel.readInt () != 0;
+		wasGameHelpShown = parcel.readInt () != 0;
 	}
 
 	@Override
@@ -167,6 +175,9 @@ public final class GameState implements Parcelable {
 		dest.writeInt (wordCount);
 		dest.writeInt (filledLevel);
 		dest.writeInt (levelCount);
+		dest.writeInt (wasHelpShown ? 1 : 0);
+		dest.writeInt (wasTapHelpShown ? 1 : 0);
+		dest.writeInt (wasGameHelpShown ? 1 : 0);
 	}
 	//endregion
 }

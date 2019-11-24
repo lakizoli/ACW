@@ -21,4 +21,5 @@
 	<string name="cwview_win_fail_count_label">Fail count: %d</string>
 	<string name="cwview_help_content">The aim of this game is, that you have to fill the entire crossword as fast as you can, without any hints and failures. However, if you don\'t know one of the solutions, you can easiliy show all solutions using "Show Hint" button above to help learning.</string>
 	<string name="cwview_tap_help_content">You can easily start writing each solutions by tapping their first cell.</string>
+	<string name="cwview_game_help_content">To go to the next level you allowed to have a maximum of 3 mistakes and the use of 3 hints. In addition, you must fill the entire crossword within a maximum of 12 minutes.</string>
 </resources>

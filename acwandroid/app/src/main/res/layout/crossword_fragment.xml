@@ -190,7 +190,7 @@
 		android:layout_height="wrap_content"
 		android:layout_alignParentRight="true"
 		android:layout_alignParentEnd="true"
-		android:layout_marginTop="60dp"
+		android:layout_marginTop="69dp"
 		android:layout_marginRight="6dp"
 		android:layout_marginEnd="6dp"
 		android:padding="3dp"
@@ -243,6 +243,28 @@
 			android:textSize="22sp"
 			android:gravity="start"
 			android:padding="3dp"/>
+
+	</LinearLayout>
+
+	<LinearLayout
+		android:id="@+id/cwview_game_help"
+		android:layout_width="360dp"
+		android:layout_height="wrap_content"
+		android:layout_centerInParent="true"
+		android:padding="6dp"
+		android:orientation="horizontal"
+		android:background="@drawable/helpbg"
+		android:visibility="invisible">
+
+		<TextView
+			android:layout_width="0dp"
+			android:layout_weight="0.8"
+			android:layout_height="wrap_content"
+			android:fontFamily="@font/bradley_hand"
+			android:text="@string/cwview_game_help_content"
+			android:textSize="22sp"
+			android:gravity="center"
+			android:padding="6dp"/>
 
 	</LinearLayout>
 
