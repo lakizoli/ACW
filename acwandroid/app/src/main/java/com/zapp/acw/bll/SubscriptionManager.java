@@ -29,6 +29,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.navigation.Navigation;
 
@@ -188,7 +189,7 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 		if (product == null) {
 			NetLogger.logEvent ("Subscription_Buy_ProductNotFound");
 
-			showOKAlert ("Product not available!", "Subscription error!");
+			showOKAlert (R.string.product_not_available, R.string.subscription_error);
 			return;
 		}
 
@@ -228,7 +229,7 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 				put ("productIdentifier", product.getSku ());
 			}});
 
-			showOKAlert ("Subscriptions are not available on this device!", "Subscription error!");
+			showOKAlert (R.string.subscriptions_not_available_on_this_device, R.string.subscription_error);
 			return;
 		}
 
@@ -247,7 +248,7 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 				put ("error", billingFlowResult.getDebugMessage ());
 			}});
 
-			showOKAlert ("Cannot start billing flow!", "Subscription error!");
+			showOKAlert (R.string.cannot_start_billing_flow, R.string.subscription_error);
 		}
 	}
 
@@ -287,7 +288,27 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 		return null;
 	}
 
-	private void showOKAlert (String msg, String title) {
+	private void showOKAlert (@StringRes int msg, @StringRes int title) {
+		Activity activity = _activityProvider.getActivity ();
+
+		AlertDialog.Builder builder = new AlertDialog.Builder (activity);
+		builder.setTitle (title);
+
+		builder.setMessage (msg);
+
+		builder.setPositiveButton (R.string.ok, new DialogInterface.OnClickListener () {
+			@Override
+			public void onClick (DialogInterface dialog, int which) {
+				Activity activity = _activityProvider.getActivity ();
+				View view = activity.findViewById (R.id.nav_host_fragment);
+				Navigation.findNavController (view).navigateUp ();
+			}
+		});
+
+		builder.show ();
+	}
+
+	private void showOKAlert (String msg, @StringRes int title) {
 		Activity activity = _activityProvider.getActivity ();
 
 		AlertDialog.Builder builder = new AlertDialog.Builder (activity);
@@ -322,7 +343,6 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 		String str = String.format ("%d:%s", purchaseDate, productID);
 
 		if (!FileUtils.writeFile (purchasePath (), str)) {
-			showOKAlert ("Cannot store your purchase on local storage!", "Error");
 			return false;
 		}
 
@@ -427,7 +447,7 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 					put ("purchaseToken", purchase.getPurchaseToken ());
 					put ("orderID", purchase.getOrderId ());
 				}});
-				showOKAlert ("Cannot store your subscription! You will get your refund in some days!", "Error");
+				showOKAlert (R.string.cannot_store_subscription, R.string.error_title);
 				return;
 			}
 
@@ -446,7 +466,7 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 								put ("orderID", purchase.getOrderId ());
 							}});
 							NetLogger.logPaymentTransaction (purchase.getSku (), purchase.getPurchaseToken (), purchase.getOrderId (), _products);
-							showOKAlert ("Subscription purchased successfully!", "Success");
+							showOKAlert (R.string.purchase_successful, R.string.success_title);
 						} else { //Cannot acknowledge
 							//Remove user's entitlement
 							deletePurchase ();
@@ -457,7 +477,7 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 								put ("purchaseToken", purchase.getPurchaseToken ());
 								put ("orderID", purchase.getOrderId ());
 							}});
-							showOKAlert ("Cannot acknowledge your subscription! You will get your refund in some days!", "Error");
+							showOKAlert (R.string.cannot_acknowledge_subscription, R.string.error_title);
 						}
 					}
 				});
@@ -468,12 +488,11 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 					put ("orderID", purchase.getOrderId ());
 				}});
 				NetLogger.logPaymentTransaction (purchase.getSku (), purchase.getPurchaseToken (), purchase.getOrderId (), _products);
-				showOKAlert ("Subscription purchased successfully!", "Success");
+				showOKAlert (R.string.purchase_successful, R.string.success_title);
 			}
 		} else if (purchase.getPurchaseState() == Purchase.PurchaseState.PENDING) {
-			showOKAlert ("You have a pending subscription! " +
-				"Finish the subscription process to get your subscription and use the app without limitation...\n" +
-				"Order ID: " + purchase.getOrderId (), "Information");
+			Activity activity = _activityProvider.getActivity ();
+			showOKAlert (activity.getString (R.string.pending_subscription_finish_alert) + purchase.getOrderId (), R.string.info_title);
 
 			NetLogger.logEvent ("Subscription_Pending", new HashMap<String, String> () {{
 				put ("productIdentifier", purchase.getSku ());
@@ -485,25 +504,25 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 	//endregion
 
 	//region Purchase alert
-	private String mPendingSubscriptionAlert = null;
+	private @StringRes int mPendingSubscriptionAlert = 0;
 
-	public void setPendingSubscriptionAlert (String msg) {
+	public void setPendingSubscriptionAlert (@StringRes int msg) {
 		mPendingSubscriptionAlert = msg;
 	}
 
-	public String popPendingSubscriptionAlert () {
-		String msg = mPendingSubscriptionAlert;
-		mPendingSubscriptionAlert = null;
+	public @StringRes int popPendingSubscriptionAlert () {
+		int msg = mPendingSubscriptionAlert;
+		mPendingSubscriptionAlert = 0;
 		return msg;
 	}
 
-	public void showSubscriptionAlert (Context context, final View view, String msg) {
+	public void showSubscriptionAlert (Context context, final View view, @StringRes int msg) {
 		showSubscriptionAlert (context, view, msg, null, null);
 	}
 
-	public void showSubscriptionAlert (Context context, final View view, String msg, final Runnable onNo, final Runnable onYes) {
+	public void showSubscriptionAlert (Context context, final View view, @StringRes int msg, final Runnable onNo, final Runnable onYes) {
 		AlertDialog.Builder builder = new AlertDialog.Builder (context);
-		builder.setTitle ("Subscribe Alert!");
+		builder.setTitle (R.string.subscribe_alert);
 
 		builder.setMessage (msg);
 

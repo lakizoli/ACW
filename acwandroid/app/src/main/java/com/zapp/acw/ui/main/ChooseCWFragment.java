@@ -25,6 +25,7 @@ import java.util.Random;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -149,9 +150,9 @@ public class ChooseCWFragment extends BackgroundInitFragment implements Toolbar.
 						}
 
 						AlertDialog.Builder builder = new AlertDialog.Builder (activity);
-						builder.setTitle ("Do you want to delete this crossword?");
+						builder.setTitle (R.string.do_you_want_delete_cw);
 
-						builder.setMessage ("You cannot undo this action.");
+						builder.setMessage (R.string.cannot_undo_this_action);
 
 						builder.setNegativeButton (R.string.cancel, new DialogInterface.OnClickListener () {
 							@Override
@@ -221,8 +222,8 @@ public class ChooseCWFragment extends BackgroundInitFragment implements Toolbar.
 		});
 
 		//Show pending subscription alert
-		String pendingSubscriptionAlert = SubscriptionManager.sharedInstance ().popPendingSubscriptionAlert ();
-		if (pendingSubscriptionAlert != null) {
+		@StringRes int pendingSubscriptionAlert = SubscriptionManager.sharedInstance ().popPendingSubscriptionAlert ();
+		if (pendingSubscriptionAlert != 0) {
 			SubscriptionManager.sharedInstance ().showSubscriptionAlert (activity, getView (), pendingSubscriptionAlert);
 		}
 	}
@@ -276,16 +277,11 @@ public class ChooseCWFragment extends BackgroundInitFragment implements Toolbar.
 	}
 
 	private void showSubscription () {
-		SubscriptionManager.sharedInstance ().showSubscriptionAlert (getActivity (), getView (),
-			"You have to subscribe to the application to play the disabled crosswords!" +
-				" If you press yes, then we take you to our store screen to do that.");
+		SubscriptionManager.sharedInstance ().showSubscriptionAlert (getActivity (), getView (), R.string.subscribe_take_to_store);
 	}
 
 	private void showSubscriptionOnDelete (Runnable onNo) {
-		SubscriptionManager.sharedInstance ().showSubscriptionAlert (getActivity (), getView (),
-			"You have to subscribe to the application to delete crosswords!" +
-				" Only the first crossword may be played without a subscription!" +
-				" If you press yes, then we take you to our store screen to do that.", onNo, null);
+		SubscriptionManager.sharedInstance ().showSubscriptionAlert (getActivity (), getView (), R.string.subscribe_on_delete_warning, onNo, null);
 	}
 
 	private Bundle buildShowCWBundle (String packageKey, int crosswordIndex, boolean isRandomGame) {

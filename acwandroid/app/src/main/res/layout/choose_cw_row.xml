@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/subscribe_alert_border">
@@ -17,7 +18,8 @@
             android:layout_height="wrap_content"
             android:text="Name of the package"
             android:textSize="28sp"
-            app:fontFamily="@font/avenir_next_condensed_bold" />
+            app:fontFamily="@font/avenir_next_condensed_bold"
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/cw_statistic"
@@ -25,7 +27,8 @@
             android:layout_height="wrap_content"
             android:text="100 of 322 levels (1000 of 3622 words) solved"
             android:textSize="16sp"
-            app:fontFamily="@font/avenir_next_condensed" />
+            app:fontFamily="@font/avenir_next_condensed"
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/cw_random_button"
@@ -48,8 +51,9 @@
 		android:id="@+id/cw_row_arrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        app:srcCompat="@drawable/ic_chevron_right"/>
+        app:srcCompat="@drawable/ic_chevron_right" />
 
 </RelativeLayout>

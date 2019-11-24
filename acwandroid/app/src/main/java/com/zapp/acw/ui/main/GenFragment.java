@@ -23,6 +23,7 @@ import com.zapp.acw.bll.Package;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -76,7 +77,7 @@ public class GenFragment extends Fragment implements Toolbar.OnMenuItemClickList
 		mViewModel.getLabelIndex ().observe (getViewLifecycleOwner (), new Observer<Integer> () {
 			@Override
 			public void onChanged (Integer index) {
-				mProgressView.setLabel (String.format ("Generating crossword... (%d)", index));
+				mProgressView.setLabel (mProgressView.getString (R.string.generating_crossword) + " (" + index + ")");
 			}
 		});
 
@@ -102,7 +103,7 @@ public class GenFragment extends Fragment implements Toolbar.OnMenuItemClickList
 
 						TextView textView = activity.findViewById (R.id.text_question_value);
 						String fieldValue = mViewModel.getFieldValue (field);
-						updatePickerLabel (textView, "Question field:", fieldValue);
+						updatePickerLabel (textView, R.string.question_field, fieldValue);
 					}
 				}, new GenAdapter.OnInitialSelectionListener () {
 					@Override
@@ -111,7 +112,7 @@ public class GenFragment extends Fragment implements Toolbar.OnMenuItemClickList
 
 						TextView textView = activity.findViewById (R.id.text_question_value);
 						String fieldValue = mViewModel.getFieldValue (field);
-						updatePickerLabel (textView, "Question field:", fieldValue);
+						updatePickerLabel (textView, R.string.question_field, fieldValue);
 					}
 				});
 
@@ -128,7 +129,7 @@ public class GenFragment extends Fragment implements Toolbar.OnMenuItemClickList
 
 						TextView textView = activity.findViewById (R.id.text_solution_value);
 						String fieldValue = mViewModel.getFieldValue (field);
-						updatePickerLabel (textView, "Solution field:", fieldValue);
+						updatePickerLabel (textView, R.string.solution_field, fieldValue);
 					}
 				}, new GenAdapter.OnInitialSelectionListener () {
 					@Override
@@ -137,7 +138,7 @@ public class GenFragment extends Fragment implements Toolbar.OnMenuItemClickList
 
 						TextView textView = activity.findViewById (R.id.text_solution_value);
 						String fieldValue = mViewModel.getFieldValue (field);
-						updatePickerLabel (textView, "Solution field:", fieldValue);
+						updatePickerLabel (textView, R.string.solution_field, fieldValue);
 					}
 				});
 
@@ -195,8 +196,8 @@ public class GenFragment extends Fragment implements Toolbar.OnMenuItemClickList
 				toolbar.setEnabled (false);
 
 				//Show progress
-				mProgressView.setButtonText ("Cancel");
-				mProgressView.setLabel ("Generating crossword...");
+				mProgressView.setButtonText (R.string.cancel);
+				mProgressView.setLabel (R.string.generating_crossword);
 				mProgressView.setProgress (0);
 
 				mProgressView.setOnButtonPressed (new Runnable () {
@@ -252,18 +253,20 @@ public class GenFragment extends Fragment implements Toolbar.OnMenuItemClickList
 		}
 	}
 
-	private void updatePickerLabel (TextView label, String text, String exampleContent) {
+	private void updatePickerLabel (TextView label, @StringRes int text, String exampleContent) {
 		if (exampleContent == null) {
 			label.setText (text);
 			return;
 		}
 
-		String example = String.format ("(e.g.: \"%s\")", exampleContent);
+		String example = String.format (label.getResources ().getString (R.string.example_format), exampleContent);
+		String htmlContentText = label.getResources ().getString (text);
+
 		Spanned content;
 		if (Build.VERSION.SDK_INT >= 24) {
-			content = Html.fromHtml (String.format ("<span>%s</span> <i><font color='#AAAAAA'>%s</font></i>", text, example), Html.FROM_HTML_MODE_COMPACT);
+			content = Html.fromHtml (String.format ("<span>%s</span> <i><font color='#AAAAAA'>%s</font></i>", htmlContentText, example), Html.FROM_HTML_MODE_COMPACT);
 		} else {
-			content = Html.fromHtml (String.format ("<span>%s</span> <i><font color='#AAAAAA'>%s</font></i>", text, example));
+			content = Html.fromHtml (String.format ("<span>%s</span> <i><font color='#AAAAAA'>%s</font></i>", htmlContentText, example));
 		}
 		label.setText (content);
 	}

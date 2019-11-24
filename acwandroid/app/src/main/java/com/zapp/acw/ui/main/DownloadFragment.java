@@ -81,10 +81,10 @@ public class DownloadFragment extends Fragment implements TabLayout.OnTabSelecte
 						unlockOrientation ();
 
 						AlertDialog.Builder builder = new AlertDialog.Builder (getContext ());
-						builder.setTitle ("Error");
-						builder.setMessage ("Error occured during download!");
+						builder.setTitle (R.string.error_title);
+						builder.setMessage (R.string.download_error);
 
-						builder.setPositiveButton ("OK", new DialogInterface.OnClickListener () {
+						builder.setPositiveButton (R.string.ok, new DialogInterface.OnClickListener () {
 							@Override
 							public void onClick (DialogInterface dialog, int which) {
 								dismissView ();
@@ -267,8 +267,8 @@ public class DownloadFragment extends Fragment implements TabLayout.OnTabSelecte
 	}
 
 	private void showProgressView () {
-		mProgressView.setButtonText ("Cancel");
-		mProgressView.setLabel ("Downloading...");
+		mProgressView.setButtonText (R.string.cancel);
+		mProgressView.setLabel (R.string.downloading);
 		mProgressView.setProgress (0);
 
 		mProgressView.setOnButtonPressed (new Runnable () {
@@ -297,6 +297,7 @@ public class DownloadFragment extends Fragment implements TabLayout.OnTabSelecte
 				orientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT;
 				break;
 			default:
+			case Surface.ROTATION_270:
 				orientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE;
 				break;
 		}

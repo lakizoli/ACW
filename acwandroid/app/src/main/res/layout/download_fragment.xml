@@ -20,7 +20,7 @@
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
             app:titleTextColor="@color/colorYellowText"
-            app:title="Download Anki Packages" />
+            app:title="@string/download_anki_packages" />
 
         <RelativeLayout
             android:layout_width="match_parent"

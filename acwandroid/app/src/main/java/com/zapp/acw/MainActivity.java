@@ -155,8 +155,8 @@ public class MainActivity extends AppCompatActivity {
 		} catch (Exception ex) {
 			AlertDialog.Builder builder = new AlertDialog.Builder (this);
 
-			builder.setTitle ("Import error!");
-			builder.setMessage ("Cannot import file!");
+			builder.setTitle (R.string.import_error);
+			builder.setMessage (R.string.cannot_import_file);
 			builder.setPositiveButton (R.string.ok, new DialogInterface.OnClickListener () {
 				@Override
 				public void onClick (DialogInterface dialog, int which) {

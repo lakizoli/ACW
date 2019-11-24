@@ -3,10 +3,10 @@
 	xmlns:app="http://schemas.android.com/apk/res-auto">
 
 	<item android:id="@+id/cwview_reset"
-		android:title="Reset"
+		android:title="@string/reset"
 		app:showAsAction="ifRoom"/>
 
 	<item android:id="@+id/cwview_hint"
-		android:title="Show Hint"
+		android:title="@string/show_hint"
 		app:showAsAction="ifRoom"/>
 </menu>

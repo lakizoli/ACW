@@ -56,7 +56,7 @@
             android:shadowDx="2"
             android:shadowDy="2"
             android:shadowRadius="2"
-            android:text="Starting..."
+            android:text="@string/starting"
             android:textColor="#E5C147"
             android:textSize="36sp"
             app:fontFamily="@font/bradley_hand" />

@@ -330,7 +330,7 @@ public class CrosswordFragment extends BackgroundInitFragment implements Toolbar
 		Toolbar toolbar = activity.findViewById (R.id.cwview_toolbar);
 		Menu menu = toolbar.getMenu ();
 		MenuItem showHideButton = menu.findItem (R.id.cwview_hint);
-		showHideButton.setTitle (_areAnswersVisible ? "Hide Hint" : "Show Hint");
+		showHideButton.setTitle (_areAnswersVisible ? R.string.hide_hint : R.string.show_hint);
 		rebuildCrosswordTable (true);
 
 		if (_areAnswersVisible) {
@@ -820,9 +820,7 @@ public class CrosswordFragment extends BackgroundInitFragment implements Toolbar
 
 	//region Implementation
 	private void showSubscription () {
-		SubscriptionManager.sharedInstance ().setPendingSubscriptionAlert (
-			"You have to subscribe to the application to play more than one demo crossword! If you press yes, then we take you to our store screen to do that."
-		);
+		SubscriptionManager.sharedInstance ().setPendingSubscriptionAlert (R.string.subscribe_to_play_more_than_one);
 		Navigation.findNavController (getView ()).navigateUp ();
 	}
 
@@ -1092,16 +1090,16 @@ public class CrosswordFragment extends BackgroundInitFragment implements Toolbar
 		String formattedDate = dateFormatter.format (date.getTime ());
 
 		TextView winTimeLabel = activity.findViewById (R.id.cwview_win_time_label);
-		winTimeLabel.setText (String.format ("Time: %s", formattedDate));
+		winTimeLabel.setText (String.format (activity.getString (R.string.win_time), formattedDate));
 
 		TextView winHintCountLabel = activity.findViewById (R.id.cwview_win_hint_count_label);
-		winHintCountLabel.setText (String.format ("Hint show count: %d", currentStat.hintCount));
+		winHintCountLabel.setText (String.format (activity.getString (R.string.win_hint_count), currentStat.hintCount));
 
 		TextView winWordCountLabel = activity.findViewById (R.id.cwview_win_word_count_label);
-		winWordCountLabel.setText (String.format ("Word count: %d", savedCrossword.words == null ? 0 : savedCrossword.words.size ()));
+		winWordCountLabel.setText (String.format (activity.getString (R.string.win_word_count), savedCrossword.words == null ? 0 : savedCrossword.words.size ()));
 
 		TextView winFailCountLabel = activity.findViewById (R.id.cwview_win_fail_count_label);
-		winFailCountLabel.setText (String.format ("Fail count: %d", currentStat.failCount));
+		winFailCountLabel.setText (String.format (activity.getString (R.string.win_fail_count), currentStat.failCount));
 
 		//Handle stars
 		_starCount = calculateStarCount (currentStat);
@@ -1133,8 +1131,8 @@ public class CrosswordFragment extends BackgroundInitFragment implements Toolbar
 
 		if (mViewModel.getIsMultiLevelGame ()) {
 			if (_starCount < 3) { //Fail
-				winMessageLabel.setText ("You can do this better!\nTry again!");
-				winCloseButton.setText ("Try again");
+				winMessageLabel.setText (R.string.win_msg_can_do_better);
+				winCloseButton.setText (R.string.try_again);
 			} else { //Go to the next level, or end of all levels
 				Package currentPackage = mViewModel.getCurrentPackage ();
 				ArrayList<SavedCrossword> allSavedCrossword = mViewModel.getAllSavedCrossword ();
@@ -1152,11 +1150,11 @@ public class CrosswordFragment extends BackgroundInitFragment implements Toolbar
 						currentPackage.state.crosswordName = allSavedCrossword.get (nextCWIdx).name;
 					}
 
-					winMessageLabel.setText ("You earn 3 stars!\nGo to the next level!");
-					winCloseButton.setText ("Next Level");
+					winMessageLabel.setText (R.string.win_msg_three_star_goto_next);
+					winCloseButton.setText (R.string.next_level);
 				} else {
-					winMessageLabel.setText ("You filled all levels!");
-					winCloseButton.setText ("OK");
+					winMessageLabel.setText (R.string.you_filled_all_levels);
+					winCloseButton.setText (R.string.ok);
 				}
 
 				if (isSubscribed) {
@@ -1165,11 +1163,11 @@ public class CrosswordFragment extends BackgroundInitFragment implements Toolbar
 			}
 		} else { //Single level game
 			if (_starCount < 3) {
-				winMessageLabel.setText ("You can do this better!\nTry again!");
-				winCloseButton.setText ("Try again");
+				winMessageLabel.setText (R.string.win_msg_can_do_better);
+				winCloseButton.setText (R.string.try_again);
 			} else {
-				winMessageLabel.setText ("You earn 3 stars!");
-				winCloseButton.setText ("OK");
+				winMessageLabel.setText (R.string.win_msg_three_star);
+				winCloseButton.setText (R.string.ok);
 			}
 		}
 

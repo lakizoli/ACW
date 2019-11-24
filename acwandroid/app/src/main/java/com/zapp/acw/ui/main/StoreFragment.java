@@ -93,7 +93,7 @@ public class StoreFragment extends Fragment {
 		FragmentActivity activity = getActivity ();
 
 		final Toolbar toolbar = activity.findViewById (R.id.store_toolbar);
-		toolbar.setTitle ("Store");
+		toolbar.setTitle (R.string.store);
 
 		ScrollView scrollView = activity.findViewById (R.id.store_scroll);
 		final WebView webView = new WebView (activity);
@@ -120,10 +120,10 @@ public class StoreFragment extends Fragment {
 				if (host.startsWith ("ankidoc.com")) {
 					String doc = null;
 					if (path.endsWith ("privacy_policy")) {
-						toolbar.setTitle ("Privacy Policy");
+						toolbar.setTitle (R.string.privacy_policy);
 						doc = mViewModel.getPrivacyPolicyHTML ();
 					} else if (path.endsWith ("terms_of_use")) {
-						toolbar.setTitle ("Terms Of Use");
+						toolbar.setTitle (R.string.terms_of_use);
 						doc = mViewModel.getTermsOfUseHTML ();
 					}
 

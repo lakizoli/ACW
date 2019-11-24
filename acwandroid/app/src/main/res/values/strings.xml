@@ -1,25 +1,75 @@
 <resources>
     <string name="app_name">Anki Crossword</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="yes">Yes</string>
     <string name="no">No</string>
 	<string name="ok">OK</string>
 	<string name="cancel">Cancel</string>
 	<string name="delete">Delete</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="featured">Featured</string>
     <string name="search">Search</string>
-    <string name="random_button_label"><u>Choose random crossword from solved levels</u></string>
+	<string name="reset">Reset</string>
+	<string name="done">Done</string>
+	<string name="random_button_label"><u>Choose random crossword from solved levels</u></string>
+	<string name="cell_statistics">%d of %d levels (%d of %d words) solved</string>
 	<string name="cw_subscribe_now"><u>Subscribe Now</u></string>
     <string name="subscribe_warning">You have to subscribe to the application to play the disabled crosswords!</string>
-	<string name="cwview_win_congratulation">Congratulation!</string>
-	<string name="cwview_win_you_filled_the_crossword">You filled the crossword!</string>
-	<string name="cwview_win_time_label">Time: %s</string>
-	<string name="cwview_win_hint_count_label">Hint show count: %s</string>
-	<string name="cwview_win_word_count_label">Word count: %d</string>
-	<string name="cwview_win_fail_count_label">Fail count: %d</string>
-	<string name="cwview_help_content">The aim of this game is, that you have to fill the entire crossword as fast as you can, without any hints and failures. However, if you don\'t know one of the solutions, you can easiliy show all solutions using "Show Hint" button above to help learning.</string>
-	<string name="cwview_tap_help_content">You can easily start writing each solutions by tapping their first cell.</string>
-	<string name="cwview_game_help_content">To go to the next level you allowed to have a maximum of 3 mistakes and the use of 3 hints. In addition, you must fill the entire crossword within a maximum of 12 minutes.</string>
+	<string name="import_error">Import error!</string>
+	<string name="cannot_import_file">Cannot import file!</string>
+
+	<string name="hide_hint">Hide Hint</string>
+	<string name="show_hint">Show Hint</string>
+	<string name="win_congratulation">Congratulation!</string>
+	<string name="win_you_filled_the_crossword">You filled the crossword!</string>
+	<string name="win_time">Time: %s</string>
+	<string name="win_hint_count">Hint show count: %d</string>
+	<string name="win_word_count">Word count: %d</string>
+	<string name="win_fail_count">Fail count: %d</string>
+	<string name="win_msg_can_do_better">You can do this better!\nTry again!</string>
+	<string name="try_again">Try again</string>
+	<string name="win_msg_three_star_goto_next">You earn 3 stars!\nGo to the next level!</string>
+	<string name="next_level">Next Level</string>
+	<string name="you_filled_all_levels">You filled all levels!</string>
+	<string name="win_msg_three_star">You earn 3 stars!</string>
+	<string name="cw_help_content">The aim of this game is, that you have to fill the entire crossword as fast as you can, without any hints and failures. However, if you don\'t know one of the solutions, you can easiliy show all solutions using "Show Hint" button above to help learning.</string>
+	<string name="cw_tap_help_content">You can easily start writing each solutions by tapping their first cell.</string>
+	<string name="cw_game_help_content">To go to the next level you allowed to have a maximum of 3 mistakes and the use of 3 hints. In addition, you must fill the entire crossword within a maximum of 12 minutes.</string>
+
+	<string name="do_you_want_delete_cw">Do you want to delete this crossword?</string>
+	<string name="cannot_undo_this_action">You cannot undo this action.</string>
+
+	<string name="subscribe_alert">Subscribe Alert!</string>
+	<string name="product_not_available">Product not available!</string>
+	<string name="subscription_error">Subscription error!</string>
+	<string name="subscriptions_not_available_on_this_device">Subscriptions are not available on this device!</string>
+	<string name="cannot_start_billing_flow">Cannot start billing flow!</string>
+	<string name="error_title">Error!</string>
+	<string name="success_title">Success!</string>
+	<string name="info_title">Information!</string>
+	<string name="cannot_store_subscription">Cannot store your subscription! You will get your refund in some days!</string>
+	<string name="purchase_successful">Subscription purchased successfully!</string>
+	<string name="cannot_acknowledge_subscription">Cannot acknowledge your subscription! You will get your refund in some days!</string>
+	<string name="pending_subscription_finish_alert">You have a pending subscription! Finish the subscription process to get your subscription and use the app without limitation…\nOrder ID: </string>
+
+	<string name="subscribe_take_to_store">You have to subscribe to the application to play the disabled crosswords! If you press yes, then we take you to our store screen to do that.</string>
+	<string name="subscribe_on_delete_warning">You have to subscribe to the application to delete crosswords! Only the first crossword may be played without a subscription! If you press yes, then we take you to our store screen to do that.</string>
+	<string name="subscribe_to_play_more_than_one">You have to subscribe to the application to play more than one demo crossword! If you press yes, then we take you to our store screen to do that.</string>
+
+	<string name="generating_crossword">Generating crossword…</string>
+	<string name="example_format">(e.g.: \"%s\")</string>
+	<string name="question_field">Question field:</string>
+	<string name="solution_field">Solution field:</string>
+
+	<string name="store">Store</string>
+	<string name="privacy_policy">Privacy Policy</string>
+	<string name="terms_of_use">Terms Of Use</string>
+
+	<string name="obtain_anki_packages">Obtain Anki Packages</string>
+	<string name="download_help_plus_button">To download crosswords or Anki Flashcard packages, press the + button above!</string>
+
+	<string name="download_anki_packages">Download Anki Packages</string>
+	<string name="download_error">Error occurred during download!</string>
+	<string name="downloading">Downloading…</string>
+
+	<string name="starting">Starting…</string>
 </resources>

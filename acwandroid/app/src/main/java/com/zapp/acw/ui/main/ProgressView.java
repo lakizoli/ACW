@@ -7,6 +7,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.IdRes;
+import androidx.annotation.StringRes;
 import androidx.fragment.app.FragmentActivity;
 
 public class ProgressView {
@@ -33,6 +34,14 @@ public class ProgressView {
 		});
 	}
 
+	public String getString (@StringRes int res) {
+		return _textView.getResources ().getString (res);
+	}
+
+	public void setLabel (@StringRes int label) {
+		_textView.setText (label);
+	}
+
 	public void setLabel (String label) {
 		_textView.setText (label);
 	}
@@ -41,7 +50,7 @@ public class ProgressView {
 		_progressBar.setProgress (progress);
 	}
 
-	public void setButtonText (String text) {
+	public void setButtonText (@StringRes int text) {
 		_button.setText (text);
 	}
 

@@ -133,7 +133,7 @@ public class ChooseCWAdapter extends RecyclerView.Adapter<ChooseCWAdapter.ViewHo
 			title = pack.name;
 		}
 		holder.packageName.setText (title);
-		holder.statistics.setText (String.format ("%d of %d levels (%d of %d words) solved",
+		holder.statistics.setText (String.format (holder.statistics.getResources ().getString (R.string.cell_statistics),
 			filledLevelCount,
 			pack.state.levelCount,
 			pack.state.filledLevel >= pack.state.levelCount ? pack.state.wordCount : filledWordCount,
