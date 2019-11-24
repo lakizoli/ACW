@@ -167,7 +167,7 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 			List<Purchase> purchases = purchasesResult.getPurchasesList ();
 			if (purchases != null) {
 				for (Purchase purchase : purchases) {
-					handlePurchase (purchase);
+					handlePurchase (purchase, true);
 				}
 			}
 		}
@@ -189,7 +189,7 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 		if (product == null) {
 			NetLogger.logEvent ("Subscription_Buy_ProductNotFound");
 
-			showOKAlert (R.string.product_not_available, R.string.subscription_error);
+			showOKAlert (R.string.product_not_available, R.string.subscription_error, true);
 			return;
 		}
 
@@ -215,7 +215,8 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 			}
 
 			if (purchase != null) {
-				handlePurchase (purchase);
+				handlePurchase (purchase, false);
+				dismissStore ();
 			}
 
 			return;
@@ -229,7 +230,7 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 				put ("productIdentifier", product.getSku ());
 			}});
 
-			showOKAlert (R.string.subscriptions_not_available_on_this_device, R.string.subscription_error);
+			showOKAlert (R.string.subscriptions_not_available_on_this_device, R.string.subscription_error, true);
 			return;
 		}
 
@@ -248,7 +249,7 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 				put ("error", billingFlowResult.getDebugMessage ());
 			}});
 
-			showOKAlert (R.string.cannot_start_billing_flow, R.string.subscription_error);
+			showOKAlert (R.string.cannot_start_billing_flow, R.string.subscription_error, true);
 		}
 	}
 
@@ -288,7 +289,13 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 		return null;
 	}
 
-	private void showOKAlert (@StringRes int msg, @StringRes int title) {
+	private void dismissStore () {
+		Activity activity = _activityProvider.getActivity ();
+		View view = activity.findViewById (R.id.nav_host_fragment);
+		Navigation.findNavController (view).navigateUp ();
+	}
+
+	private void showOKAlert (@StringRes int msg, @StringRes int title, final boolean haveToDismiss) {
 		Activity activity = _activityProvider.getActivity ();
 
 		AlertDialog.Builder builder = new AlertDialog.Builder (activity);
@@ -300,16 +307,16 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 		builder.setPositiveButton (R.string.ok, new DialogInterface.OnClickListener () {
 			@Override
 			public void onClick (DialogInterface dialog, int which) {
-				Activity activity = _activityProvider.getActivity ();
-				View view = activity.findViewById (R.id.nav_host_fragment);
-				Navigation.findNavController (view).navigateUp ();
+				if (haveToDismiss) {
+					dismissStore ();
+				}
 			}
 		});
 
 		builder.show ();
 	}
 
-	private void showOKAlert (String msg, @StringRes int title) {
+	private void showOKAlert (String msg, @StringRes int title, final boolean haveToDismiss) {
 		Activity activity = _activityProvider.getActivity ();
 
 		AlertDialog.Builder builder = new AlertDialog.Builder (activity);
@@ -321,9 +328,9 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 		builder.setPositiveButton (R.string.ok, new DialogInterface.OnClickListener () {
 			@Override
 			public void onClick (DialogInterface dialog, int which) {
-				Activity activity = _activityProvider.getActivity ();
-				View view = activity.findViewById (R.id.nav_host_fragment);
-				Navigation.findNavController (view).navigateUp ();
+				if (haveToDismiss) {
+					dismissStore ();
+				}
 			}
 		});
 
@@ -406,9 +413,11 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 			case BillingClient.BillingResponseCode.OK: {
 				if (purchases != null) {
 					for (final Purchase purchase : purchases) {
-						handlePurchase (purchase);
+						handlePurchase (purchase, false);
 					}
 				}
+
+				dismissStore ();
 				break;
 			}
 			case BillingClient.BillingResponseCode.USER_CANCELED: {
@@ -421,6 +430,8 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 						}});
 					}
 				}
+
+				dismissStore ();
 				break;
 			}
 			default: {
@@ -435,12 +446,14 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 						}});
 					}
 				}
+
+				dismissStore ();
 				break;
 			}
 		}
 	}
 
-	private void handlePurchase (final Purchase purchase) {
+	private void handlePurchase (final Purchase purchase, final boolean silent) {
 		if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
 			//Grant entitlement to the user
 			if (!storePurchaseDate (purchase.getPurchaseTime (), purchase.getSku ())) {
@@ -449,7 +462,9 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 					put ("purchaseToken", purchase.getPurchaseToken ());
 					put ("orderID", purchase.getOrderId ());
 				}});
-				showOKAlert (R.string.cannot_store_subscription, R.string.error_title);
+				if (!silent) {
+					showOKAlert (R.string.cannot_store_subscription, R.string.error_title, false);
+				}
 				return;
 			}
 
@@ -468,7 +483,9 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 								put ("orderID", purchase.getOrderId ());
 							}});
 							NetLogger.logPaymentTransaction (purchase.getSku (), purchase.getPurchaseToken (), purchase.getOrderId (), _products);
-							showOKAlert (R.string.purchase_successful, R.string.success_title);
+							if (!silent) {
+								showOKAlert (R.string.purchase_successful, R.string.success_title, false);
+							}
 						} else { //Cannot acknowledge
 							//Remove user's entitlement
 							deletePurchase ();
@@ -479,7 +496,9 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 								put ("purchaseToken", purchase.getPurchaseToken ());
 								put ("orderID", purchase.getOrderId ());
 							}});
-							showOKAlert (R.string.cannot_acknowledge_subscription, R.string.error_title);
+							if (!silent) {
+								showOKAlert (R.string.cannot_acknowledge_subscription, R.string.error_title, false);
+							}
 						}
 					}
 				});
@@ -490,11 +509,15 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 					put ("orderID", purchase.getOrderId ());
 				}});
 				NetLogger.logPaymentTransaction (purchase.getSku (), purchase.getPurchaseToken (), purchase.getOrderId (), _products);
-				showOKAlert (R.string.purchase_successful, R.string.success_title);
+				if (!silent) {
+					showOKAlert (R.string.purchase_successful, R.string.success_title, false);
+				}
 			}
 		} else if (purchase.getPurchaseState() == Purchase.PurchaseState.PENDING) {
-			Activity activity = _activityProvider.getActivity ();
-			showOKAlert (activity.getString (R.string.pending_subscription_finish_alert) + purchase.getOrderId (), R.string.info_title);
+			if (!silent) {
+				Activity activity = _activityProvider.getActivity ();
+				showOKAlert (activity.getString (R.string.pending_subscription_finish_alert) + purchase.getOrderId (), R.string.info_title, false);
+			}
 
 			NetLogger.logEvent ("Subscription_Pending", new HashMap<String, String> () {{
 				put ("productIdentifier", purchase.getSku ());
