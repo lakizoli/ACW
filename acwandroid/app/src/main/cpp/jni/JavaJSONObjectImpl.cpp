@@ -247,8 +247,6 @@ std::vector<uint8_t> JsonObjectImpl::ToVector () const {
 
 void JsonObjectImpl::IterateProperties (std::function<bool (const std::string &key, const std::string &value, JsonDataType type)> handleProperty) const {
 
-	JNIEnv *env = JNI::GetEnv ();
-
 	JavaIterator iterator = JNI::CallObjectMethod<JavaIterator> (mObject, JNI::JavaMethod (jKeysMethod));
 
 	while (iterator.hasNext ()) {

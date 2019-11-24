@@ -32,7 +32,6 @@ add_library (
 	src/main/cpp/SavedCrossword.cpp
 	src/main/cpp/jni/jniapi.cpp
 	src/main/cpp/jni/JavaArrays.cpp
-	src/main/cpp/jni/JavaCallback.cpp
 	src/main/cpp/jni/JavaContainers.cpp
 	src/main/cpp/jni/JavaContext.cpp
 	src/main/cpp/jni/JavaFile.cpp

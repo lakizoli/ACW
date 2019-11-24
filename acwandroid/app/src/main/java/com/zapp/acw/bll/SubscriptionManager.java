@@ -292,6 +292,7 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 		Activity activity = _activityProvider.getActivity ();
 
 		AlertDialog.Builder builder = new AlertDialog.Builder (activity);
+		builder.setCancelable (false);
 		builder.setTitle (title);
 
 		builder.setMessage (msg);
@@ -312,6 +313,7 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 		Activity activity = _activityProvider.getActivity ();
 
 		AlertDialog.Builder builder = new AlertDialog.Builder (activity);
+		builder.setCancelable (false);
 		builder.setTitle (title);
 
 		builder.setMessage (msg);
@@ -522,6 +524,7 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 
 	public void showSubscriptionAlert (Context context, final View view, @StringRes int msg, final Runnable onNo, final Runnable onYes) {
 		AlertDialog.Builder builder = new AlertDialog.Builder (context);
+		builder.setCancelable (false);
 		builder.setTitle (R.string.subscribe_alert);
 
 		builder.setMessage (msg);

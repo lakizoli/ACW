@@ -246,8 +246,6 @@ std::vector<uint8_t> JsonArrayImpl::ToVector () const {
 
 void JsonArrayImpl::IterateItems (std::function<bool (const std::string &value, int32_t idx, JsonDataType type)> handleProperty) const {
 
-	JNIEnv *env = JNI::GetEnv ();
-
 	int32_t count = GetCount ();
 
 	for (int32_t idx = 0; idx < count; ++idx) {

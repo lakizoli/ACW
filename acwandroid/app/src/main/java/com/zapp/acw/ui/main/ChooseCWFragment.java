@@ -150,6 +150,7 @@ public class ChooseCWFragment extends BackgroundInitFragment implements Toolbar.
 						}
 
 						AlertDialog.Builder builder = new AlertDialog.Builder (activity);
+						builder.setCancelable (false);
 						builder.setTitle (R.string.do_you_want_delete_cw);
 
 						builder.setMessage (R.string.cannot_undo_this_action);

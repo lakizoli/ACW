@@ -1,5 +1,7 @@
 package com.zapp.acw.ui.keyboard;
 
+import android.util.SparseArray;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -28,8 +30,8 @@ public class KeyboardConfig {
 
 	private int _extraPageCount;
 	private int _extraPageKeyCount;
-	private HashMap<Integer, String> _extraKeyTitles;
-	private HashMap<Integer, String> _extraKeyValues;
+	private SparseArray<String> _extraKeyTitles;
+	private SparseArray<String> _extraKeyValues;
 	//endregion
 
 	//region Interface
@@ -38,8 +40,8 @@ public class KeyboardConfig {
 
 		_extraPageCount = 0;
 		_extraPageKeyCount = 29; //Must be conforming with rowKeys layout!
-		_extraKeyTitles = new HashMap<> ();
-		_extraKeyValues = new HashMap<> ();
+		_extraKeyTitles = new SparseArray<> ();
+		_extraKeyValues = new SparseArray<> ();
 	}
 
 	public boolean rowKeys (int row, int page, ArrayList<String> outKeys, ArrayList<Double> outWeights) {
@@ -88,7 +90,7 @@ public class KeyboardConfig {
 	public int getExtraKeyID (String key, int page) {
 		if (key.startsWith ("Ex")) {
 			int extraKeyID = extraKeyIDFromPage (page, Integer.parseInt (key.substring (2)));
-			if (_extraKeyValues.containsKey (extraKeyID) && _extraKeyTitles.containsKey (extraKeyID)) {
+			if (_extraKeyValues.get (extraKeyID) != null && _extraKeyTitles.get (extraKeyID) != null) {
 				return extraKeyID;
 			}
 		}

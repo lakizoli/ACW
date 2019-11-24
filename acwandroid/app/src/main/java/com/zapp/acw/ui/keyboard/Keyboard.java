@@ -171,7 +171,7 @@ public class Keyboard {
 						@Override
 						public void run () {
 							Button button = addTextButton (activity, key, widthRatio, "", addSpacer, destination);
-							button.setTag (new Integer (extraKeyID));
+							button.setTag (Integer.valueOf (extraKeyID));
 
 							String title = _keyboardConfig.getTitleForExtraKeyID (extraKeyID);
 							if (title != null && title.length () > 0) {

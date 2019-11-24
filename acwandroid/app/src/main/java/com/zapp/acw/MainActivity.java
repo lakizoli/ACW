@@ -114,8 +114,11 @@ public class MainActivity extends AppCompatActivity {
 				fileName = uri.getLastPathSegment ();
 			} else if(ContentResolver.SCHEME_CONTENT.equals(scheme)) {
 				Cursor cursor = cr.query (uri, null, null, null, null);
-				if (cursor != null && cursor.moveToFirst ()) {
-					fileName = cursor.getString (cursor.getColumnIndex (OpenableColumns.DISPLAY_NAME));
+				if (cursor != null) {
+					if (cursor.moveToFirst ()) {
+						fileName = cursor.getString (cursor.getColumnIndex (OpenableColumns.DISPLAY_NAME));
+					}
+					cursor.close ();
 				}
 			} else { //Unhandled intent
 				return null;
@@ -154,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
 			return FileUtils.pathByDeletingPathExtension (fileName);
 		} catch (Exception ex) {
 			AlertDialog.Builder builder = new AlertDialog.Builder (this);
+			builder.setCancelable (false);
 
 			builder.setTitle (R.string.import_error);
 			builder.setMessage (R.string.cannot_import_file);

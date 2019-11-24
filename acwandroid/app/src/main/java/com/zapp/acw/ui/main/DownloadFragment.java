@@ -81,6 +81,7 @@ public class DownloadFragment extends Fragment implements TabLayout.OnTabSelecte
 						unlockOrientation ();
 
 						AlertDialog.Builder builder = new AlertDialog.Builder (getContext ());
+						builder.setCancelable (false);
 						builder.setTitle (R.string.error_title);
 						builder.setMessage (R.string.download_error);
 

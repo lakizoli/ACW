@@ -2,6 +2,7 @@ package com.zapp.acw.bll;
 
 import android.content.Context;
 import android.util.Log;
+import android.util.SparseArray;
 
 import com.zapp.acw.FileUtils;
 
@@ -205,7 +206,7 @@ public final class PackageManager {
 	public ArrayList<Integer> collectMinimalStatCountCWIndices (String packageKey, HashMap<String, ArrayList<SavedCrossword>> savedCrosswords, int playedCWCount) {
 		ArrayList<SavedCrossword> cws = savedCrosswords.get (packageKey);
 
-		HashMap<Integer, ArrayList<Integer>> indices = new HashMap<> ();
+		SparseArray<ArrayList<Integer>> indices = new SparseArray<> ();
 		int minCount = Integer.MAX_VALUE;
 		for (int i = 0; i < playedCWCount; ++i) {
 			SavedCrossword cw = cws.get (i);

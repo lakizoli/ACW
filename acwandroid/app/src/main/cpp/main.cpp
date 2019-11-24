@@ -4,15 +4,15 @@
 
 #include <JavaFile.hpp>
 
-JNIEXPORT jint JNICALL JNI_OnLoad (JavaVM* vm, void* reserved) {
+JNIEXPORT jint JNICALL JNI_OnLoad (JavaVM* vm, void*) {
 	return JNI::APILoad (vm, "com/zapp/acw/MainActivity");
 }
 
-JNIEXPORT void JNI_OnUnload (JavaVM* vm, void* reserved) {
+JNIEXPORT void JNI_OnUnload (JavaVM* vm, void*) {
 	JNI::APIUnload (vm);
 }
 
-extern "C" JNIEXPORT void JNICALL Java_com_zapp_acw_bll_NetLogger_setEventsPath (JNIEnv* env, jclass clazz, jstring events_path) {
+extern "C" JNIEXPORT void JNICALL Java_com_zapp_acw_bll_NetLogger_setEventsPath (JNIEnv*, jclass, jstring events_path) {
 	std::string path = JavaString (events_path).getString ();
 
 	JavaFile dir (path);

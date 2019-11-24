@@ -107,8 +107,8 @@ public:
 
 		JNIEnv* env = GetEnv ();
 
-		AutoLocalRef<jclass> bimxClass (env->FindClass (loaderClassName), "JNI::Init () - bimxClass");
-		CHECKMSG (bimxClass != nullptr, (std::string ("cannot find java class: '") + loaderClassName + std::string ("'")).c_str ());
+		AutoLocalRef<jclass> appSpecificClass (env->FindClass (loaderClassName), "JNI::Init () - appSpecificClass");
+		CHECKMSG (appSpecificClass != nullptr, (std::string ("cannot find java class: '") + loaderClassName + std::string ("'")).c_str ());
 
 		AutoLocalRef<jclass> classClass (env->FindClass ("java/lang/Class"), "JNI::Init () - classClass");
 		CHECKMSG (classClass != nullptr, "cannot find java class: 'java/lang/Class'");
@@ -121,7 +121,7 @@ public:
 		jmethodID getClassLoaderMethod = env->GetMethodID (classClass, "getClassLoader", "()Ljava/lang/ClassLoader;");
 		CHECKMSG (getClassLoaderMethod != nullptr, "cannot find java method: 'ClassLoader Class.getClassLoader ()'");
 
-		AutoLocalRef<jobject> classLoaderInstanceLocalRef (env->CallObjectMethod (bimxClass, getClassLoaderMethod), "JNI::Init () - classLoaderInstanceLocalRef");
+		AutoLocalRef<jobject> classLoaderInstanceLocalRef (env->CallObjectMethod (appSpecificClass, getClassLoaderMethod), "JNI::Init () - classLoaderInstanceLocalRef");
 		CHECKMSG (classLoaderInstanceLocalRef != nullptr, "cannot find java instance of class: 'java/lang/ClassLoader'");
 
 		classLoaderInstance = GlobalReferenceObject (classLoaderInstanceLocalRef.get (), "cannot reference java instance of class: 'java/lang/ClassLoader'");
@@ -502,43 +502,43 @@ char g_signalStackTraceBuffer[g_signalStackTraceBufferLength];
 
 void buildSignalContext (void* signalReserved, unw_context_t* uc) {
 //platform specific voodoo to build a context for libunwind
-//#if defined(__arm__)
-//	typedef struct unw_tdep_context {
-//		unsigned long regs[16];
-//	} unw_tdep_context_t;
-//
-//	//cast/extract the necessary structures
-//	ucontext_t* context = (ucontext_t*) signalReserved;
-//	unw_tdep_context_t* unw_ctx = (unw_tdep_context_t*) uc;
-//	sigcontext* sig_ctx = &context->uc_mcontext;
-//
-//	//we need to store all the general purpose registers so that libunwind can resolve
-//	//    the stack correctly, so we read them from the sigcontext into the unw_context
-//	unw_ctx->regs[UNW_ARM_R0] = sig_ctx->arm_r0;
-//	unw_ctx->regs[UNW_ARM_R1] = sig_ctx->arm_r1;
-//	unw_ctx->regs[UNW_ARM_R2] = sig_ctx->arm_r2;
-//	unw_ctx->regs[UNW_ARM_R3] = sig_ctx->arm_r3;
-//	unw_ctx->regs[UNW_ARM_R4] = sig_ctx->arm_r4;
-//	unw_ctx->regs[UNW_ARM_R5] = sig_ctx->arm_r5;
-//	unw_ctx->regs[UNW_ARM_R6] = sig_ctx->arm_r6;
-//	unw_ctx->regs[UNW_ARM_R7] = sig_ctx->arm_r7;
-//	unw_ctx->regs[UNW_ARM_R8] = sig_ctx->arm_r8;
-//	unw_ctx->regs[UNW_ARM_R9] = sig_ctx->arm_r9;
-//	unw_ctx->regs[UNW_ARM_R10] = sig_ctx->arm_r10;
-//	unw_ctx->regs[UNW_ARM_R11] = sig_ctx->arm_fp;
-//	unw_ctx->regs[UNW_ARM_R12] = sig_ctx->arm_ip;
-//	unw_ctx->regs[UNW_ARM_R13] = sig_ctx->arm_sp;
-//	unw_ctx->regs[UNW_ARM_R14] = sig_ctx->arm_lr;
-//	unw_ctx->regs[UNW_ARM_R15] = sig_ctx->arm_pc;
-//#elif defined(__i386__)
-//	//on x86 libunwind just uses the ucontext_t directly
-//	ucontext_t* context = (ucontext_t*)signalReserved;
-//	uc = ((unw_context_t*)context);
-//#else
-//	//We don't have platform specific voodoo for whatever we were built for, so
-//	//just call libunwind and hope it can jump out of the signal stack on it's own
-//	unw_getcontext (uc);
-//#endif
+#if defined(__arm__)
+	typedef struct unw_tdep_context {
+		unsigned long regs[16];
+	} unw_tdep_context_t;
+
+	//cast/extract the necessary structures
+	ucontext_t* context = (ucontext_t*) signalReserved;
+	unw_tdep_context_t* unw_ctx = (unw_tdep_context_t*) uc;
+	sigcontext* sig_ctx = &context->uc_mcontext;
+
+	//we need to store all the general purpose registers so that libunwind can resolve
+	//    the stack correctly, so we read them from the sigcontext into the unw_context
+	unw_ctx->regs[UNW_ARM_R0] = sig_ctx->arm_r0;
+	unw_ctx->regs[UNW_ARM_R1] = sig_ctx->arm_r1;
+	unw_ctx->regs[UNW_ARM_R2] = sig_ctx->arm_r2;
+	unw_ctx->regs[UNW_ARM_R3] = sig_ctx->arm_r3;
+	unw_ctx->regs[UNW_ARM_R4] = sig_ctx->arm_r4;
+	unw_ctx->regs[UNW_ARM_R5] = sig_ctx->arm_r5;
+	unw_ctx->regs[UNW_ARM_R6] = sig_ctx->arm_r6;
+	unw_ctx->regs[UNW_ARM_R7] = sig_ctx->arm_r7;
+	unw_ctx->regs[UNW_ARM_R8] = sig_ctx->arm_r8;
+	unw_ctx->regs[UNW_ARM_R9] = sig_ctx->arm_r9;
+	unw_ctx->regs[UNW_ARM_R10] = sig_ctx->arm_r10;
+	unw_ctx->regs[UNW_ARM_R11] = sig_ctx->arm_fp;
+	unw_ctx->regs[UNW_ARM_R12] = sig_ctx->arm_ip;
+	unw_ctx->regs[UNW_ARM_R13] = sig_ctx->arm_sp;
+	unw_ctx->regs[UNW_ARM_R14] = sig_ctx->arm_lr;
+	unw_ctx->regs[UNW_ARM_R15] = sig_ctx->arm_pc;
+#elif defined(__i386__)
+	//on x86 libunwind just uses the ucontext_t directly
+	ucontext_t* context = (ucontext_t*)signalReserved;
+	uc = ((unw_context_t*)context);
+#else
+	//We don't have platform specific voodoo for whatever we were built for, so
+	//just call libunwind and hope it can jump out of the signal stack on it's own
+	unw_getcontext (uc);
+#endif
 }
 
 void addPointerToStackTrace (void* ptr) {
@@ -558,64 +558,64 @@ void addPointerToStackTrace (void* ptr) {
 
 void dumpStackTrace (void* signalReserved) {
 	//Clear stack trace buffer
-//	memset (g_signalStackTraceBuffer, 0, sizeof (g_signalStackTraceBuffer));
-//
-//	//Dump stack trace
-//	int ignoreStepCount;
-//	char funcName[1024];
-//	unw_cursor_t cursor;
-//	unw_context_t uc;
-//	unw_word_t ip, sp, offp;
-//
-//	if (signalReserved != nullptr) {
-//		buildSignalContext (signalReserved, &uc);
-//		ignoreStepCount = 1;
-//	} else {
-//		unw_getcontext (&uc);
-//		ignoreStepCount = 3;
+	memset (g_signalStackTraceBuffer, 0, sizeof (g_signalStackTraceBuffer));
+
+	//Dump stack trace
+	int ignoreStepCount;
+	char funcName[1024];
+	unw_cursor_t cursor;
+	unw_context_t uc;
+	unw_word_t ip, sp, offp;
+
+	if (signalReserved != nullptr) {
+		buildSignalContext (signalReserved, &uc);
+		ignoreStepCount = 1;
+	} else {
+		unw_getcontext (&uc);
+		ignoreStepCount = 3;
+	}
+
+	/*int result =*/ unw_init_local (&cursor, &uc);
+//	if(!result){
+//		if(result == -UNW_EBADREG){
+//			//register needed wasn't accessible
+//		}
 //	}
-//
-//	/*int result =*/ unw_init_local (&cursor, &uc);
-////	if(!result){
-////		if(result == -UNW_EBADREG){
-////			//register needed wasn't accessible
-////		}
-////	}
-//
-//	//intentionally skip the first frame, since that's this function
-//	int step = 0;
-//	bool first = true;
-//	while (unw_step (&cursor) > 0) {
-//		++step;
-//		if (step < ignoreStepCount) {
-//			continue;
-//		}
-//
-//		if (unw_is_signal_frame (&cursor)) {
-//			strcat (g_signalStackTraceBuffer, "signal frame: ");
-//		}
-//		unw_get_reg (&cursor, UNW_REG_IP, &ip);
-//		unw_get_reg (&cursor, UNW_REG_SP, &sp);
-//		unw_get_proc_name (&cursor, funcName, 1024, &offp);
-//
-//		//Log stack trace
-//		if (!first) {
-//			strcat (g_signalStackTraceBuffer, "|");
-//		}
-//		first = false;
-//
-//		strcat (g_signalStackTraceBuffer, "pc=");
-//		addPointerToStackTrace ((void*)ip);
-//
-//		strcat (g_signalStackTraceBuffer, " sp=");
-//		addPointerToStackTrace ((void*)sp);
-//
-//		strcat (g_signalStackTraceBuffer, " : ");
-//		strcat (g_signalStackTraceBuffer, funcName);
-//
-//		strcat (g_signalStackTraceBuffer, " + ");
-//		addPointerToStackTrace ((void*)offp);
-//	}
+
+	//intentionally skip the first frame, since that's this function
+	int step = 0;
+	bool first = true;
+	while (unw_step (&cursor) > 0) {
+		++step;
+		if (step < ignoreStepCount) {
+			continue;
+		}
+
+		if (unw_is_signal_frame (&cursor)) {
+			strcat (g_signalStackTraceBuffer, "signal frame: ");
+		}
+		unw_get_reg (&cursor, UNW_REG_IP, &ip);
+		unw_get_reg (&cursor, UNW_REG_SP, &sp);
+		unw_get_proc_name (&cursor, funcName, 1024, &offp);
+
+		//Log stack trace
+		if (!first) {
+			strcat (g_signalStackTraceBuffer, "|");
+		}
+		first = false;
+
+		strcat (g_signalStackTraceBuffer, "pc=");
+		addPointerToStackTrace ((void*)ip);
+
+		strcat (g_signalStackTraceBuffer, " sp=");
+		addPointerToStackTrace ((void*)sp);
+
+		strcat (g_signalStackTraceBuffer, " : ");
+		strcat (g_signalStackTraceBuffer, funcName);
+
+		strcat (g_signalStackTraceBuffer, " + ");
+		addPointerToStackTrace ((void*)offp);
+	}
 }
 
 std::string getStackTrace () {
@@ -755,16 +755,15 @@ int APILoad (JavaVM* vm, const char* loaderClassName) {
 	//Init signal handler
 	Signal::initSignalHandlers ();
 
-	//Init BIMx specific stuffs
+	//Init app specific stuffs
 	//...
 
     return JNI_VERSION_1_6;
 }
 
 void APIUnload (JavaVM* vm) {
-	//Destroy BIMx specific stuffs
+	//Destroy app specific stuffs
 	//...
-
 
 	//Destroy signal handler
 	Signal::releaseSignalHandlers ();
