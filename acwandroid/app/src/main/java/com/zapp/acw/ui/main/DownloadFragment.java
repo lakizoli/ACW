@@ -1,13 +1,17 @@
 package com.zapp.acw.ui.main;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.LayoutInflater;
+import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -69,10 +73,12 @@ public class DownloadFragment extends Fragment implements TabLayout.OnTabSelecte
 				switch (action.intValue ()) {
 					case DownloadViewModel.DISMISS_VIEW:
 						mProgressView.setVisibility (View.INVISIBLE);
+						unlockOrientation ();
 						dismissView ();
 						break;
 					case DownloadViewModel.SHOW_FAILED_ALERT:
 						mProgressView.setVisibility (View.INVISIBLE);
+						unlockOrientation ();
 
 						AlertDialog.Builder builder = new AlertDialog.Builder (getContext ());
 						builder.setTitle ("Error");
@@ -90,6 +96,7 @@ public class DownloadFragment extends Fragment implements TabLayout.OnTabSelecte
 						break;
 					case DownloadViewModel.SHOW_GEN_VIEW:
 						mProgressView.setVisibility (View.INVISIBLE);
+						unlockOrientation ();
 
 						Bundle args = new Bundle ();
 						args.putParcelable ("package", mViewModel.getPackage ());
@@ -155,9 +162,21 @@ public class DownloadFragment extends Fragment implements TabLayout.OnTabSelecte
 		//Init tab bar
 		TabLayout tabLayout = activity.findViewById(R.id.tab_layout);
 		tabLayout.addOnTabSelectedListener (this);
-		TabLayout.Tab tab = tabLayout.getTabAt (TAB_FEATURED);
-		tab.select();
-		selectTopRated ();
+
+		switch (mViewModel.selectedTab) {
+			case DownloadViewModel.TAB_FEATURED: {
+				TabLayout.Tab tab = tabLayout.getTabAt (DownloadViewModel.TAB_FEATURED);
+				tab.select ();
+				selectTopRated ();
+				break;
+			}
+			case DownloadViewModel.TAB_SEARCH: {
+				TabLayout.Tab tab = tabLayout.getTabAt (DownloadViewModel.TAB_SEARCH);
+				tab.select ();
+				selectSearch ();
+				break;
+			}
+		}
 
 		//Init toolbar
 		Toolbar toolbar = activity.findViewById (R.id.download_toolbar);
@@ -172,6 +191,7 @@ public class DownloadFragment extends Fragment implements TabLayout.OnTabSelecte
 		//Init progress view
 		mProgressView = new ProgressView (activity, R.id.progress_view, R.id.text_view_progress, R.id.progress_bar, R.id.button_progress);
 		mProgressView.setVisibility (View.INVISIBLE);
+		unlockOrientation ();
 
 		//Init webview
 		WebView webView = activity.findViewById (R.id.web_search);
@@ -184,10 +204,8 @@ public class DownloadFragment extends Fragment implements TabLayout.OnTabSelecte
 	}
 
 	//region Tab selection functions
-	private final static int TAB_FEATURED = 0;
-	private final static int TAB_SEARCH = 1;
-
 	private void selectTopRated () {
+		mViewModel.selectedTab = DownloadViewModel.TAB_FEATURED;
 		FragmentActivity activity = getActivity ();
 
 		//Show table view
@@ -200,6 +218,7 @@ public class DownloadFragment extends Fragment implements TabLayout.OnTabSelecte
 	}
 
 	private void selectSearch () {
+		mViewModel.selectedTab = DownloadViewModel.TAB_SEARCH;
 		FragmentActivity activity = getActivity ();
 
 		//Show web view
@@ -217,10 +236,10 @@ public class DownloadFragment extends Fragment implements TabLayout.OnTabSelecte
 	@Override
 	public void onTabSelected (TabLayout.Tab tab) {
 		switch (tab.getPosition ()) {
-			case TAB_FEATURED:
+			case DownloadViewModel.TAB_FEATURED:
 				selectTopRated ();
 				break;
-			case TAB_SEARCH:
+			case DownloadViewModel.TAB_SEARCH:
 				selectSearch ();
 				break;
 			default:
@@ -260,6 +279,33 @@ public class DownloadFragment extends Fragment implements TabLayout.OnTabSelecte
 		});
 
 		mProgressView.setVisibility (View.VISIBLE);
+
+		lockOrientation ();
+	}
+
+	private void lockOrientation () {
+		int orientation = getActivity ().getRequestedOrientation ();
+		int rotation = ((WindowManager) getActivity ().getSystemService (Context.WINDOW_SERVICE)).getDefaultDisplay ().getRotation ();
+		switch (rotation) {
+			case Surface.ROTATION_0:
+				orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+				break;
+			case Surface.ROTATION_90:
+				orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+				break;
+			case Surface.ROTATION_180:
+				orientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT;
+				break;
+			default:
+				orientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE;
+				break;
+		}
+
+		getActivity ().setRequestedOrientation (orientation);
+	}
+
+	private void unlockOrientation () {
+		getActivity ().setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 	}
 
 	private static class AnkiWebViewClient extends WebViewClient {

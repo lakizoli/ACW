@@ -25,6 +25,9 @@ public class DownloadViewModel extends ViewModel {
 	public final static int SHOW_FAILED_ALERT = 2;
 	public final static int SHOW_GEN_VIEW = 3;
 
+	public final static int TAB_FEATURED = 0;
+	public final static int TAB_SEARCH = 1;
+
 	private MutableLiveData<Integer> _action = new MutableLiveData<> ();
 	private Downloader _downloader = null;
 	private MutableLiveData<ArrayList<NetPackConfig.NetPackConfigItem>> _packageConfigs = new MutableLiveData<> ();
@@ -44,6 +47,8 @@ public class DownloadViewModel extends ViewModel {
 	public Package getPackage () {
 		return _package;
 	}
+
+	public int selectedTab = TAB_FEATURED;
 
 	private void endOfDownload (final Activity activity, final boolean showFailedAlert, final String downloadedFile, final boolean doGen, final String packageNameFull) {
 		activity.runOnUiThread (new Runnable () {

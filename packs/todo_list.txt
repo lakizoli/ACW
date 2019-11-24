@@ -54,9 +54,9 @@ OK - magyarázó szöveg az elejére, hogy mennyi hint, idő, és hiba szükség
 - német lokalizáció
 Nem is volt benne - Ki kell venni a nyelvek sort-olását, és a pack-ban meg kell csinálni a listát
 OK - ShowHint flurry küldje be a kitöltöttséget
-- tablet méretben a keresztrejtvény középre igazítása
+Nem jo! - tablet méretben a keresztrejtvény középre igazítása
 OK - nyelv lista aláhúzása kettesével
-- letoltes kozben nem muxik a forgatas
+OK - letoltes kozben nem muxik a forgatas
 
 
 
