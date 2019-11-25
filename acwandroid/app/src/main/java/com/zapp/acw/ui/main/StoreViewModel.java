@@ -1,6 +1,7 @@
 package com.zapp.acw.ui.main;
 
 import android.app.Activity;
+import android.content.res.Resources;
 import android.util.Log;
 
 import com.android.billingclient.api.SkuDetails;
@@ -35,17 +36,29 @@ public class StoreViewModel extends BackgroundInitViewModel {
 				_privacyPolicyHTML = readRAWResourceFile (activity, R.raw.privacy_policy);
 				_termsOfUseHTML = readRAWResourceFile (activity, R.raw.terms_of_use);
 
+				//Localize store html
+				Resources res = activity.getResources ();
+				int idx;
+				while ((idx = _considerationsHTML.indexOf ("##loc_")) >= 0) {
+					int endIdx = _considerationsHTML.indexOf ("##", idx + 1);
+					String locID = _considerationsHTML.substring (idx + 6, endIdx);
+					int resID = res.getIdentifier (locID, "string", activity.getPackageName ());
+					String locValue = res.getString (resID);
+					_considerationsHTML = _considerationsHTML.replaceAll ("##loc_" + locID + "##",  locValue);
+				}
+
+				//Fill prices
 				SubscriptionManager man = SubscriptionManager.sharedInstance ();
 				SkuDetails product = man.getSubscribedProductForMonth ();
 				if (product != null) {
 					String price = product.getPrice ().replaceAll ("\\$", "\\\\\\$");
-					_considerationsHTML = _considerationsHTML.replaceAll ("##MonthlyPrice##",  price + " / Month");
+					_considerationsHTML = _considerationsHTML.replaceAll ("##MonthlyPrice##",  price + res.getString (R.string.sc_per_month));
 				}
 
 				product = man.getSubscribedProductForYear ();
 				if (product != null) {
 					String price = product.getPrice ().replaceAll ("\\$", "\\\\\\$");
-					_considerationsHTML = _considerationsHTML.replaceAll ("##YearlyPrice##", price + " / Year");
+					_considerationsHTML = _considerationsHTML.replaceAll ("##YearlyPrice##", price  + res.getString (R.string.sc_per_year));
 				}
 			}
 		});

@@ -64,4 +64,20 @@
 	<string name="gen_crossword">Rejtvény generálás</string>
 	<string name="choose_crossword">Válassz rejtvényt</string>
 	<string name="play_crossword">Keresztrejtvény</string>
+	<string name="sc_title">Anki Crossword Premium előfizetés</string>
+	<string name="sc_for_one_month">egy hónapra</string>
+	<string name="sc_for_one_year">egy évre</string>
+	<string name="sc_heading">Az Anki Crossword Premium előfizetéssel a következő prémium szolgáltatások válnak elérhetővé számodra:</string>
+	<string name="sc_included_for_all_user">Minden Anki Crossword felhasználó számára ingyenes:</string>
+	<string name="sc_many_cw">Végtelen számú lejátszható keresztrejtvény</string>
+	<string name="sc_many_package">Végtelen számú Anki rejtvénycsomag, amikből keresztrejtvényeket generálhatsz</string>
+	<string name="sc_one_cw">Egy lejátszható keresztrejtvény</string>
+	<string name="sc_one_package">Egy Anki rejtvénycsomag, amiből keresztrejtvényeket generálhatsz</string>
+	<string name="sc_premium_features">Az Anki Crossword Premium előfizetés szolgáltatásai:</string>
+	<string name="sc_save">20% engedmény</string>
+	<string name="sc_per_month">&#xA0;/ hónap</string>
+	<string name="sc_per_year">&#xA0;/ év</string>
+	<string name="sc_legal_pre">Az előfizetés díja a Google felhasználói fiókodhoz rendelt bankkártyádra lesz terhelve. Az előfizetésed automatikusan megújul egészen addig, ameddig legalább 24 órával az aktuális időszak vége előtt le nem mondod. A bankkártyád a megújítás miatt az aktuális periódus lejárta előtti 24 órában lesz megterhelve. Ha megújult az előfizetésed, azt már nem mondhatod le utólag, csak a következő periódustól. Az előfizetésedet a Google Play Áruház alkalmazásban kezelheted, miután megvásároltad. További információkért olvasd el a&#xA0;</string>
+	<string name="sc_legal_mid">&#xA0;és a&#xA0;</string>
+	<string name="sc_legal_post">&#xA0;dokumentumokat.</string>
 </resources>

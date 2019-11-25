@@ -75,4 +75,21 @@
 	<string name="choose_crossword">Choose Crossword</string>
 	<string name="gen_crossword">Generate crossword</string>
 	<string name="play_crossword">Play Crossword</string>
+
+	<string name="sc_title">Upgrade to Anki Crossword Premium</string>
+	<string name="sc_heading">Get a subscription to Anki Crossword Premium enabling these premium features:</string>
+	<string name="sc_included_for_all_user">Included for all Anki Crossword users:</string>
+	<string name="sc_one_package">One Anki package to generate crossword from</string>
+	<string name="sc_one_cw">One crossword to learn</string>
+	<string name="sc_premium_features">Features in Anki Crossword Premium:</string>
+	<string name="sc_many_package">Unlimited number of Anki packages to generate crosswords from</string>
+	<string name="sc_many_cw">Unlimited number of crosswords to learn</string>
+	<string name="sc_for_one_month">for one month</string>
+	<string name="sc_save">Save 20%</string>
+	<string name="sc_for_one_year">for one year</string>
+	<string name="sc_per_month">&#xA0;/ Month</string>
+	<string name="sc_per_year">&#xA0;/ Year</string>
+	<string name="sc_legal_pre">Subscriptions will be charged to your credit card through your Google account. Your subscription will automatically renew unless canceled at least 24 hours before the end of the current period. Your credit card will be charged for renewal within 24 hours prior to the end of the current period. You will not be able to cancel the subscription once activated. Manage your subscriptions in Google Play Store after purchase. For further details please read our&#xA0;</string>
+	<string name="sc_legal_mid">&#xA0;and&#xA0;</string>
+	<string name="sc_legal_post">.</string>
 </resources>
