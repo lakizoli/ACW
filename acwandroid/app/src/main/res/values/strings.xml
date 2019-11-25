@@ -65,7 +65,7 @@
 	<string name="terms_of_use" translatable="false">Terms Of Use</string>
 
 	<string name="obtain_anki_packages">Obtain Anki Packages</string>
-	<string name="download_help_plus_button">To download crosswords or Anki Flashcard packages, press the + button above!</string>
+	<string name="download_help_plus_button">To download Anki Flashcard packages, press the + button above!</string>
 
 	<string name="download_anki_packages">Download Anki Packages</string>
 	<string name="download_error">Error occurred during download!</string>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">Anki Crossword</string>
+	<string name="cancel">Abbrechen</string>
+	<string name="cannot_acknowledge_subscription">Ich kann Ihr Abonnement nicht bestätigen! Sie erhalten Ihre Rückehrstattung in einigen Tagen!</string>
+	<string name="cannot_import_file">Datei kann nicht importiert werden!</string>
+	<string name="cannot_start_billing_flow">Abrechnung kann nicht gestartet werden!</string>
+	<string name="cannot_store_subscription">Ihr Abonnement kann nicht gespeichert werden! Sie erhalten Ihre Rückehrstattung in einigen Tagen!</string>
+	<string name="cannot_undo_this_action">Sie können diese Aktion nicht rückgängig machen.</string>
+	<string name="cell_statistics">%d von %d Levels (%d von %d Wörtern) gelöst</string>
+	<string name="choose_crossword">Wählen Sie Kreuzworträtsel</string>
+	<string name="cw_game_help_content">Um zum nächsten Level zu gelangen, dürfen Sie maximal 3 Fehler und die Verwendung von 3 Hinweisen haben. Darüber hinaus müssen Sie das gesamte Kreuzworträtsel innerhalb 12 Minuten ausfüllen.</string>
+	<string name="cw_help_content">Das Ziel dieses Spiels ist, um das gesamte Kreuzworträtsel so schnell wie möglich zu füllen, ohne Hinweise und Misserfolge. Wenn Sie jedoch eine der Lösungen nicht kennen, können Sie einfach alle Lösungen anzeigen, indem Sie auf die obene Schaltfläche "Hinweis anzeigen" klicken, um das Lernen zu erleichtern.</string>
+	<string name="cw_subscribe_now"><u>Abonniere jetzt</u></string>
+	<string name="cw_tap_help_content">Sie können ganz einfach mit dem Schreiben der einzelnen Lösungen beginnen, indem Sie auf die erste Zelle tippen.</string>
+	<string name="delete">Löschen</string>
+	<string name="do_you_want_delete_cw">Möchten Sie dieses Kreuzworträtsel löschen?</string>
+	<string name="done">Fertig</string>
+	<string name="download_anki_packages">Anki-Pakete herunterladen</string>
+	<string name="download_error">Beim Download ist ein Fehler aufgetreten!</string>
+	<string name="download_help_plus_button">Um Anki Flashcard-Pakete herunterzuladen, drücken Sie die + -Taste oben!</string>
+	<string name="downloading">Herunterladen…</string>
+	<string name="error_title">Fehler!</string>
+	<string name="example_format">(z.B.: "%s")</string>
+	<string name="featured">Vorgestellt</string>
+	<string name="gen_crossword">Kreuzworträtsel generieren</string>
+	<string name="generating_crossword">Kreuzworträtsel generieren…</string>
+	<string name="hide_hint">Hinweis ausschalten</string>
+	<string name="import_error">Importfehler!</string>
+	<string name="info_title">Information!</string>
+	<string name="next_level">Nächstes Level</string>
+	<string name="no">Nein</string>
+	<string name="obtain_anki_packages">Suche Anki-Pakete</string>
+	<string name="ok">OK</string>
+	<string name="pending_subscription_finish_alert">Sie haben ein ausstehendes Abonnement! Beenden Sie den Anmeldevorgang, um Ihr Abonnement zu erhalten und die App uneingeschränkt zu nutzen...\nAuftrags-ID: </string>
+	<string name="play_crossword">Kreuzworträtsel spielen</string>
+	<string name="product_not_available">Produkt nicht verfügbar!</string>
+	<string name="purchase_successful">Abonnement erfolgreich gekauft!</string>
+	<string name="question_field">Fragenfeld:</string>
+	<string name="random_button_label"><u>Wähle ein zufälliges Kreuzworträtsel aus den gelösten Levels</u></string>
+	<string name="reset">Löschen</string>
+	<string name="sc_for_one_month">für einen Monat</string>
+	<string name="sc_for_one_year">für ein Jahr</string>
+	<string name="sc_heading">Abonnieren Sie Anki Crossword Premium mit folgenden Premium-Funktionen:</string>
+	<string name="sc_included_for_all_user">Für alle Anki Crossword-Benutzer enthalten:</string>
+</resources>
