@@ -167,7 +167,7 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 			List<Purchase> purchases = purchasesResult.getPurchasesList ();
 			if (purchases != null) {
 				for (Purchase purchase : purchases) {
-					handlePurchase (purchase, true);
+					handlePurchase (purchase, true, false);
 				}
 			}
 		}
@@ -215,8 +215,7 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 			}
 
 			if (purchase != null) {
-				handlePurchase (purchase, false);
-				dismissStore ();
+				handlePurchase (purchase, false, true);
 			}
 
 			return;
@@ -412,8 +411,9 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 		switch (billingResult.getResponseCode ()) {
 			case BillingClient.BillingResponseCode.OK: {
 				if (purchases != null) {
-					for (final Purchase purchase : purchases) {
-						handlePurchase (purchase, false);
+					for (int i = 0, iEnd = purchases.size (); i < iEnd; ++i) {
+						Purchase purchase = purchases.get (i);
+						handlePurchase (purchase, false, i == iEnd - 1);
 					}
 				}
 
@@ -453,7 +453,7 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 		}
 	}
 
-	private void handlePurchase (final Purchase purchase, final boolean silent) {
+	private void handlePurchase (final Purchase purchase, final boolean silent, final boolean haveToDismiss) {
 		if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
 			//Grant entitlement to the user
 			if (!storePurchaseDate (purchase.getPurchaseTime (), purchase.getSku ())) {
@@ -463,7 +463,7 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 					put ("orderID", purchase.getOrderId ());
 				}});
 				if (!silent) {
-					showOKAlert (R.string.cannot_store_subscription, R.string.error_title, false);
+					showOKAlert (R.string.cannot_store_subscription, R.string.error_title, haveToDismiss);
 				}
 				return;
 			}
@@ -484,7 +484,7 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 							}});
 							NetLogger.logPaymentTransaction (purchase.getSku (), purchase.getPurchaseToken (), purchase.getOrderId (), _products);
 							if (!silent) {
-								showOKAlert (R.string.purchase_successful, R.string.success_title, false);
+								showOKAlert (R.string.purchase_successful, R.string.success_title, haveToDismiss);
 							}
 						} else { //Cannot acknowledge
 							//Remove user's entitlement
@@ -497,7 +497,7 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 								put ("orderID", purchase.getOrderId ());
 							}});
 							if (!silent) {
-								showOKAlert (R.string.cannot_acknowledge_subscription, R.string.error_title, false);
+								showOKAlert (R.string.cannot_acknowledge_subscription, R.string.error_title, haveToDismiss);
 							}
 						}
 					}
@@ -510,13 +510,13 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 				}});
 				NetLogger.logPaymentTransaction (purchase.getSku (), purchase.getPurchaseToken (), purchase.getOrderId (), _products);
 				if (!silent) {
-					showOKAlert (R.string.purchase_successful, R.string.success_title, false);
+					showOKAlert (R.string.purchase_successful, R.string.success_title, haveToDismiss);
 				}
 			}
 		} else if (purchase.getPurchaseState() == Purchase.PurchaseState.PENDING) {
 			if (!silent) {
 				Activity activity = _activityProvider.getActivity ();
-				showOKAlert (activity.getString (R.string.pending_subscription_finish_alert) + purchase.getOrderId (), R.string.info_title, false);
+				showOKAlert (activity.getString (R.string.pending_subscription_finish_alert) + purchase.getOrderId (), R.string.info_title, haveToDismiss);
 			}
 
 			NetLogger.logEvent ("Subscription_Pending", new HashMap<String, String> () {{
