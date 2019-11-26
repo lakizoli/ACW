@@ -640,6 +640,7 @@
                     <connections>
                         <outlet property="crosswordLayout" destination="OMD-ao-fhc" id="fRO-Yu-jUx"/>
                         <outlet property="crosswordView" destination="2cv-y5-ykh" id="GFF-b3-dpf"/>
+                        <outlet property="gameHelpView" destination="hpC-1b-e7C" id="dk8-G2-11a"/>
                         <outlet property="helpView" destination="1zr-xv-aom" id="7DP-99-j62"/>
                         <outlet property="pinchRecognizer" destination="BCc-vj-Zb6" id="TJD-kf-IOc"/>
                         <outlet property="showHideButton" destination="HKg-DE-Fbq" id="rLh-0v-bQq"/>
@@ -834,6 +835,26 @@
                         <constraint firstItem="eE8-5r-Nxu" firstAttribute="centerY" secondItem="jXZ-7s-hbO" secondAttribute="centerY" id="fSB-YZ-zuH"/>
                     </constraints>
                     <viewLayoutGuide key="safeArea" id="pM4-tS-04b"/>
+                </view>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hpC-1b-e7C" userLabel="Game Help View">
+                    <rect key="frame" x="0.0" y="0.0" width="270" height="154"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="13" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iyf-oh-V8d">
+                            <rect key="frame" x="8" y="12" width="254" height="135"/>
+                            <string key="text">To go to the next level you allowed to have a maximum of 3 mistakes and the use of 3 hints. In addition, you must fill the entire crossword within a maximum of 12 minutes.</string>
+                            <fontDescription key="fontDescription" name="BradleyHandITCTT-Bold" family="Bradley Hand" pointSize="18"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="iyf-oh-V8d" firstAttribute="top" secondItem="hpC-1b-e7C" secondAttribute="top" constant="12" id="1op-mK-bwt"/>
+                        <constraint firstItem="iyf-oh-V8d" firstAttribute="trailing" secondItem="hpC-1b-e7C" secondAttribute="trailing" constant="-8" id="JQZ-ei-CRh"/>
+                        <constraint firstItem="iyf-oh-V8d" firstAttribute="leading" secondItem="hpC-1b-e7C" secondAttribute="leading" constant="8" id="bSf-CH-0AG"/>
+                        <constraint firstAttribute="height" constant="154" id="f7t-aX-MXc"/>
+                        <constraint firstAttribute="width" constant="270" id="mmg-Iu-K1W"/>
+                    </constraints>
+                    <viewLayoutGuide key="safeArea" id="fwS-5G-NoQ"/>
                 </view>
             </objects>
             <point key="canvasLocation" x="2229" y="1766"/>
@@ -1050,7 +1071,7 @@
             <objects>
                 <navigationController id="pK3-3b-RQF" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="O9s-dZ-CCR">
-                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.15680609810000001" green="0.31361219620000003" blue="0.31230547870000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">

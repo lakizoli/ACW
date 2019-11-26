@@ -24,6 +24,7 @@
 
 @property (strong, nonatomic) IBOutlet UIView *helpView;
 @property (strong, nonatomic) IBOutlet UIView *tapHelpView;
+@property (strong, nonatomic) IBOutlet UIView *gameHelpView;
 
 @property (weak, nonatomic) IBOutlet UIView *winView;
 @property (weak, nonatomic) IBOutlet UIImageView *star1;
@@ -568,6 +569,42 @@
 	[[self view] addConstraint:top];
 }
 
+- (void) showGameHelpScreen {
+	[_gameHelpView removeFromSuperview];
+	
+	[self->_gameHelpView setHidden:NO];
+	[[self->_gameHelpView layer] setCornerRadius:5];
+	[[self->_gameHelpView layer] setMasksToBounds:YES];
+	[[self->_gameHelpView layer] setBorderWidth:1];
+	[[self->_gameHelpView layer] setBorderColor: [UIColor blackColor].CGColor];
+	
+	[[self view] addSubview:self->_gameHelpView];
+	
+	self->_gameHelpView.translatesAutoresizingMaskIntoConstraints = NO;
+	
+	NSLayoutConstraint *centerY = [NSLayoutConstraint
+								   constraintWithItem:self->_gameHelpView
+								   attribute:NSLayoutAttributeCenterY
+								   relatedBy:NSLayoutRelationEqual
+								   toItem:[self view]
+								   attribute:NSLayoutAttributeCenterY
+								   multiplier:1
+								   constant:0]; //Align veritcally center to superView
+	
+	NSLayoutConstraint *centerX = [NSLayoutConstraint
+								   constraintWithItem:self->_gameHelpView
+								   attribute:NSLayoutAttributeCenterX
+								   relatedBy:NSLayoutRelationEqual
+								   toItem:[self view]
+								   attribute:NSLayoutAttributeCenterX
+								   multiplier:1
+								   constant:0]; //Align horizontally center to superView
+
+	//Add constraints to the Parent
+	[[self view] addConstraint:centerX];
+	[[self view] addConstraint:centerY];
+}
+
 #pragma mark - Appearance
 
 - (BOOL)prefersStatusBarHidden {
@@ -684,9 +721,11 @@
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
 	__block BOOL winViewHidden = [_winView isHidden];
 	__block BOOL helpViewHidden = [_helpView isHidden];
+	__block BOOL gameHelpViewHidden = [_gameHelpView isHidden];
 	__block BOOL tapHelpViewHidden = [_tapHelpView isHidden];
 	[_winView setHidden:YES];
 	[_helpView setHidden:YES];
+	[_gameHelpView setHidden:YES];
 	[_tapHelpView setHidden:YES];
 	
 	[coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
@@ -700,6 +739,10 @@
 			[self showHelpScreen];
 		}
 		
+		if (!gameHelpViewHidden) {
+			[self showGameHelpScreen];
+		}
+
 		if (!tapHelpViewHidden) {
 			[self showTapHelpScreen];
 		}
@@ -760,11 +803,22 @@
 	
 	[_helpView setHidden:YES];
 	
+	if (_currentPackage.state.wasGameHelpShown == NO) {
+		[self showGameHelpScreen];
+		
+		_currentPackage.state.wasGameHelpShown = YES;
+		[[PackageManager sharedInstance] savePackageState:_currentPackage];
+		return;
+	} else {
+		[_gameHelpView setHidden:YES];
+	}
+
 	if (_currentPackage.state.wasTapHelpShown == NO) {
 		[self showTapHelpScreen];
 		
 		_currentPackage.state.wasTapHelpShown = YES;
 		[[PackageManager sharedInstance] savePackageState:_currentPackage];
+		return;
 	} else {
 		[_tapHelpView setHidden:YES];
 	}
@@ -1045,7 +1099,18 @@
 */
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+	//Help
 	[_helpView setHidden:YES];
+	
+	if (_currentPackage.state.wasGameHelpShown == NO) {
+		[self showGameHelpScreen];
+		
+		_currentPackage.state.wasGameHelpShown = YES;
+		[[PackageManager sharedInstance] savePackageState:_currentPackage];
+		return NO;
+	} else {
+		[_gameHelpView setHidden:YES];
+	}
 	
 	if (_currentPackage.state.wasTapHelpShown == NO) {
 		[self showTapHelpScreen];
@@ -1056,7 +1121,8 @@
 	} else {
 		[_tapHelpView setHidden:YES];
 	}
-	
+
+	//Should select?
 	uint32_t row = [self getRowFromIndexPath:indexPath];
 	uint32_t col = [self getColFromIndexPath:indexPath];
 	BOOL startCell = [_savedCrossword isStartCell:row col:col];

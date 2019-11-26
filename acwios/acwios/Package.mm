@@ -116,6 +116,7 @@
 		_levelCount = 0;
 		_wasHelpShown = NO;
 		_wasTapHelpShown = NO;
+		_wasGameHelpShown = NO;
 	}
 	return self;
 }
@@ -148,7 +149,12 @@
 	
 	NSNumber* tapHelpObj = [json objectForKey:@"wasTapHelpShown"];
 	if (tapHelpObj != nil) {
-		_wasTapHelpShown = [helpObj boolValue];
+		_wasTapHelpShown = [tapHelpObj boolValue];
+	}
+	
+	NSNumber* gameHelpObj = [json objectForKey:@"wasGameHelpShown"];
+	if (gameHelpObj != nil) {
+		_wasGameHelpShown = [gameHelpObj boolValue];
 	}
 }
 
@@ -160,7 +166,8 @@
 						   @"filledLevel" : [NSNumber numberWithUnsignedInteger:_filledLevel],
 						   @"levelCount" : [NSNumber numberWithUnsignedInteger:_levelCount],
 						   @"wasHelpShown" : [NSNumber numberWithBool:_wasHelpShown],
-						   @"wasTapHelpShown" : [NSNumber numberWithBool:_wasTapHelpShown] };
+						   @"wasTapHelpShown" : [NSNumber numberWithBool:_wasTapHelpShown],
+						   @"wasGameHelpShown" : [NSNumber numberWithBool:_wasGameHelpShown] };
 	
 	NSError *error = nil;
 	NSData *data = [NSJSONSerialization dataWithJSONObject:json options:0 error:&error];

@@ -58,6 +58,7 @@ Nem jo! - tablet méretben a keresztrejtvény középre igazítása
 OK - nyelv lista aláhúzása kettesével
 OK - letoltes kozben nem muxik a forgatas
 OK - billentyuzet magassaganak emelese 
+- flurry client id bevezetese
 
 
 
@@ -71,7 +72,7 @@ OK - Ne lehessen törölni, csak előfizetéssel
 Nem kell - Az 1. cw-t korlátlan alkalommal lehet újra lejátszani ingyen. Ez rossz. Ne lehessen, csak egyszer/kétszer
 OK - A show hint/reset gomb elmagyarázása fontos lenne egy tour keretében (mint a fő lista plusz menüje esetében)
 OK - iOS 13 compatibility
-- magyarázó szöveg az elejére, hogy mennyi hint, idő, és hiba szükséges a szintlépéshez
+OK - magyarázó szöveg az elejére, hogy mennyi hint, idő, és hiba szükséges a szintlépéshez
 - magyar lokalizáció
 - spanyol lokalizáció
 - német lokalizáció
@@ -82,6 +83,7 @@ OK - ShowHint flurry küldje be a kitöltöttséget
 OK - nyelv lista aláhúzása kettesével
 - fix typo in hungarian store subscription (automaikusan -> automatikusan, jog -> jogi)
 - remove file sharing option from store subscription
+- flurry client id bevezetese
 
 
 
