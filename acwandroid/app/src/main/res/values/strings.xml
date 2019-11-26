@@ -51,9 +51,9 @@
 	<string name="cannot_acknowledge_subscription">Cannot acknowledge your subscription! You will get your refund in some days!</string>
 	<string name="pending_subscription_finish_alert">You have a pending subscription! Finish the subscription process to get your subscription and use the app without limitation…\nOrder ID: </string>
 
-	<string name="subscribe_take_to_store">You have to subscribe to the application to play the disabled crosswords! If you press yes, then we take you to our store screen to do that.</string>
-	<string name="subscribe_on_delete_warning">You have to subscribe to the application to delete crosswords! Only the first crossword may be played without a subscription! If you press yes, then we take you to our store screen to do that.</string>
-	<string name="subscribe_to_play_more_than_one">You have to subscribe to the application to play more than one demo crossword! If you press yes, then we take you to our store screen to do that.</string>
+	<string name="subscribe_take_to_store">You have to subscribe to the application to play the disabled crosswords! If you press yes, then we take you to our store to do that.</string>
+	<string name="subscribe_on_delete_warning">You have to subscribe to the application to delete crosswords! Only the first crossword may be played without a subscription! If you press yes, then we take you to our store to do that.</string>
+	<string name="subscribe_to_play_more_than_one">You have to subscribe to the application to play more than one demo crossword! If you press yes, then we take you to our store to do that.</string>
 
 	<string name="generating_crossword">Generating crossword…</string>
 	<string name="example_format">(e.g.: \"%s\")</string>
