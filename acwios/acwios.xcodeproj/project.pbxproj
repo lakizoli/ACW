@@ -23,6 +23,7 @@
 		F09B2056210D742B00398B2E /* SubscriptionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F09B2055210D742B00398B2E /* SubscriptionManager.m */; };
 		F09B2059210D7C9200398B2E /* PackageManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = F09B2058210D7C9200398B2E /* PackageManager.mm */; };
 		F09B205C210D7D3B00398B2E /* Package.mm in Sources */ = {isa = PBXBuildFile; fileRef = F09B205B210D7D3B00398B2E /* Package.mm */; };
+		F0A91097238DD4AC00324CAD /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F0A91095238DD4AC00324CAD /* Localizable.strings */; };
 		F0BA0906212AC97900A7F154 /* CrosswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0BA0905212AC97900A7F154 /* CrosswordViewController.m */; };
 		F0BA0909212ACBC200A7F154 /* CrosswordCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F0BA0908212ACBC200A7F154 /* CrosswordCell.m */; };
 		F0BA090C212AD40F00A7F154 /* CrosswordLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = F0BA090B212AD40F00A7F154 /* CrosswordLayout.m */; };
@@ -83,6 +84,7 @@
 		F086ACED22EADB10003BBA88 /* libminizip.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libminizip.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F086ACEF22EB09B1003BBA88 /* libFlurry_9.3.1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFlurry_9.3.1.a; path = ../flurry/libFlurry_9.3.1.a; sourceTree = "<group>"; };
 		F086ACF122EB0E0C003BBA88 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		F08C9D74238DD6AC004EBC9A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F092DB1D210CA5AA006B4DC6 /* Downloader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Downloader.h; sourceTree = "<group>"; };
 		F092DB1E210CA5AA006B4DC6 /* Downloader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Downloader.m; sourceTree = "<group>"; };
 		F09B2054210D742B00398B2E /* SubscriptionManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SubscriptionManager.h; sourceTree = "<group>"; };
@@ -91,6 +93,9 @@
 		F09B2058210D7C9200398B2E /* PackageManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PackageManager.mm; sourceTree = "<group>"; };
 		F09B205A210D7D3B00398B2E /* Package.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Package.h; sourceTree = "<group>"; };
 		F09B205B210D7D3B00398B2E /* Package.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Package.mm; sourceTree = "<group>"; };
+		F0A91090238DD31600324CAD /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = hu.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		F0A91091238DD31600324CAD /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = hu.lproj/SimpleUI.strings; sourceTree = "<group>"; };
+		F0A91096238DD4AC00324CAD /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = hu.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F0BA0904212AC97900A7F154 /* CrosswordViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CrosswordViewController.h; sourceTree = "<group>"; };
 		F0BA0905212AC97900A7F154 /* CrosswordViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CrosswordViewController.m; sourceTree = "<group>"; };
 		F0BA0907212ACBC200A7F154 /* CrosswordCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CrosswordCell.h; sourceTree = "<group>"; };
@@ -261,6 +266,7 @@
 				FDCD52C121142FC70081FE4D /* CWGeneratorViewController.h */,
 				FDCD52C221142FC70081FE4D /* CWGeneratorViewController.m */,
 				F062D641231201ED00738348 /* SimpleUI.storyboard */,
+				F0A91095238DD4AC00324CAD /* Localizable.strings */,
 			);
 			path = acwios;
 			sourceTree = "<group>";
@@ -340,6 +346,7 @@
 			knownRegions = (
 				en,
 				Base,
+				hu,
 			);
 			mainGroup = FDCD520B21084C860081FE4D;
 			productRefGroup = FDCD521521084C860081FE4D /* Products */;
@@ -359,6 +366,7 @@
 				FDCD522421084C880081FE4D /* LaunchScreen.storyboard in Resources */,
 				F063994522886DAE00DD12D1 /* terms_of_use.html in Resources */,
 				F063994422886DAE00DD12D1 /* privacy_policy.html in Resources */,
+				F0A91097238DD4AC00324CAD /* Localizable.strings in Resources */,
 				F062D63F231201ED00738348 /* SimpleUI.storyboard in Resources */,
 				FDCD522121084C880081FE4D /* Assets.xcassets in Resources */,
 				F06399412288662400DD12D1 /* considerations.html in Resources */,
@@ -407,14 +415,25 @@
 			isa = PBXVariantGroup;
 			children = (
 				F062D640231201ED00738348 /* Base */,
+				F0A91091238DD31600324CAD /* hu */,
 			);
 			name = SimpleUI.storyboard;
+			sourceTree = "<group>";
+		};
+		F0A91095238DD4AC00324CAD /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F0A91096238DD4AC00324CAD /* hu */,
+				F08C9D74238DD6AC004EBC9A /* en */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 		FDCD522221084C880081FE4D /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				FDCD522321084C880081FE4D /* Base */,
+				F0A91090238DD31600324CAD /* hu */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -426,6 +445,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -483,6 +503,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
