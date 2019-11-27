@@ -117,12 +117,12 @@ public final class SubscriptionManager implements PurchasesUpdatedListener {
 						public void onSkuDetailsResponse (BillingResult billingResult, List<SkuDetails> skuDetailsList) {
 							if (billingResult.getResponseCode () == BillingClient.BillingResponseCode.OK && skuDetailsList != null) {
 								_products = skuDetailsList;
+
+								//Query purchases
+								queryPurchases ();
 							}
 						}
 					});
-
-					//Query purchases
-					queryPurchases ();
 				} else { //Something wrong with billing
 					reconnectAfterDelay (20000);
 				}
