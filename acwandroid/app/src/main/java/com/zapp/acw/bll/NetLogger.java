@@ -1,6 +1,8 @@
 package com.zapp.acw.bll;
 
+import android.app.Activity;
 import android.content.Context;
+import android.provider.Settings;
 import android.util.Log;
 
 import com.android.billingclient.api.Purchase;
@@ -8,6 +10,7 @@ import com.android.billingclient.api.SkuDetails;
 import com.flurry.android.FlurryAgent;
 import com.flurry.android.FlurryPerformance;
 import com.zapp.acw.BuildConfig;
+import com.zapp.acw.FileUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,6 +18,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
@@ -42,6 +46,8 @@ public final class NetLogger {
 			Log.i ("NetLogger", "Netlogger started");
 		} else {
 			FlurryAgent.setVersionName (BuildConfig.VERSION_NAME);
+
+			FlurryAgent.setUserId (getFlurryUserID (context));
 
 			new FlurryAgent.Builder ()
 				.withCaptureUncaughtExceptions (true)
@@ -93,6 +99,22 @@ public final class NetLogger {
 				put ("purchaseToken", purchaseToken);
 			}});
 		}
+	}
+
+	private static String flurryUserIDPath (Context context) {
+		String userIDPath = FileUtils.pathByAppendingPathComponent (context.getFilesDir ().getAbsolutePath (), "flurry.dat");
+		return userIDPath;
+	}
+
+	private static String getFlurryUserID (Context context) {
+		String userIDPath = flurryUserIDPath (context);
+		String userID = FileUtils.readFile (userIDPath);
+		if (userID == null) {
+			userID = UUID.randomUUID ().toString ();
+			FileUtils.writeFile (userIDPath, userID);
+		}
+
+		return userID;
 	}
 
 	//region Crash logging

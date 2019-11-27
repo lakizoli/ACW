@@ -51,14 +51,14 @@ nem kell - queryPurchases induljon a sku details lekerdezes utan
 OK - magyarázó szöveg az elejére, hogy mennyi hint, idő, és hiba szükséges a szintlépéshez
 OK - magyar lokalizáció
 - spanyol lokalizáció
-- német lokalizáció
+OK - német lokalizáció
 Nem is volt benne - Ki kell venni a nyelvek sort-olását, és a pack-ban meg kell csinálni a listát
 OK - ShowHint flurry küldje be a kitöltöttséget
 Nem jo! - tablet méretben a keresztrejtvény középre igazítása
 OK - nyelv lista aláhúzása kettesével
 OK - letoltes kozben nem muxik a forgatas
 OK - billentyuzet magassaganak emelese 
-- flurry client id bevezetese
+OK - flurry client id bevezetese
 
 
 
