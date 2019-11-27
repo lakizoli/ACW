@@ -83,7 +83,7 @@ OK - ShowHint flurry küldje be a kitöltöttséget
 OK - nyelv lista aláhúzása kettesével
 - fix typo in hungarian store subscription (automaikusan -> automatikusan, jog -> jogi)
 - remove file sharing option from store subscription
-- flurry client id bevezetese
+OK - flurry client id bevezetese
 
 
 
