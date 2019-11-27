@@ -24,6 +24,7 @@
 									  withSessionContinueSeconds:10]
 									 withAppVersion:appVersionString];
 	
+	[Flurry setUserID:[self getUserID]];
 	[Flurry startSession:@"9P9572XC7M7B686598VW" withSessionBuilder:builder];
 #endif
 }
@@ -52,6 +53,61 @@
 	
 	}];
 #endif
+}
+
++ (BOOL) ensureDirExists:(NSURL*)dir {
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	
+	BOOL isDir = NO;
+	BOOL exists = [fileManager fileExistsAtPath:[dir path] isDirectory:&isDir] == YES;
+	
+	BOOL createDir = NO;
+	if (!exists) { //We have nothing at destination, so let's create a dir...
+		createDir = YES;
+	} else if (!isDir) { //We have some file at place, so we have to delete it before creating the dir...
+		NSError *err = nil;
+		if ([fileManager removeItemAtPath:[dir path] error:&err] != YES) {
+			NSLog (@"Cannot remove file at path: %@, err: %@", [dir path], err);
+			return NO;
+		}
+		createDir = YES;
+	}
+	
+	if (createDir) {
+		NSError *err = nil;
+		if ([fileManager createDirectoryAtURL:dir withIntermediateDirectories:YES attributes:nil error:&err] != YES) {
+			NSLog (@"Cannot create database at url: %@, err: %@", dir, err);
+			return NO;
+		}
+	}
+	
+	return YES;
+}
+
++ (NSURL*) userIDPath {
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	NSURL *appSupportDir = [[fileManager URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask] lastObject];
+	if (![self ensureDirExists:appSupportDir]) {
+		return nil;
+	}
+	
+	NSURL *userIDPath = [appSupportDir URLByAppendingPathComponent:@"flurry.dat" isDirectory:NO];
+	return userIDPath;
+}
+
++(NSString*)getUserID {
+	NSURL *userIDPath = [self userIDPath];
+	if (userIDPath == nil) {
+		return nil;
+	}
+	
+	NSString *userID = [NSString stringWithContentsOfURL:userIDPath encoding:NSUTF8StringEncoding error:nil];
+	if (userID == nil) {
+		userID = [[NSUUID UUID] UUIDString];
+		[userID writeToURL:userIDPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+	}
+	
+	return userID;
 }
 
 @end
