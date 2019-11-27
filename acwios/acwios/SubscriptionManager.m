@@ -117,7 +117,7 @@
 																   message:msg
 															preferredStyle:UIAlertControllerStyleAlert];
 	
-	UIAlertAction *actionOK = [UIAlertAction actionWithTitle:@"OK"
+	UIAlertAction *actionOK = [UIAlertAction actionWithTitle:NSLocalizedString (@"ok", @"")
 													   style:UIAlertActionStyleCancel
 													 handler:^(UIAlertAction * _Nonnull action)
 	{

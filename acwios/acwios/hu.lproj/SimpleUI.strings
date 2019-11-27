@@ -1,42 +1,42 @@
 
 /* Class = "UINavigationItem"; title = "Play crossword"; ObjectID = "1cU-eO-wve"; */
-"1cU-eO-wve.title" = "Play crossword";
+"1cU-eO-wve.title" = "Keresztrejtvény";
 
 /* Class = "UILabel"; text = "100 of 322 levels (1000 of 3522 words) solved"; ObjectID = "1dB-ee-Rk9"; */
-"1dB-ee-Rk9.text" = "100 of 322 levels (1000 of 3522 words) solved";
+"1dB-ee-Rk9.text" = "100 a 322 keresztrejtvényből (1000 a 3522 szóból) kitöltve";
 
 /* Class = "UIButton"; normalTitle = "<button>"; ObjectID = "1fO-iW-Urq"; */
 "1fO-iW-Urq.normalTitle" = "<button>";
 
 /* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "5xB-qC-9Mu"; */
-"5xB-qC-9Mu.title" = "Back";
+"5xB-qC-9Mu.title" = "Vissza";
 
 /* Class = "UILabel"; text = "Word count: 42"; ObjectID = "9tX-1x-B3Y"; */
-"9tX-1x-B3Y.text" = "Word count: 42";
+"9tX-1x-B3Y.text" = "Szavak száma: 42";
 
 /* Class = "UILabel"; text = "<progress>"; ObjectID = "C7a-d0-mKt"; */
 "C7a-d0-mKt.text" = "<progress>";
 
 /* Class = "UIButton"; normalTitle = "Subscribe Now"; ObjectID = "EKE-89-VpA"; */
-"EKE-89-VpA.normalTitle" = "Subscribe Now";
+"EKE-89-VpA.normalTitle" = "Előfizetek";
 
 /* Class = "UILabel"; text = "To download crosswords or Anki Flashcard packages, press the + button above!"; ObjectID = "GEn-Yc-oJm"; */
-"GEn-Yc-oJm.text" = "To download crosswords or Anki Flashcard packages, press the + button above!";
+"GEn-Yc-oJm.text" = "Anki rejtvénycsomagok letöltéséhez érintsd meg a fenti + gombot!";
 
 /* Class = "UIBarButtonItem"; title = "Show Hint"; ObjectID = "HKg-DE-Fbq"; */
-"HKg-DE-Fbq.title" = "Show Hint";
+"HKg-DE-Fbq.title" = "Mutasd a súgást!";
 
 /* Class = "UIBarButtonItem"; title = "Reset"; ObjectID = "LPU-Kr-r6y"; */
-"LPU-Kr-r6y.title" = "Reset";
+"LPU-Kr-r6y.title" = "Törlés";
 
 /* Class = "UINavigationItem"; title = "Choose Crossword"; ObjectID = "MvL-Lb-WZz"; */
-"MvL-Lb-WZz.title" = "Choose Crossword";
+"MvL-Lb-WZz.title" = "Válassz rejtvényt";
 
 /* Class = "UILabel"; text = "You can easily start writing each solutions by tapping their first cell."; ObjectID = "Pna-EA-zPR"; */
-"Pna-EA-zPR.text" = "You can easily start writing each solutions by tapping their first cell.";
+"Pna-EA-zPR.text" = "Egyszerűen elkezdheted a megoldások kitöltését a kezdő mező megéríntésével.";
 
 /* Class = "UILabel"; text = "Congratulation!"; ObjectID = "Pry-4f-RcO"; */
-"Pry-4f-RcO.text" = "Congratulation!";
+"Pry-4f-RcO.text" = "Gratulálunk!";
 
 /* Class = "UILabel"; text = "<progress>"; ObjectID = "YOp-bA-yQD"; */
 "YOp-bA-yQD.text" = "<progress>";
@@ -45,46 +45,46 @@
 "ZAI-sG-C64.normalTitle" = "<button>";
 
 /* Class = "UINavigationItem"; title = "Download Anki Packages"; ObjectID = "aCS-JU-tqZ"; */
-"aCS-JU-tqZ.title" = "Download Anki Packages";
+"aCS-JU-tqZ.title" = "Anki csomagok letöltése";
 
 /* Class = "UILabel"; text = "Name of the package"; ObjectID = "cCb-oB-Bs0"; */
-"cCb-oB-Bs0.text" = "Name of the package";
+"cCb-oB-Bs0.text" = "Csomagnév";
 
 /* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "cnh-tp-JwQ"; */
-"cnh-tp-JwQ.title" = "Back";
+"cnh-tp-JwQ.title" = "Vissza";
 
 /* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "dVx-vh-Rob"; */
-"dVx-vh-Rob.title" = "Back";
+"dVx-vh-Rob.title" = "Vissza";
 
 /* Class = "UILabel"; text = "The aim of this game is, that you have to fill the entire crossword as fast as you can, without any hints and failures. However, if you don't know one of the solutions, you can easiliy show all solutions using \"Show Hint\" button above to help learning."; ObjectID = "hOV-54-g3T"; */
-"hOV-54-g3T.text" = "The aim of this game is, that you have to fill the entire crossword as fast as you can, without any hints and failures. However, if you don't know one of the solutions, you can easiliy show all solutions using \"Show Hint\" button above to help learning.";
+"hOV-54-g3T.text" = "A jéték célja, hogy az egész rejtvényt minél gyorsabban minél kevesebb hibával és súgással töltsd ki. Viszont, ha nem tudsz valamit, akkor használd a fenti \"Mutasd a súgást\" gombot a megoldások megjelenítéséhez.";
 
 /* Class = "UILabel"; text = "Hint show count: 100"; ObjectID = "iUw-Mc-dWJ"; */
-"iUw-Mc-dWJ.text" = "Hint show count: 100";
+"iUw-Mc-dWJ.text" = "Súgások száma: 100";
 
 /* Class = "UILabel"; text = "To go to the next level you allowed to have a maximum of 3 mistakes and the use of 3 hints. In addition, you must fill the entire crossword within a maximum of 12 minutes."; ObjectID = "iyf-oh-V8d"; */
-"iyf-oh-V8d.text" = "To go to the next level you allowed to have a maximum of 3 mistakes and the use of 3 hints. In addition, you must fill the entire crossword within a maximum of 12 minutes.";
+"iyf-oh-V8d.text" = "Ahhoz hogy eljuss a következő rejtvényhez maximum 3 hibát véthetsz, ill. maximum háromszor használhatod a súgást kitöltés közben. Emellett összesen 12 perced van a teljes kitöltésre.";
 
 /* Class = "UIButton"; normalTitle = "OK"; ObjectID = "miu-40-5ZJ"; */
 "miu-40-5ZJ.normalTitle" = "OK";
 
 /* Class = "UILabel"; text = "You filled the crossword!"; ObjectID = "nDB-Ml-iUQ"; */
-"nDB-Ml-iUQ.text" = "You filled the crossword!";
+"nDB-Ml-iUQ.text" = "Kitöltötted a rejtvényt!";
 
 /* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "phD-uo-bEH"; */
-"phD-uo-bEH.title" = "Back";
+"phD-uo-bEH.title" = "Vissza";
 
 /* Class = "UINavigationItem"; title = "Store"; ObjectID = "pvs-3P-MG7"; */
-"pvs-3P-MG7.title" = "Store";
+"pvs-3P-MG7.title" = "Üzlet";
 
 /* Class = "UILabel"; text = "Time: 1:50"; ObjectID = "qcq-q0-0eI"; */
-"qcq-q0-0eI.text" = "Time: 1:50";
+"qcq-q0-0eI.text" = "Kitöltési idő: 1:50";
 
 /* Class = "UILabel"; text = "Fail count: 10"; ObjectID = "sJn-aa-aNK"; */
-"sJn-aa-aNK.text" = "Fail count: 10";
+"sJn-aa-aNK.text" = "Hibák száma: 10";
 
 /* Class = "UINavigationItem"; title = "Generate crossword"; ObjectID = "tEp-hI-HUG"; */
-"tEp-hI-HUG.title" = "Generate crossword";
+"tEp-hI-HUG.title" = "Rejtvény generálás";
 
 /* Class = "UILabel"; text = "Starting..."; ObjectID = "vp1-Kz-fZs"; */
-"vp1-Kz-fZs.text" = "Starting...";
+"vp1-Kz-fZs.text" = "Indulás...";

@@ -40,12 +40,12 @@
 
 -(void) showSubscription {
 	[[SubscriptionManager sharedInstance] showSubscriptionAlert:self
-															msg:@"You have to subscribe to the application to play the disabled crosswords! If you press yes, then we take you to our store screen to do that."];
+															msg:NSLocalizedString (@"subscribe_take_to_store", @"")];
 }
 
 -(void) showSubscriptionOnDelete {
 	[[SubscriptionManager sharedInstance] showSubscriptionAlert:self
-															msg:@"You have to subscribe to the application to delete crosswords! Only the first crossword may be played without a subscription! If you press yes, then we take you to our store screen to do that."];
+															msg:NSLocalizedString (@"subscribe_on_delete_warning", @"")];
 }
 
 -(void)reloadPackages {
@@ -129,11 +129,11 @@
 		return;
 	}
 	
-	UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Do you want to delete this crossword?"
-																   message:@"You cannot undo this action."
+	UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString (@"do_you_want_delete_cw", @"")
+																   message:NSLocalizedString (@"cannot_undo_this_action", @"")
 															preferredStyle:UIAlertControllerStyleAlert];
 	
-	UIAlertAction *actionNo = [UIAlertAction actionWithTitle:@"Cancel"
+	UIAlertAction *actionNo = [UIAlertAction actionWithTitle:NSLocalizedString (@"cancel", @"")
 													   style:UIAlertActionStyleCancel
 													 handler:^(UIAlertAction * _Nonnull action)
 	{
@@ -142,7 +142,7 @@
 	
 	[alert addAction:actionNo];
 	
-	UIAlertAction *actionYes = [UIAlertAction actionWithTitle:@"Delete"
+	UIAlertAction *actionYes = [UIAlertAction actionWithTitle:NSLocalizedString (@"delete", @"")
 														style:UIAlertActionStyleDestructive
 													  handler:^(UIAlertAction * _Nonnull action)
 	{
@@ -298,7 +298,7 @@
 			title = pack.name;
 		}
 		[cell.packageName setText:title];
-		[cell.statistics setText:[NSString stringWithFormat:@"%lu of %lu levels (%lu of %lu words) solved",
+		[cell.statistics setText:[NSString stringWithFormat:NSLocalizedString (@"cell_statistics", @""),
 								  filledLevelCount,
 								  pack.state.levelCount,
 								  pack.state.filledLevel >= pack.state.levelCount ? pack.state.wordCount : filledWordCount,
@@ -318,7 +318,7 @@
 - (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
 	return @[ [UITableViewRowAction
 			   rowActionWithStyle:UITableViewRowActionStyleDestructive
-			   title:@"Delete crossword"
+			   title:NSLocalizedString (@"delete_crossword", @"")
 			   handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
 				   [self deleteCrosswordAt:indexPath];
 			   }]

@@ -5,3 +5,15 @@
   Created by Laki Zoltán on 2019. 11. 26..
   Copyright © 2019. ZApp. All rights reserved.
 */
+
+"subscribe_take_to_store" = "Elő kell fizetned ahhoz, hogy játszhass a tiltott rejtvénycsomagokkal! Ha igent nyomsz, akkor átlépsz az üzletbe, ahol előfizethetsz.";
+
+"subscribe_on_delete_warning" = "Elő kell fizetned ahhoz, hogy rejtvénycsomagokat törölhess! Csak az első rejtvényt tudod kitölteni előfizetés nélkül! Ha igent nyomsz, akkor átlépsz az üzletbe, ahol előfizethetsz.";
+
+"do_you_want_delete_cw" = "Biztosan törölni akarod ezt a rejtvénycsomagot?";
+"cannot_undo_this_action" = "Ezt a műveletet nem lehet visszavonni.";
+"cancel" = "Mégse";
+"delete" = "Törlés";
+"cell_statistics" = "%d a %d keresztrejtvényből (%d a %d szóból) kitöltve";
+"delete_crossword" = "Rejtvény törlése";
+"ok" = "OK";
