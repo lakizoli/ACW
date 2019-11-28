@@ -73,7 +73,7 @@ Nem kell - Az 1. cw-t korlátlan alkalommal lehet újra lejátszani ingyen. Ez r
 OK - A show hint/reset gomb elmagyarázása fontos lenne egy tour keretében (mint a fő lista plusz menüje esetében)
 OK - iOS 13 compatibility
 OK - magyarázó szöveg az elejére, hogy mennyi hint, idő, és hiba szükséges a szintlépéshez
-- magyar lokalizáció
+OK - magyar lokalizáció
 - spanyol lokalizáció
 - német lokalizáció
 OK - Ki kell venni a nyelvek sort-olását, és a pack-ban meg kell csinálni a listát
@@ -84,8 +84,9 @@ OK - nyelv lista aláhúzása kettesével
 - fix typo in hungarian store subscription (automaikusan -> automatikusan, jog -> jogi)
 - remove file sharing option from store subscription
 OK - flurry client id bevezetese
-
-
+- chooseCW: localize random button
+- chooseCW: localize store message above the subscribe now button
+- Nem jók a magyar nyelvű help szövegek szövegmezőinek méretei
 
 
 

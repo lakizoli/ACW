@@ -62,7 +62,7 @@
 		return;
 	}
 	
-	NSString *example = [NSString stringWithFormat:@"(e.g.: \"%@\")", exampleContent];
+	NSString *example = [NSString stringWithFormat:NSLocalizedString (@"example_format", @""), exampleContent];
 	NSString *content = [NSString stringWithFormat:@"%@ %@", text, example];
 	NSDictionary *attribs = @{ NSForegroundColorAttributeName: label.textColor,
 							   NSFontAttributeName: label.font };
@@ -121,11 +121,11 @@
 	PackageManager* pacMan = [PackageManager sharedInstance];
 	
 	NSString *fieldValue = [self getFieldValue:_questionFieldIndex];
-	[self updatePickerLabel:_labelQuestion withText:@"Question field:" andExample:[pacMan trimQuestionField: fieldValue]];
+	[self updatePickerLabel:_labelQuestion withText:NSLocalizedString (@"question_field", @"") andExample:[pacMan trimQuestionField: fieldValue]];
 	
 	fieldValue = [self getFieldValue:_solutionFieldIndex];
 	[self updatePickerLabel:_labelSolution
-				   withText:@"Solution field:"
+				   withText:NSLocalizedString (@"solution_field", @"")
 				 andExample:[pacMan trimSolutionField: fieldValue
 											 splitArr:_generatorInfo.splitArray
 										solutionFixes:_generatorInfo.solutionsFixes]];
@@ -151,8 +151,8 @@
 	[_doneButton setEnabled:NO];
 	[_progressView setHidden:NO];
 	
-	[_progressView setLabelContent:@"Generating crossword..."];
-	[_progressView setButtonLabel:@"Cancel"];
+	[_progressView setLabelContent:NSLocalizedString (@"generating_crossword", @"")];
+	[_progressView setButtonLabel:NSLocalizedString (@"cancel", @"")];
 	[_progressView setOnButtonPressed:^{
 		isGenerationCancelled = YES;
 	}];
@@ -220,7 +220,7 @@
 			}
 
 			dispatch_async (dispatch_get_main_queue (), ^(void) {
-				[self->_progressView setLabelContent:[NSString stringWithFormat:@"Generating crossword... (%d)", idx]];
+				[self->_progressView setLabelContent:[NSString stringWithFormat:NSLocalizedString (@"generating_crossword_idx", @""), idx]];
 			});
 		}
 
@@ -275,12 +275,14 @@
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
 	if (pickerView == _pickerQuestion) {
 		NSString *fieldValue = [self getFieldValue:row];
-		[self updatePickerLabel:_labelQuestion withText:@"Question field:" andExample:[[PackageManager sharedInstance] trimQuestionField:fieldValue]];
+		[self updatePickerLabel:_labelQuestion
+					   withText:NSLocalizedString (@"question_field", @"")
+					 andExample:[[PackageManager sharedInstance] trimQuestionField:fieldValue]];
 		_questionFieldIndex = row;
 	} else if (pickerView == _pickerSolution) {
 		NSString *fieldValue = [self getFieldValue:row];
 		[self updatePickerLabel:_labelSolution
-					   withText:@"Solution field:"
+					   withText:NSLocalizedString (@"solution_field", @"")
 					 andExample:[[PackageManager sharedInstance] trimSolutionField:fieldValue
 																		  splitArr:_generatorInfo.splitArray
 																	 solutionFixes:_generatorInfo.solutionsFixes]];

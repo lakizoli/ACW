@@ -179,6 +179,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
+	//TODO: localize random button
+	//TODO: localize store message above the subscribe now button
+	
 	[NetLogger logEvent:@"SUIChooseCW_ShowView"];
 }
 

@@ -37,7 +37,6 @@
 		FD6CE9B3213E6D8B00A0E27A /* GameTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FD6CE9B2213E6D8B00A0E27A /* GameTableCell.m */; };
 		FD6ED59321382C3B00FCCAC7 /* DrawingCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = FD6ED58F21382C3A00FCCAC7 /* DrawingCommon.m */; };
 		FDCD521921084C860081FE4D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCD521821084C860081FE4D /* AppDelegate.m */; };
-		FDCD521C21084C860081FE4D /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCD521B21084C860081FE4D /* MainViewController.m */; };
 		FDCD522121084C880081FE4D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FDCD522021084C880081FE4D /* Assets.xcassets */; };
 		FDCD522421084C880081FE4D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FDCD522221084C880081FE4D /* LaunchScreen.storyboard */; };
 		FDCD522721084C880081FE4D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCD522621084C880081FE4D /* main.m */; };
@@ -122,8 +121,6 @@
 		FDCD521421084C860081FE4D /* acwios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = acwios.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDCD521721084C860081FE4D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FDCD521821084C860081FE4D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		FDCD521A21084C860081FE4D /* MainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
-		FDCD521B21084C860081FE4D /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		FDCD522021084C880081FE4D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FDCD522321084C880081FE4D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FDCD522521084C880081FE4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -259,8 +256,6 @@
 				FDCD522621084C880081FE4D /* main.m */,
 				FDCD521721084C860081FE4D /* AppDelegate.h */,
 				FDCD521821084C860081FE4D /* AppDelegate.m */,
-				FDCD521A21084C860081FE4D /* MainViewController.h */,
-				FDCD521B21084C860081FE4D /* MainViewController.m */,
 				FDCD527E2108682C0081FE4D /* AnkiDownloadViewController.h */,
 				FDCD527F2108682C0081FE4D /* AnkiDownloadViewController.m */,
 				FDCD52C121142FC70081FE4D /* CWGeneratorViewController.h */,
@@ -385,7 +380,6 @@
 				FD6ED59321382C3B00FCCAC7 /* DrawingCommon.m in Sources */,
 				F09B2056210D742B00398B2E /* SubscriptionManager.m in Sources */,
 				FD2197BB214110E900E6D396 /* KeyboardViewController.m in Sources */,
-				FDCD521C21084C860081FE4D /* MainViewController.m in Sources */,
 				FD2197C3214AB59100E6D396 /* EmitterEffect.m in Sources */,
 				F09B205C210D7D3B00398B2E /* Package.mm in Sources */,
 				F0C91BA4210C690000B06070 /* ProgressView.m in Sources */,

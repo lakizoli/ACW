@@ -94,8 +94,8 @@
 }
 
 -(void)showProgressView {
-	[_progressView setButtonLabel:@"Cancel"];
-	[_progressView setLabelContent:@"Downloading..."];
+	[_progressView setButtonLabel:NSLocalizedString (@"cancel", @"")];
+	[_progressView setLabelContent:NSLocalizedString (@"downloading", @"")];
 	[_progressView setProgressValue:0];
 	
 	[_progressView setOnButtonPressed:^{
@@ -143,11 +143,11 @@
 				[[NSFileManager defaultManager] removeItemAtURL:downloadedFile error:nil];
 			}
 			
-			UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error"
-																		   message:@"Error occured during download!"
+			UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString (@"error_title", @"")
+																		   message:NSLocalizedString (@"download_error", @"")
 																	preferredStyle:UIAlertControllerStyleAlert];
 			
-			UIAlertAction* okButton = [UIAlertAction actionWithTitle:@"OK"
+			UIAlertAction* okButton = [UIAlertAction actionWithTitle:NSLocalizedString (@"ok", @"")
 															   style:UIAlertActionStyleDefault
 															 handler:^(UIAlertAction * action) {
 																 [self dismissView];

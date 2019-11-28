@@ -74,7 +74,7 @@
 	__block UIViewController *parentVC = [self presentingViewController];
 	[self dismissViewControllerAnimated:YES completion:^{
 		[[SubscriptionManager sharedInstance] showSubscriptionAlert:parentVC
-																msg:@"You have to subscribe to the application to play more than one demo crossword! If you press yes, then we take you to our store screen to do that."];
+																msg:NSLocalizedString (@"subscribe_to_play_more_than_one", @"")];
 	}];
 }
 
@@ -329,11 +329,11 @@
 	[dateFormatter setDateFormat:@"HH:mm:ss"];
 	[dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
 	NSString *formattedDate = [dateFormatter stringFromDate:date];
-	[self->_winTimeLabel setText:[NSString stringWithFormat:@"Time: %@", formattedDate]];
+	[self->_winTimeLabel setText:[NSString stringWithFormat:NSLocalizedString (@"win_time", @""), formattedDate]];
 	
-	[self->_winHintCountLabel setText:[NSString stringWithFormat:@"Hint show count: %d", currentStat.hintCount]];
-	[self->_winWordCountLabel setText:[NSString stringWithFormat:@"Word count: %lu", [[self->_savedCrossword words] count]]];
-	[self->_winFailCountLabel setText:[NSString stringWithFormat:@"Fail count: %d", currentStat.failCount]];
+	[self->_winHintCountLabel setText:[NSString stringWithFormat:NSLocalizedString (@"win_hint_count", @""), currentStat.hintCount]];
+	[self->_winWordCountLabel setText:[NSString stringWithFormat:NSLocalizedString (@"win_word_count", @""), [[self->_savedCrossword words] count]]];
+	[self->_winFailCountLabel setText:[NSString stringWithFormat:NSLocalizedString (@"win_fail_count", @""), currentStat.failCount]];
 	
 	//Show statistics view
 	[self->_winView setHidden:NO];
@@ -371,8 +371,8 @@
 	//Handle multi level game
 	if (_isMultiLevelGame) {
 		if (_starCount < 3) { //Fail
-			[self->_winMessageLabel setText:@"You can do this better!\nTry again!"];
-			[self->_winCloseButton setTitle:@"Try again" forState:UIControlStateNormal];
+			[self->_winMessageLabel setText:NSLocalizedString (@"win_msg_can_do_better", @"")];
+			[self->_winCloseButton setTitle:NSLocalizedString (@"try_again", @"") forState:UIControlStateNormal];
 		} else { //Go to the next level, or end of all levels
 			BOOL isSubscribed = [[SubscriptionManager sharedInstance] isSubscribed];
 			if (isSubscribed && _currentPackage.state.filledLevel < _currentPackage.state.levelCount) {
@@ -388,11 +388,11 @@
 					_currentPackage.state.crosswordName = [[_allSavedCrossword objectAtIndex:nextCWIdx] name];
 				}
 
-				[self->_winMessageLabel setText:@"You earn 3 stars!\nGo to the next level!"];
-				[self->_winCloseButton setTitle:@"Next Level" forState:UIControlStateNormal];
+				[self->_winMessageLabel setText:NSLocalizedString (@"win_msg_three_star_goto_next", @"")];
+				[self->_winCloseButton setTitle:NSLocalizedString (@"next_level", @"") forState:UIControlStateNormal];
 			} else {
-				[self->_winMessageLabel setText:@"You filled all levels!"];
-				[self->_winCloseButton setTitle:@"OK" forState:UIControlStateNormal];
+				[self->_winMessageLabel setText:NSLocalizedString (@"you_filled_all_levels", @"")];
+				[self->_winCloseButton setTitle:NSLocalizedString (@"ok", @"") forState:UIControlStateNormal];
 			}
 			
 			if (isSubscribed) {
@@ -401,11 +401,11 @@
 		}
 	} else { //Single level game
 		if (_starCount < 3) {
-			[self->_winMessageLabel setText:@"You can do this better!\nTry again!"];
-			[self->_winCloseButton setTitle:@"Try again" forState:UIControlStateNormal];
+			[self->_winMessageLabel setText:NSLocalizedString (@"win_msg_can_do_better", @"")];
+			[self->_winCloseButton setTitle:NSLocalizedString (@"try_again", @"") forState:UIControlStateNormal];
 		} else {
-			[self->_winMessageLabel setText:@"You earn 3 stars!"];
-			[self->_winCloseButton setTitle:@"OK" forState:UIControlStateNormal];
+			[self->_winMessageLabel setText:NSLocalizedString (@"win_msg_three_star", @"")];
+			[self->_winCloseButton setTitle:NSLocalizedString (@"ok", @"") forState:UIControlStateNormal];
 		}
 	}
 	
@@ -682,7 +682,7 @@
 	_showHidePressed = YES;
 	
 	_areAnswersVisible = _areAnswersVisible ? NO : YES;
-	[_showHideButton setTitle:_areAnswersVisible ? @"Hide Hint" : @"Show Hint"];
+	[_showHideButton setTitle:_areAnswersVisible ? NSLocalizedString (@"hide_hint", @"") : NSLocalizedString (@"show_hint", @"")];
 	[_crosswordView reloadData];
 	
 	if (_areAnswersVisible) {

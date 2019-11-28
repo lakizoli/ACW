@@ -181,7 +181,7 @@
 	
 	NSError *err = nil;
 	if (![str writeToURL:[self purchasePath] atomically:YES encoding:NSUTF8StringEncoding error:&err]) {
-		[self showOKAlert:@"Cannot store your purchase on local storage!" title:@"Error"];
+		[self showOKAlert:NSLocalizedString (@"cannot_store_purchase", @"") title:NSLocalizedString (@"error_title", @"")];
 		return NO;
 	}
 	
@@ -257,9 +257,11 @@
 }
 
 - (void)showSubscriptionAlert:(UIViewController *)parent msg:(NSString*)msg {
-	UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Subscribe Alert!" message:msg preferredStyle:UIAlertControllerStyleAlert];
+	UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString (@"subscribe_alert", @"")
+																   message:msg
+															preferredStyle:UIAlertControllerStyleAlert];
 	
-	UIAlertAction *actionNo = [UIAlertAction actionWithTitle:@"No"
+	UIAlertAction *actionNo = [UIAlertAction actionWithTitle:NSLocalizedString (@"no", @"")
 													   style:UIAlertActionStyleCancel
 													 handler:^(UIAlertAction * _Nonnull action)
 	{
@@ -268,7 +270,7 @@
 	
 	[alert addAction:actionNo];
 	
-	UIAlertAction *actionYes = [UIAlertAction actionWithTitle:@"Yes"
+	UIAlertAction *actionYes = [UIAlertAction actionWithTitle:NSLocalizedString (@"yes", @"")
 														style:UIAlertActionStyleDestructive
 													  handler:^(UIAlertAction * _Nonnull action)
 	{
@@ -428,14 +430,14 @@
 				if ([self storePurchaseDate:transaction.transactionDate productID:transaction.payment.productIdentifier]) {
 					[queue finishTransaction:transaction];
 					[NetLogger logEvent:@"Subscription_End_Purchased" withParameters:@{ @"productIdentifier" : transaction.payment.productIdentifier }];
-					[self showOKAlert:@"Subscription purchased successfully!" title:@"Success"];
+					[self showOKAlert:NSLocalizedString (@"purchase_successful", @"") title:NSLocalizedString (@"success_title", @"")];
 				}
 				break;
 			case SKPaymentTransactionStateRestored:
 				if ([self storePurchaseDate:transaction.transactionDate productID:transaction.payment.productIdentifier]) {
 					[queue finishTransaction:transaction];
 					[NetLogger logEvent:@"Subscription_End_Restored" withParameters:@{ @"productIdentifier" : transaction.payment.productIdentifier }];
-					[self showOKAlert:@"Subscription restored successfully!" title:@"Success"];
+					[self showOKAlert:NSLocalizedString (@"restore_successful", @"") title:NSLocalizedString (@"success_title", @"")];
 				}
 				break;
 			case SKPaymentTransactionStateFailed:
@@ -451,16 +453,16 @@
 	}
 	
 	if ([errors count] > 0) {
-		NSString *msg = [NSString stringWithFormat:@"%lu pcs of payment transaction(s) failed! First errors: %@",
+		NSString *msg = [NSString stringWithFormat:NSLocalizedString (@"payment_failed", @""),
 						 [errors count],
 						 [[errors objectAtIndex:0] description]];
-		[self showOKAlert:msg title:@"Error"];
+		[self showOKAlert:msg title:NSLocalizedString (@"error_title", @"")];
 	}
 }
 
 - (void)paymentQueue:(SKPaymentQueue *)queue restoreCompletedTransactionsFailedWithError:(NSError *)error {
-	NSString *msg = [NSString stringWithFormat:@"Restoring of subscription failed! Error: %@", [error description]];
-	[self showOKAlert:msg title:@"Error"];
+	NSString *msg = [NSString stringWithFormat:NSLocalizedString (@"restore_failed", @""), [error description]];
+	[self showOKAlert:msg title:NSLocalizedString (@"error_title", @"")];
 }
 
 @end

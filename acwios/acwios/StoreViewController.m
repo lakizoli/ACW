@@ -39,14 +39,25 @@
 - (void)enableStore:(BOOL)enable {
 	[_backButton setEnabled:enable];
 	if (enable) {
-		[_navBar.topItem setTitle:@"Store"];
+		[_navBar.topItem setTitle:NSLocalizedString (@"store", @"")];
 		_isInInnerDocument = NO;
 		
-		NSString *priceMonth = [self priceForProduct:_productMonth postFix:@" / Month"];
-		NSString *priceYear = [self priceForProduct:_productYear postFix:@" / Year"];
+		NSString *priceMonth = [self priceForProduct:_productMonth postFix:NSLocalizedString (@"sc_per_month", @"")];
+		NSString *priceYear = [self priceForProduct:_productYear postFix:NSLocalizedString (@"sc_per_year", @"")];
 
 		NSURL *url = [[NSBundle mainBundle] URLForResource:@"considerations" withExtension:@"html"];
 		NSString *html = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
+		
+		NSRange range;
+		while ((range = [html rangeOfString:@"##loc_" options:NSCaseInsensitiveSearch]).location != NSNotFound) {
+			NSRange startSearchEnd = NSMakeRange (range.location + 1, [html length] - range.location - 1);
+			NSRange endRange = [html rangeOfString:@"##" options:NSCaseInsensitiveSearch range:startSearchEnd];
+			NSString *locID = [html substringWithRange:NSMakeRange (range.location + 6, endRange.location - range.location - range.length)];
+			NSString *locValue = NSLocalizedString (locID, @"");
+			NSRange replaceRange = NSMakeRange (range.location, endRange.location + endRange.length - range.location);
+			html = [html stringByReplacingCharactersInRange:replaceRange withString:locValue];
+		}
+		
 		html = [html stringByReplacingOccurrencesOfString:@"##MonthlyPrice##" withString:priceMonth];
 		html = [html stringByReplacingOccurrencesOfString:@"##YearlyPrice##" withString:priceYear];
 		[_contentWebView loadHTMLString:html baseURL:nil];
@@ -98,11 +109,11 @@
 				NSDate *cur = [NSDate new];
 				NSTimeInterval duration = [cur timeIntervalSinceDate:start];
 				if (duration > 30) { //Timeout is 30 seconds
-					UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error"
-																				   message:@"Product to subscribe not found!"
+					UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString (@"error_title", @"")
+																				   message:NSLocalizedString (@"product_not_available", @"")
 																			preferredStyle:UIAlertControllerStyleAlert];
 					
-					UIAlertAction *actionOK = [UIAlertAction actionWithTitle:@"OK"
+					UIAlertAction *actionOK = [UIAlertAction actionWithTitle:NSLocalizedString (@"ok", @"")
 																	   style:UIAlertActionStyleCancel
 																	 handler:^(UIAlertAction * _Nonnull action)
 					{
@@ -133,11 +144,11 @@
 #else //TEST_PURCHASE
 	if ([SKPaymentQueue canMakePayments] == NO) {
 #endif //TEST_PURCHASE
-		UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error"
-																	   message:@"In app purchase is disabled, so you cannot subscribe to this application!"
+		UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString (@"error_title", @"")
+																	   message:NSLocalizedString (@"in_app_purchase_disabled", @"")
 																preferredStyle:UIAlertControllerStyleAlert];
 		
-		UIAlertAction *actionOK = [UIAlertAction actionWithTitle:@"OK"
+		UIAlertAction *actionOK = [UIAlertAction actionWithTitle:NSLocalizedString (@"ok", @"")
 														   style:UIAlertActionStyleCancel
 														 handler:^(UIAlertAction * _Nonnull action)
 		{
