@@ -84,8 +84,8 @@ OK - nyelv lista aláhúzása kettesével
 - fix typo in hungarian store subscription (automaikusan -> automatikusan, jog -> jogi)
 - remove file sharing option from store subscription
 OK - flurry client id bevezetese
-- chooseCW: localize random button
-- chooseCW: localize store message above the subscribe now button
+OK - chooseCW: localize random button
+OK - chooseCW: localize store message above the subscribe now button
 - Nem jók a magyar nyelvű help szövegek szövegmezőinek méretei
 
 
