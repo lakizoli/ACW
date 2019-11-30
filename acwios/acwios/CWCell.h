@@ -22,6 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *statistics;
 @property (weak, nonatomic) IBOutlet UIButton *randomButton;
 
+- (void)localizeRandomButton;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -37,6 +37,13 @@
 	[_randomButton addTarget:_parent action:@selector (randomButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
 }
 
+- (void)localizeRandomButton {
+	NSMutableAttributedString *title = [_randomButton.currentAttributedTitle mutableCopy];
+	NSString *loc = NSLocalizedString (@"random_button_label", @"");
+	[title.mutableString setString:loc];
+	[_randomButton setAttributedTitle:title forState:UIControlStateNormal];
+}
+
 - (void)setRandomButtonColor:(UIColor*)col {
 	NSMutableAttributedString *title = [_randomButton.currentAttributedTitle mutableCopy];
 	[title setAttributes:@{ NSForegroundColorAttributeName: col,

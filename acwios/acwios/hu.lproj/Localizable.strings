@@ -53,12 +53,12 @@
 "hide_hint" = "Súgás elrejtése";
 "show_hint" = "Mutasd a súgást!";
 "sc_title" = "Anki Crossword Premium előfizetés";
-"sc_heading" = "Az Anki Crossword Premium előfizetéssel a következő prémium szolgáltatások válnak elérhetővé számodra:";
+"sc_heading" = "Az Anki Crossword Premium előfizetés szolgáltatásai:";
 "sc_included_for_all_user" = "Minden Anki Crossword felhasználó számára ingyenes:";
-"sc_one_package" = "Egy Anki rejtvénycsomag, amiből keresztrejtvényeket generálhatsz";
+"sc_one_package" = "Egy Anki rejtvénycsomag, amiből rejtvényeket generálhatsz";
 "sc_one_cw" = "Egy lejátszható keresztrejtvény";
 "sc_premium_features" = "Az Anki Crossword Premium előfizetés szolgáltatásai:";
-"sc_many_package" = "Végtelen számú Anki rejtvénycsomag, amikből keresztrejtvényeket generálhatsz";
+"sc_many_package" = "Végtelen számú Anki rejtvénycsomag, amikből rejtvényeket generálhatsz";
 "sc_many_cw" = "Végtelen számú lejátszható keresztrejtvény";
 "sc_for_one_month" = "egy hónapra";
 "sc_save" = "20% engedmény";
@@ -69,3 +69,5 @@
 "sc_subscribed_already" = "Már előfizettél?";
 "sc_restore_desc" = "Nyomd meg a gombot lejjebb, hogy visszaállíthassuk a korábbi előfizetésedet!";
 "sc_restore_purchase" = "Előfizetés visszaállítása";
+"random_button_label" = "Válassz egy rejtvényt a már megoldottak közül";
+"subscribe_warning" = "Elő kell fizetned ahhoz, hogy játszhass a tiltott rejtvénycsomagokkal!";

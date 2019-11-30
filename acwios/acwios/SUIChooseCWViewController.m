@@ -21,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *crosswordTable;
 @property (weak, nonatomic) IBOutlet UINavigationItem *navItem;
 @property (weak, nonatomic) IBOutlet UIView *helpOfPlusButton;
+@property (weak, nonatomic) IBOutlet UILabel *subscribeDescription;
 
 @end
 
@@ -179,8 +180,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	//TODO: localize random button
-	//TODO: localize store message above the subscribe now button
+	[_subscribeDescription setText:NSLocalizedString (@"subscribe_warning", @"")];
 	
 	[NetLogger logEvent:@"SUIChooseCW_ShowView"];
 }
@@ -306,6 +306,8 @@
 								  pack.state.levelCount,
 								  pack.state.filledLevel >= pack.state.levelCount ? pack.state.wordCount : filledWordCount,
 								  pack.state.wordCount]];
+		
+		[cell localizeRandomButton];
 
 		if (cwEnabled) {
 			[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];

@@ -69,3 +69,5 @@
 "sc_subscribed_already" = "Subscribed already?";
 "sc_restore_desc" = "Press the button below to restore Your purchase!";
 "sc_restore_purchase" = "Restore purchase";
+"random_button_label" = "Choose random crossword from solved levels";
+"subscribe_warning" = "You have to subscribe to the application to play the disabled crosswords!";
