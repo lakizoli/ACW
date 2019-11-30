@@ -1,0 +1,15 @@
+App desc:
+---------
+
+Motto: learn languages easily!
+
+Anki Crossword generates crosswords from publicly accessible Anki Flashcard packages.
+
+With the help of these flashcards you can study arbitrary things, first of all, words of languages. I learned 1800 english word in 3 weeks with the help of this app :)
+
+All you have to do to achieve this, that you have to find a good package for your learned language, generate crosswords from it, and fill them many times.
+
+Dev desc:
+---------
+
+Individual developer with strong background of app/game development including iOS and Android platform as well. This is my first widely published application as an individual. I made it besides my running team projects, to learn/practice English during commute.
