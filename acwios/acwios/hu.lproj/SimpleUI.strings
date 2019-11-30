@@ -33,7 +33,7 @@
 "MvL-Lb-WZz.title" = "Válassz rejtvényt";
 
 /* Class = "UILabel"; text = "You can easily start writing each solutions by tapping their first cell."; ObjectID = "Pna-EA-zPR"; */
-"Pna-EA-zPR.text" = "Egyszerűen elkezdheted a megoldások kitöltését a kezdő mező megéríntésével.";
+"Pna-EA-zPR.text" = "Egyszerűen elkezdheted a kitöltést a kezdő mező megéríntésével.";
 
 /* Class = "UILabel"; text = "Congratulation!"; ObjectID = "Pry-4f-RcO"; */
 "Pry-4f-RcO.text" = "Gratulálunk!";
@@ -57,13 +57,13 @@
 "dVx-vh-Rob.title" = "Vissza";
 
 /* Class = "UILabel"; text = "The aim of this game is, that you have to fill the entire crossword as fast as you can, without any hints and failures. However, if you don't know one of the solutions, you can easiliy show all solutions using \"Show Hint\" button above to help learning."; ObjectID = "hOV-54-g3T"; */
-"hOV-54-g3T.text" = "A jéték célja, hogy az egész rejtvényt minél gyorsabban minél kevesebb hibával és súgással töltsd ki. Viszont, ha nem tudsz valamit, akkor használd a fenti \"Mutasd a súgást\" gombot a megoldások megjelenítéséhez.";
+"hOV-54-g3T.text" = "A jéték célja, hogy az egész rejtvényt minél gyorsabban minél kevesebb hibával és súgással töltsd ki. Viszont, ha nem tudsz valamit, akkor használd a fenti \"Mutasd a súgást!\" gombot a megoldások megjelenítéséhez.";
 
 /* Class = "UILabel"; text = "Hint show count: 100"; ObjectID = "iUw-Mc-dWJ"; */
 "iUw-Mc-dWJ.text" = "Súgások száma: 100";
 
 /* Class = "UILabel"; text = "To go to the next level you allowed to have a maximum of 3 mistakes and the use of 3 hints. In addition, you must fill the entire crossword within a maximum of 12 minutes."; ObjectID = "iyf-oh-V8d"; */
-"iyf-oh-V8d.text" = "Ahhoz hogy eljuss a következő rejtvényhez maximum 3 hibát véthetsz, ill. maximum háromszor használhatod a súgást kitöltés közben. Emellett összesen 12 perced van a teljes kitöltésre.";
+"iyf-oh-V8d.text" = "A következő rejtvényre jutáshoz maximum 3 hibát véthetsz, ill. maximum háromszor használhatod a súgást kitöltés közben. Emellett összesen 12 perced van a teljes kitöltésre.";
 
 /* Class = "UIButton"; normalTitle = "OK"; ObjectID = "miu-40-5ZJ"; */
 "miu-40-5ZJ.normalTitle" = "OK";

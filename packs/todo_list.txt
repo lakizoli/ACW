@@ -86,7 +86,7 @@ OK - nyelv lista aláhúzása kettesével
 OK - flurry client id bevezetese
 OK - chooseCW: localize random button
 OK - chooseCW: localize store message above the subscribe now button
-- Nem jók a magyar nyelvű help szövegek szövegmezőinek méretei
+OK - Nem jók a magyar nyelvű help szövegek szövegmezőinek méretei
 
 
 
