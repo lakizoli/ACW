@@ -65,6 +65,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F00795472394292500B25640 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		F00795482394292500B25640 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/SimpleUI.strings; sourceTree = "<group>"; };
+		F00795492394292500B25640 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F019C31A217348BA00F83F3B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		F01F60CA231260DF00896397 /* SUIChooseCWViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SUIChooseCWViewController.h; sourceTree = "<group>"; };
 		F01F60CB231260DF00896397 /* SUIChooseCWViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SUIChooseCWViewController.m; sourceTree = "<group>"; };
@@ -342,6 +345,7 @@
 				en,
 				Base,
 				hu,
+				de,
 			);
 			mainGroup = FDCD520B21084C860081FE4D;
 			productRefGroup = FDCD521521084C860081FE4D /* Products */;
@@ -410,6 +414,7 @@
 			children = (
 				F062D640231201ED00738348 /* Base */,
 				F0A91091238DD31600324CAD /* hu */,
+				F00795482394292500B25640 /* de */,
 			);
 			name = SimpleUI.storyboard;
 			sourceTree = "<group>";
@@ -419,6 +424,7 @@
 			children = (
 				F0A91096238DD4AC00324CAD /* hu */,
 				F08C9D74238DD6AC004EBC9A /* en */,
+				F00795492394292500B25640 /* de */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -428,6 +434,7 @@
 			children = (
 				FDCD522321084C880081FE4D /* Base */,
 				F0A91090238DD31600324CAD /* hu */,
+				F00795472394292500B25640 /* de */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";

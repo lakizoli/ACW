@@ -169,6 +169,27 @@
 	[self presentViewController:alert animated:YES completion:nil];
 }
 
+- (NSString*) localizeLabel:(NSString*)label {
+	if (label == nil) {
+		return label;
+	}
+	
+	NSRange sep1 = [label rangeOfString:@" -> "];
+	if (sep1.location == NSNotFound) {
+		return label;
+	}
+	
+	NSString *key1 = [label substringToIndex:sep1.location];
+	NSString *key2 = [label substringFromIndex:sep1.location + sep1.length];
+	
+	label = [label stringByReplacingCharactersInRange:NSMakeRange (sep1.location + sep1.length, label.length - sep1.location - sep1.length)
+										   withString:NSLocalizedString (key2, @"")];
+	
+	label = [label stringByReplacingCharactersInRange:NSMakeRange (0, sep1.location)
+										   withString:NSLocalizedString (key1, @"")];
+	return label;
+}
+
 #pragma mark - Appearance
 
 - (BOOL)prefersStatusBarHidden {
@@ -296,7 +317,7 @@
 		BOOL cwEnabled = indexPath.row < 1 || _isSubscribed;
 		[cell setSubscribed:cwEnabled];
 		
-		NSString *title = pack.state.overriddenPackageName;
+		NSString *title = [self localizeLabel:pack.state.overriddenPackageName];
 		if ([title length] <= 0) {
 			title = pack.name;
 		}

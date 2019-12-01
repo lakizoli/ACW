@@ -18,7 +18,7 @@
 	<string name="done">Fertig</string>
 	<string name="download_anki_packages">Anki-Pakete herunterladen</string>
 	<string name="download_error">Beim Download ist ein Fehler aufgetreten!</string>
-	<string name="download_help_plus_button">Um Anki Flashcard-Pakete herunterzuladen, drücken Sie die + -Taste oben!</string>
+	<string name="download_help_plus_button">Um Anki Flashcard-Pakete herunterzuladen, drücken Sie die + Taste oben!</string>
 	<string name="downloading">Herunterladen…</string>
 	<string name="error_title">Fehler!</string>
 	<string name="example_format">(z.B.: "%s")</string>
@@ -72,9 +72,9 @@
 	<string name="win_congratulation">Glückwunsch!</string>
 	<string name="win_fail_count">Fehleranzahl: %d</string>
 	<string name="win_hint_count">Hinweis anzeigeanzahl: %d</string>
-	<string name="win_msg_can_do_better">Das können Sie besser machen!\\nVersuchen Sie es noch einmal!</string>
+	<string name="win_msg_can_do_better">Das können Sie besser machen!\nVersuchen Sie es noch einmal!</string>
 	<string name="win_msg_three_star">Sie verdienen 3 Sterne!</string>
-	<string name="win_msg_three_star_goto_next">Sie verdienen 3 Sterne!\\nGehen Sie zum nächsten Level!</string>
+	<string name="win_msg_three_star_goto_next">Sie verdienen 3 Sterne!\nGehen Sie zum nächsten Level!</string>
 	<string name="win_time">Zeit: %s</string>
 	<string name="win_word_count">Wortanzahl: %d</string>
 	<string name="win_you_filled_the_crossword">Sie haben das Kreuzworträtsel gefüllt!</string>

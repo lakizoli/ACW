@@ -71,3 +71,23 @@
 "sc_restore_purchase" = "Előfizetés visszaállítása";
 "random_button_label" = "Válassz egy rejtvényt a már megoldottak közül";
 "subscribe_warning" = "Elő kell fizetned ahhoz, hogy játszhass a tiltott rejtvénycsomagokkal!";
+
+"words" = "szó";
+"Chinese" = "Kínai";
+"Chinese v2" = "Kínai v2";
+"English" = "Angol";
+"English v2" = "Angol v2";
+"French" = "Francia";
+"German" = "Német";
+"Hindi" = "Hindi";
+"Hungarian" = "Magyar";
+"Japanese" = "Japán";
+"Japanese v2" = "Japán v2";
+"Korean" = "Koreai";
+"Turkish" = "Török";
+"Portuguese" = "Portugál";
+"Spanish" = "Spanyol";
+"Italian" = "Olasz";
+"Russian" = "Orosz";
+"Japanese Basic Hiragana" = "Japán hiragana";
+"Voice" = "Hang";

@@ -75,7 +75,7 @@ OK - iOS 13 compatibility
 OK - magyarázó szöveg az elejére, hogy mennyi hint, idő, és hiba szükséges a szintlépéshez
 OK - magyar lokalizáció
 - spanyol lokalizáció
-- német lokalizáció
+OK - német lokalizáció
 OK - Ki kell venni a nyelvek sort-olását, és a pack-ban meg kell csinálni a listát
 - ki kell venni a promo szövegből az itunes files sharing támogatását
 OK - a gen view-t érdemes lenne rendbehozni. Csak az legyen rajta, aminek muszály.

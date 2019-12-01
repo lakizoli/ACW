@@ -71,3 +71,23 @@
 "sc_restore_purchase" = "Restore purchase";
 "random_button_label" = "Choose random crossword from solved levels";
 "subscribe_warning" = "You have to subscribe to the application to play the disabled crosswords!";
+
+"words" = "words";
+"Chinese" = "Chinese";
+"Chinese v2" = "Chinese v2";
+"English" = "English";
+"English v2" = "English v2";
+"French" = "French";
+"German" = "German";
+"Hindi" = "Hindi";
+"Hungarian" = "Hungarian";
+"Japanese" = "Japanese";
+"Japanese v2" = "Japanese v2";
+"Korean" = "Korean";
+"Turkish" = "Turkish";
+"Portuguese" = "Portuguese";
+"Spanish" = "Spanish";
+"Italian" = "Italian";
+"Russian" = "Russian";
+"Japanese Basic Hiragana" = "Japanese Basic Hiragana";
+"Voice" = "Voice";

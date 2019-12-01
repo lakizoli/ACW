@@ -1,0 +1,90 @@
+
+/* Class = "UINavigationItem"; title = "Play crossword"; ObjectID = "1cU-eO-wve"; */
+"1cU-eO-wve.title" = "Kreuzworträtsel spielen";
+
+/* Class = "UILabel"; text = "100 of 322 levels (1000 of 3522 words) solved"; ObjectID = "1dB-ee-Rk9"; */
+"1dB-ee-Rk9.text" = "100 von 322 Levels (1000 von 3522 Wörtern) gelöst";
+
+/* Class = "UIButton"; normalTitle = "<button>"; ObjectID = "1fO-iW-Urq"; */
+"1fO-iW-Urq.normalTitle" = "<button>";
+
+/* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "5xB-qC-9Mu"; */
+"5xB-qC-9Mu.title" = "Zurück";
+
+/* Class = "UILabel"; text = "Word count: 42"; ObjectID = "9tX-1x-B3Y"; */
+"9tX-1x-B3Y.text" = "Wortanzahl: 42";
+
+/* Class = "UILabel"; text = "<progress>"; ObjectID = "C7a-d0-mKt"; */
+"C7a-d0-mKt.text" = "<progress>";
+
+/* Class = "UIButton"; normalTitle = "Subscribe Now"; ObjectID = "EKE-89-VpA"; */
+"EKE-89-VpA.normalTitle" = "Abonniere jetzt";
+
+/* Class = "UILabel"; text = "To download Anki Flashcard packages, press the + button above!"; ObjectID = "GEn-Yc-oJm"; */
+"GEn-Yc-oJm.text" = "Um Anki Flashcard-Pakete herunterzuladen, drücken Sie die + Taste oben!";
+
+/* Class = "UIBarButtonItem"; title = "Show Hint"; ObjectID = "HKg-DE-Fbq"; */
+"HKg-DE-Fbq.title" = "Hinweis anzeigen";
+
+/* Class = "UIBarButtonItem"; title = "Reset"; ObjectID = "LPU-Kr-r6y"; */
+"LPU-Kr-r6y.title" = "Löschen";
+
+/* Class = "UINavigationItem"; title = "Choose Crossword"; ObjectID = "MvL-Lb-WZz"; */
+"MvL-Lb-WZz.title" = "Wählen Sie Kreuzworträtsel";
+
+/* Class = "UILabel"; text = "You can easily start writing each solutions by tapping their first cell."; ObjectID = "Pna-EA-zPR"; */
+"Pna-EA-zPR.text" = "Um beginnen zu schreiben, nur tippen Sie die erste Zelle!";
+
+/* Class = "UILabel"; text = "Congratulation!"; ObjectID = "Pry-4f-RcO"; */
+"Pry-4f-RcO.text" = "Glückwunsch!";
+
+/* Class = "UILabel"; text = "<progress>"; ObjectID = "YOp-bA-yQD"; */
+"YOp-bA-yQD.text" = "<progress>";
+
+/* Class = "UIButton"; normalTitle = "<button>"; ObjectID = "ZAI-sG-C64"; */
+"ZAI-sG-C64.normalTitle" = "<button>";
+
+/* Class = "UINavigationItem"; title = "Download Anki Packages"; ObjectID = "aCS-JU-tqZ"; */
+"aCS-JU-tqZ.title" = "Anki-Pakete herunterladen";
+
+/* Class = "UILabel"; text = "Name of the package"; ObjectID = "cCb-oB-Bs0"; */
+"cCb-oB-Bs0.text" = "Paketname";
+
+/* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "cnh-tp-JwQ"; */
+"cnh-tp-JwQ.title" = "Zurück";
+
+/* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "dVx-vh-Rob"; */
+"dVx-vh-Rob.title" = "Zurück";
+
+/* Class = "UILabel"; text = "The aim of this game is, that you have to fill the entire crossword as fast as you can, without any hints and failures. However, if you don't know one of the solutions, you can easiliy show all solutions using \"Show Hint\" button above to help learning."; ObjectID = "hOV-54-g3T"; */
+"hOV-54-g3T.text" = "Das Ziel dieses Spiels ist, um das gesamte Krzw- rätsel so schnell wie möglich zu füllen, ohne Hinweise und Miss- erfolge. Wenn Sie jedoch eine der Lösungen nicht kennen, können Sie einfach alle anzeigen, indem Sie auf \"Hinweis anzeigen\" klicken.";
+
+/* Class = "UILabel"; text = "Hint show count: 100"; ObjectID = "iUw-Mc-dWJ"; */
+"iUw-Mc-dWJ.text" = "Hinweis anzeigeanzahl: 100";
+
+/* Class = "UILabel"; text = "To go to the next level you allowed to have a maximum of 3 mistakes and the use of 3 hints. In addition, you must fill the entire crossword within a maximum of 12 minutes."; ObjectID = "iyf-oh-V8d"; */
+"iyf-oh-V8d.text" = "Um zum nächsten Level zu gelangen, dürfen Sie max 3 Fehler haben, und max 3 Hinweisen verwenden. Daneben haben Sie max 12 Minuten für ausfüllung.";
+
+/* Class = "UIButton"; normalTitle = "OK"; ObjectID = "miu-40-5ZJ"; */
+"miu-40-5ZJ.normalTitle" = "OK";
+
+/* Class = "UILabel"; text = "You filled the crossword!"; ObjectID = "nDB-Ml-iUQ"; */
+"nDB-Ml-iUQ.text" = "Sie haben das Kreuzworträtsel gefüllt!";
+
+/* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "phD-uo-bEH"; */
+"phD-uo-bEH.title" = "Zurück";
+
+/* Class = "UINavigationItem"; title = "Store"; ObjectID = "pvs-3P-MG7"; */
+"pvs-3P-MG7.title" = "Geschäft";
+
+/* Class = "UILabel"; text = "Time: 1:50"; ObjectID = "qcq-q0-0eI"; */
+"qcq-q0-0eI.text" = "Zeit: 1:50";
+
+/* Class = "UILabel"; text = "Fail count: 10"; ObjectID = "sJn-aa-aNK"; */
+"sJn-aa-aNK.text" = "Fehleranzahl: 10";
+
+/* Class = "UINavigationItem"; title = "Generate crossword"; ObjectID = "tEp-hI-HUG"; */
+"tEp-hI-HUG.title" = "Kreuzworträtsel generieren";
+
+/* Class = "UILabel"; text = "Starting..."; ObjectID = "vp1-Kz-fZs"; */
+"vp1-Kz-fZs.text" = "Beginnen...";

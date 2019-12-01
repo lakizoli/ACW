@@ -334,6 +334,29 @@
 	[_webView loadRequest:req];
 }
 
+- (NSString*) localizeLabel:(NSString*)label {
+	NSRange sep1 = [label rangeOfString:@" -> "];
+	if (sep1.location == NSNotFound) {
+		return label;
+	}
+	
+	NSRange sep2 = [label rangeOfString:@" ("];
+	if (sep2.location == NSNotFound) {
+		return label;
+	}
+	
+	NSRange wordRange = [label rangeOfString:@"words"];
+	NSString *key1 = [label substringToIndex:sep1.location];
+	
+	NSRange key2Range = NSMakeRange (sep1.location + sep1.length, sep2.location - sep1.location - sep1.length);
+	NSString *key2 = [label substringWithRange:key2Range];
+	
+	label = [label stringByReplacingCharactersInRange:wordRange withString:NSLocalizedString (@"words", @"")];
+	label = [label stringByReplacingCharactersInRange:key2Range withString:NSLocalizedString (key2, @"")];
+	label = [label stringByReplacingCharactersInRange:NSMakeRange (0, sep1.location) withString:NSLocalizedString (key1, @"")];
+	return label;
+}
+
 #pragma mark - Appearance
 
 - (BOOL)prefersStatusBarHidden {
@@ -397,7 +420,8 @@
 	}
 	
 	NetPackConfigItem *configItem = [_packageConfigs objectAtIndex:indexPath.row];
-	[[cell textLabel] setText:configItem.label];
+	NSString *label = [self localizeLabel:configItem.label];
+	[[cell textLabel] setText:label];
 	
 	//Add border to cell
 	for (UIView* view in cell.contentView.subviews) {

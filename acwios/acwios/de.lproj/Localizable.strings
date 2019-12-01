@@ -1,0 +1,93 @@
+/* 
+  Localizable.strings
+  acwios
+
+  Created by Laki Zoltán on 2019. 11. 26..
+  Copyright © 2019. ZApp. All rights reserved.
+*/
+
+"subscribe_take_to_store" = "Sie müssen die App abonnieren, um die deaktivierten Kreuzworträtsel zu spielen! Wenn Sie auf \"Ja\" klicken, werden Sie zu unserem Geschäft weitergeleitet.";
+
+"subscribe_on_delete_warning" = "Sie müssen die App abonnieren, um Kreuzworträtsel zu löschen! Nur das erste Kreuzworträtsel darf ohne Abonnement gespielt werden! Wenn Sie auf \"Ja\" klicken, werden Sie zu unserem Geschäft weitergeleitet.";
+
+"do_you_want_delete_cw" = "Möchten Sie dieses Kreuzworträtsel löschen?";
+"cannot_undo_this_action" = "Sie können diese Aktion nicht rückgängig machen.";
+"cancel" = "Abbrechen";
+"delete" = "Löschen";
+"cell_statistics" = "%lu von %lu Levels (%lu von %lu Wörtern) gelöst";
+"delete_crossword" = "Kreuzwort- rätsel löschen";
+"ok" = "OK";
+"cannot_store_purchase" = "Der Kauf kann nicht gespeichert werden!";
+"error_title" = "Fehler!";
+"success_title" = "Erfolg!";
+"subscribe_alert" = "Achtung!";
+"yes" = "Ja";
+"no" = "Nein";
+"purchase_successful" = "Abonnement erfolgreich gekauft!";
+"restore_successful" = "Das Abonnement wurde erfolgreich wiederhergestellt!";
+"payment_failed" = "%lu Stk. der Zahlungstransaktionen fehlgeschlagen! Erster Fehler: %@";
+"restore_failed" = "Wiederherstellung des Abonnements fehlgeschlagen! Fehler: %@";
+"downloading" = "Herunterladen...";
+"download_error" = "Beim Download ist ein Fehler aufgetreten!";
+"generating_crossword" = "Kreuzworträtsel generieren...";
+"generating_crossword_idx" = "Kreuzworträtsel generieren... (%d)";
+"example_format" = "(z.B.: \"%@\")";
+"question_field" = "Fragenfeld:";
+"solution_field" = "Lösungsfeld:";
+"store" = "Geschäft";
+"sc_per_month" = " / Monat";
+"sc_per_year" = " / Jahr";
+"product_not_available" = "Produkt nicht verfügbar!";
+"in_app_purchase_disabled" = "Im App-Kauf ist deaktiviert, deshalb Sie diese App nicht abonnieren können!";
+"subscribe_to_play_more_than_one" = "Sie müssen die App abonnieren, um mehr als ein Demo-Kreuzworträtsel zu spielen! Wenn Sie auf \"Ja\" klicken, werden Sie zu unserem Geschäft weitergeleitet.";
+"win_time" = "Zeit: %@";
+"win_hint_count" = "Hinweis anzeigeanzahl: %d";
+"win_word_count" = "Wortanzahl: %lu";
+"win_fail_count" = "Fehleranzahl: %d";
+"win_msg_can_do_better" = "Das können Sie besser machen!";
+"try_again" = "Noch einmal";
+"win_msg_three_star_goto_next" = "Sie verdienen 3 Sterne!\nGehen Sie weiter!";
+"next_level" = "Nächstes Level";
+"you_filled_all_levels" = "Sie haben alle Levels gefüllt!";
+"win_msg_three_star" = "Sie verdienen 3 Sterne!";
+"hide_hint" = "Hinweis ausschalten";
+"show_hint" = "Hinweis anzeigen";
+"sc_title" = "Upgrade auf Anki Crossword Premium";
+"sc_heading" = "Abonnieren Sie Anki Crossword Premium mit folgenden Premium-Funktionen:";
+"sc_included_for_all_user" = "Für alle Anki Crossword-Benutzer enthalten:";
+"sc_one_package" = "Ein Anki-Paket";
+"sc_one_cw" = "Ein Kreuzworträtsel zum Lernen";
+"sc_premium_features" = "Funktionen in Anki Crossword Premium:";
+"sc_many_package" = "Unbegrenzte Anzahl von Anki-Paketen";
+"sc_many_cw" = "Unbegrenzte Anzahl von Kreuzworträtseln zu lernen";
+"sc_for_one_month" = "für einen Monat";
+"sc_save" = "Spare 20%";
+"sc_for_one_year" = "für ein Jahr";
+"sc_legal_pre" = "Abonnements werden über Ihr iTunes-Konto von Ihrer Kreditkarte abgebucht. Ihr Abonnement verlängert sich automatisch, sofern es nicht mindestens 24 Stunden vor dem Ende des aktuellen Zeitraums gekündigt wird. Ihre Kreditkarte wird innerhalb von 24 Stunden vor Ablauf des aktuellen Zeitraums mit dem Verlängerungsbetrag belastet. Sobald Sie das Abonnement aktiviert haben, können Sie es nicht mehr kündigen. Verwalten Sie Ihre Abonnements nach dem Kauf im Account Settings. Für weitere Details lesen Sie bitte unsere&#xA0;";
+"sc_legal_mid" = "&#xA0;und&#xA0;";
+"sc_legal_post" = ".";
+"sc_subscribed_already" = "Schon abonniert?";
+"sc_restore_desc" = "Drücken Sie die Taste unten!";
+"sc_restore_purchase" = "Kauf wiederherstellen";
+"random_button_label" = "Wähle ein zufälliges Kreuzworträtsel aus den gelösten";
+"subscribe_warning" = "Sie müssen die App abonnieren, um die deaktivierten Kreuzworträtsel zu spielen!";
+
+"words" = "Wörtern";
+"Chinese" = "Chinesisch";
+"Chinese v2" = "Chinesisch v2";
+"English" = "Englisch";
+"English v2" = "Englisch v2";
+"French" = "Französisch";
+"German" = "Deutsch";
+"Hindi" = "Hindi";
+"Hungarian" = "Ungarisch";
+"Japanese" = "Japanisch";
+"Japanese v2" = "Japanisch v2";
+"Korean" = "Koreanisch";
+"Turkish" = "Türkisch";
+"Portuguese" = "Portugiesisch";
+"Spanish" = "Spanisch";
+"Italian" = "Italienisch";
+"Russian" = "Russisch";
+"Japanese Basic Hiragana" = "Japanisches hiragana";
+"Voice" = "Stimme";
