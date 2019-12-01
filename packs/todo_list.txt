@@ -77,12 +77,12 @@ OK - magyar lokalizáció
 - spanyol lokalizáció
 OK - német lokalizáció
 OK - Ki kell venni a nyelvek sort-olását, és a pack-ban meg kell csinálni a listát
-- ki kell venni a promo szövegből az itunes files sharing támogatását
+OK - ki kell venni a promo szövegből az itunes files sharing támogatását
 OK - a gen view-t érdemes lenne rendbehozni. Csak az legyen rajta, aminek muszály.
 OK - ShowHint flurry küldje be a kitöltöttséget
 OK - nyelv lista aláhúzása kettesével
-- fix typo in hungarian store subscription (automaikusan -> automatikusan, jog -> jogi)
-- remove file sharing option from store subscription
+OK - fix typo in hungarian store subscription (automaikusan -> automatikusan, jog -> jogi)
+OK - remove file sharing option from store subscription
 OK - flurry client id bevezetese
 OK - chooseCW: localize random button
 OK - chooseCW: localize store message above the subscribe now button
