@@ -417,8 +417,12 @@
 #pragma mark - SKPaymentTransactionObserver
 
 - (void)paymentQueue:(nonnull SKPaymentQueue *)queue updatedTransactions:(nonnull NSArray<SKPaymentTransaction *> *)transactions {
+	NSArray<SKPaymentTransaction*>* sortedTransactions = [transactions sortedArrayUsingComparator:
+		^NSComparisonResult(SKPaymentTransaction*  _Nonnull tr1, SKPaymentTransaction*  _Nonnull tr2) {
+			return [tr1.transactionDate compare:tr2.transactionDate];
+		}];
 	NSMutableArray<NSError*> *errors = [NSMutableArray<NSError*> new];
-	for (SKPaymentTransaction* transaction in transactions) {
+	for (SKPaymentTransaction* transaction in sortedTransactions) {
 		switch ([transaction transactionState]) {
 			case SKPaymentTransactionStatePurchasing:
 				//... Nothing to do here ...
