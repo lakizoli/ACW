@@ -117,23 +117,23 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="NetPackageCollectionCell" id="YKS-W6-7ff" customClass="DownloadCell">
-                                        <rect key="frame" x="55" y="0.0" width="210" height="165"/>
+                                        <rect key="frame" x="45" y="0.0" width="230" height="165"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="UtD-AM-3cC">
-                                            <rect key="frame" x="0.0" y="0.0" width="210" height="165"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="230" height="165"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="xxK-0J-PZx">
-                                                    <rect key="frame" x="0.0" y="0.0" width="210" height="165"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="230" height="165"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8fg-Ny-hcf" userLabel="Top Stack View">
-                                                            <rect key="frame" x="0.0" y="0.0" width="210" height="50"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="230" height="50"/>
                                                             <subviews>
                                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="I3K-Tc-bYz" userLabel="Left Image View">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="80" height="50"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="90" height="50"/>
                                                                 </imageView>
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9nh-Wx-O9m" userLabel="Center View">
-                                                                    <rect key="frame" x="80" y="0.0" width="50" height="50"/>
+                                                                    <rect key="frame" x="90" y="0.0" width="50" height="50"/>
                                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="50" id="ORo-YN-C2l"/>
@@ -141,7 +141,7 @@
                                                                     </constraints>
                                                                 </view>
                                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0GT-eM-mVu" userLabel="Right Image View">
-                                                                    <rect key="frame" x="130" y="0.0" width="80" height="50"/>
+                                                                    <rect key="frame" x="140" y="0.0" width="90" height="50"/>
                                                                 </imageView>
                                                             </subviews>
                                                             <constraints>
@@ -153,10 +153,10 @@
                                                             </constraints>
                                                         </stackView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5b9-AT-0Ie" userLabel="Middle Stack View">
-                                                            <rect key="frame" x="0.0" y="50" width="210" height="65"/>
+                                                            <rect key="frame" x="0.0" y="50" width="230" height="65"/>
                                                             <subviews>
                                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="D4r-Lz-ynX" userLabel="Left Text View">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="80" height="65"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="90" height="65"/>
                                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                                     <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                                                     <color key="textColor" systemColor="labelColor"/>
@@ -164,14 +164,14 @@
                                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                                 </textView>
                                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9Qn-U8-i0E">
-                                                                    <rect key="frame" x="80" y="0.0" width="50" height="65"/>
+                                                                    <rect key="frame" x="90" y="0.0" width="50" height="65"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="65" id="TAe-5K-fnm"/>
                                                                         <constraint firstAttribute="width" constant="50" id="XcJ-5H-xL1"/>
                                                                     </constraints>
                                                                 </imageView>
                                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="CKW-Kj-5Js" userLabel="Right Text View">
-                                                                    <rect key="frame" x="130" y="0.0" width="80" height="65"/>
+                                                                    <rect key="frame" x="140" y="0.0" width="90" height="65"/>
                                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                                     <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                                                     <color key="textColor" systemColor="labelColor"/>
@@ -188,16 +188,16 @@
                                                             </constraints>
                                                         </stackView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oBx-Vw-7uj" userLabel="Bottom Stack View">
-                                                            <rect key="frame" x="0.0" y="115" width="210" height="50"/>
+                                                            <rect key="frame" x="0.0" y="115" width="230" height="50"/>
                                                             <subviews>
                                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Dk4-1y-7nr" userLabel="Left Image View Bottom">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="80" height="50"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="90" height="50"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="width" constant="80" id="msP-GE-ANP"/>
+                                                                        <constraint firstAttribute="width" constant="90" id="msP-GE-ANP"/>
                                                                     </constraints>
                                                                 </imageView>
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jgc-L1-6Pa">
-                                                                    <rect key="frame" x="80" y="0.0" width="50" height="50"/>
+                                                                    <rect key="frame" x="90" y="0.0" width="50" height="50"/>
                                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="50" id="2pB-cA-XlW"/>
@@ -205,7 +205,7 @@
                                                                     </constraints>
                                                                 </view>
                                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="CWc-8j-L74" userLabel="Right Image View Bottom">
-                                                                    <rect key="frame" x="130" y="0.0" width="80" height="50"/>
+                                                                    <rect key="frame" x="140" y="0.0" width="90" height="50"/>
                                                                 </imageView>
                                                             </subviews>
                                                             <constraints>

@@ -578,6 +578,9 @@
 		
 		[[cell leftTopImage] setImage:[UIImage imageNamed:[@"car_" stringByAppendingString:qCode]]];
 		[[cell rightTopImage] setImage:[UIImage imageNamed:[@"car_" stringByAppendingString:aCode]]];
+		
+		[[cell leftBottomImage] setImage:[UIImage imageNamed:[@"flag_" stringByAppendingString:qCode]]];
+		[[cell rightBottomImage] setImage:[UIImage imageNamed:[@"flag_" stringByAppendingString:aCode]]];
 	}
 
 //	[[cell leftTopImage] setHidden:YES];
