@@ -18,13 +18,15 @@
 
 @interface DownloadCell : UICollectionViewCell
 
-//@property (weak, nonatomic) IBOutlet UIImageView *leftTopImage;
-//@property (weak, nonatomic) IBOutlet UIImageView *rightTopImage;
+@property (weak, nonatomic) IBOutlet UIImageView *leftTopImage;
+@property (weak, nonatomic) IBOutlet UIImageView *rightTopImage;
+
 @property (weak, nonatomic) IBOutlet UITextView *leftText;
-//@property (weak, nonatomic) IBOutlet UIImageView *centerImage;
+@property (weak, nonatomic) IBOutlet UIImageView *centerImage;
 @property (weak, nonatomic) IBOutlet UITextView *rightText;
-//@property (weak, nonatomic) IBOutlet UIImageView *leftBottomImage;
-//@property (weak, nonatomic) IBOutlet UIImageView *rightBottomImage;
+
+@property (weak, nonatomic) IBOutlet UIImageView *leftBottomImage;
+@property (weak, nonatomic) IBOutlet UIImageView *rightBottomImage;
 
 @end
 
@@ -382,6 +384,36 @@
     return label;
 }
 
+- (NSString*) languageCode:(NSString*)lang {
+	if ([lang isEqualToString:@"Chinese"]) {
+		return @"cn";
+	} else if ([lang isEqualToString:@"Spanish"]) {
+		return @"es";
+	} else if ([lang isEqualToString:@"French"]) {
+		return @"fr";
+	} else if ([lang isEqualToString:@"German"]) {
+		return @"ge";
+	} else if ([lang isEqualToString:@"Hindi"]) {
+		return @"hindi";
+	} else if ([lang isEqualToString:@"Hungarian"]) {
+		return @"hu";
+	} else if ([lang isEqualToString:@"Italian"]) {
+		return @"it";
+	} else if ([lang rangeOfString:@"Japanese"].location == 0) {
+		return @"jp";
+	} else if ([lang isEqualToString:@"Korean"]) {
+		return @"kr";
+	} else if ([lang isEqualToString:@"Portuguese"]) {
+		return @"pt";
+	} else if ([lang isEqualToString:@"Russian"]) {
+		return @"ru";
+	} else if ([lang isEqualToString:@"Turkish"]) {
+		return @"tr";
+	}
+
+	return @"gb"; //default english
+}
+
 #pragma mark - Appearance
 
 - (BOOL)prefersStatusBarHidden {
@@ -514,10 +546,40 @@
 	
 	NetPackConfigItem *configItem = [_packageConfigs objectAtIndex:indexPath.row];
 	NSString *label = [self localizeLabel:configItem.label];
-//	[[cell textLabel] setText:label];
-	[[cell leftText] setText:label];
-	[[cell rightText] setText:label];
 	
+	NSRange range = [label rangeOfString:@" -> "];
+	if (range.location != NSNotFound) {
+		NSString *questionLanguage = [label substringToIndex:range.location];
+		NSString *answerLanguage = [label substringFromIndex:range.location + 4];
+		
+		range = [answerLanguage rangeOfString:@" ("];
+		if (range.location != NSNotFound) {
+			answerLanguage = [answerLanguage substringToIndex:range.location];
+		}
+		
+		range = [answerLanguage rangeOfString:@" v2"];
+		if (range.location != NSNotFound) {
+			answerLanguage = [answerLanguage substringToIndex:range.location];
+		}
+		
+		NSString *qCode = [self languageCode:questionLanguage];
+		NSString *aCode = [self languageCode:answerLanguage];
+
+		if (![questionLanguage containsString:@" "]) {
+			questionLanguage = [@"\n" stringByAppendingString: questionLanguage];
+		}
+		
+		if (![answerLanguage containsString:@" "]) {
+			answerLanguage = [@"\n" stringByAppendingString: answerLanguage];
+		}
+		
+		[[cell leftText] setText:questionLanguage];
+		[[cell rightText] setText:answerLanguage];
+		
+		[[cell leftTopImage] setImage:[UIImage imageNamed:[@"car_" stringByAppendingString:qCode]]];
+		[[cell rightTopImage] setImage:[UIImage imageNamed:[@"car_" stringByAppendingString:aCode]]];
+	}
+
 //	[[cell leftTopImage] setHidden:YES];
 //	[[cell leftBottomImage] setHidden:YES];
 //	[[cell rightTopImage] setHidden:YES];
@@ -540,9 +602,9 @@
 //    }
 	
 	if (indexPath.row % 2 == 1) {
-		[cell.contentView setBackgroundColor:[UIColor colorWithRed:1 green:0 blue:0 alpha:1]];
+		[cell.contentView setBackgroundColor:[UIColor colorWithRed:1 green:0 blue:0 alpha:0.5]];
 	} else {
-		[cell.contentView setBackgroundColor:[UIColor systemBackgroundColor]];
+		[cell.contentView setBackgroundColor:[UIColor colorWithRed:0 green:1 blue:0 alpha:0.5]];
 	}
 	
 	return cell;
@@ -551,20 +613,20 @@
 //TODO: tweak sizes for phone either...
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-	return UIEdgeInsetsMake (100, 100, 100, 100);
+	return UIEdgeInsetsMake (50, 50, 50, 50);
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
-	return 150;
+	return 100;
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
-	return 150;
+	return 100;
 }
 
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-	return CGSizeMake (200, 200);
-}
+//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+//	return CGSizeMake (190, 200);
+//}
 
 #pragma mark - Web navigation
 
