@@ -598,6 +598,35 @@
 	return 100;
 }
 
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+	__block NetPackConfigItem *configItem = [_packageConfigs objectAtIndex:indexPath.row];
+	NSURL *url = [self getDownloadLinkForGoogleDrive:configItem.fileID];
+	
+	[NetLogger logEvent:@"Obtain_NetPackage_Selected" withParameters:@{ @"label" : configItem.label, @"url" : [url absoluteString] }];
+	
+	[self downloadFileFromGoogleDrive:url
+							handleEnd:YES
+					   contentHandler:^(NSURL *downloadedFile, NSString *fileName)
+	 {
+		[NetLogger logEvent:@"Obtain_NetPackage_Downloaded" withParameters:@{ @"label" : configItem.label, @"url" : [url absoluteString], @"fileName" : fileName }];
+		
+		//Unzip downloaded file to packages
+		[[PackageManager sharedInstance] unzipDownloadedPackage:downloadedFile packageName:[fileName stringByDeletingPathExtension]];
+	} progressHandler:^(uint64_t pos, uint64_t size) {
+		if (size <= 0) {
+			size = configItem.size;
+		}
+		
+		[self updateProgress:pos size:size];
+	}];
+	
+	[self showProgressView];
+	
+	[_tableView setUserInteractionEnabled:NO];
+	[_collectionView setUserInteractionEnabled:NO];
+	[_tabBar setUserInteractionEnabled:NO];
+}
+
 #pragma mark - Web navigation
 
 - (void)webView:(WKWebView *)webView
