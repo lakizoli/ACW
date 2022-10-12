@@ -252,21 +252,6 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="gtm-tY-hzW">
-                                <rect key="frame" x="0.0" y="44" width="320" height="475"/>
-                                <color key="backgroundColor" red="0.83462893959999995" green="0.87659770250000002" blue="0.90340846779999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="NetPackageCell" id="kJp-9k-8zm">
-                                        <rect key="frame" x="0.0" y="50" width="320" height="43.5"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="kJp-9k-8zm" id="7fj-sr-vnn">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.83462893959999995" green="0.87659770250000002" blue="0.90340846779999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KDh-mQ-EFY" customClass="ProgressView">
                                 <rect key="frame" x="10" y="220" width="300" height="128"/>
                                 <subviews>
@@ -335,17 +320,13 @@
                         <constraints>
                             <constraint firstItem="Pvy-GZ-3SD" firstAttribute="top" secondItem="70w-2M-BCs" secondAttribute="bottom" id="0wp-rW-oQO"/>
                             <constraint firstItem="Pvy-GZ-3SD" firstAttribute="trailing" secondItem="ecq-fj-WY8" secondAttribute="trailing" id="4Ho-yL-gTc"/>
-                            <constraint firstItem="ecq-fj-WY8" firstAttribute="trailing" secondItem="gtm-tY-hzW" secondAttribute="trailing" id="6Xf-95-7mT"/>
                             <constraint firstItem="csc-DY-86V" firstAttribute="top" secondItem="70w-2M-BCs" secondAttribute="bottom" id="DdW-Ph-OOk"/>
-                            <constraint firstItem="gtm-tY-hzW" firstAttribute="leading" secondItem="ecq-fj-WY8" secondAttribute="leading" id="G31-d0-5cm"/>
                             <constraint firstItem="KDh-mQ-EFY" firstAttribute="centerX" secondItem="34f-Yd-O0J" secondAttribute="centerX" id="I6H-3G-32u"/>
                             <constraint firstItem="70w-2M-BCs" firstAttribute="trailing" secondItem="Pvy-GZ-3SD" secondAttribute="trailing" id="NvZ-0J-Eec"/>
                             <constraint firstItem="Pvy-GZ-3SD" firstAttribute="bottom" secondItem="7zU-xg-k5S" secondAttribute="top" id="Qcz-wv-r28"/>
-                            <constraint firstItem="gtm-tY-hzW" firstAttribute="top" secondItem="70w-2M-BCs" secondAttribute="bottom" id="RGE-rt-h5J"/>
                             <constraint firstItem="70w-2M-BCs" firstAttribute="leading" secondItem="Pvy-GZ-3SD" secondAttribute="leading" id="SQA-Vj-2Jq"/>
                             <constraint firstItem="csc-DY-86V" firstAttribute="leading" secondItem="ecq-fj-WY8" secondAttribute="leading" id="XC1-tP-gFy"/>
                             <constraint firstItem="7zU-xg-k5S" firstAttribute="leading" secondItem="ecq-fj-WY8" secondAttribute="leading" id="YPJ-Xr-ejs"/>
-                            <constraint firstItem="gtm-tY-hzW" firstAttribute="bottom" secondItem="7zU-xg-k5S" secondAttribute="top" id="Ylt-pY-uBy"/>
                             <constraint firstItem="Pvy-GZ-3SD" firstAttribute="leading" secondItem="ecq-fj-WY8" secondAttribute="leading" id="czG-ll-rcG"/>
                             <constraint firstItem="ecq-fj-WY8" firstAttribute="trailing" secondItem="KDh-mQ-EFY" secondAttribute="trailing" priority="900" constant="200" id="iY6-eV-chI"/>
                             <constraint firstItem="7zU-xg-k5S" firstAttribute="bottom" secondItem="ecq-fj-WY8" secondAttribute="bottom" id="jvW-RP-y87"/>
@@ -361,7 +342,6 @@
                         <outlet property="collectionView" destination="csc-DY-86V" id="2Zo-K4-acY"/>
                         <outlet property="progressView" destination="KDh-mQ-EFY" id="Gzl-Gb-FCo"/>
                         <outlet property="tabBar" destination="7zU-xg-k5S" id="UHc-SA-vIj"/>
-                        <outlet property="tableView" destination="gtm-tY-hzW" id="pRM-cc-vC4"/>
                         <outlet property="webView" destination="Pvy-GZ-3SD" id="IGO-85-qzD"/>
                         <segue destination="FV3-9x-5W9" kind="presentation" identifier="ShowChooseCW" modalPresentationStyle="fullScreen" id="wzb-eU-too"/>
                         <segue destination="BIt-XU-0MQ" kind="presentation" identifier="ShowGen" modalPresentationStyle="fullScreen" id="5cq-0e-m5q"/>
@@ -1223,7 +1203,7 @@
             <objects>
                 <navigationController id="pK3-3b-RQF" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="O9s-dZ-CCR">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.15680609810000001" green="0.31361219620000003" blue="0.31230547870000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">
@@ -1246,7 +1226,7 @@
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow-back" width="24" height="24"/>
-        <image name="arrow-right" width="33" height="25"/>
+        <image name="arrow-right" width="32" height="24"/>
         <image name="background_pattern_blue" width="1298" height="1298"/>
         <image name="game_logo" width="426" height="277"/>
         <image name="help-arrow-left" width="596" height="596"/>

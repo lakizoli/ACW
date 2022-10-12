@@ -37,7 +37,6 @@
 @interface AnkiDownloadViewController ()
 
 @property (weak, nonatomic) IBOutlet WKWebView *webView;
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet ProgressView *progressView;
 @property (weak, nonatomic) IBOutlet UITabBar *tabBar;
@@ -83,10 +82,6 @@
     //Init web view
     [_webView setNavigationDelegate:self];
     
-    //Init table view
-    [_tableView setDataSource:self];
-    [_tableView setDelegate:self];
-    
     //Init collection view
     [_collectionView setDataSource:self];
     [_collectionView setDelegate:self];
@@ -103,7 +98,6 @@
         }];
         
         dispatch_async (dispatch_get_main_queue (), ^{
-            [self->_tableView reloadData];
             [self->_collectionView reloadData];
         });
     } progressHandler:nil];
@@ -341,17 +335,14 @@
 - (void)selectTopRated {
     //Show table view
     [_webView setHidden:YES];
-    [_tableView setHidden:YES]; //<<<<<
     [_collectionView setHidden:NO];
     
     //Refresh list of packages
-    [_tableView reloadData];
     [_collectionView reloadData];
 }
 
 - (void)selectSearch {
     //Show web view
-    [_tableView setHidden:YES]; //<<<<<
     [_collectionView setHidden:YES];
     [_webView setHidden:NO];
     
@@ -440,7 +431,6 @@
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     if ([[_tabBar selectedItem] tag] == 1) {
-        [self->_tableView reloadData];
         [self->_collectionView reloadData];
     }
 }
@@ -458,73 +448,6 @@
         default:
             break;
     }
-}
-
-#pragma mark - TableView delegates
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [_packageConfigs count];
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *reuseID = @"NetPackageCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseID];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseID];
-    }
-    
-    NetPackConfigItem *configItem = [_packageConfigs objectAtIndex:indexPath.row];
-    NSString *label = [self localizeLabel:configItem.label];
-    [[cell textLabel] setText:label];
-    
-    //Add border to cell
-    for (UIView* view in cell.contentView.subviews) {
-        if (view.tag == 100) {
-            [view removeFromSuperview];
-            break;
-        }
-    }
-    
-    if (indexPath.row % 2 == 1) {
-        UIView* bottomLineView = [[UIView alloc] initWithFrame:CGRectMake(0, cell.bounds.size.height - 1, self.view.bounds.size.width, 1)];
-        bottomLineView.backgroundColor = [UIColor blackColor];
-        bottomLineView.tag = 100;
-        [cell.contentView addSubview:bottomLineView];
-    }
-    
-    return cell;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    __block NetPackConfigItem *configItem = [_packageConfigs objectAtIndex:indexPath.row];
-    NSURL *url = [self getDownloadLinkForGoogleDrive:configItem.fileID];
-    
-    [NetLogger logEvent:@"Obtain_NetPackage_Selected" withParameters:@{ @"label" : configItem.label, @"url" : [url absoluteString] }];
-    
-    [self downloadFileFromGoogleDrive:url
-                            handleEnd:YES
-                       contentHandler:^(NSURL *downloadedFile, NSString *fileName)
-     {
-        [NetLogger logEvent:@"Obtain_NetPackage_Downloaded" withParameters:@{ @"label" : configItem.label, @"url" : [url absoluteString], @"fileName" : fileName }];
-        
-        //Unzip downloaded file to packages
-        [[PackageManager sharedInstance] unzipDownloadedPackage:downloadedFile packageName:[fileName stringByDeletingPathExtension]];
-    } progressHandler:^(uint64_t pos, uint64_t size) {
-        if (size <= 0) {
-            size = configItem.size;
-        }
-        
-        [self updateProgress:pos size:size];
-    }];
-    
-    [self showProgressView];
-    
-    [_tableView setUserInteractionEnabled:NO];
-    [_tabBar setUserInteractionEnabled:NO];
 }
 
 #pragma mark - Collection View delegates
@@ -622,7 +545,6 @@
 	
 	[self showProgressView];
 	
-	[_tableView setUserInteractionEnabled:NO];
 	[_collectionView setUserInteractionEnabled:NO];
 	[_tabBar setUserInteractionEnabled:NO];
 }

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <WebKit/WebKit.h>
 
-@interface AnkiDownloadViewController : UIViewController<UITabBarDelegate, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, WKNavigationDelegate>
+@interface AnkiDownloadViewController : UIViewController<UITabBarDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, WKNavigationDelegate>
 
 - (void) setBackButtonSegue:(NSString*)segueID;
 - (void) setDoGenerationAfterAnkiDownload:(BOOL)doGenerationAfterAnkiDownload;
