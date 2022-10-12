@@ -5,7 +5,6 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -108,7 +107,7 @@
                             </wkWebView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" alwaysBounceHorizontal="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="csc-DY-86V">
                                 <rect key="frame" x="0.0" y="44" width="320" height="475"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="backgroundColor" red="0.92156863209999995" green="0.92156857250000002" blue="0.92156857250000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Qt2-5y-xbi">
                                     <size key="itemSize" width="128" height="128"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -117,14 +116,14 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="NetPackageCollectionCell" id="YKS-W6-7ff" customClass="DownloadCell">
-                                        <rect key="frame" x="45" y="0.0" width="230" height="165"/>
+                                        <rect key="frame" x="40" y="0.0" width="240" height="175"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="UtD-AM-3cC">
-                                            <rect key="frame" x="0.0" y="0.0" width="230" height="165"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="240" height="175"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="xxK-0J-PZx">
-                                                    <rect key="frame" x="0.0" y="0.0" width="230" height="165"/>
+                                                    <rect key="frame" x="5" y="5" width="230" height="165"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8fg-Ny-hcf" userLabel="Top Stack View">
                                                             <rect key="frame" x="0.0" y="0.0" width="230" height="50"/>
@@ -134,7 +133,7 @@
                                                                 </imageView>
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9nh-Wx-O9m" userLabel="Center View">
                                                                     <rect key="frame" x="90" y="0.0" width="50" height="50"/>
-                                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                                    <color key="backgroundColor" red="0.2757549882" green="0.3646473885" blue="0.3685487509" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="50" id="ORo-YN-C2l"/>
                                                                         <constraint firstAttribute="width" constant="50" id="bZ5-z4-xQV"/>
@@ -155,11 +154,11 @@
                                                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5b9-AT-0Ie" userLabel="Middle Stack View">
                                                             <rect key="frame" x="0.0" y="50" width="230" height="65"/>
                                                             <subviews>
-                                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="D4r-Lz-ynX" userLabel="Left Text View">
+                                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D4r-Lz-ynX" userLabel="Left Text View">
                                                                     <rect key="frame" x="0.0" y="0.0" width="90" height="65"/>
-                                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                                    <color key="backgroundColor" red="0.2757549882" green="0.3646473885" blue="0.3685487509" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                                     <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                                                                    <color key="textColor" systemColor="labelColor"/>
+                                                                    <color key="textColor" red="0.78823529411764703" green="0.68235294117647061" blue="0.32549019607843138" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                                 </textView>
@@ -170,11 +169,11 @@
                                                                         <constraint firstAttribute="width" constant="50" id="XcJ-5H-xL1"/>
                                                                     </constraints>
                                                                 </imageView>
-                                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="CKW-Kj-5Js" userLabel="Right Text View">
+                                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CKW-Kj-5Js" userLabel="Right Text View">
                                                                     <rect key="frame" x="140" y="0.0" width="90" height="65"/>
-                                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                                    <color key="backgroundColor" red="0.2757549882" green="0.3646473885" blue="0.3685487509" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                                     <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                                                                    <color key="textColor" systemColor="labelColor"/>
+                                                                    <color key="textColor" red="0.78643900160000002" green="0.68278843160000002" blue="0.32671260829999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                                 </textView>
@@ -198,7 +197,7 @@
                                                                 </imageView>
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jgc-L1-6Pa">
                                                                     <rect key="frame" x="90" y="0.0" width="50" height="50"/>
-                                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                                    <color key="backgroundColor" red="0.2757549882" green="0.3646473885" blue="0.3685487509" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="50" id="2pB-cA-XlW"/>
                                                                         <constraint firstAttribute="width" constant="50" id="iT1-d1-si0"/>
@@ -225,12 +224,21 @@
                                                     </constraints>
                                                 </stackView>
                                             </subviews>
+                                            <color key="backgroundColor" red="0.2757549882" green="0.3646473885" blue="0.3685487509" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             <constraints>
-                                                <constraint firstAttribute="trailing" secondItem="xxK-0J-PZx" secondAttribute="trailing" id="L29-ul-aTl"/>
-                                                <constraint firstAttribute="bottom" secondItem="xxK-0J-PZx" secondAttribute="bottom" id="aTW-CK-sVg"/>
-                                                <constraint firstItem="xxK-0J-PZx" firstAttribute="leading" secondItem="UtD-AM-3cC" secondAttribute="leading" id="fc8-Tx-Xu0"/>
-                                                <constraint firstItem="xxK-0J-PZx" firstAttribute="top" secondItem="UtD-AM-3cC" secondAttribute="top" id="mBE-Mx-kyS"/>
+                                                <constraint firstAttribute="trailing" secondItem="xxK-0J-PZx" secondAttribute="trailing" constant="5" id="L29-ul-aTl"/>
+                                                <constraint firstAttribute="bottom" secondItem="xxK-0J-PZx" secondAttribute="bottom" constant="5" id="aTW-CK-sVg"/>
+                                                <constraint firstItem="xxK-0J-PZx" firstAttribute="leading" secondItem="UtD-AM-3cC" secondAttribute="leading" constant="5" id="fc8-Tx-Xu0"/>
+                                                <constraint firstItem="xxK-0J-PZx" firstAttribute="top" secondItem="UtD-AM-3cC" secondAttribute="top" constant="5" id="mBE-Mx-kyS"/>
                                             </constraints>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                    <integer key="value" value="5"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                                                    <integer key="value" value="1"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
                                         </collectionViewCellContentView>
                                         <connections>
                                             <outlet property="centerImage" destination="9Qn-U8-i0E" id="Ybh-p7-8E2"/>
@@ -1234,7 +1242,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="iAA-Ju-5Gr"/>
         <segue reference="wzb-eU-too"/>
-        <segue reference="srx-TL-Vej"/>
+        <segue reference="HFo-hg-Wad"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow-back" width="24" height="24"/>
@@ -1246,12 +1254,6 @@
         <image name="star" width="24" height="24"/>
         <systemColor name="groupTableViewBackgroundColor">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="labelColor">
-            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
     </resources>
 </document>

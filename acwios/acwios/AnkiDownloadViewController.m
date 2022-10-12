@@ -582,38 +582,9 @@
 		[[cell leftBottomImage] setImage:[UIImage imageNamed:[@"car_" stringByAppendingString:qCode]]];
 		[[cell rightBottomImage] setImage:[UIImage imageNamed:[@"car_" stringByAppendingString:aCode]]];
 	}
-
-//	[[cell leftTopImage] setHidden:YES];
-//	[[cell leftBottomImage] setHidden:YES];
-//	[[cell rightTopImage] setHidden:YES];
-//	[[cell rightBottomImage] setHidden:YES];
-//	[[cell centerImage] setHidden:YES];
-
-	//Add border to cell
-//    for (UIView* view in cell.contentView.subviews) {
-//        if (view.tag == 100) {
-//            [view removeFromSuperview];
-//            break;
-//        }
-//    }
-
-//    if (indexPath.row % 2 == 1) {
-//        UIView* bottomLineView = [[UIView alloc] initWithFrame:CGRectMake(0, cell.bounds.size.height - 1, self.view.bounds.size.width, 1)];
-//        bottomLineView.backgroundColor = [UIColor blackColor];
-//        bottomLineView.tag = 100;
-//        [cell.contentView addSubview:bottomLineView];
-//    }
-	
-//	if (indexPath.row % 2 == 1) {
-//		[cell.contentView setBackgroundColor:[UIColor colorWithRed:1 green:0 blue:0 alpha:0.5]];
-//	} else {
-//		[cell.contentView setBackgroundColor:[UIColor colorWithRed:0 green:1 blue:0 alpha:0.5]];
-//	}
 	
 	return cell;
 }
-
-//TODO: tweak sizes for phone either...
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
 	return UIEdgeInsetsMake (50, 50, 50, 50);
@@ -626,10 +597,6 @@
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
 	return 100;
 }
-
-//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-//	return CGSizeMake (190, 200);
-//}
 
 #pragma mark - Web navigation
 
