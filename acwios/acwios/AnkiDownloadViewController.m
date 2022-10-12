@@ -576,11 +576,11 @@
 		[[cell leftText] setText:questionLanguage];
 		[[cell rightText] setText:answerLanguage];
 		
-		[[cell leftTopImage] setImage:[UIImage imageNamed:[@"car_" stringByAppendingString:qCode]]];
-		[[cell rightTopImage] setImage:[UIImage imageNamed:[@"car_" stringByAppendingString:aCode]]];
+		[[cell leftTopImage] setImage:[UIImage imageNamed:[@"flag_" stringByAppendingString:qCode]]];
+		[[cell rightTopImage] setImage:[UIImage imageNamed:[@"flag_" stringByAppendingString:aCode]]];
 		
-		[[cell leftBottomImage] setImage:[UIImage imageNamed:[@"flag_" stringByAppendingString:qCode]]];
-		[[cell rightBottomImage] setImage:[UIImage imageNamed:[@"flag_" stringByAppendingString:aCode]]];
+		[[cell leftBottomImage] setImage:[UIImage imageNamed:[@"car_" stringByAppendingString:qCode]]];
+		[[cell rightBottomImage] setImage:[UIImage imageNamed:[@"car_" stringByAppendingString:aCode]]];
 	}
 
 //	[[cell leftTopImage] setHidden:YES];
@@ -604,11 +604,11 @@
 //        [cell.contentView addSubview:bottomLineView];
 //    }
 	
-	if (indexPath.row % 2 == 1) {
-		[cell.contentView setBackgroundColor:[UIColor colorWithRed:1 green:0 blue:0 alpha:0.5]];
-	} else {
-		[cell.contentView setBackgroundColor:[UIColor colorWithRed:0 green:1 blue:0 alpha:0.5]];
-	}
+//	if (indexPath.row % 2 == 1) {
+//		[cell.contentView setBackgroundColor:[UIColor colorWithRed:1 green:0 blue:0 alpha:0.5]];
+//	} else {
+//		[cell.contentView setBackgroundColor:[UIColor colorWithRed:0 green:1 blue:0 alpha:0.5]];
+//	}
 	
 	return cell;
 }
