@@ -33,48 +33,35 @@
 	
 	[self setMultipleSelectionBackgroundView:[[UIView alloc] init]];
 	[[self multipleSelectionBackgroundView] setBackgroundColor:[UIColor colorWithRed:40.0f / 255.0f green:80.0f / 255.0f blue:80.0f / 255.0f alpha:1]];
-	
-	[_randomButton addTarget:_parent action:@selector (randomButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-}
-
-- (void)localizeRandomButton {
-	NSMutableAttributedString *title = [_randomButton.currentAttributedTitle mutableCopy];
-	NSString *loc = NSLocalizedString (@"random_button_label", @"");
-	[title.mutableString setString:loc];
-	[_randomButton setAttributedTitle:title forState:UIControlStateNormal];
-}
-
-- (void)setRandomButtonColor:(UIColor*)col {
-	NSMutableAttributedString *title = [_randomButton.currentAttributedTitle mutableCopy];
-	[title setAttributes:@{ NSForegroundColorAttributeName: col,
-							NSUnderlineStyleAttributeName: [NSNumber numberWithInt:1] }
-				   range:NSMakeRange (0, [[title string] length])];
-	[_randomButton setAttributedTitle:title forState:UIControlStateNormal];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
 	[super setSelected:selected animated:animated];
-	
+
 	// Configure the view for the selected state
 	if (_subscribed) { //If program subscribed
 		if (selected) {
 			[[self packageName] setTextColor:_selectionTextColor];
 			[[self statistics] setTextColor:_selectionTextColor];
-			[self setRandomButtonColor:_selectionTextColor];
+			[[self openNextCW] setTintColor:_selectionTextColor];
+			[[self chooseRandom] setTintColor:_selectionTextColor];
 		} else {
 			[[self packageName] setTextColor:_normalTextColor];
 			[[self statistics] setTextColor:_normalSubTextColor];
-			[self setRandomButtonColor:_normalSubTextColor];
+			[[self openNextCW] setTintColor:_normalTextColor];
+			[[self chooseRandom] setTintColor:_normalTextColor];
 		}
 	} else { //Non subscribed
 		if (selected) {
 			[[self packageName] setTextColor:_disabledSelectedPackColor];
 			[[self statistics] setTextColor:_disabledSelectedPackColor];
-			[self setRandomButtonColor:_disabledSelectedPackColor];
+			[[self openNextCW] setTintColor:_disabledSelectedPackColor];
+			[[self chooseRandom] setTintColor:_disabledSelectedPackColor];
 		} else {
 			[[self packageName] setTextColor:_disabledPackColor];
 			[[self statistics] setTextColor:_disabledPackColor];
-			[self setRandomButtonColor:_disabledPackColor];
+			[[self openNextCW] setTintColor:_disabledPackColor];
+			[[self chooseRandom] setTintColor:_disabledPackColor];
 		}
 	}
 }

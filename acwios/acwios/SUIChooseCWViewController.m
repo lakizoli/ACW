@@ -124,7 +124,7 @@
 	}];
 }
 
--(void) deleteCrosswordAt:(NSIndexPath*)indexPath {
+-(void) deleteCrosswordWithKey:(NSString*)packageKey {
 	if (!_isSubscribed) {
 		[self showSubscriptionOnDelete];
 		return;
@@ -147,7 +147,6 @@
 														style:UIAlertActionStyleDestructive
 													  handler:^(UIAlertAction * _Nonnull action)
 	{
-		NSString *packageKey = [self->_sortedPackageKeys objectAtIndex:indexPath.row];
 		Package *package = [self->_packages objectForKey:packageKey];
 		[NetLogger logEvent:@"SUIChooseCW_DeleteCW" withParameters:@{ @"package" : [[package path] lastPathComponent] }];
 
@@ -167,6 +166,11 @@
 	[alert addAction:actionYes];
 	
 	[self presentViewController:alert animated:YES completion:nil];
+}
+
+-(void) deleteCrosswordAt:(NSIndexPath*)indexPath {
+	NSString *packageKey = [self->_sortedPackageKeys objectAtIndex:indexPath.row];
+	[self deleteCrosswordWithKey:packageKey];
 }
 
 - (NSString*) localizeLabel:(NSString*)label {
@@ -225,8 +229,18 @@
 	[[SubscriptionManager sharedInstance] showStore:self];
 }
 
-- (void)randomButtonPressed:(id)sender {
-	UIView *view = (UIView*)sender;
+- (IBAction)deleteCW:(id)sender {
+	UIView *view = [sender view];
+	while (![view isKindOfClass:[CWCell class]]) {
+		view = [view superview];
+	}
+	
+	CWCell *cell = (CWCell*)view;
+	[self deleteCrosswordWithKey:cell.packageKey];
+}
+
+- (IBAction)chooseRandomCW:(id)sender {
+	UIView *view = [sender view];
 	while (![view isKindOfClass:[CWCell class]]) {
 		view = [view superview];
 	}
@@ -247,6 +261,15 @@
 	_isRandomGame = YES;
 	
 	[self performSegueWithIdentifier:@"ShowCW" sender:self];
+}
+
+- (IBAction)openNextCWPressed:(id)sender {
+	UIView *view = [sender view];
+	while (![view isKindOfClass:[CWCell class]]) {
+		view = [view superview];
+	}
+	
+	CWCell *cell = (CWCell*)view;
 }
 
 #pragma mark - Navigation
@@ -328,8 +351,6 @@
 								  pack.state.filledLevel >= pack.state.levelCount ? pack.state.wordCount : filledWordCount,
 								  pack.state.wordCount]];
 		
-		[cell localizeRandomButton];
-
 		if (cwEnabled) {
 			[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
 		} else {

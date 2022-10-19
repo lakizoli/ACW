@@ -12,7 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SUIChooseCWViewController : UIViewController<UITableViewDelegate>
 
-- (void)randomButtonPressed:(id)sender;
+- (IBAction)openNextCWPressed:(id)sender;
+- (IBAction)chooseRandomCW:(id)sender;
+- (IBAction)deleteCW:(id)sender;
 
 @end
 

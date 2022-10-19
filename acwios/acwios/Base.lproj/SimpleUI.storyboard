@@ -5,6 +5,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -388,43 +389,79 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Ta0-j1-HqX">
-                                                    <rect key="frame" x="5" y="0.0" width="288.5" height="70"/>
+                                                    <rect key="frame" x="5" y="5" width="288.5" height="60"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Name of the package" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cCb-oB-Bs0">
-                                                            <rect key="frame" x="0.0" y="0.0" width="288.5" height="32"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="288.5" height="10"/>
                                                             <fontDescription key="fontDescription" name="AvenirNextCondensed-Bold" family="Avenir Next Condensed" pointSize="20"/>
                                                             <color key="textColor" red="0.12892057169999999" green="0.1315353672" blue="0.12988067989999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100 of 322 levels (1000 of 3522 words) solved" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1dB-ee-Rk9">
-                                                            <rect key="frame" x="0.0" y="32" width="288.5" height="18"/>
-                                                            <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="13"/>
-                                                            <color key="textColor" red="0.30729750996143812" green="0.31353018583411385" blue="0.30958604189032457" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
                                                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rTu-BO-RuA">
-                                                            <rect key="frame" x="0.0" y="50" width="288.5" height="20"/>
+                                                            <rect key="frame" x="0.0" y="10" width="288.5" height="50"/>
                                                             <subviews>
-                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3Ej-Wz-gez">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="226.5" height="20"/>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="100 of 322 levels (1000 of 3522 words) solved" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1dB-ee-Rk9">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="145.5" height="50"/>
+                                                                    <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="13"/>
+                                                                    <color key="textColor" red="0.30729750996143812" green="0.31353018583411385" blue="0.30958604189032457" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pv1-3G-Y9c">
+                                                                    <rect key="frame" x="145.5" y="0.0" width="20" height="50"/>
+                                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="height" constant="20" id="fWm-7r-cqB"/>
+                                                                        <constraint firstAttribute="width" constant="20" id="GbC-EG-dNo"/>
                                                                     </constraints>
-                                                                    <state key="normal">
-                                                                        <attributedString key="attributedTitle">
-                                                                            <fragment content="Choose random crossword from solved levels">
-                                                                                <attributes>
-                                                                                    <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                                                                    <font key="NSFont" size="14" name="AvenirNextCondensed-Regular"/>
-                                                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                                                    <integer key="NSUnderline" value="1"/>
-                                                                                </attributes>
-                                                                            </fragment>
-                                                                        </attributedString>
-                                                                    </state>
-                                                                </button>
+                                                                </view>
+                                                                <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="open_next_cw" translatesAutoresizingMaskIntoConstraints="NO" id="P2r-AH-73m">
+                                                                    <rect key="frame" x="165.5" y="0.0" width="26" height="50"/>
+                                                                    <color key="tintColor" systemColor="labelColor"/>
+                                                                    <gestureRecognizers/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="26" id="Qic-63-stf"/>
+                                                                    </constraints>
+                                                                    <connections>
+                                                                        <outletCollection property="gestureRecognizers" destination="5Td-O9-raE" appends="YES" id="3Ag-qn-4M3"/>
+                                                                    </connections>
+                                                                </imageView>
+                                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wU0-nF-tvi">
+                                                                    <rect key="frame" x="191.5" y="0.0" width="15" height="50"/>
+                                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="15" id="4aP-J0-N7U"/>
+                                                                    </constraints>
+                                                                </view>
+                                                                <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="choose_random" translatesAutoresizingMaskIntoConstraints="NO" id="Kei-a3-7Av">
+                                                                    <rect key="frame" x="206.5" y="0.0" width="26" height="50"/>
+                                                                    <color key="tintColor" systemColor="labelColor"/>
+                                                                    <gestureRecognizers/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="26" id="f41-tZ-tgu"/>
+                                                                    </constraints>
+                                                                    <connections>
+                                                                        <outletCollection property="gestureRecognizers" destination="4ad-5v-eH9" appends="YES" id="duc-hg-Svt"/>
+                                                                    </connections>
+                                                                </imageView>
+                                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vjw-Mf-zxD">
+                                                                    <rect key="frame" x="232.5" y="0.0" width="30" height="50"/>
+                                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="30" id="Dze-Oy-crh"/>
+                                                                    </constraints>
+                                                                </view>
+                                                                <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="trash" translatesAutoresizingMaskIntoConstraints="NO" id="Q5A-da-BKh">
+                                                                    <rect key="frame" x="262.5" y="0.0" width="26" height="50"/>
+                                                                    <color key="tintColor" systemColor="labelColor"/>
+                                                                    <gestureRecognizers/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="26" id="7FG-YE-RyQ"/>
+                                                                    </constraints>
+                                                                    <connections>
+                                                                        <outletCollection property="gestureRecognizers" destination="W7o-V6-twt" appends="YES" id="NIY-Ob-jLn"/>
+                                                                    </connections>
+                                                                </imageView>
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aZ1-CV-8WA">
-                                                                    <rect key="frame" x="226.5" y="0.0" width="62" height="20"/>
+                                                                    <rect key="frame" x="288.5" y="0.0" width="0.0" height="50"/>
                                                                 </view>
                                                             </subviews>
                                                         </stackView>
@@ -432,16 +469,18 @@
                                                 </stackView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="trailing" secondItem="Ta0-j1-HqX" secondAttribute="trailing" id="8bv-l7-9N6"/>
-                                                <constraint firstAttribute="bottom" secondItem="Ta0-j1-HqX" secondAttribute="bottom" id="V3I-nD-Blo"/>
-                                                <constraint firstItem="Ta0-j1-HqX" firstAttribute="leading" secondItem="AIm-vy-aQz" secondAttribute="leading" constant="5" id="a8T-Cl-CIY"/>
-                                                <constraint firstItem="Ta0-j1-HqX" firstAttribute="top" secondItem="AIm-vy-aQz" secondAttribute="top" id="een-I8-Be8"/>
+                                                <constraint firstAttribute="trailing" secondItem="Ta0-j1-HqX" secondAttribute="trailing" id="Cd2-iB-hUb"/>
+                                                <constraint firstAttribute="bottom" secondItem="Ta0-j1-HqX" secondAttribute="bottom" constant="5" id="ktX-aC-8Eo"/>
+                                                <constraint firstItem="Ta0-j1-HqX" firstAttribute="leading" secondItem="AIm-vy-aQz" secondAttribute="leading" constant="5" id="rXt-yE-541"/>
+                                                <constraint firstItem="Ta0-j1-HqX" firstAttribute="top" secondItem="AIm-vy-aQz" secondAttribute="top" constant="5" id="yFl-6p-14F"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.83462893959999995" green="0.87659770250000002" blue="0.90340846779999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <connections>
+                                            <outlet property="chooseRandom" destination="Kei-a3-7Av" id="Luu-Fj-H5L"/>
+                                            <outlet property="deleteCW" destination="Q5A-da-BKh" id="TY6-9Z-9PJ"/>
+                                            <outlet property="openNextCW" destination="P2r-AH-73m" id="xxl-Cr-N3K"/>
                                             <outlet property="packageName" destination="cCb-oB-Bs0" id="VlN-1P-NgA"/>
-                                            <outlet property="randomButton" destination="3Ej-Wz-gez" id="CsS-WK-m5q"/>
                                             <outlet property="statistics" destination="1dB-ee-Rk9" id="TrC-yL-hgU"/>
                                             <segue destination="pK3-3b-RQF" kind="presentation" identifier="ShowCW" modalPresentationStyle="fullScreen" id="iAA-Ju-5Gr"/>
                                         </connections>
@@ -552,6 +591,21 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OcU-8m-djw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="5Td-O9-raE" userLabel="OpenNextCW  Tap Gesture Recognizer">
+                    <connections>
+                        <action selector="openNextCWPressed:" destination="FV3-9x-5W9" id="Dlv-dM-qFH"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="4ad-5v-eH9" userLabel="ChooseRandomCW Tap Gesture Recognizer">
+                    <connections>
+                        <action selector="chooseRandomCW:" destination="FV3-9x-5W9" id="TIl-Q3-ekX"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="W7o-V6-twt" userLabel="DeleteCW Tap Gesture Recognizer">
+                    <connections>
+                        <action selector="deleteCW:" destination="FV3-9x-5W9" id="nxM-J7-Td2"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="849" y="873"/>
         </scene>
@@ -1203,7 +1257,7 @@
             <objects>
                 <navigationController id="pK3-3b-RQF" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="O9s-dZ-CCR">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.15680609810000001" green="0.31361219620000003" blue="0.31230547870000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">
@@ -1228,12 +1282,18 @@
         <image name="arrow-back" width="24" height="24"/>
         <image name="arrow-right" width="32" height="24"/>
         <image name="background_pattern_blue" width="1298" height="1298"/>
+        <image name="choose_random" width="16" height="15"/>
         <image name="game_logo" width="426" height="277"/>
         <image name="help-arrow-left" width="596" height="596"/>
         <image name="help-arrow-right" width="596" height="596"/>
+        <image name="open_next_cw" width="14" height="14"/>
         <image name="star" width="24" height="24"/>
+        <image name="trash" width="15" height="18"/>
         <systemColor name="groupTableViewBackgroundColor">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="labelColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
