@@ -3,11 +3,12 @@
 //  Flurry
 //
 //  Created by Akshay Bhandary on 7/14/16.
-//  Copyright © 2016 Flurry Inc. All rights reserved.
+//  Copyright (c) 2021 Yahoo. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import "FlurryConsent.h"
+#import "FlurryCCPA.h"
 
 
 /*!
@@ -15,15 +16,40 @@
  *  @since 4.2.0
  *
  */
-typedef enum {
-    FlurryLogLevelNone = 0,         //No output
-    FlurryLogLevelCriticalOnly,     //Default, outputs only critical log events
-    FlurryLogLevelDebug,            //Debug level, outputs critical and main log events
-    FlurryLogLevelAll               //Highest level, outputs all log events
-} FlurryLogLevel;
+typedef NS_ENUM(NSUInteger, FlurryLogLevel){
+    FlurryLogLevelNone NS_SWIFT_NAME(none) = 0,         // No output
+    FlurryLogLevelCriticalOnly NS_SWIFT_NAME(criticalOnly),     // Default, outputs only critical log events
+    FlurryLogLevelDebug NS_SWIFT_NAME(debug),            // Debug level, outputs critical and main log events
+    FlurryLogLevelAll NS_SWIFT_NAME(all),               // Highest level, outputs all log events
+};
+
+typedef NS_OPTIONS(NSUInteger, FlurryPerformanceMetrics) {
+    FlurryPerformanceNone           = 0,
+    FlurryPerformanceColdStart      = (1 << 0),
+    FlurryPerformanceScreenTime     = (1 << 1),
+    FlurryPerformanceNetwork        = (1 << 2),
+
+    FlurryPerformanceAll            = FlurryPerformanceColdStart |
+                                      FlurryPerformanceScreenTime |
+                                      FlurryPerformanceNetwork,
+};
+
+
+#if !TARGET_OS_WATCH
 
 
 @interface FlurrySessionBuilder : NSObject
+
+/*!
+ *  @brief An api to send ccpa compliance data to Flurry on the user's choice to opt out or opt in to data sale to third parties.
+ *  @since 10.1.0
+ *
+ *  @param value  boolean true if the user wants to opt out of data sale, the default value is false
+ */
+
+- (FlurrySessionBuilder*) withDataSaleOptOut:(BOOL)value
+NS_SWIFT_NAME(build(dataSaleOptOut:));
+
 
 /*!
  *  @brief Explicitly specifies the App Version that Flurry will use to group Analytics data.
@@ -36,7 +62,8 @@ typedef enum {
  *
  *  @param value The custom version name.
  */
-- (FlurrySessionBuilder*) withAppVersion:(NSString *)value;
+- (FlurrySessionBuilder*) withAppVersion:(NSString *)value
+NS_SWIFT_NAME(build(appVersion:));
 
 
 /*!
@@ -49,7 +76,8 @@ typedef enum {
  *
  *  @param value The time in seconds to set the session timeout to.
  */
-- (FlurrySessionBuilder*) withSessionContinueSeconds:(NSInteger)value;
+- (FlurrySessionBuilder*) withSessionContinueSeconds:(NSInteger)value
+NS_SWIFT_NAME(build(sessionContinueSeconds:));
 
 
 /*!
@@ -61,7 +89,8 @@ typedef enum {
  *
  *  @param value @c YES to enable collection of crash reports.
  */
-- (FlurrySessionBuilder*) withCrashReporting:(BOOL)value;
+- (FlurrySessionBuilder*) withCrashReporting:(BOOL)value
+NS_SWIFT_NAME(build(crashReportingEnabled:));
 
 /*!
  *  @brief Generates debug logs to console.
@@ -76,7 +105,8 @@ typedef enum {
  *  @param value Log level
  *
  */
-- (FlurrySessionBuilder*) withLogLevel:(FlurryLogLevel) value;
+- (FlurrySessionBuilder*) withLogLevel:(FlurryLogLevel) value
+NS_SWIFT_NAME(build(logLevel:));
 
 
 
@@ -97,7 +127,8 @@ typedef enum {
  *
  *  @param value @c YES to show errors in debug logs, @c NO to omit errors in debug logs.
  */
-- (FlurrySessionBuilder*) withShowErrorInLog:(BOOL) value;
+- (FlurrySessionBuilder*) withShowErrorInLog:(BOOL) value
+NS_SWIFT_NAME(build(showErrorInLogEnabled:));
 
 
 /*!
@@ -112,10 +143,10 @@ typedef enum {
  *                  @see (FlurryConsent#initWithGDPRScope:andConsentStrings:)
  */
 
-- (FlurrySessionBuilder*) withConsent:(FlurryConsent*)consent;
+- (FlurrySessionBuilder*) withConsent:(FlurryConsent*)consent
+NS_SWIFT_NAME(build(consent:));
 
 
-#if !TARGET_OS_WATCH
 /*!
  *  @brief Enables implicit recording of Apple Store transactions.
  *  @since 7.9.0
@@ -126,7 +157,8 @@ typedef enum {
  *
  */
 
-- (FlurrySessionBuilder*) withIAPReportingEnabled:(BOOL) value;
+- (FlurrySessionBuilder*) withIAPReportingEnabled:(BOOL) value
+NS_SWIFT_NAME(build(iapReportingEnabled:));
 
 /*!
  *  @brief Enables opting out of background sessions being counted towards total sessions.
@@ -139,13 +171,67 @@ typedef enum {
  *
  */
 
-- (FlurrySessionBuilder*) withIncludeBackgroundSessionsInMetrics:(BOOL) value;
+- (FlurrySessionBuilder*) withIncludeBackgroundSessionsInMetrics:(BOOL) value
+NS_SWIFT_NAME(build(includeBackgroundSessionInMetrics:));
 
+/*!
+ *  @brief Set the Session Origin for the Flurry session.
+ *  @since 10.0.0
+ *
+ *  This is an optional method that sets the session origin 
+ *
+ *  @param origin The session origin value.
+ */
+- (FlurrySessionBuilder*) withSessionOrigin:(NSString*) origin
+NS_SWIFT_NAME(build(sessionOrigin:));
 
+/*!
+ *  @brief Set the Session Origin Version for the Flurry session.
+ *  @since 10.0.0
+ *
+ *  This is an optional method that sets the session origin version
+ *
+ *  @param version The session origin version value.
+ */
+- (FlurrySessionBuilder*) withSessionOriginVerion:(NSString*) version
+NS_SWIFT_NAME(build(sessionOriginVersion:));
 
-#endif
+/*!
+ *  @brief Set the Session OriginSets Paramters for the Flurry session.
+ *  @since 10.0.0
+ *
+ *  This is an optional method that sets the session origin parameters for origin sets (max key value pairs = 10)
+ *
+ *  @param parameters The session origin parameters.
+ */
+- (FlurrySessionBuilder*) withSessionOriginParameters:(NSDictionary*) parameters
+NS_SWIFT_NAME(build(sessionOriginParameters:));
+
+/*!
+ *  @brief Set the Deeplink for the Flurry session.
+ *  @since 10.0.0
+ *
+ *  This is an optional method that sets the deeplink which started the app and Flurry Session
+ *
+ *  @param deeplink The session deeplink value.
+ */
+- (FlurrySessionBuilder*) withSessionDeeplink:(NSString*) deeplink
+NS_SWIFT_NAME(build(sessionDeepLink:));
+
+/*!
+ *  @brief Set the Session properties for the Flurry session.
+ *  @since 10.0.0
+ *
+ *  This is an optional method that sets the session properties
+ *
+ *  @param properties The session paramaters.
+ */
+- (FlurrySessionBuilder*) withSessionProperties:(NSDictionary*) properties
+NS_SWIFT_NAME(build(sessionProperties:));
+
 
 #if TARGET_OS_TV
+
 /*!
  *  @brief Sets the minimum duration (in minutes) before a partial session report is sent to Flurry.
  *  @since 7.7.0
@@ -157,7 +243,8 @@ typedef enum {
  *
  *  @param value The period after which a partial session report is sent to Flurry.
  */
-- (FlurrySessionBuilder*) withTVSessionReportingInterval:(NSInteger) value;
+- (FlurrySessionBuilder*) withTVSessionReportingInterval:(NSInteger) value
+NS_SWIFT_NAME(build(tvSessionReportingInterval:));
 
 /*!
  *  @brief Sets the minimum number of events before a partial session report is sent to Flurry.
@@ -170,7 +257,10 @@ typedef enum {
  *
  *  @param value The number of events after which partial session report is sent to Flurry.
  */
-- (FlurrySessionBuilder*) withTVEventCountThreshold:(NSInteger) value;
+- (FlurrySessionBuilder*) withTVEventCountThreshold:(NSInteger) value
+NS_SWIFT_NAME(build(tvEventCountThreshold:));
 #endif
 
 @end
+
+#endif
