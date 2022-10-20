@@ -263,6 +263,15 @@
 	[self performSegueWithIdentifier:@"ShowCW" sender:self];
 }
 
+- (IBAction)choose:(id)sender {
+	UIView *view = [sender view];
+	while (![view isKindOfClass:[CWCell class]]) {
+		view = [view superview];
+	}
+	
+	CWCell *cell = (CWCell*)view;
+}
+
 - (IBAction)openNextCWPressed:(id)sender {
 	UIView *view = [sender view];
 	while (![view isKindOfClass:[CWCell class]]) {
@@ -270,6 +279,18 @@
 	}
 	
 	CWCell *cell = (CWCell*)view;
+	BOOL cwEnabled = [[_sortedPackageKeys objectAtIndex:0] compare:cell.packageKey] == NSOrderedSame || _isSubscribed;
+	if (!cwEnabled) {
+		[self showSubscription];
+		return;
+	}
+	
+	NSUInteger idx = [[_currentSavedCrosswordIndices objectForKey:cell.packageKey] unsignedIntegerValue];
+	_selectedPackageKey = cell.packageKey;
+	_selectedCrosswordIndex = idx;
+	_isRandomGame = NO;
+	
+	[self performSegueWithIdentifier:@"ShowCW" sender:self];
 }
 
 #pragma mark - Navigation

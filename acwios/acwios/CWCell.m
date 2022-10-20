@@ -44,11 +44,13 @@
 			[[self packageName] setTextColor:_selectionTextColor];
 			[[self statistics] setTextColor:_selectionTextColor];
 			[[self openNextCW] setTintColor:_selectionTextColor];
+			[[self choose] setTintColor:_selectionTextColor];
 			[[self chooseRandom] setTintColor:_selectionTextColor];
 		} else {
 			[[self packageName] setTextColor:_normalTextColor];
 			[[self statistics] setTextColor:_normalSubTextColor];
 			[[self openNextCW] setTintColor:_normalTextColor];
+			[[self choose] setTintColor:_normalTextColor];
 			[[self chooseRandom] setTintColor:_normalTextColor];
 		}
 	} else { //Non subscribed
@@ -56,11 +58,13 @@
 			[[self packageName] setTextColor:_disabledSelectedPackColor];
 			[[self statistics] setTextColor:_disabledSelectedPackColor];
 			[[self openNextCW] setTintColor:_disabledSelectedPackColor];
+			[[self choose] setTintColor:_disabledSelectedPackColor];
 			[[self chooseRandom] setTintColor:_disabledSelectedPackColor];
 		} else {
 			[[self packageName] setTextColor:_disabledPackColor];
 			[[self statistics] setTextColor:_disabledPackColor];
 			[[self openNextCW] setTintColor:_disabledPackColor];
+			[[self choose] setTintColor:_disabledPackColor];
 			[[self chooseRandom] setTintColor:_disabledPackColor];
 		}
 	}

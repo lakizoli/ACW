@@ -401,20 +401,20 @@
                                                             <rect key="frame" x="0.0" y="10" width="288.5" height="50"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="100 of 322 levels (1000 of 3522 words) solved" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1dB-ee-Rk9">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="145.5" height="50"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="99.5" height="50"/>
                                                                     <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="13"/>
                                                                     <color key="textColor" red="0.30729750996143812" green="0.31353018583411385" blue="0.30958604189032457" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pv1-3G-Y9c">
-                                                                    <rect key="frame" x="145.5" y="0.0" width="20" height="50"/>
+                                                                    <rect key="frame" x="99.5" y="0.0" width="20" height="50"/>
                                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="20" id="GbC-EG-dNo"/>
                                                                     </constraints>
                                                                 </view>
                                                                 <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="open_next_cw" translatesAutoresizingMaskIntoConstraints="NO" id="P2r-AH-73m">
-                                                                    <rect key="frame" x="165.5" y="0.0" width="26" height="50"/>
+                                                                    <rect key="frame" x="119.5" y="0.0" width="26" height="50"/>
                                                                     <color key="tintColor" systemColor="labelColor"/>
                                                                     <gestureRecognizers/>
                                                                     <constraints>
@@ -422,6 +422,24 @@
                                                                     </constraints>
                                                                     <connections>
                                                                         <outletCollection property="gestureRecognizers" destination="5Td-O9-raE" appends="YES" id="3Ag-qn-4M3"/>
+                                                                    </connections>
+                                                                </imageView>
+                                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Frb-Pp-ivH">
+                                                                    <rect key="frame" x="145.5" y="0.0" width="20" height="50"/>
+                                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="20" id="TEB-lO-drp"/>
+                                                                    </constraints>
+                                                                </view>
+                                                                <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="choose" translatesAutoresizingMaskIntoConstraints="NO" id="zQP-JT-Ls2">
+                                                                    <rect key="frame" x="165.5" y="0.0" width="26" height="50"/>
+                                                                    <color key="tintColor" systemColor="labelColor"/>
+                                                                    <gestureRecognizers/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="26" id="P8Y-cY-M4F"/>
+                                                                    </constraints>
+                                                                    <connections>
+                                                                        <outletCollection property="gestureRecognizers" destination="kRd-qK-7e1" appends="YES" id="xlO-EJ-tvC"/>
                                                                     </connections>
                                                                 </imageView>
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wU0-nF-tvi">
@@ -477,6 +495,7 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.83462893959999995" green="0.87659770250000002" blue="0.90340846779999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <connections>
+                                            <outlet property="choose" destination="zQP-JT-Ls2" id="a1e-HM-Ehe"/>
                                             <outlet property="chooseRandom" destination="Kei-a3-7Av" id="Luu-Fj-H5L"/>
                                             <outlet property="deleteCW" destination="Q5A-da-BKh" id="TY6-9Z-9PJ"/>
                                             <outlet property="openNextCW" destination="P2r-AH-73m" id="xxl-Cr-N3K"/>
@@ -604,6 +623,11 @@
                 <tapGestureRecognizer id="W7o-V6-twt" userLabel="DeleteCW Tap Gesture Recognizer">
                     <connections>
                         <action selector="deleteCW:" destination="FV3-9x-5W9" id="nxM-J7-Td2"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="kRd-qK-7e1" userLabel="Choose Tap Gesture Recognizer">
+                    <connections>
+                        <action selector="choose:" destination="FV3-9x-5W9" id="Leh-MH-C2t"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
@@ -1282,6 +1306,7 @@
         <image name="arrow-back" width="24" height="24"/>
         <image name="arrow-right" width="32" height="24"/>
         <image name="background_pattern_blue" width="1298" height="1298"/>
+        <image name="choose" width="19" height="16"/>
         <image name="choose_random" width="16" height="15"/>
         <image name="game_logo" width="426" height="277"/>
         <image name="help-arrow-left" width="596" height="596"/>

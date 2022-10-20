@@ -21,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *packageName;
 @property (weak, nonatomic) IBOutlet UILabel *statistics;
 @property (weak, nonatomic) IBOutlet UIImageView *openNextCW;
+@property (weak, nonatomic) IBOutlet UIImageView *choose;
 @property (weak, nonatomic) IBOutlet UIImageView *chooseRandom;
 @property (weak, nonatomic) IBOutlet UIImageView *deleteCW;
 
