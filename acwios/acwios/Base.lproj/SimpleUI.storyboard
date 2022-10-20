@@ -627,11 +627,53 @@
                 </tapGestureRecognizer>
                 <tapGestureRecognizer id="kRd-qK-7e1" userLabel="Choose Tap Gesture Recognizer">
                     <connections>
-                        <action selector="choose:" destination="FV3-9x-5W9" id="Leh-MH-C2t"/>
+                        <segue destination="hZD-4t-urH" kind="presentation" identifier="ChooseLevel" modalPresentationStyle="fullScreen" id="CPR-4y-8ED"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="849" y="873"/>
+        </scene>
+        <!--Choose Level View Controller-->
+        <scene sceneID="0Sz-L2-4sI">
+            <objects>
+                <viewController id="hZD-4t-urH" customClass="SUIChooseLevelViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="cXy-BY-5SL">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wI5-h1-qRa">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <color key="barTintColor" red="0.15680609810000001" green="0.31361219620000003" blue="0.31230547870000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <textAttributes key="titleTextAttributes">
+                                    <color key="textColor" red="0.8980392157" green="0.75686274509999996" blue="0.2784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </textAttributes>
+                                <items>
+                                    <navigationItem title="Choose Level" id="Shi-Vd-Qz8">
+                                        <barButtonItem key="leftBarButtonItem" title="Back" image="arrow-back" id="pxN-gs-r4G">
+                                            <color key="tintColor" red="0.8980392157" green="0.75686274509999996" blue="0.2784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <connections>
+                                                <action selector="backButtonPressed:" destination="hZD-4t-urH" id="HGQ-OV-lbt"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <connections>
+                                            <outlet property="backBarButtonItem" destination="pxN-gs-r4G" id="2lt-Al-1qu"/>
+                                        </connections>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="eB4-Am-jFc"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="wI5-h1-qRa" firstAttribute="top" secondItem="eB4-Am-jFc" secondAttribute="top" id="D4z-5j-JHL"/>
+                            <constraint firstItem="wI5-h1-qRa" firstAttribute="leading" secondItem="eB4-Am-jFc" secondAttribute="leading" id="K05-bZ-P5e"/>
+                            <constraint firstItem="eB4-Am-jFc" firstAttribute="trailing" secondItem="wI5-h1-qRa" secondAttribute="trailing" id="dgp-rc-HDQ"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="V3G-jm-lYQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1778" y="873"/>
         </scene>
         <!--Store View Controller-->
         <scene sceneID="Ika-dr-cCT">
@@ -1281,7 +1323,7 @@
             <objects>
                 <navigationController id="pK3-3b-RQF" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="O9s-dZ-CCR">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.15680609810000001" green="0.31361219620000003" blue="0.31230547870000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">
@@ -1319,6 +1361,9 @@
         </systemColor>
         <systemColor name="labelColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
     </resources>
 </document>

@@ -32,6 +32,9 @@
 /* Class = "UINavigationItem"; title = "Choose Crossword"; ObjectID = "MvL-Lb-WZz"; */
 "MvL-Lb-WZz.title" = "Válassz rejtvényt";
 
+/* Class = "UINavigationItem"; title = "Choose Level"; ObjectID = "Shi-Vd-Qz8"; */
+"Shi-Vd-Qz8.title" = "Válassz szintet";
+
 /* Class = "UILabel"; text = "You can easily start writing each solutions by tapping their first cell."; ObjectID = "Pna-EA-zPR"; */
 "Pna-EA-zPR.text" = "Egyszerűen elkezdheted a kitöltést a kezdő mező megéríntésével.";
 
