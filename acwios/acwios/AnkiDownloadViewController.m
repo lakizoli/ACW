@@ -375,6 +375,36 @@
     return label;
 }
 
+- (NSArray<NSString*>*) languages:(NSString*)label localized:(BOOL)localized {
+	NSMutableArray<NSString*> *res = nil;
+	
+	if (localized) {
+		label = [self localizeLabel:label];
+	}
+	
+	NSRange range = [label rangeOfString:@" -> "];
+	if (range.location != NSNotFound) {
+		NSString *questionLanguage = [label substringToIndex:range.location];
+		NSString *answerLanguage = [label substringFromIndex:range.location + 4];
+		
+		range = [answerLanguage rangeOfString:@" ("];
+		if (range.location != NSNotFound) {
+			answerLanguage = [answerLanguage substringToIndex:range.location];
+		}
+		
+		range = [answerLanguage rangeOfString:@" v2"];
+		if (range.location != NSNotFound) {
+			answerLanguage = [answerLanguage substringToIndex:range.location];
+		}
+		
+		res = [NSMutableArray<NSString*> new];
+		[res addObject:questionLanguage];
+		[res addObject:answerLanguage];
+	}
+	
+	return res;
+}
+
 - (NSString*) languageCode:(NSString*)lang {
 	if ([lang isEqualToString:@"Chinese"]) {
 		return @"cn";
@@ -468,25 +498,15 @@
 	}
 	
 	NetPackConfigItem *configItem = [_packageConfigs objectAtIndex:indexPath.row];
-	NSString *label = [self localizeLabel:configItem.label];
-	
-	NSRange range = [label rangeOfString:@" -> "];
-	if (range.location != NSNotFound) {
-		NSString *questionLanguage = [label substringToIndex:range.location];
-		NSString *answerLanguage = [label substringFromIndex:range.location + 4];
+	NSArray<NSString*> *langs = [self languages:configItem.label localized:NO];
+	NSArray<NSString*> *langsLocalized = [self languages:configItem.label localized:YES];
+
+	if ([langs count] == 2 && [langsLocalized count] == 2) {
+		NSString *questionLanguage = [langsLocalized objectAtIndex:0];
+		NSString *answerLanguage = [langsLocalized objectAtIndex:1];
 		
-		range = [answerLanguage rangeOfString:@" ("];
-		if (range.location != NSNotFound) {
-			answerLanguage = [answerLanguage substringToIndex:range.location];
-		}
-		
-		range = [answerLanguage rangeOfString:@" v2"];
-		if (range.location != NSNotFound) {
-			answerLanguage = [answerLanguage substringToIndex:range.location];
-		}
-		
-		NSString *qCode = [self languageCode:questionLanguage];
-		NSString *aCode = [self languageCode:answerLanguage];
+		NSString *qCode = [self languageCode:[langs objectAtIndex:0]];
+		NSString *aCode = [self languageCode:[langs objectAtIndex:1]];
 
 		if (![questionLanguage containsString:@" "]) {
 			questionLanguage = [@"\n" stringByAppendingString: questionLanguage];

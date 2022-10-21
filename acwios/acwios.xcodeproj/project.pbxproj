@@ -31,6 +31,7 @@
 		F0C30E0B2311019100D5DD67 /* NetLogger.mm in Sources */ = {isa = PBXBuildFile; fileRef = F0C30E0A2311019100D5DD67 /* NetLogger.mm */; };
 		F0C91BA4210C690000B06070 /* ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = F0C91BA3210C690000B06070 /* ProgressView.m */; };
 		F0DD02C52901544D0090D661 /* SUIChooseLevelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0DD02C42901544D0090D661 /* SUIChooseLevelViewController.m */; };
+		F0DD02C829018A760090D661 /* LevelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F0DD02C729018A760090D661 /* LevelCell.m */; };
 		F0DEE96A216791670044DA44 /* StoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0DEE969216791670044DA44 /* StoreViewController.m */; };
 		F0E7DE412252B7C600F8A4C5 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0E7DE402252B7C600F8A4C5 /* StoreKit.framework */; };
 		FD2197BB214110E900E6D396 /* KeyboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD2197BA214110E900E6D396 /* KeyboardViewController.m */; };
@@ -113,6 +114,8 @@
 		F0C91BA3210C690000B06070 /* ProgressView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProgressView.m; sourceTree = "<group>"; };
 		F0DD02C32901544C0090D661 /* SUIChooseLevelViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SUIChooseLevelViewController.h; sourceTree = "<group>"; };
 		F0DD02C42901544D0090D661 /* SUIChooseLevelViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SUIChooseLevelViewController.m; sourceTree = "<group>"; };
+		F0DD02C629018A760090D661 /* LevelCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LevelCell.h; sourceTree = "<group>"; };
+		F0DD02C729018A760090D661 /* LevelCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LevelCell.m; sourceTree = "<group>"; };
 		F0DEE968216791670044DA44 /* StoreViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StoreViewController.h; sourceTree = "<group>"; };
 		F0DEE969216791670044DA44 /* StoreViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StoreViewController.m; sourceTree = "<group>"; };
 		F0E7DE402252B7C600F8A4C5 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
@@ -174,6 +177,8 @@
 				F01F60CF2312743700896397 /* CWCell.m */,
 				F02697C423130B500034D6B6 /* SwitchCWSegue.h */,
 				F02697C523130B500034D6B6 /* SwitchCWSegue.m */,
+				F0DD02C629018A760090D661 /* LevelCell.h */,
+				F0DD02C729018A760090D661 /* LevelCell.m */,
 			);
 			name = SimpleUI;
 			sourceTree = "<group>";
@@ -392,6 +397,7 @@
 				F0DD02C52901544D0090D661 /* SUIChooseLevelViewController.m in Sources */,
 				F0C30E0B2311019100D5DD67 /* NetLogger.mm in Sources */,
 				FD6ED59321382C3B00FCCAC7 /* DrawingCommon.m in Sources */,
+				F0DD02C829018A760090D661 /* LevelCell.m in Sources */,
 				F09B2056210D742B00398B2E /* SubscriptionManager.m in Sources */,
 				FD2197BB214110E900E6D396 /* KeyboardViewController.m in Sources */,
 				FD2197C3214AB59100E6D396 /* EmitterEffect.m in Sources */,

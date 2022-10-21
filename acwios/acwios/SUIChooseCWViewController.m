@@ -303,19 +303,18 @@
 			return YES;
 		}
 	} else if ([identifier compare:@"ChooseLevel"] == NSOrderedSame) {
-		NSIndexPath *selectedRow = [_crosswordTable indexPathForSelectedRow];
-		
-		BOOL cwEnabled = [selectedRow row] < 1 || self->_isSubscribed;
-		if (!cwEnabled) {
-			[self showSubscription];
-		} else {
-//			NSString *packageKey = [_sortedPackageKeys objectAtIndex:selectedRow.row];
-//			NSUInteger idx = [[_currentSavedCrosswordIndices objectForKey:packageKey] unsignedIntegerValue];
-//			_selectedPackageKey = packageKey;
-//			_selectedCrosswordIndex = idx;
-//			_isRandomGame = NO;
-			return YES;
+		UIView *view = [sender view];
+		while (![view isKindOfClass:[CWCell class]]) {
+			view = [view superview];
 		}
+		
+		CWCell *cell = (CWCell*)view;
+		
+		NSUInteger idx = [[_currentSavedCrosswordIndices objectForKey:cell.packageKey] unsignedIntegerValue];
+		_selectedPackageKey = cell.packageKey;
+		_selectedCrosswordIndex = idx;
+		_isRandomGame = NO;
+		return YES;
 	} else if ([identifier compare:@"ShowDownload"] == NSOrderedSame) {
 		return YES;
 	}
@@ -339,19 +338,14 @@
 			[cwController setIsMultiLevelGame:!_isRandomGame];
 		}
 	} else if ([segue.identifier compare:@"ChooseLevel"] == NSOrderedSame &&
-			   [segue.destinationViewController isKindOfClass:[UINavigationController class]])
+			   [segue.destinationViewController isKindOfClass:[SUIChooseLevelViewController class]])
 	{
-		UINavigationController *navController = (UINavigationController*) [segue destinationViewController];
-		if ([[navController topViewController] isKindOfClass:[SUIChooseLevelViewController class]]) {
-			SUIChooseLevelViewController *levelController = (SUIChooseLevelViewController*) [navController topViewController];
-			NSArray<SavedCrossword*> *cws = [_savedCrosswords objectForKey:_selectedPackageKey];
-			
-//			[cwController setCurrentPackage:[_packages objectForKey:_selectedPackageKey]];
-//			[cwController setSavedCrossword:[cws objectAtIndex:_selectedCrosswordIndex]];
-//			[cwController setCurrentCrosswordIndex:_selectedCrosswordIndex];
-//			[cwController setAllSavedCrossword:cws];
-//			[cwController setIsMultiLevelGame:!_isRandomGame];
-		}
+		SUIChooseLevelViewController *levelController = (SUIChooseLevelViewController*) [segue destinationViewController];
+		NSArray<SavedCrossword*> *cws = [_savedCrosswords objectForKey:_selectedPackageKey];
+		
+		[levelController setCurrentPackage:[_packages objectForKey:_selectedPackageKey]];
+		[levelController setCurrentCrosswordIndex:_selectedCrosswordIndex];
+		[levelController setAllSavedCrossword:cws];
 	} else if ([segue.identifier compare:@"ShowDownload"] == NSOrderedSame &&
 			   [segue.destinationViewController isKindOfClass:[AnkiDownloadViewController class]])
 	{
