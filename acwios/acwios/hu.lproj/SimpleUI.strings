@@ -20,6 +20,9 @@
 /* Class = "UIButton"; normalTitle = "Subscribe Now"; ObjectID = "EKE-89-VpA"; */
 "EKE-89-VpA.normalTitle" = "Előfizetek";
 
+/* Class = "UIButton"; normalTitle = "Subscribe Now"; ObjectID = "9f8-r2-Zlk"; */
+"9f8-r2-Zlk.normalTitle" = "Előfizetek";
+
 /* Class = "UILabel"; text = "To download crosswords or Anki Flashcard packages, press the + button above!"; ObjectID = "GEn-Yc-oJm"; */
 "GEn-Yc-oJm.text" = "Anki rejtvénycsomagok letöltéséhez érintsd meg a fenti + gombot!";
 

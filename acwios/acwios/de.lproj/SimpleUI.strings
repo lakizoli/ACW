@@ -20,6 +20,9 @@
 /* Class = "UIButton"; normalTitle = "Subscribe Now"; ObjectID = "EKE-89-VpA"; */
 "EKE-89-VpA.normalTitle" = "Abonniere jetzt";
 
+/* Class = "UIButton"; normalTitle = "Subscribe Now"; ObjectID = "9f8-r2-Zlk"; */
+"9f8-r2-Zlk.normalTitle" = "Abonniere jetzt";
+
 /* Class = "UILabel"; text = "To download Anki Flashcard packages, press the + button above!"; ObjectID = "GEn-Yc-oJm"; */
 "GEn-Yc-oJm.text" = "Um Anki Flashcard-Pakete herunterzuladen, drücken Sie die + Taste oben!";
 

@@ -14,6 +14,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *subscribeView;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (weak, nonatomic) IBOutlet UILabel *subscribeDescription;
 
 @end
 
@@ -31,6 +32,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+	
+	[_subscribeDescription setText:NSLocalizedString (@"subscribe_warning", @"")];
     
 	//Init collection view
 	[_collectionView setDataSource:self];

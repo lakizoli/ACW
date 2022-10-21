@@ -782,6 +782,7 @@
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="G3i-Xr-ERd" id="AeC-dk-YEy"/>
+                        <outlet property="subscribeDescription" destination="OA5-wL-HgF" id="SJN-S6-6fw"/>
                         <outlet property="subscribeView" destination="BFL-vQ-GXK" id="Zwd-go-IPN"/>
                     </connections>
                 </viewController>
@@ -1437,7 +1438,7 @@
             <objects>
                 <navigationController id="pK3-3b-RQF" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="O9s-dZ-CCR">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.15680609810000001" green="0.31361219620000003" blue="0.31230547870000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">
