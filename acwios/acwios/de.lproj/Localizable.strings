@@ -19,6 +19,7 @@
 "ok" = "OK";
 "cannot_store_purchase" = "Der Kauf kann nicht gespeichert werden!";
 "error_title" = "Fehler!";
+"warning_title" = "Achtung!";
 "success_title" = "Erfolg!";
 "subscribe_alert" = "Achtung!";
 "yes" = "Ja";
@@ -71,6 +72,7 @@
 "sc_restore_purchase" = "Kauf wiederherstellen";
 "random_button_label" = "Wähle ein zufälliges Kreuzworträtsel aus den gelösten";
 "subscribe_warning" = "Sie müssen die App abonnieren, um die deaktivierten Kreuzworträtsel zu spielen!";
+"locked_cw_msg" = "Das gewählte Kreuzworträtsel ist gesperrt! Sie müssen alle Kreuzworträtsel vor dem gewählten erfolgreich lösen!";
 
 "words" = "Wörtern";
 "Chinese" = "Chinesisch";

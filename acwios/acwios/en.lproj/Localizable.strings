@@ -19,6 +19,7 @@
 "ok" = "OK";
 "cannot_store_purchase" = "Cannot store your purchase on local storage!";
 "error_title" = "Error!";
+"warning_title" = "Warning!";
 "success_title" = "Success!";
 "subscribe_alert" = "Subscribe Alert!";
 "yes" = "Yes";
@@ -71,6 +72,7 @@
 "sc_restore_purchase" = "Restore purchase";
 "random_button_label" = "Choose random crossword from solved levels";
 "subscribe_warning" = "You have to subscribe to the application to play the disabled crosswords!";
+"locked_cw_msg" = "The choosen crossword is locked! You have to succeed all crossword before the choosen one!";
 
 "words" = "words";
 "Chinese" = "Chinese";

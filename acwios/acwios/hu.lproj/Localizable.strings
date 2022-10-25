@@ -19,6 +19,7 @@
 "ok" = "OK";
 "cannot_store_purchase" = "Nem sikerült eltárolni az előfizetésedet!";
 "error_title" = "Hiba!";
+"warning_title" = "Figyelem!";
 "success_title" = "Sikerült!";
 "subscribe_alert" = "Előfizetési figyelmeztetés!";
 "yes" = "Igen";
@@ -71,6 +72,7 @@
 "sc_restore_purchase" = "Előfizetés visszaállítása";
 "random_button_label" = "Válassz egy rejtvényt a már megoldottak közül";
 "subscribe_warning" = "Elő kell fizetned ahhoz, hogy játszhass a tiltott rejtvénycsomagokkal!";
+"locked_cw_msg" = "A kiválasztott rejtvény zárolva van még, mert nem sikerült még végigjátszanod az előtte lévőket!";
 
 "words" = "szó";
 "Chinese" = "Kínai";

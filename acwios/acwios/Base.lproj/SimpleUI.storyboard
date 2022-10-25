@@ -784,6 +784,7 @@
                         <outlet property="collectionView" destination="G3i-Xr-ERd" id="AeC-dk-YEy"/>
                         <outlet property="subscribeDescription" destination="OA5-wL-HgF" id="SJN-S6-6fw"/>
                         <outlet property="subscribeView" destination="BFL-vQ-GXK" id="Zwd-go-IPN"/>
+                        <segue destination="pK3-3b-RQF" kind="presentation" identifier="ShowCW" modalPresentationStyle="fullScreen" id="r7g-IS-WwM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="V3G-jm-lYQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1036,7 +1037,7 @@
                             </constraints>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You can easily start writing each solutions by tapping their first cell." lineBreakMode="tailTruncation" numberOfLines="13" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pna-EA-zPR">
-                            <rect key="frame" x="56" y="12" width="206" height="67.5"/>
+                            <rect key="frame" x="56" y="12" width="206" height="67.666666666666671"/>
                             <fontDescription key="fontDescription" name="BradleyHandITCTT-Bold" family="Bradley Hand" pointSize="18"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -1064,7 +1065,7 @@
                             </constraints>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="13" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hOV-54-g3T">
-                            <rect key="frame" x="8" y="12" width="206" height="247.5"/>
+                            <rect key="frame" x="8" y="12.000000000000014" width="206" height="247.33333333333337"/>
                             <string key="text">The aim of this game is, that you have to fill the entire crossword as fast as you can, without any hints and failures. However, if you don't know one of the solutions, you can easiliy show all solutions using "Show Hint" button above to help learning.</string>
                             <fontDescription key="fontDescription" name="BradleyHandITCTT-Bold" family="Bradley Hand" pointSize="18"/>
                             <nil key="highlightedColor"/>
@@ -1093,7 +1094,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="eE8-5r-Nxu">
-                            <rect key="frame" x="62.5" y="204.5" width="250" height="258"/>
+                            <rect key="frame" x="62.666666666666657" y="204.99999999999997" width="249.99999999999997" height="257.33333333333326"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Congratulation!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pry-4f-RcO">
                                     <rect key="frame" x="0.0" y="0.0" width="250" height="35"/>
@@ -1129,7 +1130,7 @@
                                             </constraints>
                                         </imageView>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N9j-gg-DKl">
-                                            <rect key="frame" x="200" y="0.0" width="50" height="32"/>
+                                            <rect key="frame" x="200.00000000000003" y="0.0" width="50" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="32" id="iSp-vc-Seb"/>
                                             </constraints>
@@ -1153,31 +1154,31 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time: 1:50" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qcq-q0-0eI">
-                                    <rect key="frame" x="0.0" y="132" width="250" height="21.5"/>
+                                    <rect key="frame" x="0.0" y="132" width="250" height="21.333333333333343"/>
                                     <fontDescription key="fontDescription" name="BradleyHandITCTT-Bold" family="Bradley Hand" pointSize="17"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hint show count: 100" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iUw-Mc-dWJ">
-                                    <rect key="frame" x="0.0" y="153.5" width="250" height="21.5"/>
+                                    <rect key="frame" x="0.0" y="153.33333333333331" width="250" height="21.333333333333343"/>
                                     <fontDescription key="fontDescription" name="BradleyHandITCTT-Bold" family="Bradley Hand" pointSize="17"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Word count: 42" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9tX-1x-B3Y">
-                                    <rect key="frame" x="0.0" y="175" width="250" height="21.5"/>
+                                    <rect key="frame" x="0.0" y="174.66666666666669" width="250" height="21.333333333333343"/>
                                     <fontDescription key="fontDescription" name="BradleyHandITCTT-Bold" family="Bradley Hand" pointSize="17"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fail count: 10" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sJn-aa-aNK">
-                                    <rect key="frame" x="0.0" y="196.5" width="250" height="21.5"/>
+                                    <rect key="frame" x="0.0" y="196" width="250" height="21.333333333333343"/>
                                     <fontDescription key="fontDescription" name="BradleyHandITCTT-Bold" family="Bradley Hand" pointSize="17"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="miu-40-5ZJ">
-                                    <rect key="frame" x="0.0" y="218" width="250" height="40"/>
+                                    <rect key="frame" x="0.0" y="217.33333333333331" width="250" height="40"/>
                                     <color key="backgroundColor" red="0.15680609810000001" green="0.31361219620000003" blue="0.31230547870000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="40" id="gca-d9-nwm"/>
@@ -1455,7 +1456,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="iAA-Ju-5Gr"/>
+        <segue reference="r7g-IS-WwM"/>
         <segue reference="wzb-eU-too"/>
         <segue reference="HFo-hg-Wad"/>
     </inferredMetricsTieBreakers>
