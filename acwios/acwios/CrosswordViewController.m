@@ -420,7 +420,10 @@
 
 -(void) showWinScreen {
 	[self resetInput];
-	
+
+	[_timerTitle invalidate];
+	self.navigationController.navigationBar.topItem.title = _origTitle;
+
 	[self->_crosswordView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]
 								 atScrollPosition:UICollectionViewScrollPositionTop | UICollectionViewScrollPositionLeft
 										 animated:NO];
