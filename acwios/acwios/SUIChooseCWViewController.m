@@ -240,6 +240,22 @@
 	[self deleteCrosswordWithKey:cell.packageKey];
 }
 
+- (IBAction)chooseCW:(id)sender {
+	UIView *view = [sender view];
+	while (![view isKindOfClass:[CWCell class]]) {
+		view = [view superview];
+	}
+	
+	CWCell *cell = (CWCell*)view;
+	
+	NSUInteger idx = [[_currentSavedCrosswordIndices objectForKey:cell.packageKey] unsignedIntegerValue];
+	_selectedPackageKey = cell.packageKey;
+	_selectedCrosswordIndex = idx;
+	_isRandomGame = NO;
+
+	[self performSegueWithIdentifier:@"ChooseLevel" sender:self];
+}
+
 - (IBAction)chooseRandomCW:(id)sender {
 	UIView *view = [sender view];
 	while (![view isKindOfClass:[CWCell class]]) {
@@ -302,19 +318,6 @@
 			_isRandomGame = NO;
 			return YES;
 		}
-	} else if ([identifier compare:@"ChooseLevel"] == NSOrderedSame) {
-		UIView *view = [sender view];
-		while (![view isKindOfClass:[CWCell class]]) {
-			view = [view superview];
-		}
-		
-		CWCell *cell = (CWCell*)view;
-		
-		NSUInteger idx = [[_currentSavedCrosswordIndices objectForKey:cell.packageKey] unsignedIntegerValue];
-		_selectedPackageKey = cell.packageKey;
-		_selectedCrosswordIndex = idx;
-		_isRandomGame = NO;
-		return YES;
 	} else if ([identifier compare:@"ShowDownload"] == NSOrderedSame) {
 		return YES;
 	}
@@ -374,6 +377,23 @@
 		
 		BOOL cwEnabled = indexPath.row < 1 || _isSubscribed;
 		[cell setSubscribed:cwEnabled];
+		
+		UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector (openNextCWPressed:)];
+		[[cell openNextCW] setGestureRecognizers:[NSArray arrayWithObject:gesture]];
+		
+		gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector (chooseCW:)];
+		[[cell choose] setGestureRecognizers:[NSArray arrayWithObject:gesture]];
+
+		gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector (chooseRandomCW:)];
+		[[cell chooseRandom] setGestureRecognizers:[NSArray arrayWithObject:gesture]];
+		
+		gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector (deleteCW:)];
+		[[cell deleteCW] setGestureRecognizers:[NSArray arrayWithObject:gesture]];
+		
+		[[cell openNextCW] setUserInteractionEnabled:cwEnabled];
+		[[cell choose] setUserInteractionEnabled:cwEnabled];
+		[[cell chooseRandom] setUserInteractionEnabled:cwEnabled];
+		[[cell deleteCW] setUserInteractionEnabled:YES];
 		
 		NSString *title = [self localizeLabel:pack.state.overriddenPackageName];
 		if ([title length] <= 0) {
