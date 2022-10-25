@@ -45,10 +45,10 @@
 															msg:NSLocalizedString (@"subscribe_take_to_store", @"")];
 }
 
--(void) showSubscriptionOnDelete {
-	[[SubscriptionManager sharedInstance] showSubscriptionAlert:self
-															msg:NSLocalizedString (@"subscribe_on_delete_warning", @"")];
-}
+//-(void) showSubscriptionOnDelete {
+//	[[SubscriptionManager sharedInstance] showSubscriptionAlert:self
+//															msg:NSLocalizedString (@"subscribe_on_delete_warning", @"")];
+//}
 
 -(void)reloadPackages {
 	_selectedPackageKey = nil;
@@ -126,10 +126,10 @@
 }
 
 -(void) deleteCrosswordWithKey:(NSString*)packageKey {
-	if (!_isSubscribed) {
-		[self showSubscriptionOnDelete];
-		return;
-	}
+//	if (!_isSubscribed) {
+//		[self showSubscriptionOnDelete];
+//		return;
+//	}
 	
 	UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString (@"do_you_want_delete_cw", @"")
 																   message:NSLocalizedString (@"cannot_undo_this_action", @"")
