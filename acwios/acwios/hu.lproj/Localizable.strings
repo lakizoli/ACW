@@ -73,6 +73,8 @@
 "random_button_label" = "Válassz egy rejtvényt a már megoldottak közül";
 "subscribe_warning" = "Elő kell fizetned ahhoz, hogy játszhass a tiltott rejtvénycsomagokkal!";
 "locked_cw_msg" = "A kiválasztott rejtvény zárolva van még, mert nem sikerült még végigjátszanod az előtte lévőket!";
+"title_format_short" = "i:(%02li:%02li/12p), s:(%u/3), h:(%u/3)";
+"title_format_long" = "Idő: %02li:%02li / 12 perc - súgások száma: %u / 3 - hibák száma: %u / 3";
 
 "words" = "szó";
 "Chinese" = "Kínai";

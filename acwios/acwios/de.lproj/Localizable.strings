@@ -73,6 +73,8 @@
 "random_button_label" = "Wähle ein zufälliges Kreuzworträtsel aus den gelösten";
 "subscribe_warning" = "Sie müssen die App abonnieren, um die deaktivierten Kreuzworträtsel zu spielen!";
 "locked_cw_msg" = "Das gewählte Kreuzworträtsel ist gesperrt! Sie müssen alle Kreuzworträtsel vor dem gewählten erfolgreich lösen!";
+"title_format_short" = "Z:(%02li:%02li/12m), H:(%u/3), F:(%u/3)";
+"title_format_long" = "Zeit: %02li:%02li / 12 min - Hinweis benutzt: %u / 3 - Anzahl der Fehler: %u / 3";
 
 "words" = "Wörtern";
 "Chinese" = "Chinesisch";

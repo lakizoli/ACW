@@ -73,6 +73,8 @@
 "random_button_label" = "Choose random crossword from solved levels";
 "subscribe_warning" = "You have to subscribe to the application to play the disabled crosswords!";
 "locked_cw_msg" = "The choosen crossword is locked! You have to succeed all crossword before the choosen one!";
+"title_format_short" = "t:(%02li:%02li/12m), h:(%u/3), f:(%u/3)";
+"title_format_long" = "time: %02li:%02li / 12 min - hints used: %u / 3 - fail count: %u / 3";
 
 "words" = "words";
 "Chinese" = "Chinese";

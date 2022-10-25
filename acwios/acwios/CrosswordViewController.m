@@ -62,6 +62,11 @@
 	NSDate* _startTime;
 	BOOL _isFilled;
 	
+	//Title stuff
+	NSTimer *_timerTitle;
+	NSString *_origTitle;
+	uint32_t _timeOffset;
+	
 	//Win screen effects
 	NSTimer *_timerWin;
 	EmitterEffect *_emitterWin[4];
@@ -218,6 +223,7 @@
 	_failCount = 0;
 	_hintCount = 0;
 	_startTime = [NSDate date];
+	_timeOffset = 0;
 	_isFilled = NO;
 	_starCount = 0;
 }
@@ -659,6 +665,32 @@
 		_currentPackage.state.wasHelpShown = YES;
 		[[PackageManager sharedInstance] savePackageState:_currentPackage];
 	}
+
+	_origTitle = self.navigationController.navigationBar.topItem.title;
+
+	NSArray<Statistics*>* stats = [_savedCrossword loadStatistics];
+	_timeOffset = [[stats lastObject] fillDuration];
+	
+	__weak CrosswordViewController *weakSelf = self;
+	_timerTitle = [NSTimer scheduledTimerWithTimeInterval:1 repeats:YES block:^(NSTimer * _Nonnull timer) {
+		CrosswordViewController *localSelf = weakSelf;
+		
+		if (localSelf->_isFilled) {
+			[localSelf->_timerTitle invalidate];
+			localSelf.navigationController.navigationBar.topItem.title = localSelf->_origTitle;
+			return;
+		}
+		
+		NSTimeInterval duration = [[NSDate date] timeIntervalSinceDate:localSelf->_startTime] + localSelf->_timeOffset;
+		NSInteger mins = ((NSInteger) duration) / 60;
+		NSInteger secs = ((NSInteger) duration) % 60;
+		
+		CGRect screenSize = [[UIScreen mainScreen] bounds];
+		BOOL useShortTitle = screenSize.size.width < 750;
+		
+		NSString *title = [NSString stringWithFormat:NSLocalizedString (useShortTitle ? @"title_format_short":@"title_format_long", @""), mins, secs, localSelf->_hintCount, localSelf->_failCount];
+		localSelf.navigationController.navigationBar.topItem.title = title;
+	}];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -667,6 +699,7 @@
 }
 
 - (IBAction)backButtonPressed:(id)sender {
+	[_timerTitle invalidate];
 	[self mergeStatistics];
 	[_savedCrossword unloadDB];
 	[self dismissViewControllerAnimated:YES completion:nil];
