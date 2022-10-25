@@ -550,6 +550,8 @@
 	CGFloat fNavHeight = self.navigationController.navigationBar.frame.size.height;
 	CGFloat fCellHeight = _crosswordLayout.cellHeight;
 	CGFloat fCellWidth = _crosswordLayout.cellWidth;
+	CGFloat fCellOffsetX = [_crosswordLayout gridOffsetX];
+	CGFloat fCellOffsetY = [_crosswordLayout gridOffsetY];
 	
 	[[self view] addSubview:self->_tapHelpView];
 	
@@ -562,7 +564,7 @@
 								   toItem:[self view]
 								   attribute:NSLayoutAttributeLeading
 								   multiplier:1.0f
-								   constant:fMargin + fCellWidth / 3.0];
+								   constant:fMargin + fCellOffsetX + fCellWidth / 3.0];
 	
 	NSLayoutConstraint *top = [NSLayoutConstraint
 							   constraintWithItem:self->_tapHelpView
@@ -571,7 +573,7 @@
 							   toItem:[self view]
 							   attribute:NSLayoutAttributeTop
 							   multiplier:1.0f
-							   constant:fMargin + fNavHeight + 4.0 * fCellHeight / 3.0];
+							   constant:fMargin + fCellOffsetY + fNavHeight + 4.0 * fCellHeight / 3.0];
 	
 	//Add constraints to the Parent
 	[[self view] addConstraint:leading];

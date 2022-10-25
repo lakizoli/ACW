@@ -18,4 +18,7 @@
 @property (assign) NSUInteger statusBarHeight;
 @property (assign) NSUInteger navigationBarHeight;
 
+-(CGFloat)gridOffsetX;
+-(CGFloat)gridOffsetY;
+
 @end

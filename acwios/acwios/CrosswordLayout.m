@@ -13,6 +13,14 @@
 	CGFloat _gridOffsetY;
 }
 
+-(CGFloat)gridOffsetX {
+	return _gridOffsetX;
+}
+
+-(CGFloat)gridOffsetY {
+	return _gridOffsetY;
+}
+
 - (NSIndexPath*) getIndexPathForRow:(NSInteger)row col:(NSInteger)col {
 	NSIndexPath *indexPath = [NSIndexPath indexPathForRow:col inSection:row]; //row is the secion, and col is the row!
 	return indexPath;
