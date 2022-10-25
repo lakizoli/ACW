@@ -377,6 +377,7 @@
 
 - (NSArray<NSString*>*) languages:(NSString*)label localized:(BOOL)localized {
 	NSMutableArray<NSString*> *res = nil;
+	BOOL isVersion2 = NO;
 	
 	if (localized) {
 		label = [self localizeLabel:label];
@@ -395,11 +396,15 @@
 		range = [answerLanguage rangeOfString:@" v2"];
 		if (range.location != NSNotFound) {
 			answerLanguage = [answerLanguage substringToIndex:range.location];
+			isVersion2 = YES;
 		}
 		
 		res = [NSMutableArray<NSString*> new];
 		[res addObject:questionLanguage];
 		[res addObject:answerLanguage];
+		if (isVersion2) {
+			[res addObject:@"v2"];
+		}
 	}
 	
 	return res;
@@ -501,18 +506,25 @@
 	NSArray<NSString*> *langs = [self languages:configItem.label localized:NO];
 	NSArray<NSString*> *langsLocalized = [self languages:configItem.label localized:YES];
 
-	if ([langs count] == 2 && [langsLocalized count] == 2) {
+	if ([langs count] >= 2 && [langsLocalized count] >= 2) {
 		NSString *questionLanguage = [langsLocalized objectAtIndex:0];
 		NSString *answerLanguage = [langsLocalized objectAtIndex:1];
+		BOOL isVersion2 = [langs count] > 2 && [langsLocalized count] > 2;
 		
 		NSString *qCode = [self languageCode:[langs objectAtIndex:0]];
 		NSString *aCode = [self languageCode:[langs objectAtIndex:1]];
 
 		if (![questionLanguage containsString:@" "]) {
+			if (isVersion2) {
+				questionLanguage = [questionLanguage stringByAppendingString: @"\n(v2)"];
+			}
 			questionLanguage = [@"\n" stringByAppendingString: questionLanguage];
 		}
 		
 		if (![answerLanguage containsString:@" "]) {
+			if (isVersion2) {
+				answerLanguage = [answerLanguage stringByAppendingString: @"\n(v2)"];
+			}
 			answerLanguage = [@"\n" stringByAppendingString: answerLanguage];
 		}
 		
