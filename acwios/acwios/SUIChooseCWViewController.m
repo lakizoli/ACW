@@ -347,7 +347,6 @@
 		NSArray<SavedCrossword*> *cws = [_savedCrosswords objectForKey:_selectedPackageKey];
 		
 		[levelController setCurrentPackage:[_packages objectForKey:_selectedPackageKey]];
-		[levelController setCurrentCrosswordIndex:_selectedCrosswordIndex];
 		[levelController setAllSavedCrossword:cws];
 	} else if ([segue.identifier compare:@"ShowDownload"] == NSOrderedSame &&
 			   [segue.destinationViewController isKindOfClass:[AnkiDownloadViewController class]])

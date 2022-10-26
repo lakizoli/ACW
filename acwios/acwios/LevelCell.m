@@ -38,8 +38,4 @@
 	}
 }
 
--(BOOL)isLocked {
-	return ![_lockImage isHidden];
-}
-
 @end

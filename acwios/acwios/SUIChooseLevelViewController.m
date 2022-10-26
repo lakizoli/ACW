@@ -105,7 +105,21 @@
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 	
-	_lastUnlockedCWIndex = 0;
+	__block NSUInteger currentIdx = [_allSavedCrossword indexOfObjectPassingTest:^BOOL(SavedCrossword * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		if ([[obj name] compare:_currentPackage.state.crosswordName] == NSOrderedSame) {
+			return YES;
+		}
+		return NO;
+	}];
+	if (currentIdx == NSNotFound) {
+		currentIdx = 0;
+	}
+	
+	if (_currentPackage.state.filledLevel >= _currentPackage.state.levelCount) {
+		currentIdx += 1;
+	}
+
+	_lastUnlockedCWIndex = currentIdx;
 	_choosenCWIndex = -1;
 	
 	_isSubscribed = [[SubscriptionManager sharedInstance] isSubscribed];
@@ -142,11 +156,7 @@
 	}
 	
 	cell.textView.text = [NSString stringWithFormat:@"%d", (int32_t) indexPath.row + 1];
-	
-	[cell setState:indexPath.row lastPlayedLevel:_currentCrosswordIndex isSubscribed:_isSubscribed];
-	if (![cell isLocked] && indexPath.row > _lastUnlockedCWIndex) {
-		_lastUnlockedCWIndex = indexPath.row;
-	}
+	[cell setState:indexPath.row lastPlayedLevel:_lastUnlockedCWIndex isSubscribed:_isSubscribed];
 	
 	return cell;
 }

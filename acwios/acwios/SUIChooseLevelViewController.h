@@ -14,7 +14,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SUIChooseLevelViewController : UIViewController<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 @property (strong) Package *currentPackage;
-@property (assign) NSUInteger currentCrosswordIndex;
 @property (strong) NSArray<SavedCrossword*> *allSavedCrossword;
 
 @end
