@@ -593,7 +593,7 @@
 				);
 				"LIBRARY_SEARCH_PATHS[sdk=iphoneos*]" = ../flurry;
 				"LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]" = ../flurrysimulator;
-				MARKETING_VERSION = 1.9;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.zapp.acw;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -623,7 +623,7 @@
 				);
 				"LIBRARY_SEARCH_PATHS[sdk=iphoneos*]" = ../flurry;
 				"LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]" = ../flurrysimulator;
-				MARKETING_VERSION = 1.9;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.zapp.acw;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
